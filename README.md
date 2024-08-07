@@ -1,8 +1,27 @@
-# React + Vite
+# Project API 12
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+-   se agrega [] en vite.config
+    base: "https://slinkter.github.io/myprojectapi0x",
+-   se instala paquete de github
+    npm i --save-dev gh-pages
+-   ir a package.json predeply y deploy
 
-Currently, two official plugins are available:
+```javascript
+"scripts": {
+"dev": "vite",
+"build": "vite build",
+"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+"preview": "vite preview",
+"predeploy":"npm run build",
+"deploy" : "gh-pages -d dist"
+},
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
+
+-   y ejecutar en terminal
+
+npm run deploy
+
+##
+
+![alt text](./api12.png)
