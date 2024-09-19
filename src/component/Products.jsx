@@ -5,7 +5,7 @@ const Products = ({ products }) => {
     console.log(products);
 
     return (
-        <div className="container  mx-auto flex flex-row flex-wrap justify-center items-center gap-6">
+        <div className="container  mx-auto flex flex-row flex-wrap justify-center items-center gap-6 p-2">
             {products.map((product, idx) => (
                 <Product key={idx} product={product} />
             ))}

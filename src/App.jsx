@@ -64,16 +64,20 @@ const App = () => {
             <>
                 {/* Renderiza los productos */}
                 {products && products.length > 0 && (
-                    <>
+                    <div className="container text-center p-2 md:p-0">
                         <Typography variant="h1" color="blue-gray">
                             Lista de Productos
                         </Typography>
-                        <Typography variant="lead" color="blue-gray">
-                            + React VITE + Tailwind CSS + DummyJSON
+                        <Typography
+                            variant="lead"
+                            color="blue-gray"
+                            className="mb-4"
+                        >
+                            React VITE + Tailwind CSS + DummyJSON API
                         </Typography>
                         <Products products={products} />
                         <Button
-                            className="w-96"
+                            className="w-96 my-4"
                             variant="outlined"
                             disabled={disableButton}
                             onClick={() => setCount(count + 1)}
@@ -83,7 +87,7 @@ const App = () => {
                         {disableButton ? (
                             <p>Has alcanzado los 100 productos</p>
                         ) : null}
-                    </>
+                    </div>
                 )}
             </>
         </div>
