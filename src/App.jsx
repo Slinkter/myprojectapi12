@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Spinner, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
-
 import Products from "./component/Products";
 
 const App = () => {
@@ -52,7 +51,7 @@ const App = () => {
     }, [products]);
 
     return (
-        <div className="min-h-dvh flex flex-col gap-4 py-8 justify-center items-center bg-gray-200 ">
+        <div className="min-h-dvh flex flex-col gap-4 py-8 justify-center items-center bg-gray-100 ">
             {loading ? (
                 <>
                     <Spinner className="h-12 w-12" />
