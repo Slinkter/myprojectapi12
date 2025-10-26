@@ -1,16 +1,20 @@
-import React from "react";
-import Product from "./Product";
 
+import ProductGrid from "@/component/ProductGrid";
+import PropTypes from "prop-types";
+
+/**
+ * A component that displays a list of products.
+ * @param {object} props - The props for the component.
+ * @param {Array<object>} props.products - The list of products to display.
+ * @returns {JSX.Element}
+ */
 const Products = ({ products }) => {
-    console.log(products);
+    return <ProductGrid products={products} />;
+};
 
-    return (
-        <div className="container  mx-auto flex flex-row flex-wrap justify-center items-center gap-6 p-2">
-            {products.map((product, idx) => (
-                <Product key={idx} product={product} />
-            ))}
-        </div>
-    );
+Products.propTypes = {
+    products: PropTypes.array.isRequired,
 };
 
 export default Products;
+

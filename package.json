@@ -1,5 +1,6 @@
 {
     "name": "myprojectapi12",
+    "homepage": "https://slinkter.github.io/myprojectapi12",
     "private": true,
     "version": "0.0.0",
     "type": "module",
@@ -14,7 +15,8 @@
     "dependencies": {
         "@material-tailwind/react": "^2.1.10",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^7.9.4"
     },
     "devDependencies": {
         "@types/react": "^18.2.66",
