@@ -1,7 +1,7 @@
 import { Typography, Button } from "@material-tailwind/react";
-import Products from "@/component/Products";
-import { useProducts } from "@/hooks/useProducts";
-import SkeletonGrid from "@/component/SkeletonGrid";
+import Products from "@/features/products/components/Products";
+import { useProducts } from "@/features/products/hooks/useProducts";
+import SkeletonGrid from "@/features/products/components/SkeletonGrid";
 
 const Home = () => {
     const { products, initialLoading, loading, error, loadMore, hasMore } = useProducts();
@@ -9,32 +9,32 @@ const Home = () => {
     return (
         <>
             {initialLoading && <SkeletonGrid />}
-            {error && <p className="text-center text-red-500">Error: {error}</p>}
+            {error && <p className="home__error-message">Error: {error}</p>}
             {!initialLoading && !error && products.length === 0 && (
-                <p className="text-center text-gray-500">No se encontraron productos.</p>
+                <p className="home__info-message">No se encontraron productos.</p>
             )}
             {!initialLoading && !error && products.length > 0 && (
-                <div className="text-center">
-                    <Typography variant="h1" color="blue-gray" className="text-4xl font-bold text-custom-dark-gray dark:text-dark-text mb-2">
+                <div className="home">
+                    <Typography variant="h1" color="blue-gray" className="home__title">
                         Lista de Productos
                     </Typography>
-                    <Typography variant="lead" color="blue-gray" className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+                    <Typography variant="lead" color="blue-gray" className="home__subtitle">
                         React VITE + Tailwind CSS + DummyJSON API
                     </Typography>
                     <Products products={products} />
-                    <div className="mt-8">
+                    <div className="home__load-more-container">
                         {hasMore && (
                             <Button
-                                className="w-full md:w-96 mx-auto flex items-center justify-center py-3 px-6 border border-custom-blue text-custom-blue hover:bg-custom-blue hover:text-white transition-colors duration-300 rounded-lg shadow-md"
+                                className="home__load-more-button"
                                 variant="outlined"
                                 onClick={loadMore}
                                 disabled={loading}
                                 aria-label="Cargar más productos"
                             >
-                                {loading ? <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-custom-blue"></div> : "Ver más"}
+                                {loading ? <div className="home__load-more-spinner"></div> : "Ver más"}
                             </Button>
                         )}
-                        {!hasMore && <p className="text-gray-500">Has alcanzado los 100 productos</p>}
+                        {!hasMore && <p className="home__info-message">Has alcanzado los 100 productos</p>}
                     </div>
                 </div>
             )}

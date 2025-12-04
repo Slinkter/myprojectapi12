@@ -3,12 +3,12 @@ import { Button, Card, Typography } from "@material-tailwind/react";
 
 const CheckoutSuccess = () => {
     return (
-        <div className="flex justify-center items-center h-screen">
-            <Card className="w-full max-w-md p-8 text-center">
-                <Typography variant="h4" color="green" className="mb-4">
+        <div className="checkout-success-page">
+            <Card className="checkout-success-card">
+                <Typography variant="h4" color="green" className="checkout-success-card__title">
                     Payment Successful!
                 </Typography>
-                <Typography className="mb-8">
+                <Typography className="checkout-success-card__message">
                     Thank you for your purchase.
                 </Typography>
                 <Link to="/">

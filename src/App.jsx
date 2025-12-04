@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import Layout from "@/component/Layout";
-import Cart from "@/component/Cart";
+import Layout from "@/components/common/Layout";
+import Cart from "@/features/cart/components/Cart";
 import AppRouter from "./AppRouter";
 
 const App = () => {

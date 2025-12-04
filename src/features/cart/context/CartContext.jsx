@@ -7,11 +7,6 @@ export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
 
     const addToCart = (product, quantity) => {
-        const stockData = JSON.parse(localStorage.getItem('stock')) || {};
-        const newStock = stockData[product.id] - quantity;
-        stockData[product.id] = newStock;
-        localStorage.setItem('stock', JSON.stringify(stockData));
-
         setCart((prevCart) => {
             const productInCart = prevCart.find((item) => item.id === product.id);
             if (productInCart) {
@@ -24,22 +19,10 @@ export const CartProvider = ({ children }) => {
     };
 
     const removeFromCart = (productId) => {
-        const stockData = JSON.parse(localStorage.getItem('stock')) || {};
-        const productInCart = cart.find((item) => item.id === productId);
-        const newStock = stockData[productId] + productInCart.quantity;
-        stockData[productId] = newStock;
-        localStorage.setItem('stock', JSON.stringify(stockData));
-
         setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
     };
 
     const clearCart = () => {
-        const stockData = JSON.parse(localStorage.getItem('stock')) || {};
-        cart.forEach(item => {
-            stockData[item.id] += item.quantity;
-        });
-        localStorage.setItem('stock', JSON.stringify(stockData));
-
         setCart([]);
     };
 

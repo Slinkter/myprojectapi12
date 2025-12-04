@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { CartProvider } from "@/features/cart/context/CartContext";
 import App from "./App.jsx";
 import "./index.css";
-import { ThemeProvider } from "@/context/ThemeContext";
-import { CartProvider } from "@/context/CartContext";
-import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>

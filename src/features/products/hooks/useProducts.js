@@ -46,24 +46,7 @@ export const useProducts = () => {
             if (data.products.length === 0) {
                 setHasMore(false);
             } else {
-                try {
-                    if (typeof window !== 'undefined' && window.localStorage) {
-                        const stockData = JSON.parse(localStorage.getItem('stock')) || {};
-                        const productsWithStock = data.products.map(product => {
-                            if (stockData[product.id] === undefined) {
-                                stockData[product.id] = 100;
-                            }
-                            return { ...product, stock: stockData[product.id] };
-                        });
-                        localStorage.setItem('stock', JSON.stringify(stockData));
-                        setProducts(prevProducts => [...prevProducts, ...productsWithStock]);
-                    } else {
-                        setProducts(prevProducts => [...prevProducts, ...data.products]);
-                    }
-                } catch (e) {
-                    console.error('Failed to access localStorage', e);
-                    setProducts(prevProducts => [...prevProducts, ...data.products]);
-                }
+                setProducts(prevProducts => [...prevProducts, ...data.products]);
             }
         } catch (e) {
             setError(e.message);

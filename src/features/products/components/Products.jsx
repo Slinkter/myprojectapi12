@@ -1,5 +1,5 @@
 
-import ProductGrid from "@/component/ProductGrid";
+import ProductGrid from "./ProductGrid";
 import PropTypes from "prop-types";
 
 /**

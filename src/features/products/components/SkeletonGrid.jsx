@@ -1,4 +1,4 @@
-import SkeletonCard from "@/component/SkeletonCard";
+import SkeletonCard from "./SkeletonCard";
 
 const SkeletonGrid = () => {
     return (
