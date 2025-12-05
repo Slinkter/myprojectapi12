@@ -7,7 +7,7 @@ import {
     DialogFooter,
     Typography,
 } from "@material-tailwind/react";
-import { CartContext } from "@/context/CartContext";
+import { CartContext } from "@/features/cart/context/CartContext";
 import PropTypes from "prop-types";
 
 const ProductDetailModal = ({ product, open, onClose }) => {
@@ -42,22 +42,22 @@ const ProductDetailModal = ({ product, open, onClose }) => {
                 <img
                     src={product?.thumbnail}
                     alt={product?.title}
-                    className="h-96 w-full object-cover rounded-lg mb-4"
+                    className="product-modal__image"
                 />
-                <Typography className="font-normal text-gray-600 dark:text-gray-400">
+                <Typography className="product-modal__description">
                     {product?.description}
                 </Typography>
-                <Typography variant="h6" color="blue-gray" className="mt-4">
+                <Typography variant="h6" color="blue-gray" className="product-modal__price">
                     Price: $ {product?.price}
                 </Typography>
-                <Typography variant="h6" color="blue-gray" className="mt-4">
+                <Typography variant="h6" color="blue-gray" className="product-modal__stock">
                     Stock: {product?.stock}
                 </Typography>
             </DialogBody>
-            <DialogFooter className="justify-between">
-                <div className="flex items-center">
+            <DialogFooter className="product-modal__footer">
+                <div className="product-modal__quantity-controls">
                     <Button onClick={decrement} disabled={quantity === 1}>-</Button>
-                    <Typography className="mx-4">{quantity}</Typography>
+                    <Typography className="product-modal__quantity-value">{quantity}</Typography>
                     <Button onClick={increment} disabled={quantity >= product.stock}>+</Button>
                 </div>
                 <Button variant="gradient" color="green" onClick={handleAddToCart} disabled={product.stock === 0}>

@@ -1,7 +1,6 @@
-
 import { useState } from "react";
-import Layout from "@/component/Layout";
-import Cart from "@/component/Cart";
+import Layout from "@/components/common/Layout";
+import Cart from "@/features/cart/components/Cart";
 import AppRouter from "./AppRouter";
 
 const App = () => {
@@ -17,11 +16,10 @@ const App = () => {
 
     return (
         <Layout onCartIconClick={handleCartIconClick}>
-            <AppRouter />
             <Cart open={isCartOpen} onClose={handleCartClose} />
+            <AppRouter />
         </Layout>
     );
 };
 
 export default App;
-

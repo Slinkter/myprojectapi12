@@ -5,3 +5,236 @@
 body {
     @apply bg-custom-light-gray text-custom-dark-gray;
 }
+
+/* BEM styles for Product component */
+.product-card {
+    @apply w-full max-w-sm mx-auto bg-white dark:bg-dark-card rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105;
+}
+
+.product-card__header {
+    @apply h-56;
+}
+
+.product-card__image {
+    @apply h-full w-full object-cover;
+}
+
+.product-card__body {
+    @apply p-4;
+}
+
+.product-card__title {
+    @apply font-bold text-lg mb-2 truncate dark:text-dark-text;
+}
+
+.product-card__description {
+    @apply font-normal text-gray-600 dark:text-gray-400 truncate;
+}
+
+.product-card__footer {
+    @apply p-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600;
+}
+
+.product-card__footer-content {
+    @apply flex justify-between items-center;
+}
+
+.product-card__price {
+    @apply font-bold text-lg dark:text-dark-text;
+}
+
+.product-card__details-button {
+    @apply text-custom-blue font-semibold;
+}
+
+.product-card__out-of-stock {
+    @apply font-semibold;
+}
+
+/* BEM styles for ProductGrid component */
+.product-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8;
+}
+
+/* BEM styles for Home page */
+.home {
+    @apply text-center;
+}
+
+.home__error-message {
+    @apply text-center text-red-500;
+}
+
+.home__info-message {
+    @apply text-center text-gray-500;
+}
+
+.home__title {
+    @apply text-4xl font-bold text-custom-dark-gray dark:text-dark-text mb-2;
+}
+
+.home__subtitle {
+    @apply text-lg text-gray-600 dark:text-gray-400 mb-8;
+}
+
+.home__load-more-container {
+    @apply mt-8;
+}
+
+.home__load-more-button {
+    @apply w-full md:w-96 mx-auto flex items-center justify-center py-3 px-6 border border-custom-blue text-custom-blue hover:bg-custom-blue hover:text-white transition-colors duration-300 rounded-lg shadow-md;
+}
+
+.home__load-more-spinner {
+    @apply h-5 w-5 animate-spin rounded-full border-b-2 border-custom-blue;
+}
+
+/* BEM styles for ProductDetailModal component */
+.product-modal__image {
+    @apply h-96 w-full object-cover rounded-lg mb-4;
+}
+
+.product-modal__description {
+    @apply font-normal text-gray-600 dark:text-gray-400;
+}
+
+.product-modal__price {
+    @apply mt-4;
+}
+
+.product-modal__stock {
+    @apply mt-4;
+}
+
+.product-modal__footer {
+    @apply justify-between;
+}
+
+.product-modal__quantity-controls {
+    @apply flex items-center;
+}
+
+.product-modal__quantity-value {
+    @apply mx-4;
+}
+
+/* BEM styles for Layout component */
+.layout {
+    @apply min-h-screen bg-custom-light-gray dark:bg-dark-bg font-sans;
+}
+
+.layout__container {
+    @apply container mx-auto px-4 py-8;
+}
+
+.layout__controls {
+    @apply fixed top-4 right-4 z-10 flex items-center space-x-2;
+}
+
+/* BEM styles for CartIcon component */
+.cart-icon__svg {
+    @apply h-6 w-6;
+}
+
+/* BEM styles for ThemeSwitcher component */
+.theme-switcher {
+    @apply flex items-center justify-center px-4 py-2;
+}
+.theme-switcher__icon {
+    @apply h-6 w-6;
+}
+
+/* BEM styles for Checkout page */
+.checkout-page {
+    @apply flex justify-center items-center h-screen;
+}
+
+.checkout-card {
+    @apply w-full max-w-md p-8;
+}
+
+.checkout-card__title {
+    @apply mb-8 text-center;
+}
+
+.checkout-card__payment-methods {
+    @apply flex flex-col space-y-4;
+}
+
+.checkout-card__form {
+    @apply mt-8 flex flex-col space-y-4;
+}
+
+.checkout-card__form-row {
+    @apply flex space-x-4;
+}
+
+.checkout-card__form-col--half {
+    @apply w-1/2;
+}
+
+.checkout-card__pay-button {
+    @apply mt-8 w-full;
+}
+
+/* BEM styles for CheckoutSuccess page */
+.checkout-success-page {
+    @apply flex justify-center items-center h-screen;
+}
+
+.checkout-success-card {
+    @apply w-full max-w-md p-8 text-center;
+}
+
+.checkout-success-card__title {
+    @apply mb-4;
+}
+
+.checkout-success-card__message {
+    @apply mb-8;
+}
+
+/* BEM styles for Cart component */
+.cart-drawer {
+    @apply p-4;
+}
+
+.cart-drawer__header {
+    @apply mb-6 flex items-center justify-between;
+}
+
+.cart-drawer__close-icon {
+    @apply h-5 w-5;
+}
+
+.cart-drawer__item-list {
+    @apply divide-y divide-gray-200;
+}
+
+.cart-drawer__item {
+    @apply py-4 flex items-center justify-between;
+}
+
+.cart-drawer__item-details {
+    @apply flex items-center;
+}
+
+.cart-drawer__item-price {
+    @apply mr-4;
+}
+
+.cart-drawer__remove-icon {
+    @apply h-5 w-5;
+}
+
+.cart-drawer__footer {
+    @apply mt-6;
+}
+
+.cart-drawer__total-row {
+    @apply flex justify-between items-center;
+}
+
+.cart-drawer__button {
+    @apply mt-4 w-full;
+}

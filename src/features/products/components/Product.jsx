@@ -8,7 +8,7 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import PropTypes from "prop-types";
-import ProductDetailModal from "@/component/ProductDetailModal";
+import ProductDetailModal from "./ProductDetailModal";
 
 /**
  * A component that displays a single product.
@@ -23,31 +23,31 @@ const Product = React.memo(({ product }) => {
 
     return (
         <>
-            <Card className="w-full max-w-sm mx-auto bg-white dark:bg-dark-card rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105">
-                <CardHeader shadow={false} floated={false} className="h-56">
+            <Card className="product-card">
+                <CardHeader shadow={false} floated={false} className="product-card__header">
                     <img
                         src={product?.thumbnail}
                         alt={product?.title}
-                        className="h-full w-full object-cover"
+                        className="product-card__image"
                     />
                 </CardHeader>
-                <CardBody className="p-4">
-                    <Typography variant="h5" color="blue-gray" className="font-bold text-lg mb-2 truncate dark:text-dark-text">
+                <CardBody className="product-card__body">
+                    <Typography variant="h5" color="blue-gray" className="product-card__title">
                         {product?.title}
                     </Typography>
-                    <Typography variant="small" color="gray" className="font-normal text-gray-600 dark:text-gray-400 truncate">
+                    <Typography variant="small" color="gray" className="product-card__description">
                         {product?.description}
                     </Typography>
                 </CardBody>
-                <CardFooter className="p-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
-                    <div className="flex justify-between items-center">
-                        <Typography color="blue-gray" className="font-bold text-lg dark:text-dark-text">
+                <CardFooter className="product-card__footer">
+                    <div className="product-card__footer-content">
+                        <Typography color="blue-gray" className="product-card__price">
                             $ {product?.price}
                         </Typography>
                         {product.stock > 0 ? (
-                            <button onClick={handleOpen} className="text-custom-blue font-semibold">Details</button>
+                            <button onClick={handleOpen} className="product-card__details-button">Details</button>
                         ) : (
-                            <Typography color="red" className="font-semibold">Out of stock</Typography>
+                            <Typography color="red" className="product-card__out-of-stock">Out of stock</Typography>
                         )}
                     </div>
                 </CardFooter>
