@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     Button,
     Drawer,
@@ -13,11 +13,14 @@ const Cart = ({ open, onClose }) => {
     const { cart, removeFromCart, clearCart } = useContext(CartContext);
     const navigate = useNavigate();
 
-    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalPrice = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+    );
 
     const handleCheckout = () => {
         onClose();
-        navigate('/checkout');
+        navigate("/checkout");
     };
 
     return (
@@ -55,12 +58,30 @@ const Cart = ({ open, onClose }) => {
                             </Typography>
                         </div>
                         <div className="cart-drawer__item-details">
-                            <Typography color="blue-gray" className="cart-drawer__item-price">
+                            <Typography
+                                color="blue-gray"
+                                className="cart-drawer__item-price"
+                            >
                                 $ {(item.price * item.quantity).toFixed(2)}
                             </Typography>
-                            <IconButton variant="text" color="red" onClick={() => removeFromCart(item.id)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="cart-drawer__remove-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            <IconButton
+                                variant="text"
+                                color="red"
+                                onClick={() => removeFromCart(item.id)}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="cart-drawer__remove-icon"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                    />
                                 </svg>
                             </IconButton>
                         </div>
@@ -76,10 +97,20 @@ const Cart = ({ open, onClose }) => {
                         $ {totalPrice.toFixed(2)}
                     </Typography>
                 </div>
-                <Button onClick={clearCart} variant="gradient" color="red" className="cart-drawer__button">
+                <Button
+                    onClick={clearCart}
+                    variant="gradient"
+                    color="red"
+                    className="cart-drawer__button"
+                >
                     Clear Cart
                 </Button>
-                <Button onClick={handleCheckout} variant="gradient" color="green" className="cart-drawer__button">
+                <Button
+                    onClick={handleCheckout}
+                    variant="gradient"
+                    color="green"
+                    className="cart-drawer__button"
+                >
                     Checkout
                 </Button>
             </div>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Layout from "@/components/common/Layout";
 import Cart from "@/features/cart/components/Cart";
@@ -17,11 +16,10 @@ const App = () => {
 
     return (
         <Layout onCartIconClick={handleCartIconClick}>
-            <AppRouter />
             <Cart open={isCartOpen} onClose={handleCartClose} />
+            <AppRouter />
         </Layout>
     );
 };
 
 export default App;
-

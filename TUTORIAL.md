@@ -60,6 +60,58 @@ Crea la siguiente estructura:
 
 Esto mantiene tu código limpio y fácil de navegar.
 
+### Flujo de Datos
+
+El siguiente diagrama de secuencia ilustra cómo fluyen los datos a través de los componentes, hooks y servicios de la aplicación:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Usuario
+    participant UI as Vista (Home/Checkout)
+    participant Hook as Custom Hooks
+    participant Ctx as CartContext
+    participant Service as Service Layer
+    participant API as DummyJSON API
+
+    %% Flujo de Carga de Productos
+    Note over User, API: 1. Flujo de Carga de Productos
+    User->>UI: Entra a la página
+    UI->>Hook: useProducts() (montaje)
+    Hook->>Service: getProducts(page)
+    Service->>API: FETCH https://dummyjson.com/...
+    API-->>Service: Retorna JSON { products: [...] }
+    Service-->>Hook: Retorna datos
+    Hook-->>UI: Actualiza estado (products)
+    UI-->>User: Muestra lista de productos
+
+    %% Flujo del Carrito
+    Note over User, API: 2. Flujo del Carrito
+    User->>UI: Clic en "Agregar al Carrito"
+    UI->>Ctx: addToCart(product)
+    Ctx->>Ctx: Actualiza estado interno (State)
+    Ctx-->>UI: Notifica cambio (Re-render)
+    UI-->>User: Actualiza contador del carrito
+
+    %% Flujo de Pago
+    Note over User, API: 3. Flujo de Pago (Simulado)
+    User->>UI: Navega a /checkout
+    UI->>Hook: useCheckout()
+    User->>UI: Escribe datos de tarjeta
+    UI->>Hook: handleCardInfoChange()
+    Hook->>Hook: Valida formato y actualiza estado
+    User->>UI: Clic en "Pagar"
+    UI->>Hook: handlePayment()
+    Hook->>Hook: validateCardInfo()
+    alt Datos Válidos
+        Hook-->>UI: Navega a /checkout-success
+        UI-->>User: Muestra mensaje de éxito
+    else Datos Inválidos
+        Hook-->>UI: Retorna errores
+        UI-->>User: Muestra alertas en rojo
+    end
+```
+
 ---
 
 ## 3. Configuración del Punto de Entrada (`main.jsx`)
