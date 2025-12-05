@@ -12,12 +12,12 @@ It includes a fully functional shopping cart, product listing with pagination, a
 
 ## 🛠️ Tech Stack
 
-- **Core**: React 18, Vite
-- **Styling**: Tailwind CSS, @material-tailwind/react
-- **Routing**: React Router DOM v6
-- **Architecture**: Feature-Based, Clean Architecture principles
-- **State Management**: Context API + Reducers
-- **Performance**: React.lazy, Suspense, React.memo
+-   **Core**: React 18, Vite
+-   **Styling**: Tailwind CSS, @material-tailwind/react
+-   **Routing**: React Router DOM ^7.10.1
+-   **Architecture**: Feature-Based, Clean Architecture principles
+-   **State Management**: Context API + Reducers
+-   **Performance**: React.lazy, Suspense, React.memo, Set-based deduplication
 
 ## 📂 Project Structure
 
@@ -46,29 +46,31 @@ src/
 
 ## ✨ Key Features
 
-- **Feature-Based Architecture**: Modular and decoupled code.
-- **Custom Hooks**: Logic extracted from UI components (e.g., `useCheckout`, `useProducts`).
-- **Lazy Loading**: Route-based code splitting for faster initial load.
-- **BEM + Tailwind**: Organized CSS classes using `@apply` for clean JSX.
-- **Responsive Design**: Mobile-first approach.
-- **Dark Mode**: Built-in theme switcher.
+-   **Feature-Based Architecture**: Modular and decoupled code.
+-   **Custom Hooks**: Logic extracted from UI components (e.g., `useCheckout`, `useProducts`).
+-   **Lazy Loading**: Route-based code splitting for faster initial load.
+-   **BEM + Tailwind**: Organized CSS classes using `@apply` for clean JSX.
+-   **Responsive Design**: Mobile-first approach.
+-   **Dark Mode**: Built-in theme switcher.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (v16+)
-- npm or pnpm
+-   Node.js (v16+)
+-   npm or pnpm
 
 ### Installation
 
 1.  **Clone the repository**
+
     ```bash
     git clone https://github.com/yourusername/myprojectapi12.git
     cd myprojectapi12
     ```
 
 2.  **Install dependencies**
+
     ```bash
     npm install
     # or
@@ -83,33 +85,40 @@ src/
 ## 📐 Architecture Decisions
 
 ### Why Feature-Based?
+
 As applications grow, grouping by file type (`/components`, `/hooks`) becomes unmanageable. Grouping by **Feature** (`/features/cart`, `/features/products`) allows developers to work on a specific domain without jumping between distant folders.
 
 ### Separation of Concerns
+
 We strictly separate **UI** from **Logic**.
-- **UI**: Components only render data and handle user events.
-- **Logic**: Custom hooks (`useCheckout`) handle state, validation, and side effects.
+
+-   **UI**: Components only render data and handle user events.
+-   **Logic**: Custom hooks (`useCheckout`) handle state, validation, and side effects.
 
 ### BEM with Tailwind
+
 We use Tailwind for utility classes but organize them using **BEM** in `index.css` with `@apply`. This keeps our JSX clean and semantic:
 
 **Before:**
+
 ```jsx
-<div className="flex justify-between items-center p-4 bg-gray-50 border-t">...</div>
+<div className="flex justify-between items-center p-4 bg-gray-50 border-t">
+    ...
+</div>
 ```
 
 **After:**
+
 ```jsx
 <div className="product-card__footer">...</div>
 ```
 
 ## 🔮 Roadmap
 
-- [ ] Add Unit Tests (Vitest + React Testing Library)
-- [ ] Implement Authentication (Auth0 or Firebase)
-- [ ] Add Global Error Boundary
-- [ ] Integrate a real Payment Gateway (Stripe)
+-   [x] Refactor Styles to BEM + Tailwind (Completed)
+-   [ ] Add Unit Tests (Vitest + React Testing Library)
+-   [ ] Implement Authentication (Auth0 or Firebase)
+-   [ ] Add Global Error Boundary
+-   [ ] Integrate a real Payment Gateway (Stripe)
 
 ---
-
-**Developed with ❤️ by [Your Name]**

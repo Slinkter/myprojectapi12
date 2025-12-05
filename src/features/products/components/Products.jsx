@@ -8,11 +8,11 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element}
  */
 const Products = ({ products }) => {
-  return <ProductGrid products={products} />;
+    return <ProductGrid products={products} />;
 };
 
 Products.propTypes = {
-  products: PropTypes.array.isRequired,
+    products: PropTypes.array.isRequired,
 };
 
 export default Products;
