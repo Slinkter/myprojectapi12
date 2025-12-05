@@ -1,73 +1,71 @@
+import { useState, useEffect, useCallback } from "react";
 
-import { useState, useEffect, useCallback } from 'react';
-import { getProducts as getProductsService } from '../services/products';
+const API_URL = "https://dummyjson.com/products";
+const LIMIT = 20;
 
-/**
- * @typedef {Object} Product
- * @property {number} id - The ID of the product.
- * @property {string} title - The title of the product.
- * @property {string} description - The description of the product.
- * @property {number} price - The price of the product.
- * @property {string} thumbnail - The URL of the product's thumbnail.
- * @property {number} stock - The available stock of the product.
- */
-
-/**
- * @typedef {Object} UseProductsReturn
- * @property {Product[]} products - The list of products.
- * @property {boolean} loading - The loading state for subsequent loads.
- * @property {boolean} initialLoading - The loading state for the initial load.
- * @property {string|null} error - The error message.
- * @property {() => void} loadMore - The function to load more products.
- * @property {boolean} hasMore - Indicates if there are more products to load.
- */
-
-/**
- * Custom hook to fetch and manage products from the API.
- * @returns {UseProductsReturn} The products, loading states, error state, and a function to load more.
- */
 export const useProducts = () => {
-    const [products, setProducts] = useState([]);
-    const [initialLoading, setInitialLoading] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
 
-    const getProducts = useCallback(async () => {
-        if (page === 0) {
-            setInitialLoading(true);
-        } else {
-            setLoading(true);
-        }
-        setError(null);
-        try {
-            const data = await getProductsService(page);
-            if (data.products.length === 0) {
-                setHasMore(false);
-            } else {
-                setProducts(prevProducts => [...prevProducts, ...data.products]);
-            }
-        } catch (e) {
-            setError(e.message);
-        } finally {
-            if (page === 0) {
-                setInitialLoading(false);
-            } else {
-                setLoading(false);
-            }
-        }
-    }, [page]);
+  const fetchProducts = useCallback(async () => {
+    console.group(`fetchProducts - Página: ${page}`);
+    setLoading(true);
+    setError(null);
+    try {
+      const skip = (page - 1) * LIMIT;
+      console.log(
+        `Obteniendo datos de: ${API_URL}?limit=${LIMIT}&skip=${skip}`
+      );
+      const response = await fetch(`${API_URL}?limit=${LIMIT}&skip=${skip}`);
+      const data = await response.json();
+      console.log("Respuesta de la API:", data);
 
-    useEffect(() => {
-        getProducts();
-    }, [getProducts]);
+      if (
+        data.products.length === 0 ||
+        products.length + data.products.length >= data.total
+      ) {
+        console.log(
+          "No hay más productos para cargar, estableciendo hasMore a false."
+        );
+        setHasMore(false);
+      }
 
-    const loadMore = () => {
-        if (hasMore) {
-            setPage(prevPage => prevPage + 1);
-        }
-    };
+      setProducts((prevProducts) => {
+        console.group("Actualizando estado de productos");
+        console.log("Cantidad de productos anterior:", prevProducts.length);
+        const existingIds = new Set(prevProducts.map((p) => p.id));
+        const newProducts = data.products.filter((p) => !existingIds.has(p.id));
+        console.log("Nuevos productos para agregar:", newProducts.length);
+        const updatedProducts = [...prevProducts, ...newProducts];
+        console.log(
+          "Cantidad de productos actualizada:",
+          updatedProducts.length
+        );
+        console.groupEnd();
+        return updatedProducts;
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+      if (initialLoading) setInitialLoading(false);
+    }
+    console.groupEnd();
+  }, [page, initialLoading, products.length]);
 
-    return { products, initialLoading, loading, error, loadMore, hasMore };
+  useEffect(() => {
+    fetchProducts();
+  }, [page, fetchProducts]);
+
+  const loadMore = () => {
+    if (hasMore && !loading) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  return { products, initialLoading, loading, error, loadMore, hasMore };
 };
