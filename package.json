@@ -1,36 +1,36 @@
 {
-    "name": "myprojectapi12",
-    "homepage": "https://slinkter.github.io/myprojectapi12",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-        "preview": "vite preview",
-        "predeploy": "npm run build",
-        "deploy": "gh-pages -d dist"
-    },
-    "dependencies": {
-        "@material-tailwind/react": "^2.1.10",
-        "prop-types": "^15.8.1",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "react-router-dom": "^7.10.1"
-    },
-    "devDependencies": {
-        "@types/react": "^18.3.27",
-        "@types/react-dom": "^18.3.7",
-        "@vitejs/plugin-react": "^4.7.0",
-        "autoprefixer": "^10.4.22",
-        "eslint": "^8.57.1",
-        "eslint-plugin-react": "^7.37.5",
-        "eslint-plugin-react-hooks": "^4.6.2",
-        "eslint-plugin-react-refresh": "^0.4.24",
-        "gh-pages": "^6.3.0",
-        "postcss": "^8.5.6",
-        "tailwindcss": "^3.4.18",
-        "vite": "^5.4.21"
-    }
+  "name": "myprojectapi12",
+  "homepage": "https://slinkter.github.io/myprojectapi12",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "predeploy": "pnpm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "@material-tailwind/react": "^2.1.10",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.10.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.23",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.25",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19",
+    "vite": "^5.4.21"
+  }
 }

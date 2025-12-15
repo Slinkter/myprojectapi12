@@ -3,13 +3,13 @@
 Este tutorial te guiará paso a paso para entender, recrear y extender este proyecto. Aprenderás patrones avanzados de React y arquitectura de software.
 
 ## 📚 Tabla de Contenidos
-1.  [Configuración del Entorno](#1-configuración-del-entorno)
-2.  [Arquitectura del Proyecto](#2-arquitectura-del-proyecto)
-3.  [Configuración del Punto de Entrada](#3-configuración-del-punto-de-entrada-mainjsx)
-4.  [Creando la Feature de Productos](#4-creando-la-feature-de-productos)
-5.  [Gestión del Estado Global (Carrito)](#5-gestión-del-estado-global-carrito)
-6.  [Implementando el Checkout (Lógica Avanzada)](#6-implementando-el-checkout-lógica-avanzada)
-7.  [Optimizaciones y Buenas Prácticas](#7-optimizaciones-y-buenas-prácticas)
+1.  Configuración del Entorno
+2.  Arquitectura del Proyecto
+3.  Configuración del Punto de Entrada
+4.  Creando la Feature de Productos
+5.  Gestión del Estado Global (Carrito)
+6.  Implementando el Checkout (Lógica Avanzada)
+7.  Optimizaciones y Buenas Prácticas
 
 ---
 
