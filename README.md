@@ -1,124 +1,68 @@
-# 🛍️ Modern React E-Commerce Architecture
+# 🛍️ Prototipo de E-Commerce con React y Arquitectura Limpia
 
-> A professional, scalable, and high-performance E-Commerce application built with **React**, **Vite**, and **Tailwind CSS**, following **Clean Architecture** and **Feature-Based** design patterns.
+![Banner del Proyecto](./api12.png)
 
-![Project Banner](./api12.png)
+Este proyecto es un prototipo funcional y de alto rendimiento de una aplicación de comercio electrónico, construida con **React**, **Vite** y **Tailwind CSS**. La base del código sigue principios de **Arquitectura Limpia** y un diseño modular basado en **funcionalidades (*features*)**, lo que garantiza que el proyecto sea escalable y fácil de mantener.
 
-## 🚀 Introduction
+---
 
-This project demonstrates a production-ready frontend architecture for a React application. It moves away from the traditional "file-type" grouping (components, hooks, pages) to a **Feature-Based Architecture**, making it highly scalable and maintainable.
+## 📚 Documentación del Proyecto
 
-It includes a fully functional shopping cart, product listing with pagination, and a checkout flow with validation, all styled with **Tailwind CSS** and **BEM methodology**.
+Hemos preparado una documentación detallada para diferentes audiencias.
 
-## 🛠️ Tech Stack
+| Documento                                           | Audiencia        | Descripción                                                                                                |
+| :---------------------------------------------------- | :--------------- | :--------------------------------------------------------------------------------------------------------- |
+| 📄 **[Resumen Ejecutivo](./src/docs/PROJECT_OVERVIEW.md)** | **Cliente / Negocio** | Visión general del proyecto, beneficios clave, casos de uso y KPIs sugeridos para el éxito del negocio.    |
+| 🛠️ **[Especificación Técnica](./src/docs/TECHNICAL_SPECIFICATION.md)** | **Técnica / Desarrollo** | Análisis profundo de la arquitectura, patrones de diseño, diagramas UML, tecnologías y nivel de complejidad. |
 
--   **Core**: React 18, Vite
--   **Styling**: Tailwind CSS, @material-tailwind/react
--   **Routing**: React Router DOM ^7.10.1
--   **Architecture**: Feature-Based, Clean Architecture principles
--   **State Management**: Context API + Reducers
--   **Performance**: React.lazy, Suspense, React.memo, Set-based deduplication
+---
 
-## 📂 Project Structure
+## 🚀 Cómo Empezar
 
-The project is organized by **features**, ensuring that code related to a specific domain (like Cart or Checkout) stays together.
+Sigue estos pasos para ejecutar el proyecto en tu entorno local.
 
-```text
-src/
-├── components/         # Shared/Generic UI components
-│   └── common/         # Layouts, ThemeSwitcher
-├── features/           # Feature-based modules
-│   ├── cart/           # Cart domain
-│   │   ├── components/ # Cart, CartIcon
-│   │   └── context/    # CartContext
-│   ├── checkout/       # Checkout domain
-│   │   ├── hooks/      # useCheckout (Business Logic)
-│   │   └── pages/      # Checkout, CheckoutSuccess
-│   └── products/       # Product domain
-│       ├── components/ # Product, ProductGrid, etc.
-│       ├── hooks/      # useProducts
-│       └── services/   # API calls
-├── pages/              # Main entry pages (Lazy Loaded)
-├── context/            # Global app state (Theme)
-├── utils/              # Helper functions
-└── AppRouter.jsx       # Route definitions
-```
+### Prerrequisitos
+-   Node.js (versión 16 o superior)
+-   npm o pnpm como gestor de paquetes
 
-## ✨ Key Features
+### Instalación
 
--   **Feature-Based Architecture**: Modular and decoupled code.
--   **Custom Hooks**: Logic extracted from UI components (e.g., `useCheckout`, `useProducts`).
--   **Lazy Loading**: Route-based code splitting for faster initial load.
--   **BEM + Tailwind**: Organized CSS classes using `@apply` for clean JSX.
--   **Responsive Design**: Mobile-first approach.
--   **Dark Mode**: Built-in theme switcher.
-
-## 🚀 Getting Started
-
-### Prerequisites
-
--   Node.js (v16+)
--   npm or pnpm
-
-### Installation
-
-1.  **Clone the repository**
-
+1.  **Clona el repositorio:**
     ```bash
     git clone https://github.com/yourusername/myprojectapi12.git
     cd myprojectapi12
     ```
 
-2.  **Install dependencies**
-
+2.  **Instala las dependencias:**
     ```bash
     npm install
-    # or
-    pnpm install
     ```
 
-3.  **Run the development server**
+3.  **Ejecuta el servidor de desarrollo:**
     ```bash
     npm run dev
     ```
-
-## 📐 Architecture Decisions
-
-### Why Feature-Based?
-
-As applications grow, grouping by file type (`/components`, `/hooks`) becomes unmanageable. Grouping by **Feature** (`/features/cart`, `/features/products`) allows developers to work on a specific domain without jumping between distant folders.
-
-### Separation of Concerns
-
-We strictly separate **UI** from **Logic**.
-
--   **UI**: Components only render data and handle user events.
--   **Logic**: Custom hooks (`useCheckout`) handle state, validation, and side effects.
-
-### BEM with Tailwind
-
-We use Tailwind for utility classes but organize them using **BEM** in `index.css` with `@apply`. This keeps our JSX clean and semantic:
-
-**Before:**
-
-```jsx
-<div className="flex justify-between items-center p-4 bg-gray-50 border-t">
-    ...
-</div>
-```
-
-**After:**
-
-```jsx
-<div className="product-card__footer">...</div>
-```
-
-## 🔮 Roadmap
-
--   [x] Refactor Styles to BEM + Tailwind (Completed)
--   [ ] Add Unit Tests (Vitest + React Testing Library)
--   [ ] Implement Authentication (Auth0 or Firebase)
--   [ ] Add Global Error Boundary
--   [ ] Integrate a real Payment Gateway (Stripe)
+    La aplicación estará disponible en `http://localhost:5173` (o el puerto que Vite asigne).
 
 ---
+
+## 🏛️ Arquitectura Aplicada
+
+La aplicación se estructura en torno a una **Arquitectura Basada en Funcionalidades (*Feature-Based Architecture*)**. En lugar de agrupar el código por tipo de archivo (ej. `components`, `hooks`), lo organizamos por dominio de negocio (ej. `features/cart`, `features/products`).
+
+### Beneficios de esta Arquitectura:
+-   **Alta Cohesión:** El código relacionado con una misma funcionalidad reside en el mismo lugar.
+-   **Bajo Acoplamiento:** Las funcionalidades son independientes entre sí, lo que facilita su modificación o eliminación.
+-   **Escalabilidad:** Añadir nuevas funcionalidades es tan simple como crear una nueva carpeta dentro de `features`, sin afectar el resto de la aplicación.
+
+Para un análisis detallado, consulta la [Especificación Técnica](./src/docs/TECHNICAL_SPECIFICATION.md).
+
+---
+
+## ✨ Características Principales
+
+-   **Arquitectura Limpia:** Separación estricta entre la lógica de negocio (Custom Hooks) y la presentación (Componentes).
+-   **Carga Optimizada:** Uso de `React.lazy` y `Suspense` para dividir el código por rutas y acelerar la carga inicial.
+-   **Diseño Responsivo:** Interfaz adaptada para una correcta visualización en dispositivos móviles y de escritorio.
+-   **Modo Oscuro y Claro:** Selector de tema integrado para mejorar la experiencia de usuario.
+-   **Estilos Semánticos:** Combinación de **Tailwind CSS** con la metodología **BEM** para un JSX limpio y un CSS mantenible.
