@@ -1,6 +1,5 @@
 # Guion para Exposición: Arquitectura de un E-Commerce Moderno con React
 
----
 
 ## Diapositiva 1: Título
 
