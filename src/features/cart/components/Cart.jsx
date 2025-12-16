@@ -7,10 +7,10 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 import { CartContext } from "@/features/cart/context/CartContext";
-import PropTypes from "prop-types";
 
-const Cart = ({ open, onClose }) => {
-    const { cart, removeFromCart, clearCart } = useContext(CartContext);
+const Cart = () => {
+    const { cart, removeFromCart, clearCart, isCartOpen, closeCart } =
+        useContext(CartContext);
     const navigate = useNavigate();
 
     const totalPrice = cart.reduce(
@@ -19,17 +19,21 @@ const Cart = ({ open, onClose }) => {
     );
 
     const handleCheckout = () => {
-        onClose();
+        closeCart();
         navigate("/checkout");
     };
 
     return (
-        <Drawer open={open} onClose={onClose} className="cart-drawer">
+        <Drawer open={isCartOpen} onClose={closeCart} className="cart-drawer">
             <div className="cart-drawer__header">
                 <Typography variant="h5" color="blue-gray">
                     Shopping Cart
                 </Typography>
-                <IconButton variant="text" color="blue-gray" onClick={onClose}>
+                <IconButton
+                    variant="text"
+                    color="blue-gray"
+                    onClick={closeCart}
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -116,11 +120,6 @@ const Cart = ({ open, onClose }) => {
             </div>
         </Drawer>
     );
-};
-
-Cart.propTypes = {
-    open: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
 };
 
 export default Cart;

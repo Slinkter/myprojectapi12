@@ -10,6 +10,12 @@ const CartContext = createContext();
 const CartProvider = ({ children }) => {
     // Estado para almacenar los productos.
     const [cart, setCart] = useState([]);
+    // Estado para controlar la visibilidad del carrito (Drawer)
+    const [isCartOpen, setIsCartOpen] = useState(false);
+
+    const openCart = useCallback(() => setIsCartOpen(true), []);
+    const closeCart = useCallback(() => setIsCartOpen(false), []);
+    const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), []);
 
     /**
      * Añade un producto al carrito o actualiza su cantidad si ya existe.
@@ -33,6 +39,8 @@ const CartProvider = ({ children }) => {
             // Si el producto es nuevo, lo añade al carrito.
             return [...prevCart, { ...product, quantity }];
         });
+        // Opcional: Abrir el carrito automáticamente al agregar producto (Experiencia Amazon)
+        setIsCartOpen(true);
     }, []);
 
     /**
@@ -53,8 +61,26 @@ const CartProvider = ({ children }) => {
     // Memoizamos el valor del contexto para evitar re-renderizados innecesarios
     // en los componentes consumidores. El objeto de valor solo se recalculará si 'cart' cambia.
     const propsValues = useMemo(
-        () => ({ cart, addToCart, removeFromCart, clearCart }),
-        [cart, addToCart, removeFromCart, clearCart]
+        () => ({
+            cart,
+            addToCart,
+            removeFromCart,
+            clearCart,
+            isCartOpen,
+            openCart,
+            closeCart,
+            toggleCart,
+        }),
+        [
+            cart,
+            addToCart,
+            removeFromCart,
+            clearCart,
+            isCartOpen,
+            openCart,
+            closeCart,
+            toggleCart,
+        ]
     );
 
     return (
