@@ -2,3 +2,4 @@ tailwind.config.js
 vite.config.js
 .eslintrc.cjs
 postcss.config.js
+*.md

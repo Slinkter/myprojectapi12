@@ -8,17 +8,17 @@ Este proyecto implementa una arquitectura moderna de frontend basada en principi
 
 La estructura del proyecto se organiza por *features* (`products`, `cart`, `checkout`), promoviendo la **separación de conceptos (SoC)** y la modularidad.
 
--   **Capa de UI (Componentes):** Componentes de React puros y presentacionales. Su única responsabilidad es renderizar la UI y delegar eventos. (`ProductGrid.jsx`, `Cart.jsx`).
--   **Capa de Lógica de UI (Hooks):** Custom Hooks que encapsulan la lógica de estado, efectos y manejo de eventos. Actúan como *presenters* o *controllers*. (`useProducts.js`, `useCheckout.js`).
--   **Capa de Estado Global (Context):** Contextos de React que gestionan el estado compartido entre diferentes *features*. (`CartContext.jsx`, `ThemeContext.jsx`).
--   **Capa de Servicios (Abstracción de API):** Aunque el `fetch` se realiza actualmente en el hook `useProducts`, la estructura prevé una capa de servicio (`src/features/products/services/products.js`) para aislar completamente las llamadas de red, permitiendo un fácil reemplazo o mocking.
+- **Capa de UI (Componentes):** Componentes de React puros y presentacionales. Su única responsabilidad es renderizar la UI y delegar eventos. (`ProductGrid.jsx`, `Cart.jsx`).
+- **Capa de Lógica de UI (Hooks):** Custom Hooks que encapsulan la lógica de estado, efectos y manejo de eventos. Actúan como *presenters* o *controllers*. (`useProducts.js`, `useCheckout.js`).
+- **Capa de Estado Global (Context):** Contextos de React que gestionan el estado compartido entre diferentes *features*. (`CartContext.jsx`, `ThemeContext.jsx`).
+- **Capa de Servicios (Abstracción de API):** Aunque el `fetch` se realiza actualmente en el hook `useProducts`, la estructura prevé una capa de servicio (`src/features/products/services/products.js`) para aislar completamente las llamadas de red, permitiendo un fácil reemplazo o mocking.
 
 ### 1.2. Patrones de Diseño Aplicados
 
--   **Custom Hook Pattern:** Para encapsular y reutilizar la lógica con estado. Es el pilar de la arquitectura.
--   **Provider Pattern (via Context API):** Para la inyección de dependencias y la gestión de estado global (`CartProvider`, `ThemeProvider`).
--   **Module Pattern:** Agrupación de archivos por funcionalidad (`features`) para mejorar la cohesión y reducir el acoplamiento.
--   **Reducer Pattern (via `useReducer`):** Utilizado en `useCheckout` para manejar transiciones de estado complejas de forma predecible y robusta.
+- **Custom Hook Pattern:** Para encapsular y reutilizar la lógica con estado. Es el pilar de la arquitectura.
+- **Provider Pattern (via Context API):** Para la inyección de dependencias y la gestión de estado global (`CartProvider`, `ThemeProvider`).
+- **Module Pattern:** Agrupación de archivos por funcionalidad (`features`) para mejorar la cohesión y reducir el acoplamiento.
+- **Reducer Pattern (via `useReducer`):** Utilizado en `useCheckout` para manejar transiciones de estado complejas de forma predecible y robusta.
 
 ---
 
@@ -112,22 +112,22 @@ sequenceDiagram
 
 ### 4.1. Nivel de Dificultad y Complejidad
 
--   **Nivel General:** Intermedio.
--   **Justificación:** El proyecto va más allá de un simple "to-do list". Implementa conceptos que requieren una comprensión sólida de React y del desarrollo de software, tales como:
-    -   **Gestión de Estado Avanzada:** Uso combinado de `useState`, `useContext` y `useReducer` según la complejidad del caso.
-    -   **Custom Hooks:** Abstracción de toda la lógica de negocio, que es una práctica de nivel intermedio/avanzado.
-    -   **Code-Splitting:** Uso de `React.lazy` y `Suspense` para optimizar la carga inicial de la aplicación.
-    -   **Arquitectura Cohesionada:** La estructura basada en *features* demuestra una planificación arquitectónica deliberada.
+- **Nivel General:** Intermedio.
+- **Justificación:** El proyecto va más allá de un simple "to-do list". Implementa conceptos que requieren una comprensión sólida de React y del desarrollo de software, tales como:
+  - **Gestión de Estado Avanzada:** Uso combinado de `useState`, `useContext` y `useReducer` según la complejidad del caso.
+  - **Custom Hooks:** Abstracción de toda la lógica de negocio, que es una práctica de nivel intermedio/avanzado.
+  - **Code-Splitting:** Uso de `React.lazy` y `Suspense` para optimizar la carga inicial de la aplicación.
+  - **Arquitectura Cohesionada:** La estructura basada en *features* demuestra una planificación arquitectónica deliberada.
 
 ### 4.2. Nivel del Proyecto en el Ecosistema React
 
--   **Nivel:** **Sólido Prototipo Profesional.**
--   **Análisis:** Este proyecto sirve como una excelente base para una aplicación de producción. No es un simple ejercicio académico. Demuestra las mejores prácticas actuales del ecosistema React (hooks, context, vite) y una arquitectura que es mantenible y escalable.
+- **Nivel:** **Sólido Prototipo Profesional.**
+- **Análisis:** Este proyecto sirve como una excelente base para una aplicación de producción. No es un simple ejercicio académico. Demuestra las mejores prácticas actuales del ecosistema React (hooks, context, vite) y una arquitectura que es mantenible y escalable.
 
 ### 4.3. Puntos a Mejorar para Producción
 
-1.  **Persistencia del Carrito:** Actualmente, el carrito se pierde al refrescar la página. Se debe implementar persistencia usando `localStorage` o, idealmente, sincronizándolo con una base de datos en el backend.
-2.  **Integración de Pasarela de Pago Real:** Reemplazar la simulación de pago con una integración real a servicios como Stripe o PayPal.
-3.  **Autenticación de Usuarios:** Añadir un flujo de inicio de sesión para que los usuarios puedan ver su historial de pedidos.
-4.  **Testing:** Aunque la arquitectura facilita las pruebas, no se han implementado tests unitarios (con Jest/Vitest y React Testing Library) ni E2E (con Cypress/Playwright).
-5.  **Separación de la Capa de Servicio:** Mover formalmente todas las llamadas `fetch` a la capa de servicios para un desacoplamiento total.
+1. **Persistencia del Carrito:** Actualmente, el carrito se pierde al refrescar la página. Se debe implementar persistencia usando `localStorage` o, idealmente, sincronizándolo con una base de datos en el backend.
+2. **Integración de Pasarela de Pago Real:** Reemplazar la simulación de pago con una integración real a servicios como Stripe o PayPal.
+3. **Autenticación de Usuarios:** Añadir un flujo de inicio de sesión para que los usuarios puedan ver su historial de pedidos.
+4. **Testing:** Aunque la arquitectura facilita las pruebas, no se han implementado tests unitarios (con Jest/Vitest y React Testing Library) ni E2E (con Cypress/Playwright).
+5. **Separación de la Capa de Servicio:** Mover formalmente todas las llamadas `fetch` a la capa de servicios para un desacoplamiento total.
