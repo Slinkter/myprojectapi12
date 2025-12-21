@@ -55,11 +55,12 @@ El código muestra un nivel de madurez técnica **medio-alto**, destacando por l
 
 1.  **Testing Strategy:** Implementar Vitest + React Testing Library. Priorizar tests en la capa de `application` (hooks de lógica).
 2.  **TypeScript:** Evaluar la migración a TypeScript para ganar seguridad de tipos estática, crucial en sistemas financieros/e-commerce.
-3.  **CI/CD:** Configurar pipelines de validación (linting, build) automáticos.
+3.  **CI/CD:** IMPLEMENTADO. Se ha configurado GitHub Actions para validación (lint) y despliegue automático.
 
 ## 5. Conclusión del Diagnóstico
 
 El proyecto se encuentra en un estado saludable y preparado para escalar. La base arquitectónica es sólida. Los esfuerzos inmediatos deben centrarse en la robustez (persistencia, manejo de errores) y la calidad asegurada (testing). La documentación que se generará a continuación es el paso correcto para formalizar este conocimiento y facilitar el "onboarding" de futuros desarrolladores.
+
 # Visión General del Sistema (Overview)
 
 ## 1. Propósito del Proyecto
@@ -130,6 +131,7 @@ graph TD
 4.  **Estado Global:** El contexto actualiza el carrito y recalcula totales. La UI del Drawer se actualiza reactivamente.
 5.  **Navegación (Checkout):** El usuario procede al pago. El Router carga el módulo de Checkout bajo demanda (Lazy Loading).
 6.  **Finalización:** Tras validar el formulario, se muestra la confirmación y se reinicia el flujo.
+
 # Arquitectura y Diseño Técnico
 
 ## 1. Estructura del Proyecto (Feature-Based Architecture)
@@ -233,6 +235,7 @@ classDiagram
 2.  **Container/Presenter:** Separación (parcial) lógica en hooks (`useProducts`) y vista (`ProductGrid`).
 3.  **Compound Components:** Utilizado internamente por las librerías de UI (Material Tailwind).
 4.  **Observer Pattern:** (Implícito) Reactividad del estado mediante Context y Hooks.
+
 # Casos de Uso del Sistema
 
 ## 1. Actores y Roles
@@ -333,6 +336,7 @@ sequenceDiagram
         Checkout->>User: Muestra errores de validación
     end
 ```
+
 # Especificación de Requerimientos
 
 ## 1. Requerimientos Funcionales (RF)
@@ -367,6 +371,7 @@ sequenceDiagram
 -   **RN-01 (Stock):** No se puede añadir al carrito una cantidad mayor al stock disponible de un producto.
 -   **RN-02 (Persistencia):** _[Pendiente]_ El carrito debería persistir si el usuario cierra la pestaña (actualmente volátil).
 -   **RN-03 (Moneda):** Todos los precios se manejan y muestran en Dólares Americanos (USD).
+
 # Flujo de Datos y Gestión del Estado
 
 ## 1. Modelo de Datos Principal
@@ -461,6 +466,7 @@ Capa de abstracción para `fetch`.
 
 -   **Fetch-on-render:** Los datos se solicitan cuando el componente (`Home`) se monta.
 -   **Pagination:** Carga incremental (Load More) concatenando resultados al estado existente.
+
 # Guía para Desarrolladores (Developer Guide)
 
 Esta guía está diseñada para nuevos desarrolladores que se unen al equipo de **MyProjectAPI12**.
@@ -535,6 +541,7 @@ src/features/auth/
 -   **KISS (Keep It Simple):** Evita la sobre-ingeniería. No añadas Redux si un Context basta.
 -   **Separation of Concerns:** Componentes de vista no deben hacer llamadas `fetch`. Usa hooks.
 -   **Validación:** Usa `PropTypes` en todos los componentes que reciban propiedades.
+
 # Calidad, Riesgos y Mantenibilidad
 
 ## 1. Estrategia de Calidad
@@ -583,10 +590,11 @@ Uso de **Material Tailwind** y etiquetas semánticas HTML5.
 
 ## 4. Recomendaciones Futuras (Roadmap de Calidad)
 
-1.  **Integración Continua (CI):** Configurar GitHub Actions para correr el linter y build en cada Push.
+1.  **Integración Continua (CI):** ✅ IMPLEMENTADO. GitHub Actions corre linter y build en cada Push.
 2.  **Husky + Lint-Staged:** Impedir commits que no pasen las reglas de calidad.
 3.  **Monitoreo de Errores:** Integrar Sentry para trackear errores en producción.
 4.  **Optimización de Imágenes:** Implementar carga adaptativa de imágenes (WebP, tamaños dinámicos).
+
 # Cierre del Proyecto y Próximos Pasos
 
 **Fecha de Cierre de Iteración:** 20 de Diciembre de 2025
@@ -620,7 +628,7 @@ Aunque funcional, el sistema presenta limitaciones propias de una versión Alpha
 
 -   [ ] Implementar persistencia (LocalStorage / IndexedDB).
 -   [ ] Añadir Tests Unitarios (al menos 60% de cobertura).
--   [ ] Configurar CI/CD Pipeline básico.
+-   [x] Configurar CI/CD Pipeline básico. (Implementado Dic 2025)
 
 ### Q2 2026 - Fase de Funcionalidad
 
