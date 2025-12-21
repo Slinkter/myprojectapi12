@@ -1,22 +1,19 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Spinner } from "@material-tailwind/react";
 
 const Home = lazy(() => import("@/pages/Home"));
-const Checkout = lazy(() => import("@/features/checkout/pages/Checkout"));
-const CheckoutSuccess = lazy(() =>
-    import("@/features/checkout/pages/CheckoutSuccess")
+const Checkout = lazy(() =>
+    import("@/features/checkout/presentation/Checkout")
 );
+const CheckoutSuccess = lazy(() =>
+    import("@/features/checkout/presentation/CheckoutSuccess")
+);
+
+import Loader from "@/components/common/Loader";
 
 const AppRouter = () => {
     return (
-        <Suspense
-            fallback={
-                <div className="flex justify-center items-center h-screen">
-                    <Spinner className="h-12 w-12" />
-                </div>
-            }
-        >
+        <Suspense fallback={<Loader />}>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/checkout" element={<Checkout />} />

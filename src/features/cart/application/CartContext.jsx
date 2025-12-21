@@ -58,6 +58,10 @@ const CartProvider = ({ children }) => {
         setCart([]);
     }, []);
 
+    const totalPrice = useMemo(() => {
+        return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    }, [cart]);
+
     // Memoizamos el valor del contexto para evitar re-renderizados innecesarios
     // en los componentes consumidores. El objeto de valor solo se recalculará si 'cart' cambia.
     const propsValues = useMemo(
@@ -70,9 +74,11 @@ const CartProvider = ({ children }) => {
             openCart,
             closeCart,
             toggleCart,
+            totalPrice,
         }),
         [
             cart,
+            totalPrice,
             addToCart,
             removeFromCart,
             clearCart,

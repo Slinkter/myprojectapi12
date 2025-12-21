@@ -1,5 +1,5 @@
 import Layout from "@/components/common/Layout";
-import Cart from "@/features/cart/components/Cart";
+import Cart from "@/features/cart/presentation/Cart";
 import AppRouter from "./AppRouter";
 
 const App = () => {

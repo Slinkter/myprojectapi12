@@ -1,68 +1,99 @@
-# 🛍️ Prototipo de E-Commerce con React y Arquitectura Limpia
+# MyProjectAPI12 - E-commerce Profesional con React
 
-![Banner del Proyecto](./api12.png)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![React](https://img.shields.io/badge/React-18-61DAFB.svg)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF.svg)
+![Tailwind](https://img.shields.io/badge/Tailwind-3-38B2AC.svg)
 
-Este proyecto es un prototipo funcional y de alto rendimiento de una aplicación de comercio electrónico, construida con **React**, **Vite** y **Tailwind CSS**. La base del código sigue principios de **Arquitectura Limpia** y un diseño modular basado en **funcionalidades (*features*)**, lo que garantiza que el proyecto sea escalable y fácil de mantener.
+## 🏢 Visión del Proyecto
 
----
+Este es un proyecto de demostración de un E-commerce (SPA) construido siguiendo los más altos estándares de la industria. El objetivo no es solo la funcionalidad, sino la excelencia arquitectónica, la mantenibilidad y el rendimiento.
 
-## 📚 Documentación del Proyecto
+Utiliza una **Arquitectura basada en Features** y **Clean Architecture** en el frontend, separando claramente las responsabilidades.
 
-Hemos preparado una documentación detallada para diferentes audiencias.
+## 🚀 Tecnologías Principales
 
-| Documento                                           | Audiencia        | Descripción                                                                                                |
-| :---------------------------------------------------- | :--------------- | :--------------------------------------------------------------------------------------------------------- |
-| 📄 **[Resumen Ejecutivo](./src/docs/PROJECT_OVERVIEW.md)** | **Cliente / Negocio** | Visión general del proyecto, beneficios clave, casos de uso y KPIs sugeridos para el éxito del negocio.    |
-| 🛠️ **[Especificación Técnica](./src/docs/TECHNICAL_SPECIFICATION.md)** | **Técnica / Desarrollo** | Análisis profundo de la arquitectura, patrones de diseño, diagramas UML, tecnologías y nivel de complejidad. |
+-   **Frontend Core**: React 18, Vite.
+-   **Estilos**: Tailwind CSS con metodología **BEM** (vía `@apply`).
+-   **UI Components**: Material Tailwind.
+-   **Rutas**: React Router 6 (con Lazy Loading).
+-   **Iconografía**: React Icons.
+-   **API**: DummyJSON.
 
----
+## 🏗 Arquitectura del Sistema
 
-## 🚀 Cómo Empezar
+El proyecto sigue una estructura de directorios escalable:
 
-Sigue estos pasos para ejecutar el proyecto en tu entorno local.
+```
+src/
+├── features/           # Módulos funcionales (Carrito, Productos, Checkout)
+├── components/         # Componentes UI compartidos
+├── context/            # Estado global (Theme)
+├── pages/              # Páginas principales (Layouts de features)
+├── routes/             # Configuración de navegación
+└── utils/              # Ayudantes puros
+```
 
-### Prerrequisitos
--   Node.js (versión 16 o superior)
--   npm o pnpm como gestor de paquetes
+Cada feature (`src/features/products`) se subdivide en capas:
 
-### Instalación
+-   **Presentation**: UI pura (Componentes React).
+-   **Application**: Estado, Hooks y Casos de Uso.
+-   **Infrastructure**: Comunicación con APIs externas.
 
-1.  **Clona el repositorio:**
+## 🛠 Instalación y Ejecución
+
+1. **Clonar el repositorio**:
+
     ```bash
-    git clone https://github.com/yourusername/myprojectapi12.git
+    git clone https://github.com/tu-usuario/myprojectapi12.git
     cd myprojectapi12
     ```
 
-2.  **Instala las dependencias:**
+2. **Instalar dependencias**:
+
     ```bash
-    npm install
+    pnpm install  # o npm install
     ```
 
-3.  **Ejecuta el servidor de desarrollo:**
+3. **Ejecutar en desarrollo**:
+
     ```bash
-    npm run dev
+    pnpm dev
     ```
-    La aplicación estará disponible en `http://localhost:5173` (o el puerto que Vite asigne).
+
+4. **Construir para producción**:
+    ```bash
+    pnpm build
+    ```
+
+## 🎨 Guía de Estilos (BEM)
+
+Hemos evitado el desorden de clases de utilidad en el JSX. Consulta [`doc/styles-guidelines.md`](doc/styles-guidelines.md) para ver las convenciones.
+
+Ejemplo:
+
+```jsx
+// ✅ Correcto (Clase semántica definida en index.css)
+<div className="product-card">...</div>
+
+// ❌ Incorrecto (Utility soup)
+<div className="w-full bg-white shadow-lg rounded-xl p-4...">...</div>
+```
+
+## 📚 Documentación Adicional
+
+-   [Documentación Técnica Detallada (`DOCUMENTATION.md`)](DOCUMENTATION.md)
+-   [Tutorial de Construcción (`tutorial_completo.md`)](tutorial_completo.md)
+-   [Guía de Estilos (`doc/styles-guidelines.md`)](doc/styles-guidelines.md)
+
+## ✨ Roadmap
+
+-   [x] Refactorización a Feature-Based Architecture.
+-   [x] Migración de estilos inline a BEM.
+-   [x] Optimización con Lazy Loading.
+-   [ ] Implementar persistencia en localStorage para el carrito.
+-   [ ] Añadir Tests Unitarios (Vitest).
 
 ---
 
-## 🏛️ Arquitectura Aplicada
-
-La aplicación se estructura en torno a una **Arquitectura Basada en Funcionalidades (*Feature-Based Architecture*)**. En lugar de agrupar el código por tipo de archivo (ej. `components`, `hooks`), lo organizamos por dominio de negocio (ej. `features/cart`, `features/products`).
-
-### Beneficios de esta Arquitectura:
--   **Alta Cohesión:** El código relacionado con una misma funcionalidad reside en el mismo lugar.
--   **Bajo Acoplamiento:** Las funcionalidades son independientes entre sí, lo que facilita su modificación o eliminación.
--   **Escalabilidad:** Añadir nuevas funcionalidades es tan simple como crear una nueva carpeta dentro de `features`, sin afectar el resto de la aplicación.
-
-Para un análisis detallado, consulta la [Especificación Técnica](./src/docs/TECHNICAL_SPECIFICATION.md).
-
----
-
-## ✨ Características Principales
-
--   **Arquitectura Limpia:** Separación estricta entre la lógica de negocio (Custom Hooks) y la presentación (Componentes).
--   **Carga Optimizada:** Uso de `React.lazy` y `Suspense` para dividir el código por rutas y acelerar la carga inicial.
--   **Diseño Responsivo:** Interfaz adaptada para una correcta visualización en dispositivos móviles y de escritorio.
--   **Modo Oscuro y Claro:** Selector de tema integrado para mejorar la experiencia de usuario.
--   **Estilos Semánticos:** Combinación de **Tailwind CSS** con la metodología **BEM** para un JSX limpio y un CSS mantenible.
+Desarrollado con ❤️ y Clean Code.

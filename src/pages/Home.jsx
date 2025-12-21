@@ -1,24 +1,15 @@
 import { Typography, Button } from "@material-tailwind/react";
-import Products from "@/features/products/components/Products";
-import { useProducts } from "@/features/products/hooks/useProducts";
-import SkeletonGrid from "@/features/products/components/SkeletonGrid";
+import ProductGrid from "@/features/products/presentation/ProductGrid";
+import { useProducts } from "@/features/products/application/useProducts";
+import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
 
 const Home = () => {
-    console.group("Home Component Render");
     const { products, initialLoading, loading, error, loadMore, hasMore } =
         useProducts();
 
-    console.log("Estado de useProducts en Home:", {
-        productsCount: products.length,
-        initialLoading,
-        loading,
-        error,
-        hasMore,
-    });
-
-    const renderContent = (
+    return (
         <>
-            <>
+            <div className="home__header">
                 <Typography
                     variant="h1"
                     color="blue-gray"
@@ -33,52 +24,36 @@ const Home = () => {
                 >
                     React VITE + Tailwind CSS + DummyJSON API
                 </Typography>
-            </>
-            {/*  */}
-            {initialLoading && <SkeletonGrid />}
-            {/*  */}
-            {error && <p className="home__error-message">Error: {error}</p>}
-            {/*  */}
-            {!initialLoading && !error && products.length === 0 && (
-                <p className="home__info-message">
-                    No se encontraron productos.
-                </p>
-            )}
-            {/* ========== Render Main ========== */}
+            </div>
 
-            {!initialLoading && !error && products.length > 0 && (
+            {initialLoading && <SkeletonGrid />}
+
+            {error && <p className="home__error">{error}</p>}
+
+            {!initialLoading && !error && products.length === 0 && (
+                <p className="home__empty">No se encontraron productos.</p>
+            )}
+
+            {!initialLoading && products.length > 0 && (
                 <div className="home">
-                    {/* PRODUCTOS */}
-                    <Products products={products} />
-                    {/* BTN CARGAR MAS */}
-                    <div className="home__load-more-container">
+                    <ProductGrid products={products} />
+                    <div className="home__pagination">
                         {hasMore && (
                             <Button
-                                className="home__load-more-button"
                                 variant="outlined"
                                 onClick={loadMore}
                                 disabled={loading}
                                 aria-label="Cargar más productos"
                             >
-                                {loading ? (
-                                    <div className="home__load-more-spinner"></div>
-                                ) : (
-                                    "Ver más"
-                                )}
+                                {loading ? "Cargando..." : "Ver más"}
                             </Button>
                         )}
-                        {!hasMore && (
-                            <p className="home__info-message">
-                                Has alcanzado los 100 productos
-                            </p>
-                        )}
+                        {!hasMore && <p>Has alcanzado el final de la lista.</p>}
                     </div>
                 </div>
             )}
         </>
     );
-    console.groupEnd();
-    return renderContent;
 };
 
 export default Home;

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { IconButton, Badge } from "@material-tailwind/react";
-import { CartContext } from "@/features/cart/context/CartContext";
+import { CartContext } from "@/features/cart/application/CartContext";
 import PropTypes from "prop-types";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 
