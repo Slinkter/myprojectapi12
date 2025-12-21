@@ -6,17 +6,20 @@ import {
     Typography,
     IconButton,
 } from "@material-tailwind/react";
-import { CartContext } from "@/features/cart/context/CartContext";
+import { IoMdClose, IoMdTrash } from "react-icons/io";
+import { CartContext } from "@/features/cart/application/CartContext";
 
 const Cart = () => {
-    const { cart, removeFromCart, clearCart, isCartOpen, closeCart } =
-        useContext(CartContext);
+    /*  */
+    const {
+        cart,
+        removeFromCart,
+        clearCart,
+        isCartOpen,
+        closeCart,
+        totalPrice,
+    } = useContext(CartContext);
     const navigate = useNavigate();
-
-    const totalPrice = cart.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-    );
 
     const handleCheckout = () => {
         closeCart();
@@ -34,20 +37,7 @@ const Cart = () => {
                     color="blue-gray"
                     onClick={closeCart}
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        className="cart-drawer__close-icon"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 18L18 6M6 6l12 12"
-                        />
-                    </svg>
+                    <IoMdClose className="cart-drawer__close-icon" />
                 </IconButton>
             </div>
             <div className="cart-drawer__item-list">
@@ -73,20 +63,7 @@ const Cart = () => {
                                 color="red"
                                 onClick={() => removeFromCart(item.id)}
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="cart-drawer__remove-icon"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                </svg>
+                                <IoMdTrash className="cart-drawer__remove-icon" />
                             </IconButton>
                         </div>
                     </div>

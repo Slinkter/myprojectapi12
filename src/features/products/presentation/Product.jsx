@@ -18,20 +18,22 @@ import ProductDetailModal from "./ProductDetailModal";
 const Product = React.memo(({ product }) => {
     /*  */
     const [open, setOpen] = useState(false);
+
+    /*  */
     const handleOpen = () => setOpen(!open);
 
     return (
         <>
             <Card className="product-card">
                 <CardHeader
+                    className="product-card__header"
                     shadow={false}
                     floated={false}
-                    className="product-card__header"
                 >
                     <img
+                        className="product-card__image"
                         src={product?.thumbnail}
                         alt={product?.title}
-                        className="product-card__image"
                     />
                 </CardHeader>
                 <CardBody className="product-card__body">

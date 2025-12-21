@@ -17,12 +17,11 @@ const CartProvider = ({ children }) => {
     const closeCart = useCallback(() => setIsCartOpen(false), []);
     const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), []);
 
-    /**
-     * Añade un producto al carrito o actualiza su cantidad si ya existe.
-     * @param {object} product - El producto a añadir.
-     * @param {number} quantity - La cantidad del producto a añadir.
-     */
     const addToCart = useCallback((product, quantity) => {
+        /**
+         * @param {object} product - El producto a añadir.
+         * @param {number} quantity - La cantidad del producto a añadir.
+         */
         setCart((prevCart) => {
             // Busca si el producto ya está en el carrito.
             const productInCart = prevCart.find(
@@ -58,6 +57,10 @@ const CartProvider = ({ children }) => {
         setCart([]);
     }, []);
 
+    const totalPrice = useMemo(() => {
+        return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    }, [cart]);
+
     // Memoizamos el valor del contexto para evitar re-renderizados innecesarios
     // en los componentes consumidores. El objeto de valor solo se recalculará si 'cart' cambia.
     const propsValues = useMemo(
@@ -70,9 +73,11 @@ const CartProvider = ({ children }) => {
             openCart,
             closeCart,
             toggleCart,
+            totalPrice,
         }),
         [
             cart,
+            totalPrice,
             addToCart,
             removeFromCart,
             clearCart,

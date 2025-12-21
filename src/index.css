@@ -238,3 +238,29 @@ body {
 .cart-drawer__button {
     @apply mt-4 w-full;
 }
+
+/* BEM styles for Loader component */
+.loader {
+    @apply flex justify-center items-center h-screen;
+}
+
+.loader__spinner {
+    @apply h-12 w-12;
+}
+
+/* BEM styles for Home component (additional) */
+.home__header {
+    @apply text-center mb-8;
+}
+
+.home__error {
+    @apply text-red-500 text-center;
+}
+
+.home__empty {
+    @apply text-center;
+}
+
+.home__pagination {
+    @apply flex justify-center mt-8;
+}
