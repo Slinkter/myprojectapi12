@@ -17,12 +17,11 @@ const CartProvider = ({ children }) => {
     const closeCart = useCallback(() => setIsCartOpen(false), []);
     const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), []);
 
-    /**
-     * Añade un producto al carrito o actualiza su cantidad si ya existe.
-     * @param {object} product - El producto a añadir.
-     * @param {number} quantity - La cantidad del producto a añadir.
-     */
     const addToCart = useCallback((product, quantity) => {
+        /**
+         * @param {object} product - El producto a añadir.
+         * @param {number} quantity - La cantidad del producto a añadir.
+         */
         setCart((prevCart) => {
             // Busca si el producto ya está en el carrito.
             const productInCart = prevCart.find(
