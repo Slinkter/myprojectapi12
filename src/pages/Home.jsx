@@ -7,43 +7,47 @@ const Home = () => {
         useProducts();
 
     return (
-        <>
-            <div className="home__header">
-                <h1 className="home__title text-3xl font-bold">
+        <div className="page-home">
+            <div className="page-home__header">
+                <h1 className="page-home__title text-3xl font-bold">
                     Lista de Productos
                 </h1>
-                <p className="home__subtitle text-base">
+                <p className="page-home__subtitle text-base">
                     React VITE + Tailwind CSS + DummyJSON API
                 </p>
             </div>
 
             {initialLoading && <SkeletonGrid />}
 
-            {error && <p className="home__error">{error}</p>}
+            {error && <p className="page-home__error-message">{error}</p>}
 
             {!initialLoading && !error && products.length === 0 && (
-                <p className="home__empty">No se encontraron productos.</p>
+                <p className="page-home__info-message">No se encontraron productos.</p>
             )}
 
             {!initialLoading && products.length > 0 && (
-                <div className="home">
+                <>
                     <ProductGrid products={products} />
-                    <div className="home__pagination">
+                    <div className="page-home__pagination">
                         {hasMore && (
                             <button
                                 onClick={loadMore}
                                 disabled={loading}
-                                className="neumo-button px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="page-home__load-more-button"
                                 aria-label="Cargar más productos"
                             >
-                                {loading ? "Cargando..." : "Ver más"}
+                                {loading ? (
+                                    <span className="page-home__load-more-spinner" />
+                                ) : (
+                                    "Ver más"
+                                )}
                             </button>
                         )}
-                        {!hasMore && <p>Has alcanzado el final de la lista.</p>}
+                        {!hasMore && <p className="page-home__info-message">Has alcanzado el final de la lista.</p>}
                     </div>
-                </div>
+                </>
             )}
-        </>
+        </div>
     );
 };
 

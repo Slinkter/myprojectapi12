@@ -20,7 +20,7 @@ El código muestra un nivel de madurez técnica **medio-alto**, destacando por l
 
 ### 2.2 Calidad de Código y Estilos
 
--   **Sistematización CSS (BEM + Tailwind):** La estrategia de extraer clases de utilidad a componentes BEM en `index.css` via `@apply` resuelve el problema de legibilidad común en Tailwind, resultando en un JSX mucho más limpio y semántico.
+-   **Sistematización CSS (BEM + Tailwind + Neumorfismo):** La estrategia de extraer clases de utilidad a componentes BEM en `index.css` via `@apply` resuelve el problema de legibilidad de Tailwind. Adicionalmente, se ha implementado un sistema de **Neumorfismo** para componentes clave, logrando una estética moderna, coherente y sensible al tema (claro/oscuro).
 -   **Patrones de React:** Implementación correcta de `React.memo`, `useMemo` y `useCallback` para optimizar renderizados. Uso de Lazy Loading para división de código.
 
 ### 2.3 Stack Tecnológico

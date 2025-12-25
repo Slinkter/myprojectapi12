@@ -58,7 +58,46 @@ Este proyecto utiliza la metodología **BEM** (Block, Element, Modifier) combina
 }
 ```
 
-## 3. Estructura de Clases Existentes
+## 3. Sistema de Diseño: Neumorfismo
+
+El proyecto implementa un sistema de diseño basado en **Neumorfismo**, que se integra con el sistema de temas (claro/oscuro). Este estilo se aplica a través de clases BEM y se configura con variables CSS para facilitar la consistencia y el mantenimiento.
+
+### Variables de Neumorfismo
+
+Las variables están definidas en la raíz (`:root`) del archivo `index.css`:
+
+```css
+:root {
+    --neumo-bg: #EFF2F9;
+    --neumo-text: #6E7F8D;
+    --neumo-shadow-light: #FFFFFF;
+    --neumo-shadow-dark: #DDE1E9;
+    
+    --neumo-bg-dark: #2c3036;
+    --neumo-shadow-dark-mode-light: #363a40;
+    --neumo-shadow-dark-mode-dark: #22252a;
+    --neumo-text-dark: #cbd5e1;
+}
+```
+
+### Clase Principal: `.neumo-card`
+
+La clase `.neumo-card` es la base para los componentes con estilo neumórfico. Aplica el fondo y las sombras correspondientes al tema actual.
+
+```css
+.neumo-card {
+    @apply rounded-2xl bg-[var(--neumo-bg)] transition-all duration-300;
+    box-shadow: 8px 8px 16px var(--neumo-shadow-dark), -8px -8px 16px var(--neumo-shadow-light);
+}
+.dark .neumo-card {
+    @apply bg-[var(--neumo-bg-dark)];
+    box-shadow: 6px 6px 12px var(--neumo-shadow-dark-mode-dark), -6px -6px 12px var(--neumo-shadow-dark-mode-light);
+}
+```
+
+Componentes como `SkeletonCard` utilizan esta clase para mantener una apariencia coherente y sensible al tema.
+
+## 4. Estructura de Clases Existentes
 
 ### Home (`.home`)
 
@@ -84,13 +123,13 @@ Este proyecto utiliza la metodología **BEM** (Block, Element, Modifier) combina
 -   `.cart-drawer__total-row`: Fila de totales.
 -   `.cart-drawer__button`: Botones de acción (Checkout/Limpiar).
 
-## 4. Convenciones de Nombres
+## 5. Convenciones de Nombres
 
 -   Usar **kebab-case** para todos los nombres de clases.
 -   Nombres semánticos en inglés (`product-card`, `checkout-form`).
 -   Evitar abreviaciones oscuras (`btn`, `nav` son aceptables por ser estándar).
 
-## 5. Mantenimiento
+## 6. Mantenimiento
 
 Al crear un nuevo componente:
 

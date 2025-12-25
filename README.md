@@ -1,99 +1,100 @@
 # MyProjectAPI12 - E-commerce Profesional con React
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![React](https://img.shields.io/badge/React-18-61DAFB.svg)
-![Vite](https://img.shields.io/badge/Vite-5-646CFF.svg)
-![Tailwind](https://img.shields.io/badge/Tailwind-3-38B2AC.svg)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css)
+![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
 
 ## 🏢 Visión del Proyecto
 
-Este es un proyecto de demostración de un E-commerce (SPA) construido siguiendo los más altos estándares de la industria. El objetivo no es solo la funcionalidad, sino la excelencia arquitectónica, la mantenibilidad y el rendimiento.
+**MyProjectAPI12** es una Single-Page Application (SPA) de e-commerce diseñada para demostrar la implementación de una **arquitectura de software limpia y escalable** en el frontend. El proyecto prioriza la mantenibilidad, el rendimiento y la aplicación rigurosa de patrones de diseño y buenas prácticas sobre la simple funcionalidad.
 
-Utiliza una **Arquitectura basada en Features** y **Clean Architecture** en el frontend, separando claramente las responsabilidades.
+## 🏗️ Arquitectura Aplicada
 
-## 🚀 Tecnologías Principales
+La base del proyecto es una **Arquitectura Limpia (Clean Architecture)** adaptada al frontend, organizada por **Features** (módulos funcionales). Esta estructura garantiza una estricta separación de responsabilidades, facilitando el desarrollo, la depuración y las pruebas.
 
--   **Frontend Core**: React 18, Vite.
--   **Estilos**: Tailwind CSS con metodología **BEM** (vía `@apply`).
--   **UI Components**: Material Tailwind.
--   **Rutas**: React Router 6 (con Lazy Loading).
--   **Iconografía**: React Icons.
--   **API**: DummyJSON.
-
-## 🏗 Arquitectura del Sistema
-
-El proyecto sigue una estructura de directorios escalable:
+### Estructura de Directorios
 
 ```
 src/
-├── features/           # Módulos funcionales (Carrito, Productos, Checkout)
-├── components/         # Componentes UI compartidos
-├── context/            # Estado global (Theme)
-├── pages/              # Páginas principales (Layouts de features)
-├── routes/             # Configuración de navegación
-└── utils/              # Ayudantes puros
+├── features/           # Módulos de negocio (ej. Carrito, Productos, Checkout)
+│   ├── product/
+│   │   ├── application/  # Lógica y estado (Custom Hooks - Casos de Uso)
+│   │   ├── infrastructure/ # Conexión a servicios externos (API, localStorage)
+│   │   └── presentation/   # Componentes de React (UI pura)
+│   └── ...
+├── components/         # Componentes UI reutilizables y agnósticos al dominio
+├── context/            # Contextos globales de React (ej. Theme)
+├── pages/              # Ensamblaje de features para construir las vistas
+├── utils/              # Funciones de utilidad puras y genéricas
+└── index.css           # Estilos globales y clases BEM componibles
 ```
 
-Cada feature (`src/features/products`) se subdivide en capas:
+### Metodología de Estilos: BEM con `@apply` y Neumorfismo
 
--   **Presentation**: UI pura (Componentes React).
--   **Application**: Estado, Hooks y Casos de Uso.
--   **Infrastructure**: Comunicación con APIs externas.
+Para mantener el código JSX limpio y semántico, se ha adoptado la metodología **BEM (Block, Element, Modifier)**. Las clases de utilidad de Tailwind CSS se componen en `index.css` utilizando la directiva `@apply`.
 
-## 🛠 Instalación y Ejecución
+Además, se ha implementado un sistema de **Neumorfismo** para el diseño de componentes como las tarjetas de esqueleto (`SkeletonCard`). Este estilo se integra de manera nativa con el sistema de temas (claro/oscuro), asegurando que los fondos y los colores del texto se adapten automáticamente al tema seleccionado.
 
-1. **Clonar el repositorio**:
+**Ejemplo de implementación:**
 
+```jsx
+// CÓDIGO JSX: Limpio y declarativo
+<article className="product-card">
+    <div className="product-card__body">
+        <h3 className="product-card__title">Producto</h3>
+    </div>
+</article>
+```
+
+```css
+/* index.css: Centralización de la lógica de estilos */
+.product-card {
+    @apply neumo-card overflow-hidden; /* 'neumo-card' es otra clase BEM */
+}
+
+.product-card__body {
+    @apply p-5;
+}
+
+.product-card__title {
+    @apply font-normal text-base mb-2 truncate;
+}
+```
+
+Esta estrategia prohíbe el uso de largas cadenas de utilidades de Tailwind en los componentes, favoreciendo clases semánticas que describen el rol del elemento en la UI.
+
+## 🛠️ Instalación y Ejecución
+
+1.  **Clonar el repositorio**:
     ```bash
     git clone https://github.com/tu-usuario/myprojectapi12.git
     cd myprojectapi12
     ```
 
-2. **Instalar dependencias**:
-
+2.  **Instalar dependencias**: Se recomienda `pnpm` para una gestión eficiente de los paquetes.
     ```bash
-    pnpm install  # o npm install
+    pnpm install
     ```
 
-3. **Ejecutar en desarrollo**:
-
+3.  **Ejecutar en modo desarrollo**:
     ```bash
     pnpm dev
     ```
+    El servidor de desarrollo se iniciará en `http://localhost:5173` (o un puerto superior si está ocupado).
 
-4. **Construir para producción**:
+4.  **Construir para producción**:
     ```bash
     pnpm build
     ```
+    Los archivos optimizados se generarán en la carpeta `dist/`.
 
-## 🎨 Guía de Estilos (BEM)
+## ✅ Próximos Pasos (Roadmap)
 
-Hemos evitado el desorden de clases de utilidad en el JSX. Consulta [`doc/styles-guidelines.md`](doc/styles-guidelines.md) para ver las convenciones.
-
-Ejemplo:
-
-```jsx
-// ✅ Correcto (Clase semántica definida en index.css)
-<div className="product-card">...</div>
-
-// ❌ Incorrecto (Utility soup)
-<div className="w-full bg-white shadow-lg rounded-xl p-4...">...</div>
-```
-
-## 📚 Documentación Adicional
-
--   [Documentación Técnica Detallada (`DOCUMENTATION.md`)](DOCUMENTATION.md)
--   [Tutorial de Construcción (`tutorial_completo.md`)](tutorial_completo.md)
--   [Guía de Estilos (`doc/styles-guidelines.md`)](doc/styles-guidelines.md)
-
-## ✨ Roadmap
-
--   [x] Refactorización a Feature-Based Architecture.
--   [x] Migración de estilos inline a BEM.
--   [x] Optimización con Lazy Loading.
--   [ ] Implementar persistencia en localStorage para el carrito.
--   [ ] Añadir Tests Unitarios (Vitest).
+-   [ ] Implementar persistencia del estado del carrito en `localStorage`.
+-   [ ] Desarrollar un conjunto de tests unitarios y de integración con **Vitest**.
+-   [ ] Añadir un sistema de notificaciones de usuario más robusto.
 
 ---
 
-Desarrollado con ❤️ y Clean Code.
+*Este proyecto es un testimonio de cómo las prácticas de código limpio y una arquitectura sólida pueden transformar un desarrollo de software en un activo mantenible y escalable.*

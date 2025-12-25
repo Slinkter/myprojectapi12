@@ -103,6 +103,7 @@ sequenceDiagram
 | **Enrutamiento**  | React Router DOM             | Para la navegación y gestión de rutas en la Single Page Application (SPA).     |
 | **UI Components** | Material Tailwind            | Biblioteca de componentes de UI que combina Material Design con Tailwind CSS.  |
 | **Estilos**       | Tailwind CSS                 | Framework CSS de utilidad para un diseño rápido y personalizable.              |
+| **Diseño UI/UX**  | Neumorfismo                    | Sistema de diseño principal que define la estética de los componentes para un look & feel moderno y cohesivo. |
 | **Linting**       | ESLint                       | Para mantener la calidad y consistencia del código JavaScript.                 |
 | **API Externa**   | DummyJSON                    | API pública para obtener datos de productos de prueba.                         |
 

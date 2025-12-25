@@ -8,7 +8,7 @@
 | **RF-02** | **Detalle de Producto**  | El usuario debe poder ver la descripción completa de un producto. | Al hacer clic en "Ver más", se abre un modal con descripción y stock.     |
 | **RF-03** | **Gestión de Carrito**   | El sistema debe permitir añadir y quitar productos.               | El contador de items y el precio total deben actualizarse en tiempo real. |
 | **RF-04** | **Validación de Pago**   | El formulario de pago debe validar los inputs antes de procesar.  | Número de tarjeta 19 dígitos, fecha MM/YY válida, CVC numérico.           |
-| **RF-05** | **Tema Oscuro**          | El usuario puede alternar entre modo claro y oscuro.              | La preferencia persiste durante la sesión y cambia los colores base.      |
+| **RF-05** | **Tema Oscuro**          | El usuario puede alternar entre modo claro y oscuro.              | La preferencia persiste y cambia los colores base y el estilo de los componentes (ej. Neumorfismo).      |
 
 ## 2. Requerimientos No Funcionales (RNF)
 

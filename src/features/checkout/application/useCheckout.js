@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCardType, validateCardInfo } from "@/utils/validation";
+import { getCardType, validateCardInfo } from "./validation";
 
 const initialState = {
     paymentMethod: "visa",

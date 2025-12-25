@@ -42,7 +42,10 @@ En el `package.json` encontrarás:
 
 ### Estándares de Código
 
--   **Estilos:** No usar estilos inline ni CSS puro fuera de `index.css`. Usar clases BEM definidas via `@apply`.
+-   **Estilos:**
+    -   No usar estilos inline ni clases de utilidad de Tailwind directamente en el JSX.
+    -   Usar clases BEM definidas en `index.css` via `@apply`.
+    -   Para componentes tipo "tarjeta", utilizar la clase `.neumo-card` para mantener la consistencia visual del sistema de Neumorfismo.
 -   **Componentes:** Functional Components con Hooks.
 -   **Nombres:**
     -   Componentes: `PascalCase` (Ej: `ProductCard.jsx`).

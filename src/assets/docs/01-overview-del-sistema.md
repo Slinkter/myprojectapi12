@@ -29,6 +29,7 @@ El alcance actual del sistema (Versión MVP - Producto Mínimo Viable) incluye:
 | **Lenguaje**      | **JavaScript**        | ES6+    | Lógica del cliente.                                |
 | **Estilos**       | **Tailwind CSS**      | 3.x     | Framework de utilidades CSS.                       |
 | **Metodología**   | **BEM**               | -       | Convención de nombres para mantenibilidad CSS.     |
+| **Metodología**   | **Neumorfismo**       | -       | Sistema de diseño principal para la estética de la UI. |
 | **Routing**       | **React Router**      | 6.x     | Navegación SPA (Single Page Application).          |
 | **UI Components** | **Material Tailwind** | 2.x     | Componentes base accesibles.                       |
 | **Iconografía**   | **React Icons**       | 5.x     | Iconos vectoriales optimizados.                    |

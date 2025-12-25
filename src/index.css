@@ -122,14 +122,18 @@ body.dark {
 }
 
 /* Other component styles follow... */
-.home { @apply text-center; }
-.home__error-message { @apply text-center text-red-500; }
-.home__info-message { @apply text-center; }
-.home__title { @apply text-4xl font-light mb-2; }
-.home__subtitle { @apply text-lg font-light mb-8; }
-.home__load-more-container { @apply mt-8; }
-.home__load-more-button { @apply w-full md:w-96 mx-auto flex items-center justify-center py-3 px-6 transition-colors duration-300 rounded-lg; }
-.home__load-more-spinner { @apply h-5 w-5 animate-spin rounded-full border-b-2 border-[var(--neumo-accent)]; }
+.page-home { @apply text-center; }
+.page-home__header { @apply text-center mb-8; }
+.page-home__title { @apply text-4xl font-light mb-2; }
+.page-home__subtitle { @apply text-lg font-light mb-8; }
+.page-home__error-message { @apply text-center text-red-500; }
+.page-home__info-message { @apply text-center; }
+.page-home__load-more-container { @apply mt-8 text-center; }
+.page-home__load-more-button { 
+    @apply neumo-button w-full md:w-96 mx-auto flex items-center justify-center py-3 px-6 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed; 
+}
+.page-home__load-more-spinner { @apply h-5 w-5 animate-spin rounded-full border-b-2 border-t-transparent border-[var(--neumo-accent)]; }
+.page-home__pagination { @apply flex justify-center mt-8; }
 .product-modal__image { @apply h-96 w-full object-cover rounded-lg mb-4; }
 .product-modal__description { @apply font-normal; }
 .product-modal__price { @apply mt-4; }
@@ -137,11 +141,11 @@ body.dark {
 .product-modal__footer { @apply justify-between; }
 .product-modal__quantity-controls { @apply flex items-center; }
 .product-modal__quantity-value { @apply mx-4; }
-.layout { @apply min-h-screen; }
-.layout__container {
+.main-layout { @apply min-h-screen; }
+.main-layout__container {
     @apply container mx-auto px-4 py-8 pt-20;
 }
-.layout__controls { @apply fixed top-4 right-4 z-10 flex items-center space-x-4; }
+.main-layout__controls { @apply fixed top-4 right-4 z-10 flex items-center space-x-4; }
 .cart-icon__svg { @apply h-6 w-6; }
 .theme-switcher { @apply flex items-center justify-center p-3; }
 .theme-switcher__icon { @apply h-6 w-6; }

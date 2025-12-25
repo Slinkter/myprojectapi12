@@ -10,7 +10,7 @@ La aplicación simula un flujo de compra de principio a fin: desde la exploraci�
 
 ## 2. Beneficios Clave para el Negocio
 
-- **Experiencia de Usuario Superior:** La interfaz es rápida y receptiva, con un diseño limpio y moderno que facilita la navegación y reduce la fricción en el proceso de compra.
+- **Experiencia de Usuario Superior:** La interfaz es rápida y receptiva, con un diseño limpio y moderno basado en Neumorfismo que facilita la navegación y reduce la fricción en el proceso de compra.
 - **Base Escalable:** La arquitectura está diseñada para crecer. Añadir nuevas funcionalidades, productos o integraciones se puede hacer de manera eficiente y sin comprometer la estabilidad.
 - **Rápida Salida al Mercado (Time-to-Market):** Al ser un prototipo avanzado, acelera significativamente el desarrollo de una plataforma de e-commerce completa.
 - **Optimización para Conversión:** El flujo de checkout simplificado y validado en tiempo real está diseñado para minimizar el abandono del carrito y maximizar las ventas.

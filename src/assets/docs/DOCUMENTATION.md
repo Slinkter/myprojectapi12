@@ -72,7 +72,7 @@ src/
 
 Se decidió evitar el "soup de clases" típico de Tailwind en el JSX.
 
--   **Decisión**: Usar `@apply` en `index.css` definiendo clases semánticas BEM.
+-   **Decisión**: Usar `@apply` en `index.css` definiendo clases semánticas BEM. Adicionalmente, se aplica un diseño de Neumorfismo a través de la clase `.neumo-card` para asegurar una estética coherente y moderna.
 -   **Beneficio**: HTML limpio, semántico y estilos reutilizables.
 -   **Ejemplo**: `.product-card` en lugar de `w-full max-w-sm mx-auto bg-white...`.
 

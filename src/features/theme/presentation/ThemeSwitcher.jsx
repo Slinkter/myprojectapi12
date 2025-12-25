@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ThemeContext } from "@/context/ThemeContext";
+import { ThemeContext } from "@/features/theme/application/ThemeContext";
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 
 const ThemeSwitcher = () => {

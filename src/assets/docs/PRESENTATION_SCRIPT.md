@@ -102,7 +102,7 @@ graph LR
 | **Core Framework**| React 18                     | Construcción de la interfaz de usuario.                  |
 | **Build Tool**    | Vite                         | Desarrollo y empaquetado ultra rápido.                   |
 | **Enrutamiento**  | React Router DOM             | Navegación dentro de la Single Page Application (SPA).   |
-| **UI y Estilos**  | Tailwind CSS & Material Tailwind | Diseño rápido, personalizable y responsivo.              |
+| **UI y Estilos**  | Tailwind CSS, Material Tailwind & Neumorfismo | Diseño rápido con utilidades, componentes Material y estética Neumorfista. |
 | **Estado Global** | React Context                | Gestión de estado compartido (Carrito, Tema).            |
 | **Calidad Código**| ESLint                       | Mantenimiento de un código limpio y consistente.         |
 

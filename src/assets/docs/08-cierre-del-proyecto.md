@@ -7,7 +7,7 @@
 El proyecto **MyProjectAPI12** ha alcanzado con éxito su fase de MVP (Producto Mínimo Viable) con una arquitectura refactorizada y robusta.
 
 -   ✅ **Arquitectura:** Migración a Feature-Based completada.
--   ✅ **Estilos:** Sistema BEM + Tailwind implementado y documentado.
+-   ✅ **Estilos:** Sistema BEM + Tailwind y diseño Neumorfista implementado y documentado.
 -   ✅ **Funcionalidad:** Flujos de Catálogo, Carrito y Checkout operativos.
 -   ✅ **Documentación:** Set completo de guías técnicas generado (00-08).
 

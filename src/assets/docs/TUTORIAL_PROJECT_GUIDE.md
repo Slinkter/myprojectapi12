@@ -27,7 +27,7 @@ Antes de escribir una sola línea de React, necesitamos configurar nuestro entor
 - **Propósito:**
   - `tailwind.config.js`: Configura **Tailwind CSS**. Aquí podemos extender la paleta de colores, definir nuevas fuentes o añadir plugins.
   - `postcss.config.js`: PostCSS es una herramienta que transforma el CSS. Tailwind la usa bajo el capó. Generalmente, no necesitamos tocar este archivo.
-  - `src/index.css`: Es nuestro archivo CSS global. Aquí importamos los estilos de Tailwind y definimos nuestras propias clases globales o estilos base.
+  - `src/index.css`: Es nuestro archivo CSS global. Aquí importamos los estilos de Tailwind y definimos nuestras propias clases globales, incluyendo el sistema de diseño Neumorfista (`.neumo-card`).
 - **Justificación:** Este conjunto de archivos nos permite tener un sistema de diseño rápido, personalizable y mantenible.
 
 ### 4. Archivos de Calidad y Control: `.eslintrc.cjs`, `.eslintignore`, `.gitignore`

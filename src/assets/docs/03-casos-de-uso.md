@@ -14,7 +14,18 @@
 | **CU-03** | Agregar Producto al Carrito         | Usuario Visitante | Alta      |
 | **CU-04** | Gestionar Carrito (Eliminar/Vaciar) | Usuario Visitante | Media     |
 | **CU-05** | Realizar Checkout (Pago)            | Usuario Visitante | Alta      |
-| **CU-06** | Cambiar Tema (Oscuro/Claro)         | Usuario Visitante | Baja      |
+### CU-06: Cambiar Tema (Oscuro/Claro)
+
+**Descripción:** El usuario puede cambiar la apariencia visual de la aplicación entre un tema claro y uno oscuro.
+
+-   **Flujo Principal:**
+    1.  El usuario hace clic en el interruptor de tema.
+    2.  El sistema invoca `toggleTheme` en `ThemeContext`.
+    3.  El sistema aplica la clase `dark` al `<html>` y actualiza las variables CSS.
+    4.  La UI se repinta instantáneamente con el nuevo esquema de colores.
+-   **Regla de Negocio:**
+    -   El cambio de tema afecta los colores base y la apariencia de los componentes con estilo Neumorfista, como las tarjetas.
+-   **Postcondición:** La preferencia se guarda en `localStorage` para futuras visitas.
 
 ---
 

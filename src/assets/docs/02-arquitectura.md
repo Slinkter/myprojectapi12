@@ -55,6 +55,8 @@ Dentro de cada _Feature_, aplicamos una separación de responsabilidades estrict
 -   **Solución:** Usar `@apply` en archivos CSS para crear clases semánticas BEM (`.btn--danger`).
 -   **Resultado:** HTML limpio (`class="btn--danger"`) y la potencia de Tailwind mantenida.
 
+Adicionalmente, se ha implementado un sistema de **Neumorfismo** para unificar la apariencia de los componentes. Este enfoque garantiza una estética moderna y coherente, integrada con el sistema de temas (claro/oscuro) del proyecto.
+
 ### Lazy Loading en Rutas
 
 Se utiliza `React.lazy` y `Suspense` en el `AppRouter`.
