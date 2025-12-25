@@ -1,4 +1,3 @@
-import { Typography, Button } from "@material-tailwind/react";
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import { useProducts } from "@/features/products/application/useProducts";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
@@ -10,20 +9,12 @@ const Home = () => {
     return (
         <>
             <div className="home__header">
-                <Typography
-                    variant="h1"
-                    color="blue-gray"
-                    className="home__title"
-                >
+                <h1 className="home__title text-3xl font-bold">
                     Lista de Productos
-                </Typography>
-                <Typography
-                    variant="lead"
-                    color="blue-gray"
-                    className="home__subtitle"
-                >
+                </h1>
+                <p className="home__subtitle text-base">
                     React VITE + Tailwind CSS + DummyJSON API
-                </Typography>
+                </p>
             </div>
 
             {initialLoading && <SkeletonGrid />}
@@ -39,14 +30,14 @@ const Home = () => {
                     <ProductGrid products={products} />
                     <div className="home__pagination">
                         {hasMore && (
-                            <Button
-                                variant="outlined"
+                            <button
                                 onClick={loadMore}
                                 disabled={loading}
+                                className="neumo-button px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
                                 aria-label="Cargar más productos"
                             >
                                 {loading ? "Cargando..." : "Ver más"}
-                            </Button>
+                            </button>
                         )}
                         {!hasMore && <p>Has alcanzado el final de la lista.</p>}
                     </div>

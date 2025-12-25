@@ -3,23 +3,14 @@ import PropTypes from "prop-types";
 import ThemeSwitcher from "./ThemeSwitcher";
 import CartIcon from "@/features/cart/presentation/CartIcon";
 import { CartContext } from "@/features/cart/application/CartContext";
-import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children }) => {
-  //
   const { toggleCart } = useContext(CartContext);
-
-  function testing() {
-    console.log("testing");
-  }
-
-  useEffect(() => {
-    testing();
-    return () => {};
-  }, []);
 
   return (
     <div className="layout">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="layout__container">
         <div className="layout__controls">
           <ThemeSwitcher />

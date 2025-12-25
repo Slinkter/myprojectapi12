@@ -1,16 +1,13 @@
 import { createContext, useState, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
+import toast from "react-hot-toast";
 
 // 1. Crear el Contexto
-// Este es el objeto que los componentes consumirán para acceder al estado y las funciones del carrito.
 const CartContext = createContext();
 
 // 2. Crear el Componente Proveedor (Provider)
-// Este componente envolverá a las partes de la app que necesitan acceso al carrito.
 const CartProvider = ({ children }) => {
-    // Estado para almacenar los productos.
     const [cart, setCart] = useState([]);
-    // Estado para controlar la visibilidad del carrito (Drawer)
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     const openCart = useCallback(() => setIsCartOpen(true), []);
@@ -18,16 +15,8 @@ const CartProvider = ({ children }) => {
     const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), []);
 
     const addToCart = useCallback((product, quantity) => {
-        /**
-         * @param {object} product - El producto a añadir.
-         * @param {number} quantity - La cantidad del producto a añadir.
-         */
         setCart((prevCart) => {
-            // Busca si el producto ya está en el carrito.
-            const productInCart = prevCart.find(
-                (item) => item.id === product.id
-            );
-            // Si el producto ya existe, actualiza su cantidad.
+            const productInCart = prevCart.find((item) => item.id === product.id);
             if (productInCart) {
                 return prevCart.map((item) =>
                     item.id === product.id
@@ -35,34 +24,26 @@ const CartProvider = ({ children }) => {
                         : item
                 );
             }
-            // Si el producto es nuevo, lo añade al carrito.
             return [...prevCart, { ...product, quantity }];
         });
-        // Opcional: Abrir el carrito automáticamente al agregar producto (Experiencia Amazon)
+        toast.success("Producto añadido al carrito!");
         setIsCartOpen(true);
     }, []);
 
-    /**
-     * Elimina un producto del carrito por su ID.
-     * @param {string|number} productId - El ID del producto a eliminar.
-     */
     const removeFromCart = useCallback((productId) => {
         setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+        toast.error("Producto eliminado del carrito.");
     }, []);
 
-    /**
-     * Vacía completamente el carrito de compras.
-     */
     const clearCart = useCallback(() => {
         setCart([]);
+        toast.success("El carrito se ha vaciado.");
     }, []);
 
     const totalPrice = useMemo(() => {
         return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     }, [cart]);
 
-    // Memoizamos el valor del contexto para evitar re-renderizados innecesarios
-    // en los componentes consumidores. El objeto de valor solo se recalculará si 'cart' cambia.
     const propsValues = useMemo(
         () => ({
             cart,
@@ -97,7 +78,6 @@ const CartProvider = ({ children }) => {
 
 export { CartContext, CartProvider };
 
-// Validación de props para asegurar que el componente Provider siempre reciba sus hijos.
 CartProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };

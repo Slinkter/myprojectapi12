@@ -1,10 +1,3 @@
-import {
-    Button,
-    Card,
-    Radio,
-    Typography,
-    Input,
-} from "@material-tailwind/react";
 import { useCheckout } from "../application/useCheckout";
 
 const Checkout = () => {
@@ -18,125 +11,103 @@ const Checkout = () => {
         setPaymentMethod,
     } = useCheckout();
 
+    // The 'Pay Now' button is disabled if a card payment is selected and there are validation errors.
     const isPaymentDisabled =
-        paymentMethod !== "bitcoin" && Object.keys(errors).length > 0;
+        paymentMethod !== "bitcoin" &&
+        (Object.values(errors).some(e => e) ||
+            !cardInfo.number ||
+            !cardInfo.name ||
+            !cardInfo.expiry ||
+            !cardInfo.cvc);
 
     return (
         <div className="checkout-page">
-            <Card className="checkout-card">
-                <Typography
-                    variant="h4"
-                    color="blue-gray"
-                    className="checkout-card__title"
-                >
+            <div className="neumo-card checkout-card">
+                <h4 className="checkout-card__title text-2xl font-bold">
                     Choose a payment method
-                </Typography>
+                </h4>
                 <div className="checkout-card__payment-methods">
-                    <Radio
-                        id="visa"
-                        name="paymentMethod"
-                        label="Visa"
-                        checked={paymentMethod === "visa"}
-                        onChange={() => setPaymentMethod("visa")}
-                    />
-                    <Radio
-                        id="mastercard"
-                        name="paymentMethod"
-                        label="Mastercard"
-                        checked={paymentMethod === "mastercard"}
-                        onChange={() => setPaymentMethod("mastercard")}
-                    />
-                    <Radio
-                        id="bitcoin"
-                        name="paymentMethod"
-                        label="Bitcoin"
-                        checked={paymentMethod === "bitcoin"}
-                        onChange={() => setPaymentMethod("bitcoin")}
-                    />
+                    {/* Custom Radio Buttons */}
+                    <div className="flex items-center">
+                        <input id="visa" type="radio" name="paymentMethod" className="hidden" checked={paymentMethod === "visa"} onChange={() => setPaymentMethod("visa")} />
+                        <label htmlFor="visa" className={`neumo-button w-full text-center p-3 cursor-pointer ${paymentMethod === 'visa' ? 'neumo-button--pressed' : ''}`}>Visa</label>
+                    </div>
+                    <div className="flex items-center">
+                        <input id="mastercard" type="radio" name="paymentMethod" className="hidden" checked={paymentMethod === "mastercard"} onChange={() => setPaymentMethod("mastercard")} />
+                        <label htmlFor="mastercard" className={`neumo-button w-full text-center p-3 cursor-pointer ${paymentMethod === 'mastercard' ? 'neumo-button--pressed' : ''}`}>Mastercard</label>
+                    </div>
+                    <div className="flex items-center">
+                        <input id="bitcoin" type="radio" name="paymentMethod" className="hidden" checked={paymentMethod === "bitcoin"} onChange={() => setPaymentMethod("bitcoin")} />
+                        <label htmlFor="bitcoin" className={`neumo-button w-full text-center p-3 cursor-pointer ${paymentMethod === 'bitcoin' ? 'neumo-button--pressed' : ''}`}>Bitcoin</label>
+                    </div>
                 </div>
-                {(paymentMethod === "visa" ||
-                    paymentMethod === "mastercard") && (
+
+                {(paymentMethod === "visa" || paymentMethod === "mastercard") && (
                     <div className="checkout-card__form">
-                        <div>
-                            <Input
-                                label="Card Number"
+                        <div className="relative">
+                            <input
+                                placeholder="Card Number"
+                                className="neumo-input p-3"
                                 name="number"
                                 value={cardInfo.number}
                                 onChange={handleCardInfoChange}
                                 maxLength={19}
-                                error={!!errors.number}
-                                icon={
-                                    cardType === "visa" ? (
-                                        <i className="fab fa-cc-visa" />
-                                    ) : cardType === "mastercard" ? (
-                                        <i className="fab fa-cc-mastercard" />
-                                    ) : null
-                                }
                             />
+                            <i className={`absolute right-4 top-1/2 -translate-y-1/2 text-2xl ${cardType === "visa" ? "fab fa-cc-visa" : cardType === "mastercard" ? "fab fa-cc-mastercard" : ""}`} />
                             {errors.number && (
-                                <Typography color="red" variant="small">
-                                    {errors.number}
-                                </Typography>
+                                <p className="text-red-500 text-xs mt-1">{errors.number}</p>
                             )}
                         </div>
                         <div>
-                            <Input
-                                label="Cardholder Name"
+                            <input
+                                placeholder="Cardholder Name"
+                                className="neumo-input p-3"
                                 name="name"
                                 value={cardInfo.name}
                                 onChange={handleCardInfoChange}
-                                error={!!errors.name}
                             />
                             {errors.name && (
-                                <Typography color="red" variant="small">
-                                    {errors.name}
-                                </Typography>
+                                <p className="text-red-500 text-xs mt-1">{errors.name}</p>
                             )}
                         </div>
                         <div className="checkout-card__form-row">
                             <div className="checkout-card__form-col--half">
-                                <Input
-                                    label="Expiry (MM/YY)"
+                                <input
+                                    placeholder="Expiry (MM/YY)"
+                                    className="neumo-input p-3"
                                     name="expiry"
                                     value={cardInfo.expiry}
                                     onChange={handleCardInfoChange}
                                     maxLength={5}
-                                    error={!!errors.expiry}
                                 />
                                 {errors.expiry && (
-                                    <Typography color="red" variant="small">
-                                        {errors.expiry}
-                                    </Typography>
+                                    <p className="text-red-500 text-xs mt-1">{errors.expiry}</p>
                                 )}
                             </div>
                             <div className="checkout-card__form-col--half">
-                                <Input
-                                    label="CVC"
+                                <input
+                                    placeholder="CVC"
+                                    className="neumo-input p-3"
                                     name="cvc"
                                     value={cardInfo.cvc}
                                     onChange={handleCardInfoChange}
                                     maxLength={4}
-                                    error={!!errors.cvc}
                                 />
                                 {errors.cvc && (
-                                    <Typography color="red" variant="small">
-                                        {errors.cvc}
-                                    </Typography>
+                                    <p className="text-red-500 text-xs mt-1">{errors.cvc}</p>
                                 )}
                             </div>
                         </div>
                     </div>
                 )}
-                <Button
+                <button
                     onClick={handlePayment}
-                    variant="gradient"
-                    color="green"
-                    className="checkout-card__pay-button"
+                    className="neumo-button checkout-card__pay-button bg-green-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={isPaymentDisabled}
                 >
                     Pay Now
-                </Button>
-            </Card>
+                </button>
+            </div>
         </div>
     );
 };

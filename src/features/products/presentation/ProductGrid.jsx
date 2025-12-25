@@ -1,13 +1,39 @@
 import Product from "./Product";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 
 const ProductGrid = ({ products }) => {
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+        },
+    };
+
     return (
-        <div className="product-grid">
+        <motion.div
+            className="product-grid"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
             {products.map((product) => (
-                <Product key={product.id} product={product} />
+                <motion.div key={product.id} variants={itemVariants}>
+                    <Product product={product} />
+                </motion.div>
             ))}
-        </div>
+        </motion.div>
     );
 };
 

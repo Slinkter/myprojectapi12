@@ -1,84 +1,49 @@
 import React, { useState } from "react";
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    Typography,
-} from "@material-tailwind/react";
 import PropTypes from "prop-types";
 import ProductDetailModal from "./ProductDetailModal";
 
-/**
- * A component that displays a single product.
- * @param {object} props - The props for the component.
- * @param {object} props.product - The product to display.
- * @returns {JSX.Element}
- */
 const Product = React.memo(({ product }) => {
-    /*  */
     const [open, setOpen] = useState(false);
-
-    /*  */
     const handleOpen = () => setOpen(!open);
 
     return (
         <>
-            <Card className="product-card">
-                <CardHeader
-                    className="product-card__header"
-                    shadow={false}
-                    floated={false}
-                >
+            <div className="neumo-card transition-transform duration-300 hover:scale-105">
+                <div className="h-56">
                     <img
-                        className="product-card__image"
+                        className="h-full w-full object-cover rounded-t-xl"
                         src={product?.thumbnail}
                         alt={product?.title}
                     />
-                </CardHeader>
-                <CardBody className="product-card__body">
-                    <Typography
-                        variant="h5"
-                        color="blue-gray"
-                        className="product-card__title"
-                    >
+                </div>
+                <div className="p-4">
+                    <h5 className="font-bold text-lg mb-2 truncate">
                         {product?.title}
-                    </Typography>
-                    <Typography
-                        variant="small"
-                        color="gray"
-                        className="product-card__description"
-                    >
+                    </h5>
+                    <p className="font-normal text-sm text-gray-600 dark:text-gray-400 truncate h-5">
                         {product?.description}
-                    </Typography>
-                </CardBody>
-                <CardFooter className="product-card__footer">
-                    <div className="product-card__footer-content">
-                        <Typography
-                            color="blue-gray"
-                            className="product-card__price"
-                        >
+                    </p>
+                </div>
+                <div className="p-4 border-t border-[var(--neumo-shadow-dark)] dark:border-[var(--neumo-shadow-dark-mode-dark)]">
+                    <div className="flex justify-between items-center">
+                        <p className="font-bold text-lg">
                             $ {product?.price}
-                        </Typography>
+                        </p>
                         {product.stock > 0 ? (
                             <button
                                 onClick={handleOpen}
-                                className="product-card__details-button"
+                                className="neumo-button px-4 py-2 text-sm text-[var(--neumo-accent)]"
                             >
                                 Details
                             </button>
                         ) : (
-                            <Typography
-                                color="red"
-                                className="product-card__out-of-stock"
-                            >
+                            <p className="font-semibold text-red-500">
                                 Out of stock
-                            </Typography>
+                            </p>
                         )}
                     </div>
-                </CardFooter>
-            </Card>
-            {/* MODAL DETALLES PRODUCTO */}
+                </div>
+            </div>
             {product.stock > 0 && (
                 <ProductDetailModal
                     product={product}

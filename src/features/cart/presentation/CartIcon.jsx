@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { IconButton, Badge } from "@material-tailwind/react";
 import { CartContext } from "@/features/cart/application/CartContext";
 import PropTypes from "prop-types";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
@@ -9,11 +8,14 @@ const CartIcon = ({ onClick }) => {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <Badge content={totalItems > 0 ? totalItems : null} withBorder>
-      <IconButton onClick={onClick}>
-        <HiOutlineShoppingCart className="cart-icon__svg h-5 w-5" />
-      </IconButton>
-    </Badge>
+    <button onClick={onClick} className="neumo-button p-3 relative">
+      <HiOutlineShoppingCart className="cart-icon__svg" />
+      {totalItems > 0 && (
+        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--neumo-accent)] text-xs font-bold text-white">
+          {totalItems}
+        </span>
+      )}
+    </button>
   );
 };
 
