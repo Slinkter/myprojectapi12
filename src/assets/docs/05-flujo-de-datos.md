@@ -63,8 +63,8 @@ El flujo de datos sigue el patrón **Unidireccional** de React.
 flowchart TD
     API[API Externa]
     Infrastructure[Layer: Infrastructure]
-    Application[Layer: Application (Hooks)]
-    Context[Global Store (Context)]
+    Application["Layer: Application (Hooks)"]
+    Context["Global Store (Context)"]
     UI[Layer: Presentation]
 
     %% Fetching Data

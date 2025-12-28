@@ -64,6 +64,14 @@ Además, se ha implementado un sistema de **Neumorfismo** para el diseño de com
 
 Esta estrategia prohíbe el uso de largas cadenas de utilidades de Tailwind en los componentes, favoreciendo clases semánticas que describen el rol del elemento en la UI.
 
+## 📄 Documentación
+
+Para una comprensión más profunda del proyecto, consulta los siguientes documentos:
+
+-   **[Guía de Estilos (`styles-guidelines.md`)]**: Normas y convenciones para CSS, BEM y Neumorfismo.
+-   **[Arquitectura del Sistema (`02-arquitectura.md`)]**: Detalles sobre la arquitectura por features y la separación de capas.
+-   **[Glosario Técnico (`GLOSARIO_TECNICO.md`)]**: Un diccionario con la definición de los principales términos y tecnologías usadas.
+
 ## 🛠️ Instalación y Ejecución
 
 1.  **Clonar el repositorio**:

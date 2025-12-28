@@ -67,6 +67,18 @@ Se utiliza `React.lazy` y `Suspense` en el `AppRouter`.
 
 ```mermaid
 classDiagram
+    %% Component Definitions
+    class AppRouter
+    class Home
+    class Checkout
+    class ProductGrid
+    class ProductCard
+    class ProductDetailModal
+    class Layout
+    class CartIcon
+    class CartDrawer
+    class useProducts
+
     %% Relaciones de Componentes
     AppRouter --> Home : Renderiza
     AppRouter --> Checkout : Lazy Load

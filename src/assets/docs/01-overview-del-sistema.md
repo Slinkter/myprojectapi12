@@ -47,7 +47,7 @@ El sistema sigue una **Arquitectura Híbrida** que combina:
 graph TD
     subgraph "Cliente (Navegador)"
         UI[Interfaz de Usuario React]
-        Store[Context API (Estado Global)]
+        Store["Context API (Estado Global)"]
         Router[React Router DOM]
     end
 
@@ -57,8 +57,8 @@ graph TD
 
     UI --> Store
     UI --> Router
-    Store --> API : Fetch Data
-    Router --> UI : Render Page
+    Store -->|Fetch Data| API
+    Router -->|Render Page| UI
 ```
 
 ## 5. Flujo Principal de la Aplicación
