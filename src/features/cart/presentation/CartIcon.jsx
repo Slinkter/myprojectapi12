@@ -3,19 +3,19 @@ import { CartContext } from "@/features/cart/application/CartContext";
 import PropTypes from "prop-types";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 
-const CartIcon = ({ onClick }) => {
+const CartIcon = () => {
   const { cart } = useContext(CartContext);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <button onClick={onClick} className="neumo-button p-3 relative">
-      <HiOutlineShoppingCart className="cart-icon__svg" />
+    <div className="relative inline-flex items-center justify-center">
+      <HiOutlineShoppingCart className="h-6 w-6" />
       {totalItems > 0 && (
-        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--neumo-accent)] text-xs font-bold text-white">
+        <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm ring-2 ring-white dark:ring-gray-900">
           {totalItems}
         </span>
       )}
-    </button>
+    </div>
   );
 };
 

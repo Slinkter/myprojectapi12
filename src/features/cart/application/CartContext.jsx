@@ -2,10 +2,10 @@ import { createContext, useState, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 
-// 1. Crear el Contexto
+// 1. Create the Context
 const CartContext = createContext();
 
-// 2. Crear el Componente Proveedor (Provider)
+// 2. Create the Provider Component
 const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -26,18 +26,18 @@ const CartProvider = ({ children }) => {
             }
             return [...prevCart, { ...product, quantity }];
         });
-        toast.success("Producto añadido al carrito!");
+        toast.success("Product added to cart!");
         setIsCartOpen(true);
     }, []);
 
     const removeFromCart = useCallback((productId) => {
         setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-        toast.error("Producto eliminado del carrito.");
+        toast.error("Product removed from cart.");
     }, []);
 
     const clearCart = useCallback(() => {
         setCart([]);
-        toast.success("El carrito se ha vaciado.");
+        toast.success("The cart has been emptied.");
     }, []);
 
     const totalPrice = useMemo(() => {
