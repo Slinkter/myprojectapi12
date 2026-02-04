@@ -1,9 +1,4 @@
-/**
- * @file ThemeContext
- * @architecture Global state for light/dark theme with localStorage persistence
- * @side-effects localStorage read/write, DOM class manipulation (dark mode)
- * @perf Initial theme read happens once at mount, no re-renders on toggle
- */
+
 import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -32,10 +27,9 @@ const initState = {
 };
 
 /**
- * Theme context for managing application-wide theme state.
+
  * Provides theme value ('light' or 'dark') and toggle function.
- * 
- * @type {React.Context<{theme: string, toggleTheme: Function}>}
+ * @type {Context<{theme: string, toggleTheme: Function}>}
  */
 const ThemeContext = createContext();
 

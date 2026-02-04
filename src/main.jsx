@@ -1,8 +1,12 @@
 /**
- * @file main
- * @architecture Application entry point - sets up providers and renders root
- * @side-effects DOM manipulation (ReactDOM.render), initializes React Query cache
- * @perf StrictMode enabled for development checks
+ * @file main.jsx
+ * @description Entry point of the React application.
+ *   It sets up essential providers like QueryClientProvider, BrowserRouter, ThemeProvider, and CartProvider,
+ *   and renders the root `App` component within `React.StrictMode` for development checks.
+ * @architecture Responsible for initializing the global context and routing necessary for the application to function.
+ * @sideeffects Performs DOM manipulation via `ReactDOM.createRoot().render()`, and initializes the React Query client cache.
+ * @perf Enables `React.StrictMode` to help identify potential problems in the application during development.
+ * @returns {void} This file does not export anything; it renders the React application directly to the DOM.
  */
 import React from "react";
 import ReactDOM from "react-dom/client";

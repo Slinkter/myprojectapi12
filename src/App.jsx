@@ -1,8 +1,10 @@
 /**
- * @file App
- * @architecture Root component - wraps entire app with ErrorBoundary, Layout, and Router
- * @side-effects None - pure composition
- * @perf No optimization needed - renders once
+ * @file App.jsx
+ * @component
+ * @description Root component of the application.
+ *   It sets up the main layout, error boundaries, cart display, and application routing.
+ * @architecture Wraps the entire application with ErrorBoundary, Layout, and AppRouter for core structure.
+ * @returns {JSX.Element} The main application layout with integrated features.
  */
 import Layout from "@/components/common/Layout";
 import Cart from "@/features/cart/presentation/Cart";
