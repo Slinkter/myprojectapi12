@@ -1,3 +1,9 @@
+/**
+ * @file Layout
+ * @architecture Presentation layer - main layout wrapper with navbar and toast notifications
+ * @side-effects DOM scroll event listener, toast notifications
+ * @perf useEffect cleanup prevents memory leaks, scroll listener throttled by browser
+ */
 import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -24,8 +30,8 @@ const Layout = ({ children }) => {
 
       <nav
         className={`sticky top-0 z-30 w-full px-3 py-2 sm:px-4 sm:py-3 lg:px-8 lg:py-4 border-b transition-all duration-300 ${scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-md dark:bg-gray-900/90 border-gray-200 dark:border-gray-800"
-          : "bg-transparent shadow-none border-transparent"
+            ? "bg-white/90 backdrop-blur-md shadow-md dark:bg-gray-900/90 border-gray-200 dark:border-gray-800"
+            : "bg-transparent shadow-none border-transparent"
           }`}
         role="navigation"
         aria-label="Main navigation"

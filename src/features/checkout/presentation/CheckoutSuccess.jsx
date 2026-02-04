@@ -1,3 +1,9 @@
+/**
+ * @file CheckoutSuccess
+ * @architecture Presentation layer - success page after payment
+ * @side-effects None - pure UI component
+ * @perf No optimization needed - static page
+ */
 import { Link } from "react-router-dom";
 
 const CheckoutSuccess = () => {

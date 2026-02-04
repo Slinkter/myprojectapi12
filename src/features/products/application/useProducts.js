@@ -1,3 +1,9 @@
+/**
+ * @file useProducts
+ * @architecture Application layer hook - manages product fetching with infinite scroll
+ * @side-effects Network calls via React Query, global cache updates
+ * @perf React Query handles memoization, deduplication, and background refetching
+ */
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getProducts } from '../infrastructure/productsApi';
 

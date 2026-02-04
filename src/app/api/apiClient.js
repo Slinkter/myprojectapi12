@@ -1,3 +1,9 @@
+/**
+ * @file apiClient
+ * @architecture Core HTTP client - used by all infrastructure layer API calls
+ * @side-effects Network requests to external API (DummyJSON)
+ * @perf No memoization needed - stateless utility function
+ */
 import { config } from "@/app/config/env";
 
 const BASE_URL = config.api.baseUrl;

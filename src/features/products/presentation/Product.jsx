@@ -1,3 +1,9 @@
+/**
+ * @file Product
+ * @architecture Presentation layer - individual product card with modal trigger
+ * @side-effects Opens modal via context when "Add to Cart" clicked
+ * @perf React.memo prevents re-renders when props unchanged
+ */
 import React from "react";
 import PropTypes from "prop-types";
 import { useProductModalContext } from "../application/ProductModalContext";
@@ -65,10 +71,10 @@ Product.displayName = "Product";
 Product.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    description: PropTypes.string,
     price: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string,
     stock: PropTypes.number.isRequired,
   }).isRequired,
 };

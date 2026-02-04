@@ -1,3 +1,9 @@
+/**
+ * @file CartIcon
+ * @architecture Presentation layer - cart icon with item count badge
+ * @side-effects None - reads from context
+ * @perf Badge only renders when totalItems > 0
+ */
 import { useContext } from "react";
 import { CartContext } from "@/features/cart/application/CartContext";
 import PropTypes from "prop-types";

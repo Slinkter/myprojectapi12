@@ -1,3 +1,9 @@
+/**
+ * @file main
+ * @architecture Application entry point - sets up providers and renders root
+ * @side-effects DOM manipulation (ReactDOM.render), initializes React Query cache
+ * @perf StrictMode enabled for development checks
+ */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";

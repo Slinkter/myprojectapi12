@@ -1,3 +1,9 @@
+/**
+ * @file SkeletonGrid
+ * @architecture Presentation layer - grid of 8 skeleton cards for loading state
+ * @side-effects None - pure UI component
+ * @perf Static array generation (no re-renders)
+ */
 import SkeletonCard from "./SkeletonCard";
 
 const SkeletonGrid = () => {

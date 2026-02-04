@@ -1,3 +1,9 @@
+/**
+ * @file AppRouter
+ * @architecture Routing layer - lazy loads pages for code splitting
+ * @side-effects Dynamic imports trigger network requests for chunks
+ * @perf Lazy loading reduces initial bundle, Suspense prevents waterfalls
+ */
 import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 

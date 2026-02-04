@@ -1,3 +1,9 @@
+/**
+ * @file ProductDetailModal
+ * @architecture Presentation layer - modal for product details and quantity selection
+ * @side-effects Adds to cart via context, resets quantity on modal open
+ * @perf useEffect with [open] dependency ensures quantity resets only when modal opens
+ */
 import { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { CartContext } from "@/features/cart/application/CartContext";

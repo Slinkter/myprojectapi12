@@ -1,3 +1,9 @@
+/**
+ * @file ProductModalContext
+ * @architecture Application layer - manages product detail modal state
+ * @side-effects None - delegates to useProductModal hook
+ * @perf Context prevents prop drilling for modal state
+ */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext } from "react";
 import PropTypes from "prop-types";

@@ -1,3 +1,9 @@
+/**
+ * @file ErrorFallback
+ * @architecture Presentation layer - error UI displayed by ErrorBoundary
+ * @side-effects Page reload on "Go to Home" button
+ * @perf No optimization needed - only renders on error
+ */
 import PropTypes from 'prop-types';
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
 

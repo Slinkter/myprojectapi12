@@ -1,3 +1,9 @@
+/**
+ * @file Home
+ * @architecture Page layer - main product listing page with infinite scroll
+ * @side-effects Network calls via useProducts hook, modal state via context
+ * @perf ProductModalProvider wraps only this page to scope modal state
+ */
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import { useProducts } from "@/features/products/application/useProducts";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";

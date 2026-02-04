@@ -1,3 +1,9 @@
+/**
+ * @file useCheckout
+ * @architecture Application layer hook - manages checkout form state with useReducer
+ * @side-effects Navigation to success page, real-time validation via useEffect
+ * @perf useReducer for complex state, useEffect validates on every cardInfo change
+ */
 import { useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCardType, validateCardInfo } from "./validation";

@@ -1,3 +1,9 @@
+/**
+ * @file ErrorBoundary
+ * @architecture Error handling layer - catches React errors in component tree
+ * @side-effects Console logging in dev mode, error state management
+ * @perf Class component required for error boundaries (React limitation)
+ */
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ErrorFallback from './ErrorFallback';

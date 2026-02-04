@@ -1,3 +1,9 @@
+/**
+ * @file CartContext
+ * @architecture Global state management for shopping cart using React Context API
+ * @side-effects Toast notifications, localStorage sync (future), DOM updates via context consumers
+ * @perf useMemo for totalPrice, useCallback for all cart operations to prevent re-renders
+ */
 import { createContext, useState, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";

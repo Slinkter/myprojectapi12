@@ -1,3 +1,9 @@
+/**
+ * @file ThemeSwitcher
+ * @architecture Presentation layer - theme toggle button
+ * @side-effects Triggers theme change via context (localStorage + DOM)
+ * @perf No optimization needed - simple button component
+ */
 import { useContext } from "react";
 import { ThemeContext } from "@/features/theme/application/ThemeContext";
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";

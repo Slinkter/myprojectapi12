@@ -1,3 +1,9 @@
+/**
+ * @file Checkout
+ * @architecture Presentation layer - payment form with card validation
+ * @side-effects Form validation, payment method selection, navigation to success page
+ * @perf Validation runs on every input change via useCheckout hook
+ */
 import { useCheckout } from "../application/useCheckout";
 
 const Checkout = () => {

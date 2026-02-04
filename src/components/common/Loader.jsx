@@ -1,3 +1,9 @@
+/**
+ * @file Loader
+ * @architecture Presentation layer - loading spinner component
+ * @side-effects None - pure UI component
+ * @perf CSS animation via Tailwind (GPU-accelerated)
+ */
 const Loader = () => {
     return (
         <div className="loader">

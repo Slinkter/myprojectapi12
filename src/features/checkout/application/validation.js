@@ -1,4 +1,11 @@
 /**
+ * @file validation
+ * @architecture Business logic layer - card validation utilities (Luhn algorithm)
+ * @side-effects None - pure functions
+ * @perf Luhn algorithm runs in O(n) where n is card number length
+ */
+
+/**
  * Determines the type of credit card from its number.
  * @param {string} cardNumber - The card number.
  * @returns {string} 'visa', 'mastercard', or ''.

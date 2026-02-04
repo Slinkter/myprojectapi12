@@ -1,3 +1,9 @@
+/**
+ * @file useProductModal
+ * @architecture Application layer hook - manages modal open/close state and selected product
+ * @side-effects None - pure state management
+ * @perf useCallback prevents function recreation on every render
+ */
 import { useState, useCallback } from "react";
 
 /**

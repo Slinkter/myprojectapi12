@@ -1,3 +1,9 @@
+/**
+ * @file productsApi
+ * @architecture Infrastructure layer - API calls for products
+ * @side-effects Network requests to DummyJSON API
+ * @perf Pagination with 20 items per page to reduce payload size
+ */
 import { apiClient } from "@/app/api/apiClient";
 
 const LIMIT = 20;

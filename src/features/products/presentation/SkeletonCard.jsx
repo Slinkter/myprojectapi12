@@ -1,3 +1,9 @@
+/**
+ * @file SkeletonCard
+ * @architecture Presentation layer - loading placeholder for product cards
+ * @side-effects None - pure UI component
+ * @perf CSS animation (pulse) via Tailwind
+ */
 const SkeletonCard = () => {
     return (
         <div className="neumo-card w-full h-full flex flex-col animate-pulse">

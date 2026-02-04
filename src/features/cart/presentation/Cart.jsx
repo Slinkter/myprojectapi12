@@ -1,3 +1,9 @@
+/**
+ * @file Cart
+ * @architecture Presentation layer - shopping cart drawer/sidebar
+ * @side-effects Navigation to checkout, cart mutations via context
+ * @perf No optimization needed - renders only when cart opens
+ */
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose, IoMdTrash } from "react-icons/io";

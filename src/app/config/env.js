@@ -1,4 +1,11 @@
 /**
+ * @file env
+ * @architecture Configuration layer - centralizes environment variables
+ * @side-effects Reads from import.meta.env at module load time
+ * @perf No optimization needed - static config object
+ */
+
+/**
  * Application configuration.
  * Centralizes environment variables and configuration constants.
  */

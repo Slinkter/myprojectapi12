@@ -1,3 +1,9 @@
+/**
+ * @file queryClient
+ * @architecture React Query configuration - global cache and refetch settings
+ * @side-effects Creates singleton QueryClient instance
+ * @perf Configured with 5min staleTime, 30min gcTime for optimal caching
+ */
 import { QueryClient } from '@tanstack/react-query';
 
 /**
