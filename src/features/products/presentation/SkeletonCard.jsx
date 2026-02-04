@@ -1,22 +1,33 @@
-import { Card, CardBody, CardFooter, CardHeader } from "@material-tailwind/react";
-
 const SkeletonCard = () => {
     return (
-        <Card className="w-full max-w-sm mx-auto neumo-card">
-            <CardHeader shadow={false} floated={false} className="h-56 rounded-t-xl overflow-hidden">
-                <div className="h-full w-full bg-[var(--neumo-shadow-light)] dark:bg-[var(--neumo-shadow-dark-mode-dark)] animate-pulse"></div>
-            </CardHeader>
-            <CardBody className="p-4">
-                <div className="h-6 w-3/4 mb-2 bg-[var(--neumo-shadow-light)] dark:bg-[var(--neumo-shadow-dark-mode-dark)] animate-pulse rounded"></div>
-                <div className="h-4 w-full bg-[var(--neumo-shadow-light)] dark:bg-[var(--neumo-shadow-dark-mode-dark)] animate-pulse rounded"></div>
-            </CardBody>
-            <CardFooter className="p-4">
-                <div className="flex justify-between items-center">
-                    <div className="h-6 w-1/4 bg-[var(--neumo-shadow-light)] dark:bg-[var(--neumo-shadow-dark-mode-dark)] animate-pulse rounded"></div>
-                    <div className="h-8 w-1/4 bg-[var(--neumo-shadow-light)] dark:bg-[var(--neumo-shadow-dark-mode-dark)] animate-pulse rounded"></div>
+        <div className="neumo-card w-full h-full flex flex-col animate-pulse">
+            {/* Image Skeleton */}
+            <div className="h-56 bg-gray-200 dark:bg-gray-700 rounded-t-2xl"></div>
+
+            {/* Body Skeleton */}
+            <div className="p-5 flex-grow flex flex-col">
+                {/* Title Skeleton */}
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-3 w-3/4"></div>
+
+                {/* Description Skeleton */}
+                <div className="space-y-2 mb-4">
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/6"></div>
                 </div>
-            </CardFooter>
-        </Card>
+
+                {/* Price/Stock Skeleton */}
+                <div className="mt-auto flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
+                    <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
+                </div>
+            </div>
+
+            {/* Button Skeleton */}
+            <div className="p-5 pt-0">
+                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+            </div>
+        </div>
     );
 };
 

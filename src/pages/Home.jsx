@@ -10,11 +10,11 @@ const HomeContent = () => {
 
     return (
         <div className="page-home">
-            <div className="page-home__header">
-                <h1 className="page-home__title text-3xl font-bold">
+            <div className="page-home__header px-4 sm:px-0">
+                <h1 className="page-home__title text-2xl sm:text-3xl lg:text-4xl font-bold">
                     Product List
                 </h1>
-                <p className="page-home__subtitle text-base">
+                <p className="page-home__subtitle text-sm sm:text-base text-gray-600 dark:text-gray-400">
                     React VITE + Tailwind CSS + DummyJSON API
                 </p>
             </div>
@@ -35,11 +35,14 @@ const HomeContent = () => {
                             <button
                                 onClick={loadMore}
                                 disabled={loading}
-                                className="page-home__load-more-button"
+                                className="page-home__load-more-button flex items-center justify-center gap-2"
                                 aria-label="Load more products"
                             >
                                 {loading ? (
-                                    <span className="page-home__load-more-spinner" />
+                                    <>
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                        <span>Loading...</span>
+                                    </>
                                 ) : (
                                     "Load More"
                                 )}

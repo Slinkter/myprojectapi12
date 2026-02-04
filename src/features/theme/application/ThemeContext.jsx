@@ -1,6 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Initial state configuration for theme.
+ * Checks localStorage first, then system preference, defaults to 'light'.
+ * 
+ * @type {Object}
+ * @property {Function} state - Function that returns the initial theme value
+ */
 const initState = {
   state: () => {
     const storedTheme = localStorage.getItem("theme");
@@ -18,33 +25,61 @@ const initState = {
   },
 };
 
-// 1. Crear el Contexto
+/**
+ * Theme context for managing application-wide theme state.
+ * Provides theme value ('light' or 'dark') and toggle function.
+ * 
+ * @type {React.Context<{theme: string, toggleTheme: Function}>}
+ */
 const ThemeContext = createContext();
-// 2. Crear el Componente Proveedor (Provider)
+
+/**
+ * Theme provider component that manages theme state and persistence.
+ * 
+ * Features:
+ * - Reads initial theme from localStorage or system preference
+ * - Applies 'dark' class to document.documentElement when dark mode is active
+ * - Persists theme preference to localStorage
+ * - Provides toggleTheme function to switch between light/dark modes
+ * 
+ * @component
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - Child components that will have access to theme context
+ * @returns {JSX.Element} Provider component wrapping children
+ * 
+ * @example
+ * <ThemeProvider>
+ *   <App />
+ * </ThemeProvider>
+ */
 const ThemeProvider = ({ children }) => {
-  // 3. Pregunta el theme en localstorage,ejecuta initState.state
+  // Initialize theme from localStorage or system preference
   const [theme, setTheme] = useState(initState.state);
-  // 4. Usar useEffect para aplicar cambios cuando el tema se actualiza.
+
+  /**
+   * Effect that applies theme changes to the DOM and persists to localStorage.
+   * Runs whenever the theme state changes.
+   */
   useEffect(() => {
-    // Este efecto se ejecuta cada vez que el valor de 'theme' cambia.
     if (theme === "dark") {
-      // Si el tema es oscuro, añade la clase 'dark' al elemento <html>.
+      // Add 'dark' class to <html> element for dark mode
       document.documentElement.classList.add("dark");
     } else {
-      // Si no, remueve la clase 'dark'.
+      // Remove 'dark' class for light mode
       document.documentElement.classList.remove("dark");
     }
-    // Guarda la preferencia actual del tema en el almacenamiento local para futuras visitas.
+    // Persist theme preference for future visits
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // 5. Crear una función para cambiar el tema.
-  // Actualiza el estado del tema al valor opuesto del actual.
+  /**
+   * Toggles between light and dark theme.
+   * Updates state which triggers useEffect to apply changes.
+   */
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
-  // 6. Proveer el estado del tema y la función para cambiarlo a los componentes hijos.
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
@@ -54,7 +89,6 @@ const ThemeProvider = ({ children }) => {
 
 export { ThemeContext, ThemeProvider };
 
-// Define los tipos de las props para el componente ThemeProvider.
 ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

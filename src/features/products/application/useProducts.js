@@ -1,82 +1,51 @@
-import { useState, useEffect, useCallback } from "react";
-import { getProducts } from "../infrastructure/productsApi";
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getProducts } from '../infrastructure/productsApi';
 
 /**
- * Custom hook to manage fetching and paginating products.
+ * Custom hook to manage fetching and paginating products using React Query.
+ * Provides automatic caching, request deduplication, and optimized refetching.
  * @returns {{
  *  products: Array<Object>,
  *  error: string | null,
  *  loading: boolean,
  *  initialLoading: boolean,
  *  hasMore: boolean,
- *  loadMore: () => void
+ *  loadMore: () => void,
+ *  isLoadingMore: boolean
  * }}
  */
 export const useProducts = () => {
-  const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [hasMore, setHasMore] = useState(true);
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: ['products'],
+    queryFn: ({ pageParam = 1 }) => getProducts(pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      const totalFetched = allPages.reduce(
+        (acc, page) => acc + page.products.length,
+        0
+      );
+      return totalFetched < lastPage.total ? allPages.length + 1 : undefined;
+    },
+    initialPageParam: 1,
+  });
 
-  useEffect(() => {
-    let didCancel = false;
-
-    const fetchProducts = async () => {
-      if (!hasMore && page > 1) return; // Don't fetch if no more, unless it's initial load where hasMore starts true
-
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await getProducts(page);
-
-        if (!didCancel) {
-          setProducts((prevProducts) => {
-            const existingIds = new Set(prevProducts.map((p) => p.id));
-            const newProducts = data.products.filter(
-              (p) => !existingIds.has(p.id)
-            );
-
-            const allProducts = [...prevProducts, ...newProducts];
-
-            if (allProducts.length >= data.total) {
-              setHasMore(false);
-            }
-
-            return allProducts;
-          });
-        }
-      } catch (err) {
-        if (!didCancel) {
-          setError(err.message || "An unexpected error occurred");
-        }
-      } finally {
-        if (!didCancel) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchProducts();
-
-    return () => {
-      didCancel = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
-
-  const loadMore = useCallback(() => {
-    if (hasMore && !loading) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  }, [hasMore, loading]);
+  // Flatten all pages into a single array of products
+  const products = data?.pages.flatMap((page) => page.products) ?? [];
 
   return {
     products,
-    error,
-    loading,
-    initialLoading: page === 1 && loading,
-    hasMore,
-    loadMore,
+    error: error?.message || null,
+    loading: isFetching,
+    initialLoading: isLoading,
+    hasMore: hasNextPage ?? false,
+    loadMore: fetchNextPage,
+    isLoadingMore: isFetchingNextPage,
   };
 };

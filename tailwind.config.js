@@ -1,24 +1,23 @@
-
-const withMT = require("@material-tailwind/react/utils/withMT");
-
-module.exports = withMT({
+/** @type {import('tailwindcss').Config} */
+export default {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ["Lora", "Georgia", "serif"],
+        serif: ["Lora", "Georgia", "serif"],
       },
       colors: {
-        'custom-light-gray': '#F9FAFB',
-        'custom-dark-gray': '#111827',
-        'custom-blue': '#3B82F6',
-        'dark-bg': '#1F2937',
-        'dark-card': '#374151',
-        'dark-text': '#F9FAFB',
+        'custom-light-gray': '#f8fafc',  // Slate-50
+        'custom-dark-gray': '#1a1614',
+        'custom-amber': '#d97706',
+        'dark-bg': '#1e293b',  // Slate-800
+        'dark-card': '#334155',  // Slate-700
+        'dark-text': '#f8fafc',  // Slate-50
       },
     },
   },
   plugins: [],
-});
+};
 

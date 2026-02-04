@@ -1,22 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider as MTThemeProvider } from "@material-tailwind/react";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "@/features/theme/application/ThemeContext";
 import { CartProvider } from "@/features/cart/application/CartContext";
+import { queryClient } from "@/app/config/queryClient";
 import App from "./App.jsx";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter basename="/myprojectapi12/">
-      <ThemeProvider>
-        <MTThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter basename="/myprojectapi12/">
+        <ThemeProvider>
           <CartProvider>
             <App />
           </CartProvider>
-        </MTThemeProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+        </ThemeProvider>
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </React.StrictMode>
 );

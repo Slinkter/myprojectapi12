@@ -1,13 +1,16 @@
 import Layout from "@/components/common/Layout";
 import Cart from "@/features/cart/presentation/Cart";
 import AppRouter from "@/app/routing/AppRouter";
+import ErrorBoundary from "@/components/common/ErrorBoundary";
 
 const App = () => {
     return (
-        <Layout>
-            <Cart />
-            <AppRouter />
-        </Layout>
+        <ErrorBoundary>
+            <Layout>
+                <Cart />
+                <AppRouter />
+            </Layout>
+        </ErrorBoundary>
     );
 };
 

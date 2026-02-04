@@ -56,7 +56,7 @@ const ProductDetailModal = ({ product, open, onClose }) => {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50 p-4"
           onClick={onClose}
           variants={backdropVariants}
           initial="hidden"
@@ -64,15 +64,16 @@ const ProductDetailModal = ({ product, open, onClose }) => {
           exit="hidden"
         >
           <motion.div
-            className="neumo-card w-full max-w-lg p-6 m-4"
+            className="neumo-card w-full max-w-lg p-4 sm:p-6 m-2 sm:m-4 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
             variants={modalVariants}
           >
-            <div className="flex justify-between items-center mb-4">
-              <h5 className="font-bold text-xl">{product?.title}</h5>
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+              <h5 className="font-bold text-lg sm:text-xl text-gray-900 dark:text-gray-100 pr-2">{product?.title}</h5>
               <button
                 onClick={onClose}
-                className="neumo-button rounded-full p-2 w-8 h-8 flex items-center justify-center"
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center justify-center text-2xl leading-none text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 flex-shrink-0"
+                aria-label="Close modal"
               >
                 &times;
               </button>
@@ -93,22 +94,24 @@ const ProductDetailModal = ({ product, open, onClose }) => {
                 Stock: {product?.stock}
               </h6>
             </div>
-            <div className="flex justify-between items-center mt-6 pt-4 border-t border-[var(--neumo-shadow-dark)] dark:border-[var(--neumo-shadow-dark-mode-dark)]">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 gap-3 sm:gap-0">
+              <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3">
                 <button
                   onClick={decrement}
                   disabled={quantity === 1}
-                  className="neumo-button w-10 h-10 disabled:opacity-50"
+                  className="w-10 h-10 rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:border-amber-500 dark:hover:border-amber-500 flex items-center justify-center text-xl font-bold text-gray-700 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-gray-300 dark:disabled:hover:border-gray-600"
+                  aria-label="Decrease quantity"
                 >
-                  -
+                  −
                 </button>
-                <span className="neumo-input text-center w-12 p-2">
+                <span className="min-w-[3rem] text-center px-3 sm:px-4 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 font-semibold text-gray-900 dark:text-gray-100">
                   {quantity}
                 </span>
                 <button
                   onClick={increment}
                   disabled={quantity >= product.stock}
-                  className="neumo-button w-10 h-10 disabled:opacity-50"
+                  className="w-10 h-10 rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:border-amber-500 dark:hover:border-amber-500 flex items-center justify-center text-xl font-bold text-gray-700 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-gray-300 dark:disabled:hover:border-gray-600"
+                  aria-label="Increase quantity"
                 >
                   +
                 </button>
@@ -116,7 +119,7 @@ const ProductDetailModal = ({ product, open, onClose }) => {
               <button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
-                className="neumo-button px-6 py-2 bg-green-500 text-white disabled:opacity-50"
+                className="neumo-button-primary px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base w-full sm:w-auto"
               >
                 Add to Cart
               </button>

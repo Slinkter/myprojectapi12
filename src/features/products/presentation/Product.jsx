@@ -2,85 +2,61 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useProductModalContext } from "../application/ProductModalContext";
 
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
-
 const Product = React.memo(({ product }) => {
   const { handleOpenModal } = useProductModalContext();
 
   return (
-    <Card className="w-full h-full flex flex-col shadow-md hover:shadow-xl transition-shadow border border-blue-gray-100 bg-[var(--bg-card)] dark:bg-[var(--dark-card)] dark:border-blue-gray-800">
-      <CardHeader
-        floated={false}
-        shadow={false}
-        color="transparent"
-        className="m-0 p-4 h-56 flex items-center justify-center bg-white rounded-b-none border-b border-blue-gray-50 dark:border-blue-gray-800"
-      >
+    <div className="product-card neumo-card w-full h-full flex flex-col">
+      {/* Card Header / Image */}
+      <div className="product-card__image-container h-56 flex items-center justify-center rounded-t-2xl border-b border-gray-100 dark:border-gray-700 p-4 overflow-hidden">
         <img
           src={product?.thumbnail}
           alt={product?.title}
-          className="h-full w-full object-contain hover:scale-105 transition-transform duration-300"
+          className="product-card__image h-full w-full object-contain transition-transform duration-300"
+          loading="lazy"
+          decoding="async"
         />
-      </CardHeader>
-      <CardBody className="p-5 flex-grow flex flex-col">
-        <div className="mb-2 flex items-center justify-between">
-          <Typography
-            color="blue-gray"
-            className="font-bold text-lg leading-tight dark:text-[var(--text-primary)] line-clamp-2"
-          >
+      </div>
+
+      {/* Card Body */}
+      <div className="p-5 flex-grow flex flex-col">
+        <div className="mb-2">
+          <h3 className="font-bold text-lg leading-tight text-gray-900 dark:text-gray-100 line-clamp-2">
             {product?.title}
-          </Typography>
+          </h3>
         </div>
-        <Typography
-          variant="small"
-          color="gray"
-          className="font-normal opacity-75 line-clamp-3 mb-4 dark:text-[var(--text-secondary)]"
-        >
+        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4 italic">
           {product?.description}
-        </Typography>
-        <div className="mt-auto flex items-center justify-between border-t border-blue-gray-50 pt-4 dark:border-blue-gray-700">
-          <Typography
-            color="blue-gray"
-            className="font-bold text-xl dark:text-[var(--text-primary)]"
-          >
+        </p>
+        <div className="mt-auto flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
+          <span className="font-bold text-xl text-amber-600 dark:text-amber-500">
             $ {product?.price}
-          </Typography>
-          <Typography
-            variant="small"
-            color="gray"
-            className="font-medium dark:text-[var(--text-secondary)]"
-          >
+          </span>
+          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
             Stock: {product?.stock}
-          </Typography>
+          </span>
         </div>
-      </CardBody>
-      <CardFooter className="pt-0 p-5">
+      </div>
+
+      {/* Card Footer */}
+      <div className="p-5 pt-0">
         {product.stock > 0 ? (
-          <Button
-            ripple={true}
-            fullWidth={true}
-            className="bg-blue-600 hover:bg-blue-700 text-white shadow-none hover:shadow-md transition-colors"
+          <button
             onClick={() => handleOpenModal(product)}
+            className="neumo-button-primary w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300"
           >
             Add to Cart
-          </Button>
+          </button>
         ) : (
-          <Button
-            fullWidth={true}
+          <button
             disabled
-            className="bg-blue-gray-100 text-blue-gray-400 shadow-none hover:shadow-none"
+            className="w-full py-3 px-4 rounded-xl font-semibold bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500"
           >
             Out of Stock
-          </Button>
+          </button>
         )}
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 });
 
