@@ -3,7 +3,7 @@
  */
 import PropTypes from "prop-types";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
-import { useCart } from "@/features/cart/application/useCart";
+import { useCart } from "@/features/cart/application/useCart.ts";
 
 const CartIcon = ({ onClick }) => {
     const { cart } = useCart();

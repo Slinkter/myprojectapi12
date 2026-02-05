@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "@/features/theme/application/ThemeContext";
-import { CartProvider } from "@/features/cart/application/CartContext";
+import { CartProvider } from "@/features/cart/application/CartContext.tsx";
 import { queryClient } from "@/app/config/queryClient";
 import App from "./App.jsx";
 import "./index.css";

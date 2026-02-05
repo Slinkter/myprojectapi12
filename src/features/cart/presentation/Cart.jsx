@@ -4,7 +4,7 @@
  */
 import { useNavigate } from "react-router-dom";
 import { IoMdClose, IoMdTrash } from "react-icons/io";
-import { useCart } from "@/features/cart/application/useCart";
+import { useCart } from "@/features/cart/application/useCart.ts";
 
 const Cart = () => {
     const {
