@@ -4,9 +4,9 @@
  * @side-effects Añade al carrito a través del contexto, reinicia la cantidad al abrir el modal
  * @perf useEffect con dependencia [open] asegura que la cantidad se reinicia solo cuando el modal se abre
  */
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { CartContext } from "@/features/cart/application/CartContext";
+import { useCart } from "@/features/cart/application/useCart.ts";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
@@ -21,7 +21,7 @@ import { motion, AnimatePresence } from "framer-motion";
  * @returns {JSX.Element} El componente ProductDetailModal renderizado.
  */
 const ProductDetailModal = ({ product, open, onClose }) => {
-    const { addToCart } = useContext(CartContext);
+    const { addToCart } = useCart();
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
