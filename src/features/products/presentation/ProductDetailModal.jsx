@@ -6,7 +6,7 @@
  */
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useCart } from "@/features/cart/application/useCart.ts";
+import { useCart } from "@/features/cart/application/useCart";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**

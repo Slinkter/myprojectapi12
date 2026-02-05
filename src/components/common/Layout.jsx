@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ThemeSwitcher from "@/features/theme/presentation/ThemeSwitcher";
 import CartIcon from "@/features/cart/presentation/CartIcon";
-import { useCart } from "@/features/cart/application/useCart.ts";
+import { useCart } from "@/features/cart/application/useCart";
 import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children }) => {
@@ -54,10 +54,10 @@ const Layout = ({ children }) => {
                         <div className="relative">
                             <button
                                 onClick={toggleCart}
-                                className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center"
+                                className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500"
                                 aria-label="Open shopping cart"
                             >
-                                <CartIcon onClick={toggleCart} />
+                                <CartIcon />
                             </button>
                         </div>
                     </div>

@@ -1,8 +1,15 @@
 /**
  * Gestión de estado global del carrito de compras.
  * Usa Context API con optimizaciones de performance (useMemo, useCallback).
+ * Force reload.
  */
-import { createContext, useState, useMemo, type ReactNode } from "react";
+import {
+    createContext,
+    useState,
+    useMemo,
+    useContext,
+    type ReactNode,
+} from "react";
 import { calculateTotal } from "../domain/cartUtils";
 import { useCartDrawer } from "./hooks/useCartDrawer";
 import { useCartActions } from "./hooks/useCartActions";
@@ -80,4 +87,16 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     return (
         <CartContext.Provider value={value}>{children}</CartContext.Provider>
     );
+};
+
+/**
+ * Hook para consumir el contexto del carrito.
+ * @throws {Error} Si se usa fuera de CartProvider
+ */
+export const useCart = () => {
+    const context = useContext(CartContext);
+    if (!context) {
+        throw new Error("useCart must be used within CartProvider");
+    }
+    return context;
 };
