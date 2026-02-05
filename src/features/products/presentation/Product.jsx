@@ -1,8 +1,8 @@
 /**
  * @file Product
- * @architecture Presentation layer - individual product card with modal trigger
- * @side-effects Opens modal via context when "Add to Cart" clicked
- * @perf React.memo prevents re-renders when props unchanged
+ * @architecture Capa de presentación - tarjeta de producto individual con activador de modal
+ * @side-effects Abre el modal a través del contexto cuando se hace clic en "Add to Cart"
+ * @perf React.memo previene re-renders cuando las props no cambian
  */
 import React from "react";
 import PropTypes from "prop-types";
@@ -12,7 +12,7 @@ const Product = React.memo(({ product }) => {
   const { handleOpenModal } = useProductModalContext();
 
   return (
-    <div className="product-card neumo-card w-full h-full flex flex-col">
+    <div className="product-card w-full h-full flex flex-col">
       {/* Card Header / Image */}
       <div className="product-card__image-container h-56 flex items-center justify-center rounded-t-2xl border-b border-gray-100 dark:border-gray-700 p-4 overflow-hidden">
         <img
@@ -49,7 +49,7 @@ const Product = React.memo(({ product }) => {
         {product.stock > 0 ? (
           <button
             onClick={() => handleOpenModal(product)}
-            className="neumo-button-primary w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300"
+            className="product-add-to-cart-button w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300"
           >
             Add to Cart
           </button>

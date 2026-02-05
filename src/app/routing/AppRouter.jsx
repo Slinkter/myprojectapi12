@@ -1,15 +1,15 @@
 /**
  * @file AppRouter.jsx
  * @component
- * @description Manages the application's routing using `react-router-dom`.
- *   It employs lazy loading for pages (`Home`, `Checkout`, `CheckoutSuccess`) to enable code splitting,
- *   improving initial load performance.
- * @architecture Acts as the central routing layer, defining paths and rendering corresponding page components
- *   wrapped in `Suspense` for a smooth loading experience.
- * @sideeffects Dynamic imports within `lazy` calls trigger network requests for JavaScript chunks as pages are accessed.
- * @perf Utilizes lazy loading to reduce the initial bundle size and `Suspense` to prevent UI waterfalls
- *   by providing a fallback `Loader` component.
- * @returns {JSX.Element} A React component that renders the appropriate page based on the current URL.
+ * @description Gestiona el enrutamiento de la aplicación utilizando `react-router-dom`.
+ *   Emplea la carga perezosa para las páginas (`Home`, `Checkout`, `CheckoutSuccess`) para habilitar la división de código,
+ *   mejorando el rendimiento de carga inicial.
+ * @architecture Actúa como la capa de enrutamiento central, definiendo rutas y renderizando los componentes de página correspondientes
+ *   envueltos en `Suspense` para una experiencia de carga fluida.
+ * @sideeffects Las importaciones dinámicas dentro de las llamadas `lazy` activan solicitudes de red para fragmentos de JavaScript a medida que se accede a las páginas.
+ * @perf Utiliza la carga perezosa para reducir el tamaño inicial del paquete y `Suspense` para evitar cascadas de UI
+ *   proporcionando un componente `Loader` de reserva.
+ * @returns {JSX.Element} Un componente de React que renderiza la página adecuada según la URL actual.
  */
 import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";

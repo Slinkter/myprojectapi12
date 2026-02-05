@@ -1,8 +1,8 @@
 /**
  * @file ProductDetailModal
- * @architecture Presentation layer - modal for product details and quantity selection
- * @side-effects Adds to cart via context, resets quantity on modal open
- * @perf useEffect with [open] dependency ensures quantity resets only when modal opens
+ * @architecture Capa de presentación - modal para detalles del producto y selección de cantidad
+ * @side-effects Añade al carrito a través del contexto, reinicia la cantidad al abrir el modal
+ * @perf useEffect con dependencia [open] asegura que la cantidad se reinicia solo cuando el modal se abre
  */
 import { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -10,15 +10,15 @@ import { CartContext } from "@/features/cart/application/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
- * ProductDetailModal component.
- * Displays detailed information about a product in a modal.
- * Allows the user to select the quantity and add the product to the cart.
+ * Componente ProductDetailModal.
+ * Muestra información detallada sobre un producto en un modal.
+ * Permite al usuario seleccionar la cantidad y añadir el producto al carrito.
  *
- * @param {Object} props - The component props.
- * @param {Object} props.product - The product object to display.
- * @param {boolean} props.open - Whether the modal is open.
- * @param {Function} props.onClose - The function to call when the modal is closed.
- * @returns {JSX.Element} The rendered ProductDetailModal component.
+ * @param {Object} props - Las props del componente.
+ * @param {Object} props.product - El objeto de producto a mostrar.
+ * @param {boolean} props.open - Si el modal está abierto.
+ * @param {Function} props.onClose - La función a llamar cuando el modal se cierra.
+ * @returns {JSX.Element} El componente ProductDetailModal renderizado.
  */
 const ProductDetailModal = ({ product, open, onClose }) => {
   const { addToCart } = useContext(CartContext);
@@ -70,7 +70,7 @@ const ProductDetailModal = ({ product, open, onClose }) => {
           exit="hidden"
         >
           <motion.div
-            className="neumo-card w-full max-w-lg p-4 sm:p-6 m-2 sm:m-4 max-h-[90vh] overflow-y-auto"
+            className="product-detail-modal-card w-full max-w-lg p-4 sm:p-6 m-2 sm:m-4 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
             variants={modalVariants}
           >
@@ -125,7 +125,7 @@ const ProductDetailModal = ({ product, open, onClose }) => {
               <button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
-                className="neumo-button-primary px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base w-full sm:w-auto"
+                className="product-detail-add-to-cart-button px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base w-full sm:w-auto"
               >
                 Add to Cart
               </button>

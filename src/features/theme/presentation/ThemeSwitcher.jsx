@@ -1,8 +1,8 @@
 /**
  * @file ThemeSwitcher
- * @architecture Presentation layer - theme toggle button
- * @side-effects Triggers theme change via context (localStorage + DOM)
- * @perf No optimization needed - simple button component
+ * @architecture Capa de presentación - botón para alternar el tema
+ * @side-effects Activa el cambio de tema a través del contexto (localStorage + DOM)
+ * @perf No se necesita optimización - componente de botón simple
  */
 import { useContext } from "react";
 import { ThemeContext } from "@/features/theme/application/ThemeContext";

@@ -1,50 +1,49 @@
 /**
  * @file ErrorBoundary
- * @architecture Error handling layer - catches React errors in component tree
- * @side-effects Console logging in dev mode, error state management
- * @perf Class component required for error boundaries (React limitation)
+ * @architecture Capa de manejo de errores - captura errores de React en el árbol de componentes
+ * @side-effects Registro en consola en modo desarrollo, gestión del estado de error
+ * @perf Componente de clase requerido para límites de error (limitación de React)
  */
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ErrorFallback from './ErrorFallback';
 
 /**
- * Error Boundary component to catch JavaScript errors anywhere in the child component tree.
- * Prevents the entire app from crashing and displays a user-friendly error message.
- * 
- * Features:
- * - Catches errors during rendering, in lifecycle methods, and in constructors
- * - Logs errors to console in development mode
- * - Provides reset functionality to recover from errors
- * - Supports custom fallback UI via props
- * - Shows detailed error info in development (error message, stack trace, component stack)
- * 
- * Note: Error boundaries do NOT catch errors in:
- * - Event handlers (use try-catch instead)
- * - Asynchronous code (setTimeout, requestAnimationFrame, etc.)
- * - Server-side rendering
- * - Errors thrown in the error boundary itself
- * 
+ * Componente Error Boundary para capturar errores de JavaScript en cualquier parte del árbol de componentes hijos.
+ * Evita que toda la aplicación se bloquee y muestra un mensaje de error amigable para el usuario.
+ *
+ * Características:
+ * - Captura errores durante el renderizado, en los métodos de ciclo de vida y en los constructores.
+ * - Registra errores en la consola en modo de desarrollo.
+ * - Proporciona funcionalidad de reinicio para recuperarse de errores.
+ * - Soporta UI de fallback personalizada a través de props.
+ * - Muestra información detallada del error en desarrollo (mensaje de error, seguimiento de pila, pila de componentes).
+ *
+ * Nota: Los límites de error NO capturan errores en:
+ * - Manejadores de eventos (usar try-catch en su lugar)
+ * - Código asíncrono (setTimeout, requestAnimationFrame, etc.)
+ * - Renderizado del lado del servidor
+ * - Errores lanzados en el propio límite de error
+ *
  * @class ErrorBoundary
  * @extends {Component}
- * 
+ *
  * @example
- * // Basic usage
+ * // Uso básico
  * <ErrorBoundary>
  *   <App />
  * </ErrorBoundary>
- * 
+ *
  * @example
- * // With custom fallback
+ * // Con fallback personalizado
  * <ErrorBoundary fallback={<CustomErrorUI />}>
  *   <SomeComponent />
  * </ErrorBoundary>
- */
-class ErrorBoundary extends Component {
+ */class ErrorBoundary extends Component {
     /**
      * @param {Object} props
-     * @param {React.ReactNode} props.children - Components to be wrapped by error boundary
-     * @param {React.ReactNode} [props.fallback] - Optional custom fallback UI to show on error
+     * @param {React.ReactNode} props.children - Componentes a ser envueltos por el límite de error
+     * @param {React.ReactNode} [props.fallback] - UI de fallback personalizada opcional para mostrar en caso de error
      */
     constructor(props) {
         super(props);
@@ -55,28 +54,26 @@ class ErrorBoundary extends Component {
         };
     }
 
-    /**
-     * Static lifecycle method called when an error is thrown.
-     * Updates state to trigger fallback UI rendering.
-     * 
-     * @static
-     * @param {Error} error - The error that was thrown
-     * @returns {Object} New state with hasError flag and error object
-     */
-    static getDerivedStateFromError(error) {
+        /**
+         * Método de ciclo de vida estático llamado cuando se lanza un error.
+         * Actualiza el estado para activar el renderizado de la UI de fallback.
+         *
+         * @static
+         * @param {Error} error - El error que fue lanzado
+         * @returns {Object} Nuevo estado con el flag hasError y el objeto de error
+         */    static getDerivedStateFromError(error) {
         // Update state so the next render will show the fallback UI
         return { hasError: true, error };
     }
 
-    /**
-     * Lifecycle method called after an error has been thrown.
-     * Used for logging errors and side effects.
-     * 
-     * @param {Error} error - The error that was thrown
-     * @param {Object} errorInfo - Object with componentStack property containing stack trace
-     * @param {string} errorInfo.componentStack - Component stack trace showing where error occurred
-     */
-    componentDidCatch(error, errorInfo) {
+        /**
+         * Método de ciclo de vida llamado después de que se ha lanzado un error.
+         * Se utiliza para registrar errores y efectos secundarios.
+         *
+         * @param {Error} error - El error que fue lanzado
+         * @param {Object} errorInfo - Objeto con la propiedad componentStack que contiene el seguimiento de pila
+         * @param {string} errorInfo.componentStack - Seguimiento de pila del componente que muestra dónde ocurrió el error
+         */    componentDidCatch(error, errorInfo) {
         // Log error to console in development
         if (import.meta.env.DEV) {
             console.error('ErrorBoundary caught an error:', error, errorInfo);
@@ -92,8 +89,8 @@ class ErrorBoundary extends Component {
     }
 
     /**
-     * Resets the error boundary state, allowing the user to try rendering the component tree again.
-     * Called when user clicks "Try Again" button in the error fallback UI.
+     * Reinicia el estado del límite de error, permitiendo al usuario intentar renderizar el árbol de componentes nuevamente.
+     * Se llama cuando el usuario hace clic en el botón "Try Again" (Intentar de nuevo) en la UI de fallback de error.
      */
     handleReset = () => {
         this.setState({

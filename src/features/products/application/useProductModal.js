@@ -1,33 +1,33 @@
 /**
  * @file useProductModal
- * @architecture Application layer hook - manages modal open/close state and selected product
- * @side-effects None - pure state management
- * @perf useCallback prevents function recreation on every render
+ * @architecture Hook de la capa de aplicación - gestiona el estado de apertura/cierre del modal y el producto seleccionado
+ * @side-effects Ninguno - gestión de estado pura
+ * @perf useCallback previene la recreación de la función en cada renderizado
  */
 import { useState, useCallback } from "react";
 
 /**
  * @typedef {object} Product
- * @property {number} id - The product ID.
- * @property {string} title - The product title.
- * @property {string} description - The product description.
- * @property {number} price - The product price.
- * @property {string} thumbnail - The URL of the product thumbnail.
- * @property {number} stock - The available stock of the product.
+ * @property {number} id - El ID del producto.
+ * @property {string} title - El título del producto.
+ * @property {string} description - La descripción del producto.
+ * @property {number} price - El precio del producto.
+ * @property {string} thumbnail - La URL de la miniatura del producto.
+ * @property {number} stock - El stock disponible del producto.
  */
 
 /**
  * @typedef {object} UseProductModalResult
- * @property {boolean} isModalOpen - Whether the modal is open.
- * @property {Product | null} selectedProduct - The product currently selected to be displayed in the modal.
- * @property {(product: Product) => void} handleOpenModal - Function to open the modal with a specific product.
- * @property {() => void} handleCloseModal - Function to close the modal.
+ * @property {boolean} isModalOpen - Si el modal está abierto.
+ * @property {Product | null} selectedProduct - El producto actualmente seleccionado para mostrar en el modal.
+ * @property {(product: Product) => void} handleOpenModal - Función para abrir el modal con un producto específico.
+ * @property {() => void} handleCloseModal - Función para cerrar el modal.
  */
 
 /**
- * Custom hook to manage the state of the product detail modal.
- * This hook encapsulates the logic for opening and closing the modal,
- * and keeps track of the product that is currently selected.
+ * Hook personalizado para gestionar el estado del modal de detalles del producto.
+ * Este hook encapsula la lógica para abrir y cerrar el modal,
+ * y mantiene un registro del producto que está actualmente seleccionado.
  *
  * @returns {UseProductModalResult}
  */

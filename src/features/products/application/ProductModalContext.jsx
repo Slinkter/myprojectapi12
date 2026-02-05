@@ -1,8 +1,8 @@
 /**
  * @file ProductModalContext
- * @architecture Application layer - manages product detail modal state
- * @side-effects None - delegates to useProductModal hook
- * @perf Context prevents prop drilling for modal state
+ * @architecture Capa de aplicación - gestiona el estado del modal de detalles del producto
+ * @side-effects Ninguno - delega al hook useProductModal
+ * @perf El contexto previene el prop drilling para el estado del modal
  */
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext } from "react";
@@ -14,13 +14,13 @@ import { useProductModal } from "./useProductModal";
  */
 
 /**
- * Context for the product modal.
+ * Contexto para el modal del producto.
  * @type {React.Context<UseProductModalResult>}
  */
 const ProductModalContext = createContext(null);
 
 /**
- * Custom hook to access the product modal context.
+ * Hook personalizado para acceder al contexto del modal del producto.
  * @returns {UseProductModalResult}
  */
 export const useProductModalContext = () => {
@@ -34,9 +34,9 @@ export const useProductModalContext = () => {
 };
 
 /**
- * Provider component for the product modal context.
- * It encapsulates the logic for the product modal using the useProductModal hook
- * and provides the state and functions to its children.
+ * Componente proveedor para el contexto del modal del producto.
+ * Encapsula la lógica para el modal del producto utilizando el hook useProductModal
+ * y proporciona el estado y las funciones a sus hijos.
  *
  * @param {object} props
  * @param {React.ReactNode} props.children

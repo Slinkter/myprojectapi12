@@ -1,17 +1,17 @@
 /**
  * @file productsApi
- * @architecture Infrastructure layer - API calls for products
- * @side-effects Network requests to DummyJSON API
- * @perf Pagination with 20 items per page to reduce payload size
+ * @architecture Capa de infraestructura - llamadas a la API para productos
+ * @side-effects Solicitudes de red a la API de DummyJSON
+ * @perf Paginación con 20 elementos por página para reducir el tamaño de la carga útil
  */
 import { apiClient } from "@/app/api/apiClient";
 
 const LIMIT = 20;
 
 /**
- * Fetches a paginated list of products from the API.
- * @param {number} page - The page number to fetch, starting from 1.
- * @returns {Promise<Object>} An object containing the list of products and total count.
+ * Obtiene una lista paginada de productos de la API.
+ * @param {number} page - El número de página a obtener, comenzando desde 1.
+ * @returns {Promise<Object>} Un objeto que contiene la lista de productos y el recuento total.
  */
 export const getProducts = async (page) => {
     const skip = (page - 1) * LIMIT;

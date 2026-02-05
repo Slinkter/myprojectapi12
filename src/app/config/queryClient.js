@@ -1,26 +1,26 @@
 /**
  * @file queryClient.js
- * @description Configuration for the `@tanstack/react-query` client.
- *   This file initializes a singleton `QueryClient` instance with default options
- *   for queries, optimizing caching and data refetching behavior across the application.
- * @architecture Centralizes global settings for React Query, influencing how data is fetched,
- *   cached, and kept up-to-date throughout the application's lifecycle.
- * @sideeffects Creates a singleton `QueryClient` instance that manages data caching and query states.
- * @perf Configured with `staleTime` of 5 minutes and `gcTime` of 30 minutes to ensure optimal data freshness
- *   and efficient memory management by preventing unnecessary refetches and pruning unused cache entries.
+ * @description Configuración para el cliente `@tanstack/react-query`.
+ *   Este archivo inicializa una instancia `QueryClient` singleton con opciones predeterminadas
+ *   para las consultas, optimizando el comportamiento de caché y recarga de datos en toda la aplicación.
+ * @architecture Centraliza la configuración global para React Query, influyendo en cómo se obtienen,
+ *   almacenan en caché y mantienen actualizados los datos a lo largo del ciclo de vida de la aplicación.
+ * @sideeffects Crea una instancia `QueryClient` singleton que gestiona el almacenamiento en caché de datos y los estados de las consultas.
+ * @perf Configurado con `staleTime` de 5 minutos y `gcTime` de 30 minutos para asegurar una frescura óptima de los datos
+ *   y una gestión eficiente de la memoria, previniendo recargas innecesarias y eliminando entradas de caché no utilizadas.
  */
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient } from "@tanstack/react-query";
 
 /**
  * @constant {QueryClient} queryClient
- * @description An instance of `QueryClient` configured with default options for all queries.
- *   These options dictate caching, refetching, and error handling strategies.
- * @property {object} defaultOptions.queries - Default options applied to all `useQuery` hooks.
- * @property {number} defaultOptions.queries.staleTime - How long data is considered fresh (5 minutes).
- * @property {number} defaultOptions.queries.gcTime - How long unused data remains in cache before garbage collection (30 minutes).
- * @property {number} defaultOptions.queries.retry - Number of times to retry a failed query (2 times).
- * @property {boolean} defaultOptions.queries.refetchOnWindowFocus - Whether to refetch data when window regains focus (disabled).
- * @property {boolean} defaultOptions.queries.refetchOnReconnect - Whether to refetch data when network connection is re-established (enabled).
+ * @description Una instancia de `QueryClient` configurada con opciones predeterminadas para todas las consultas.
+ *   Estas opciones dictan las estrategias de caché, recarga y manejo de errores.
+ * @property {object} defaultOptions.queries - Opciones predeterminadas aplicadas a todos los hooks `useQuery`.
+ * @property {number} defaultOptions.queries.staleTime - Cuánto tiempo se considera que los datos están frescos (5 minutos).
+ * @property {number} defaultOptions.queries.gcTime - Cuánto tiempo permanecen los datos no utilizados en la caché antes de la recolección de basura (30 minutos).
+ * @property {number} defaultOptions.queries.retry - Número de reintentos para una consulta fallida (2 veces).
+ * @property {boolean} defaultOptions.queries.refetchOnWindowFocus - Si se deben recargar los datos cuando la ventana recupera el foco (deshabilitado).
+ * @property {boolean} defaultOptions.queries.refetchOnReconnect - Si se deben recargar los datos cuando se restablece la conexión de red (habilitado).
  */
 export const queryClient = new QueryClient({
     defaultOptions: {

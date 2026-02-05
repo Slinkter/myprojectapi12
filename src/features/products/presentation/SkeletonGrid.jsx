@@ -1,8 +1,8 @@
 /**
  * @file SkeletonGrid
- * @architecture Presentation layer - grid of 8 skeleton cards for loading state
- * @side-effects None - pure UI component
- * @perf Static array generation (no re-renders)
+ * @architecture Capa de presentación - cuadrícula de 8 tarjetas esqueleto para el estado de carga
+ * @side-effects Ninguno - componente de UI puro
+ * @perf Generación de array estático (sin re-renders)
  */
 import SkeletonCard from "./SkeletonCard";
 

@@ -3,13 +3,12 @@ import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 /**
- * Initial state configuration for theme.
- * Checks localStorage first, then system preference, defaults to 'light'.
- * 
+ * Configuración de estado inicial para el tema.
+ * Verifica primero el localStorage, luego la preferencia del sistema, por defecto 'light'.
+ *
  * @type {Object}
- * @property {Function} state - Function that returns the initial theme value
- */
-const initState = {
+ * @property {Function} state - Función que devuelve el valor inicial del tema
+ */const initState = {
   state: () => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
@@ -27,38 +26,36 @@ const initState = {
 };
 
 /**
-
- * Provides theme value ('light' or 'dark') and toggle function.
+ * Proporciona el valor del tema ('light' o 'dark') y la función de alternancia.
  * @type {Context<{theme: string, toggleTheme: Function}>}
  */
 const ThemeContext = createContext();
 
 /**
- * Theme provider component that manages theme state and persistence.
- * 
- * Features:
- * - Reads initial theme from localStorage or system preference
- * - Applies 'dark' class to document.documentElement when dark mode is active
- * - Persists theme preference to localStorage
- * - Provides toggleTheme function to switch between light/dark modes
- * 
+ * Componente proveedor de tema que gestiona el estado y la persistencia del tema.
+ *
+ * Características:
+ * - Lee el tema inicial de localStorage o de la preferencia del sistema
+ * - Aplica la clase 'dark' a document.documentElement cuando el modo oscuro está activo
+ * - Persiste la preferencia de tema en localStorage
+ * - Proporciona la función toggleTheme para alternar entre los modos claro/oscuro
+ *
  * @component
  * @param {Object} props
- * @param {React.ReactNode} props.children - Child components that will have access to theme context
- * @returns {JSX.Element} Provider component wrapping children
- * 
+ * @param {React.ReactNode} props.children - Componentes hijos que tendrán acceso al contexto del tema
+ * @returns {JSX.Element} Componente proveedor que envuelve a los hijos
+ *
  * @example
  * <ThemeProvider>
  *   <App />
  * </ThemeProvider>
- */
-const ThemeProvider = ({ children }) => {
+ */const ThemeProvider = ({ children }) => {
   // Initialize theme from localStorage or system preference
   const [theme, setTheme] = useState(initState.state);
 
   /**
-   * Effect that applies theme changes to the DOM and persists to localStorage.
-   * Runs whenever the theme state changes.
+   * Efecto que aplica los cambios de tema al DOM y persiste en localStorage.
+   * Se ejecuta cada vez que cambia el estado del tema.
    */
   useEffect(() => {
     if (theme === "dark") {
@@ -73,8 +70,8 @@ const ThemeProvider = ({ children }) => {
   }, [theme]);
 
   /**
-   * Toggles between light and dark theme.
-   * Updates state which triggers useEffect to apply changes.
+   * Alterna entre el tema claro y oscuro.
+   * Actualiza el estado lo que activa el useEffect para aplicar los cambios.
    */
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

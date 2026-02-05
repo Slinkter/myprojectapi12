@@ -1,14 +1,14 @@
 /**
  * @file validation
- * @architecture Business logic layer - card validation utilities (Luhn algorithm)
- * @side-effects None - pure functions
- * @perf Luhn algorithm runs in O(n) where n is card number length
+ * @architecture Capa de lógica de negocio - utilidades de validación de tarjetas (algoritmo de Luhn)
+ * @side-effects Ninguno - funciones puras
+ * @perf El algoritmo de Luhn se ejecuta en O(n) donde n es la longitud del número de tarjeta
  */
 
 /**
- * Determines the type of credit card from its number.
- * @param {string} cardNumber - The card number.
- * @returns {string} 'visa', 'mastercard', or ''.
+ * Determina el tipo de tarjeta de crédito a partir de su número.
+ * @param {string} cardNumber - El número de tarjeta.
+ * @returns {string} 'visa', 'mastercard', o ''.
  */
 export const getCardType = (cardNumber) => {
     if (cardNumber.startsWith('4')) {
@@ -20,13 +20,13 @@ export const getCardType = (cardNumber) => {
 };
 
 /**
- * Validates credit card information.
- * @param {object} cardInfo - The card information object.
- * @param {string} cardInfo.number - The card number.
- * @param {string} cardInfo.name - The cardholder's name.
- * @param {string} cardInfo.expiry - The expiry date in MM/YY format.
- * @param {string} cardInfo.cvc - The CVC code.
- * @returns {object} An object containing error messages for each field.
+ * Valida la información de la tarjeta de crédito.
+ * @param {object} cardInfo - El objeto con la información de la tarjeta.
+ * @param {string} cardInfo.number - El número de tarjeta.
+ * @param {string} cardInfo.name - El nombre del titular de la tarjeta.
+ * @param {string} cardInfo.expiry - La fecha de caducidad en formato MM/AA.
+ * @param {string} cardInfo.cvc - El código CVC.
+ * @returns {object} Un objeto que contiene mensajes de error para cada campo.
  */
 export const validateCardInfo = (cardInfo) => {
     const { number, name, expiry, cvc } = cardInfo;

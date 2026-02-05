@@ -1,0 +1,64 @@
+/**
+ * Sistema de botones reutilizables.
+ */
+
+/* Base Button */
+.btn-base {
+    @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-300 border;
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-base:active {
+    @apply transform scale-95;
+    transition: transform 0.1s ease;
+}
+
+/* Primary Button (Gradient Amber) */
+.btn-primary {
+    @apply btn-base bg-gradient-to-r from-amber-600 to-orange-600 text-white border-transparent shadow-lg;
+}
+
+.btn-primary:hover {
+    @apply from-amber-700 to-orange-700 shadow-xl;
+    box-shadow: 0 8px 20px -4px rgba(217, 119, 6, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Secondary Button (Card Style) */
+.btn-secondary {
+    @apply btn-base border-transparent;
+    background-color: var(--bg-card);
+    border-color: var(--border-light);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    @apply bg-amber-50 border-amber-300;
+    color: var(--text-accent);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.dark .btn-secondary:hover {
+    @apply bg-amber-900/30 border-amber-700;
+    color: var(--text-accent);
+}
+
+/* Button Variants - Specific Use Cases */
+.cart-clear-button {
+    @apply btn-secondary;
+}
+
+.cart-checkout-button,
+.checkout-pay-button,
+.product-add-to-cart-button,
+.product-detail-add-to-cart-button,
+.checkout-success-continue-button,
+.error-fallback-try-again-button {
+    @apply btn-primary;
+}
+
+.error-fallback-home-button,
+.checkout-payment-method-button {
+    @apply btn-secondary;
+}

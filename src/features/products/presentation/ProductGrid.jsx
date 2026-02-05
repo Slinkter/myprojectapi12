@@ -1,8 +1,8 @@
 /**
  * @file ProductGrid
- * @architecture Presentation layer - animated grid of products
- * @side-effects None - pure presentation with Framer Motion animations
- * @perf Staggered animations (0.1s delay) for smooth entrance
+ * @architecture Capa de presentación - cuadrícula animada de productos
+ * @side-effects Ninguno - presentación pura con animaciones de Framer Motion
+ * @perf Animaciones escalonadas (retraso de 0.1s) para una entrada suave
  */
 import Product from "./Product";
 import PropTypes from "prop-types";

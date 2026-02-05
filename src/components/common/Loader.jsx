@@ -1,8 +1,8 @@
 /**
  * @file Loader
- * @architecture Presentation layer - loading spinner component
- * @side-effects None - pure UI component
- * @perf CSS animation via Tailwind (GPU-accelerated)
+ * @architecture Capa de presentación - componente spinner de carga
+ * @side-effects Ninguno - componente de UI puro
+ * @perf Animación CSS a través de Tailwind (acelerado por GPU)
  */
 const Loader = () => {
     return (

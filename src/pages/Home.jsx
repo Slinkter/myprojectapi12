@@ -1,8 +1,8 @@
 /**
  * @file Home
- * @architecture Page layer - main product listing page with infinite scroll
- * @side-effects Network calls via useProducts hook, modal state via context
- * @perf ProductModalProvider wraps only this page to scope modal state
+ * @architecture Capa de página - página principal de listado de productos con scroll infinito
+ * @side-effects Llamadas de red a través del hook useProducts, estado del modal a través del contexto
+ * @perf ProductModalProvider envuelve solo esta página para limitar el alcance del estado del modal
  */
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import { useProducts } from "@/features/products/application/useProducts";

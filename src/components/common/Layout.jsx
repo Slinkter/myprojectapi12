@@ -1,8 +1,8 @@
 /**
  * @file Layout
- * @architecture Presentation layer - main layout wrapper with navbar and toast notifications
- * @side-effects DOM scroll event listener, toast notifications
- * @perf useEffect cleanup prevents memory leaks, scroll listener throttled by browser
+ * @architecture Capa de presentación - envoltorio del layout principal con barra de navegación y notificaciones toast
+ * @side-effects Listener de evento de scroll del DOM, notificaciones toast
+ * @perf La limpieza de useEffect previene fugas de memoria, el listener de scroll es limitado por el navegador
  */
 import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
@@ -56,7 +56,7 @@ const Layout = ({ children }) => {
                 className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center"
                 aria-label="Open shopping cart"
               >
-                <CartIcon />
+                <CartIcon onClick={toggleCart} />
               </button>
             </div>
           </div>

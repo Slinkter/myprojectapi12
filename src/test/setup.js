@@ -2,12 +2,12 @@ import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
 import { afterEach, vi } from 'vitest';
 
-// Cleanup after each test
+// Limpiar después de cada test
 afterEach(() => {
     cleanup();
 });
 
-// Mock window.matchMedia
+// Mockear window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation(query => ({

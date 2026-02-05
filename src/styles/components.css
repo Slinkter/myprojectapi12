@@ -1,0 +1,112 @@
+/**
+ * Componentes específicos de la aplicación.
+ */
+
+/* Typography */
+body {
+    @apply bg-[var(--bg-main)] text-[var(--text-primary)] antialiased selection:bg-amber-100 selection:text-amber-900;
+    font-family: "Lora", Georgia, serif;
+    font-optical-sizing: auto;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+body.dark {
+    @apply bg-[var(--bg-main)] text-[var(--text-primary)] selection:bg-amber-900 selection:text-amber-100;
+}
+
+/* Root Animation */
+#root {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Form Inputs */
+.neumo-input,
+.checkout-form-input {
+    @apply w-full rounded-xl bg-[var(--bg-input)] p-3.5 text-[var(--text-primary)] border border-transparent transition-all outline-none;
+    font-family: "Lora", Georgia, serif;
+}
+
+.neumo-input:focus,
+.checkout-form-input:focus {
+    @apply border-amber-500 bg-[var(--bg-card)] ring-2 ring-amber-500/20;
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+}
+
+/* Product Grid */
+.product-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 md:p-0;
+}
+
+/* Page Titles */
+.page-home__title {
+    @apply text-4xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)] mb-3;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.page-home__subtitle {
+    @apply text-lg text-[var(--text-secondary)] font-normal max-w-2xl mx-auto mb-12 italic;
+    animation: fadeIn 0.8s ease-out 0.2s backwards;
+}
+
+.page-home__load-more-button {
+    @apply mt-8 px-10 py-4 rounded-full font-bold transition-all shadow-lg;
+    background: linear-gradient(135deg, var(--text-accent) 0%, #ea580c 100%);
+    color: white;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.page-home__load-more-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(217, 119, 6, 0.4);
+}
+
+/* Cart Drawer */
+.cart-drawer {
+    @apply bg-[var(--bg-card)] shadow-2xl border-l border-[var(--border-light)];
+    animation: slideInRight 0.3s ease-out;
+}
+
+.cart-drawer__header {
+    @apply border-b border-[var(--border-light)] pb-4 mb-4 flex items-center justify-between;
+}
+
+.cart-drawer__item {
+    @apply border-b border-[var(--border-light)] last:border-0 py-4;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.cart-drawer__item-details {
+    @apply flex items-center gap-3;
+}
+
+.cart-drawer__item-price {
+    @apply font-bold;
+    color: var(--text-accent);
+}
+
+.cart-drawer__total-row {
+    @apply flex items-center justify-between;
+}
+
+.cart-drawer__close-icon,
+.cart-drawer__remove-icon {
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.cart-drawer__close-icon:hover {
+    transform: scale(1.1);
+    color: var(--text-accent);
+}
+
+.cart-drawer__remove-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}

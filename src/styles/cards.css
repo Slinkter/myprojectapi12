@@ -1,0 +1,93 @@
+/**
+ * Sistema de tarjetas reutilizables.
+ */
+
+/* Base Card */
+.card-base {
+    @apply bg-white rounded-2xl border border-slate-200;
+    box-shadow:
+        0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideUp 0.5s ease-out;
+}
+
+.card-base:hover {
+    border-color: var(--text-accent);
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px) scale(1.01);
+}
+
+.dark .card-base {
+    @apply bg-slate-800 border-slate-700;
+    box-shadow:
+        0 1px 3px 0 rgba(0, 0, 0, 0.3),
+        0 1px 2px -1px rgba(0, 0, 0, 0.2);
+}
+
+.dark .card-base:hover {
+    @apply border-amber-500;
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.3),
+        0 4px 6px -4px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Variants */
+.error-fallback-card,
+.checkout-success-card,
+.checkout-card,
+.product-detail-modal-card,
+.skeleton-card {
+    @apply card-base;
+}
+
+/* Product Card (Special styling) */
+.product-card {
+    @apply flex flex-col h-full bg-[var(--bg-card)] rounded-2xl overflow-hidden border border-[var(--border-light)];
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.product-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--text-accent);
+    transform: translateY(-8px) scale(1.02);
+}
+
+.product-card__image {
+    @apply w-full h-48 object-contain p-4;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-card__image {
+    transform: scale(1.05);
+}
+
+/* Staggered animation delays for product grid */
+.product-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+.product-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.product-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+.product-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+.product-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+.product-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+.product-card:nth-child(7) {
+    animation-delay: 0.35s;
+}
+.product-card:nth-child(8) {
+    animation-delay: 0.4s;
+}

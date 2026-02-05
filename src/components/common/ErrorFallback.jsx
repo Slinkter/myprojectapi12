@@ -1,25 +1,25 @@
 /**
  * @file ErrorFallback
- * @architecture Presentation layer - error UI displayed by ErrorBoundary
- * @side-effects Page reload on "Go to Home" button
- * @perf No optimization needed - only renders on error
+ * @architecture Capa de presentación - UI de error mostrada por ErrorBoundary
+ * @side-effects Recarga de página al hacer clic en el botón "Go to Home"
+ * @perf No se necesita optimización - solo se renderiza en caso de error
  */
 import PropTypes from 'prop-types';
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
 
 /**
- * Fallback UI component displayed when an error is caught by ErrorBoundary
+ * Componente de UI de fallback mostrado cuando ErrorBoundary captura un error
  * @param {Object} props
- * @param {Error} props.error - The error that was caught
- * @param {Object} props.errorInfo - Additional error information
- * @param {Function} props.onReset - Callback to reset the error boundary
+ * @param {Error} props.error - El error que fue capturado
+ * @param {Object} props.errorInfo - Información adicional del error
+ * @param {Function} props.onReset - Callback para reiniciar el límite de error
  */
 const ErrorFallback = ({ error, errorInfo, onReset }) => {
     const isDev = import.meta.env.DEV;
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[var(--bg-main)] p-4">
-            <div className="neumo-card max-w-2xl w-full p-8 text-center">
+            <div className="error-fallback-card max-w-2xl w-full p-8 text-center">
                 <div className="flex justify-center mb-6">
                     <div className="w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
                         <HiOutlineExclamationTriangle className="w-12 h-12 text-red-600 dark:text-red-400" />
@@ -71,13 +71,13 @@ const ErrorFallback = ({ error, errorInfo, onReset }) => {
                 <div className="flex gap-4 justify-center">
                     <button
                         onClick={onReset}
-                        className="neumo-button-primary px-6 py-3"
+                        className="error-fallback-try-again-button px-6 py-3"
                     >
                         Try Again
                     </button>
                     <button
                         onClick={() => window.location.href = '/myprojectapi12/'}
-                        className="neumo-button px-6 py-3"
+                        className="error-fallback-home-button px-6 py-3"
                     >
                         Go to Home
                     </button>
