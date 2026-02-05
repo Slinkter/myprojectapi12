@@ -5,6 +5,7 @@
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Slinkter/myprojectapi12)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue)](https://www.typescriptlang.org/)
 [![Tests](https://img.shields.io/badge/tests-23%20passing-success)](./docs/reports/TESTING_REPORT.md)
+[![Accessibility](https://img.shields.io/badge/WCAG-2.1%20AA-green)](./docs/reports/ACCESSIBILITY_REPORT.md)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A production-ready e-commerce application showcasing modern React patterns, TypeScript integration, and clean architecture principles.
