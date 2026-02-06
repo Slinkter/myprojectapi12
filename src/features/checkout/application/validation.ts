@@ -1,16 +1,12 @@
-/**
- * @file validation
- * @architecture Capa de lógica de negocio - utilidades de validación de tarjetas (algoritmo de Luhn)
- * @side-effects Ninguno - funciones puras
- * @perf El algoritmo de Luhn se ejecuta en O(n) donde n es la longitud del número de tarjeta
- */
+// src/features/checkout/application/validation.ts
+import { CardInfo, ValidationErrors } from "./types";
 
 /**
  * Determina el tipo de tarjeta de crédito a partir de su número.
  * @param {string} cardNumber - El número de tarjeta.
- * @returns {string} 'visa', 'mastercard', o ''.
+ * @returns {'visa' | 'mastercard' | ''} 'visa', 'mastercard', o ''.
  */
-export const getCardType = (cardNumber) => {
+export const getCardType = (cardNumber: string): 'visa' | 'mastercard' | '' => {
     if (cardNumber.startsWith('4')) {
         return 'visa';
     } else if (cardNumber.startsWith('5')) {
@@ -21,16 +17,12 @@ export const getCardType = (cardNumber) => {
 
 /**
  * Valida la información de la tarjeta de crédito.
- * @param {object} cardInfo - El objeto con la información de la tarjeta.
- * @param {string} cardInfo.number - El número de tarjeta.
- * @param {string} cardInfo.name - El nombre del titular de la tarjeta.
- * @param {string} cardInfo.expiry - La fecha de caducidad en formato MM/AA.
- * @param {string} cardInfo.cvc - El código CVC.
- * @returns {object} Un objeto que contiene mensajes de error para cada campo.
+ * @param {CardInfo} cardInfo - El objeto con la información de la tarjeta.
+ * @returns {ValidationErrors} Un objeto que contiene mensajes de error para cada campo.
  */
-export const validateCardInfo = (cardInfo) => {
+export const validateCardInfo = (cardInfo: CardInfo): ValidationErrors => {
     const { number, name, expiry, cvc } = cardInfo;
-    const errors = {};
+    const errors: ValidationErrors = {};
     const sanitizedCardNumber = number.replace(/\s/g, '');
 
     // Card number validation (Luhn algorithm)
@@ -62,15 +54,30 @@ export const validateCardInfo = (cardInfo) => {
     if (!expiry) {
         errors.expiry = 'Expiry date is required';
     } else {
-        const [month, year] = expiry.split('/');
-        if (!month || !year || month.length !== 2 || year.length !== 2) {
+        const [monthStr, yearStr] = expiry.split('/');
+        const month = parseInt(monthStr);
+        const year = parseInt(yearStr);
+
+        if (isNaN(month) || isNaN(year) || month < 1 || month > 12 || yearStr.length !== 2) {
             errors.expiry = 'Invalid date format (MM/YY)';
         } else {
-            const expiryDate = new Date(`20${year}`, month - 1);
+            // const currentYear = new Date().getFullYear() % 100; // Removed unused variable
+            // const currentMonth = new Date().getMonth() + 1; // Removed unused variable
+
+            // Adjust year for 2-digit format (e.g., 23 -> 2023)
+            const fullYear = 2000 + year;
+            const expiryDate = new Date(fullYear, month - 1); // month - 1 for 0-indexed month in Date constructor
             const now = new Date();
-            // Set hours to 0 to compare dates only
-            expiryDate.setHours(23, 59, 59, 999);
+
+            // Set current date to the first day of the current month to correctly compare expiry
+            now.setDate(1);
             now.setHours(0, 0, 0, 0);
+
+            // Set expiry date to the last day of its month to consider the entire month valid
+            expiryDate.setMonth(expiryDate.getMonth() + 1, 0);
+            expiryDate.setHours(23, 59, 59, 999);
+
+
             if (expiryDate < now) {
                 errors.expiry = 'Card has expired';
             }

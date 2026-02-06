@@ -1,20 +1,18 @@
-/**
- * @file Layout
- * @architecture Capa de presentación - envoltorio del layout principal con barra de navegación y notificaciones toast
- * @side-effects Listener de evento de scroll del DOM, notificaciones toast
- * @perf La limpieza de useEffect previene fugas de memoria, el listener de scroll es limitado por el navegador
- */
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+// src/components/common/Layout.tsx
+import { useEffect, useState, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import ThemeSwitcher from "@/features/theme/presentation/ThemeSwitcher";
 import CartIcon from "@/features/cart/presentation/CartIcon";
 import { useCart } from "@/features/cart/application/useCart";
 import { Toaster } from "react-hot-toast";
 
-const Layout = ({ children }) => {
-    const { toggleCart } = useCart();
-    const [scrolled, setScrolled] = useState(false);
+interface LayoutProps {
+    children: ReactNode;
+}
+
+const Layout = ({ children }: LayoutProps) => {
+    const { toggleCart } = useCart(); // useCart is now typed
+    const [scrolled, setScrolled] = useState<boolean>(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -49,6 +47,7 @@ const Layout = ({ children }) => {
                     </Link>
 
                     <div className="flex items-center gap-1 sm:gap-2">
+                        {/* ThemeSwitcher and CartIcon are still JSX/JS, their props will be implicitly 'any' until migrated */}
                         <ThemeSwitcher />
 
                         <div className="relative">
@@ -72,10 +71,6 @@ const Layout = ({ children }) => {
             </main>
         </div>
     );
-};
-
-Layout.propTypes = {
-    children: PropTypes.node.isRequired,
 };
 
 export default Layout;

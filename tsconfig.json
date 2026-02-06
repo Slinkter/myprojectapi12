@@ -30,7 +30,7 @@
         /* Interop Constraints */
         "esModuleInterop": true,
         "allowJs": true,
-        "checkJs": false,
+        "checkJs": true,
         "isolatedModules": true,
         "forceConsistentCasingInFileNames": true
     },

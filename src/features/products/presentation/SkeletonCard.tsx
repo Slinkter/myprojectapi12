@@ -1,10 +1,7 @@
-/**
- * @file SkeletonCard
- * @architecture Capa de presentación - marcador de posición de carga para tarjetas de producto
- * @side-effects Ninguno - componente de UI puro
- * @perf Animación CSS (pulso) a través de Tailwind
- */
-const SkeletonCard = () => {
+// src/features/products/presentation/SkeletonCard.tsx
+import React from "react"; // Not strictly needed for this component, but good practice for JSX
+
+const SkeletonCard: React.FC = () => {
     return (
         <div className="skeleton-card w-full h-full flex flex-col animate-pulse">
             {/* Image Skeleton */}

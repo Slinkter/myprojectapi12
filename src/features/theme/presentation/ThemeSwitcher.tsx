@@ -1,15 +1,10 @@
-/**
- * @file ThemeSwitcher
- * @architecture Capa de presentación - botón para alternar el tema
- * @side-effects Activa el cambio de tema a través del contexto (localStorage + DOM)
- * @perf No se necesita optimización - componente de botón simple
- */
-import { useContext } from "react";
-import { ThemeContext } from "@/features/theme/application/ThemeContext";
+// src/features/theme/presentation/ThemeSwitcher.tsx
+import { useTheme } from "@/features/theme/application/ThemeContext"; // useTheme hook is now typed
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 
 const ThemeSwitcher = () => {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  // useTheme hook is already typed, so these are correctly inferred
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <button

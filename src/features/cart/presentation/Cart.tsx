@@ -1,12 +1,14 @@
-/**
- * Componente Cart - Drawer del carrito de compras.
- * Muestra items, total y permite checkout.
- */
+// src/features/cart/presentation/Cart.tsx
 import { useNavigate } from "react-router-dom";
 import { IoMdClose, IoMdTrash } from "react-icons/io";
+// Assuming useCart comes from a file like src/features/cart/application/useCart.ts
+// The type definitions for useCart would ideally be in a shared type file for the cart feature.
+// For now, let's assume useCart returns an object with typed properties.
 import { useCart } from "@/features/cart/application/useCart";
+import { CartItem } from "@/features/checkout/application/types"; // Import CartItem from shared types
 
 const Cart = () => {
+    // useCart hook is already typed, so these are correctly inferred
     const {
         cart,
         removeFromCart,
@@ -61,7 +63,7 @@ const Cart = () => {
                         </button>
                     </div>
                     <div className="cart-drawer__item-list flex-grow overflow-y-auto px-1 sm:px-2">
-                        {cart.map((item) => (
+                        {cart.map((item: CartItem) => ( // Explicitly type item here
                             <div key={item.id} className="cart-drawer__item">
                                 <div className="flex-1 min-w-0">
                                     <h6 className="font-semibold text-sm sm:text-base truncate">

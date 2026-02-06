@@ -1,20 +1,14 @@
-/**
- * @file ErrorFallback
- * @architecture Capa de presentación - UI de error mostrada por ErrorBoundary
- * @side-effects Recarga de página al hacer clic en el botón "Go to Home"
- * @perf No se necesita optimización - solo se renderiza en caso de error
- */
-import PropTypes from 'prop-types';
+// src/components/common/ErrorFallback.tsx
 import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
+import React from 'react'; // Import React for React.ErrorInfo
 
-/**
- * Componente de UI de fallback mostrado cuando ErrorBoundary captura un error
- * @param {Object} props
- * @param {Error} props.error - El error que fue capturado
- * @param {Object} props.errorInfo - Información adicional del error
- * @param {Function} props.onReset - Callback para reiniciar el límite de error
- */
-const ErrorFallback = ({ error, errorInfo, onReset }) => {
+interface ErrorFallbackProps {
+    error: Error | null;
+    errorInfo: React.ErrorInfo | null;
+    onReset: () => void;
+}
+
+const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
     const isDev = import.meta.env.DEV;
 
     return (
@@ -76,7 +70,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }) => {
                         Try Again
                     </button>
                     <button
-                        onClick={() => window.location.href = '/myprojectapi12/'}
+                        onClick={() => (window.location.href = '/myprojectapi12/')}
                         className="error-fallback-home-button px-6 py-3"
                     >
                         Go to Home
@@ -85,14 +79,6 @@ const ErrorFallback = ({ error, errorInfo, onReset }) => {
             </div>
         </div>
     );
-};
-
-ErrorFallback.propTypes = {
-    error: PropTypes.instanceOf(Error),
-    errorInfo: PropTypes.shape({
-        componentStack: PropTypes.string,
-    }),
-    onReset: PropTypes.func.isRequired,
 };
 
 export default ErrorFallback;

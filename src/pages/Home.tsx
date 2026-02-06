@@ -1,17 +1,15 @@
-/**
- * @file Home
- * @architecture Capa de página - página principal de listado de productos con scroll infinito
- * @side-effects Llamadas de red a través del hook useProducts, estado del modal a través del contexto
- * @perf ProductModalProvider envuelve solo esta página para limitar el alcance del estado del modal
- */
+// src/pages/Home.tsx
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import { useProducts } from "@/features/products/application/useProducts";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
 import { ProductModalProvider, useProductModalContext } from "@/features/products/application/ProductModalContext";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
+import { Product } from "@/features/products/application/types"; // Importamos la interfaz Product
 
 const HomeContent = () => {
+    // useProducts hook is already typed, so these are correctly inferred
     const { products, initialLoading, loading, error, loadMore, hasMore } = useProducts();
+    // useProductModalContext hook is already typed, so these are correctly inferred
     const { selectedProduct, isModalOpen, handleCloseModal } = useProductModalContext();
 
     return (
@@ -35,11 +33,12 @@ const HomeContent = () => {
 
             {!initialLoading && products.length > 0 && (
                 <>
-                    <ProductGrid products={products} />
+                    {/* ProductGrid will need to be migrated to accept typed products */}
+                    <ProductGrid products={products as any} /> {/* Temporarily cast to any */}
                     <div className="page-home__pagination">
                         {hasMore && (
                             <button
-                                onClick={loadMore}
+                                onClick={() => loadMore()} // Ensure loadMore is called as a function
                                 disabled={loading}
                                 className="page-home__load-more-button flex items-center justify-center gap-2"
                                 aria-label="Load more products"
@@ -59,8 +58,9 @@ const HomeContent = () => {
                 </>
             )}
             {selectedProduct && (
+                // ProductDetailModal will need to be migrated to accept typed product
                 <ProductDetailModal
-                    product={selectedProduct}
+                    product={selectedProduct as any} // Temporarily cast to any
                     open={isModalOpen}
                     onClose={handleCloseModal}
                 />
@@ -69,9 +69,9 @@ const HomeContent = () => {
     );
 };
 
-
 const Home = () => {
     return (
+        // ProductModalProvider is already typed
         <ProductModalProvider>
             <HomeContent />
         </ProductModalProvider>

@@ -1,12 +1,8 @@
-/**
- * @file CheckoutSuccess
- * @architecture Capa de presentación - página de éxito después del pago
- * @side-effects Ninguno - componente de UI puro
- * @perf No se necesita optimización - página estática
- */
+// src/features/checkout/presentation/CheckoutSuccess.tsx
 import { Link } from "react-router-dom";
+import React from "react"; // Not strictly needed for this component, but good practice for JSX
 
-const CheckoutSuccess = () => {
+const CheckoutSuccess: React.FC = () => {
   return (
     <div className="checkout-success-page">
       <div className="checkout-success-card checkout-success-card">
