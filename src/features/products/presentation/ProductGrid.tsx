@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Product from "./Product";
 import { motion } from "framer-motion";
 import { Product as ProductInterface } from "../application/types";
@@ -7,7 +8,7 @@ interface ProductGridProps {
   products: ProductInterface[];
 }
 
-const ProductGrid = ({ products }: ProductGridProps) => {
+const ProductGrid = memo(({ products }: ProductGridProps) => {
   return (
     <motion.div
       className="product-grid"
@@ -25,6 +26,8 @@ const ProductGrid = ({ products }: ProductGridProps) => {
       ))}
     </motion.div>
   );
-};
+});
+
+ProductGrid.displayName = "ProductGrid";
 
 export default ProductGrid;

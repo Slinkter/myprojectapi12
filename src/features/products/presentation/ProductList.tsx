@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Product } from "../application/types";
 import ProductGrid from "./ProductGrid";
 import ErrorMessage from "@/components/common/ErrorMessage";
@@ -10,7 +11,7 @@ interface ProductListProps {
     loadMore: () => void;
 }
 
-const ProductList = ({
+const ProductList = memo(({
     products,
     loading,
     error,
@@ -65,6 +66,8 @@ const ProductList = ({
             </div>
         </>
     );
-};
+});
+
+ProductList.displayName = "ProductList";
 
 export default ProductList;
