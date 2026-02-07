@@ -6,48 +6,54 @@
 
 ---
 
-## ✅ Archivos YA Documentados (5)
+## ✅ Archivos YA Documentados (16)
 
-### Domain Layer - Cart
+### Domain Layer - Cart (2/2)
 - [x] `features/cart/domain/cartTypes.ts` ✅
 - [x] `features/cart/domain/cartUtils.ts` ✅
 
-### Application Layer - Cart
+### Application Layer - Cart (3/3)
 - [x] `features/cart/application/CartContext.tsx` ✅
 - [x] `features/cart/application/hooks/useCartActions.ts` ✅
 - [x] `features/cart/application/hooks/useCartDrawer.ts` ✅
 
+### Application Layer - Products (4/4)
+- [x] `features/products/application/useProducts.ts` ✅
+- [x] `features/products/application/types.ts` ✅
+- [x] `features/products/application/useProductModal.ts` ✅
+- [x] `features/products/application/ProductModalContext.tsx` ✅
+
+### Infrastructure Layer - Products (1/1)
+- [x] `features/products/infrastructure/productsApi.ts` ✅
+
+### Presentation Layer - Products (6/6)
+- [x] `features/products/presentation/Product.tsx` ✅
+- [x] `features/products/presentation/ProductGrid.tsx` ✅
+- [x] `features/products/presentation/ProductList.tsx` ✅
+- [x] `features/products/presentation/ProductDetailModal.tsx` ✅
+- [x] `features/products/presentation/SkeletonCard.tsx` ✅
+- [x] `features/products/presentation/SkeletonGrid.tsx` ✅
+
 ---
 
-## ⏳ Archivos PENDIENTES de Documentación (37)
+## ⏳ Archivos PENDIENTES de Documentación (26)
 
-### 🔴 ALTA PRIORIDAD (10 archivos)
-
-#### Application Layer - Products
-- [ ] `features/products/application/useProducts.ts` ⭐ CRÍTICO
-- [ ] `features/products/application/types.ts`
-- [ ] `features/products/application/useProductModal.ts`
-- [ ] `features/products/application/ProductModalContext.tsx`
+### 🔴 ALTA PRIORIDAD (3 archivos)
 
 #### Application Layer - Checkout
 - [ ] `features/checkout/application/useCheckout.ts` ⭐ CRÍTICO
 - [ ] `features/checkout/application/types.ts`
 - [ ] `features/checkout/application/validation.ts`
 
-#### Infrastructure Layer
-- [ ] `features/products/infrastructure/productsApi.ts` ⭐ CRÍTICO
+#### Infrastructure Layer - Core
 - [ ] `app/api/apiClient.ts` ⭐ CRÍTICO
 - [ ] `app/config/queryClient.ts`
 
 ---
 
-### 🟡 MEDIA PRIORIDAD (15 archivos)
+### 🟡 MEDIA PRIORIDAD (11 archivos)
 
-#### Presentation Layer - Components Principales
-- [ ] `features/products/presentation/Product.tsx`
-- [ ] `features/products/presentation/ProductGrid.tsx`
-- [ ] `features/products/presentation/ProductList.tsx`
-- [ ] `features/products/presentation/ProductDetailModal.tsx`
+#### Presentation Layer - Checkout & Cart
 - [ ] `features/cart/presentation/Cart.tsx`
 - [ ] `features/cart/presentation/CartIcon.tsx`
 - [ ] `features/checkout/presentation/Checkout.tsx`
@@ -61,8 +67,6 @@
 #### Application Layer - Theme
 - [ ] `features/theme/application/ThemeContext.tsx`
 - [ ] `features/theme/presentation/ThemeSwitcher.tsx`
-
-#### Common Components
 - [ ] `components/common/ErrorMessage.tsx`
 - [ ] `components/common/FeatureErrorBoundary.tsx`
 
