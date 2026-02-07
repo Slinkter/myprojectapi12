@@ -8,7 +8,12 @@ interface ProductProps {
 }
 
 const Product = React.memo(({ product }: ProductProps) => {
-  // useProductModalContext hook is already typed, so these are correctly inferred
+  // Validación de producto
+  if (!product || !product.id) {
+    console.error("Product component received invalid product:", product);
+    return null;
+  }
+
   const { handleOpenModal } = useProductModalContext();
 
   return (

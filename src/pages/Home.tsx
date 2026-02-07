@@ -1,15 +1,15 @@
-// src/pages/Home.tsx
-import ProductGrid from "@/features/products/presentation/ProductGrid";
+import ProductList from "@/features/products/presentation/ProductList";
 import { useProducts } from "@/features/products/application/useProducts";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
-import { ProductModalProvider, useProductModalContext } from "@/features/products/application/ProductModalContext";
+import {
+    ProductModalProvider,
+    useProductModalContext
+} from "@/features/products/application/ProductModalContext";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
-import { Product } from "@/features/products/application/types"; // Importamos la interfaz Product
+import FeatureErrorBoundary from "@/components/common/FeatureErrorBoundary";
 
 const HomeContent = () => {
-    // useProducts hook is already typed, so these are correctly inferred
     const { products, initialLoading, loading, error, loadMore, hasMore } = useProducts();
-    // useProductModalContext hook is already typed, so these are correctly inferred
     const { selectedProduct, isModalOpen, handleCloseModal } = useProductModalContext();
 
     return (
@@ -25,42 +25,19 @@ const HomeContent = () => {
 
             {initialLoading && <SkeletonGrid />}
 
-            {error && <p className="page-home__error-message">{error}</p>}
-
-            {!initialLoading && !error && products.length === 0 && (
-                <p className="page-home__info-message">No products found.</p>
+            {!initialLoading && (
+                <ProductList
+                    products={products}
+                    loading={loading}
+                    error={error}
+                    hasMore={hasMore}
+                    loadMore={loadMore}
+                />
             )}
 
-            {!initialLoading && products.length > 0 && (
-                <>
-                    {/* ProductGrid will need to be migrated to accept typed products */}
-                    <ProductGrid products={products as any} /> {/* Temporarily cast to any */}
-                    <div className="page-home__pagination">
-                        {hasMore && (
-                            <button
-                                onClick={() => loadMore()} // Ensure loadMore is called as a function
-                                disabled={loading}
-                                className="page-home__load-more-button flex items-center justify-center gap-2"
-                                aria-label="Load more products"
-                            >
-                                {loading ? (
-                                    <>
-                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                        <span>Loading...</span>
-                                    </>
-                                ) : (
-                                    "Load More"
-                                )}
-                            </button>
-                        )}
-                        {!hasMore && <p className="page-home__info-message">You have reached the end of the list.</p>}
-                    </div>
-                </>
-            )}
             {selectedProduct && (
-                // ProductDetailModal will need to be migrated to accept typed product
                 <ProductDetailModal
-                    product={selectedProduct as any} // Temporarily cast to any
+                    product={selectedProduct}
                     open={isModalOpen}
                     onClose={handleCloseModal}
                 />
@@ -69,13 +46,12 @@ const HomeContent = () => {
     );
 };
 
-const Home = () => {
-    return (
-        // ProductModalProvider is already typed
-        <ProductModalProvider>
+const Home = () => (
+    <ProductModalProvider>
+        <FeatureErrorBoundary featureName="Products">
             <HomeContent />
-        </ProductModalProvider>
-    );
-};
+        </FeatureErrorBoundary>
+    </ProductModalProvider>
+);
 
 export default Home;

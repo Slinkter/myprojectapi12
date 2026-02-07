@@ -1,5 +1,5 @@
 // src/features/checkout/application/useCheckout.ts
-import { useReducer, useEffect, ChangeEvent } from "react";
+import { useReducer, useEffect, ChangeEvent, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCardType, validateCardInfo } from "./validation";
 import {
@@ -55,6 +55,7 @@ interface UseCheckoutReturn {
   handlePayment: () => void;
   handleCardInfoChange: (e: ChangeEvent<HTMLInputElement>) => void;
   setPaymentMethod: (method: PaymentMethod) => void;
+  isPaymentDisabled: boolean;
 }
 
 export const useCheckout = (): UseCheckoutReturn => {
@@ -113,6 +114,16 @@ export const useCheckout = (): UseCheckoutReturn => {
     dispatch({ type: "SET_PAYMENT_METHOD", payload: method });
   };
 
+  const isPaymentDisabled = useMemo(() => {
+    if (paymentMethod === "bitcoin") return false;
+
+    const hasErrors = Object.values(errors).some((e) => e);
+    const hasEmptyFields = !cardInfo.number || !cardInfo.name ||
+      !cardInfo.expiry || !cardInfo.cvc;
+
+    return hasErrors || hasEmptyFields;
+  }, [paymentMethod, errors, cardInfo]);
+
   return {
     paymentMethod,
     cardInfo,
@@ -121,5 +132,6 @@ export const useCheckout = (): UseCheckoutReturn => {
     handlePayment,
     handleCardInfoChange,
     setPaymentMethod,
+    isPaymentDisabled,
   };
 };
