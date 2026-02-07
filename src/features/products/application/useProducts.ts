@@ -1,26 +1,35 @@
-// src/features/products/application/useProducts.ts
+/**
+ * @file useProducts.ts
+ * @description Hook personalizado para gestión de productos con paginación infinita usando React Query.
+ * @architecture Application Layer - Custom Hook
+ */
+
 import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
   InfiniteData,
-  // Removed unused imports: FetchNextPageOptions, FetchNextPageResult
 } from "@tanstack/react-query";
 import { getProducts } from "../infrastructure/productsApi";
 import { Product, ProductsApiResponse } from "./types";
 
 /**
- * Hook personalizado para gestionar la obtención y paginación de productos utilizando React Query.
- * Proporciona caché automática, deduplicación de solicitudes y refetching optimizado.
- *
+ * @function useProducts
+ * @description Hook para obtener productos con paginación infinita.
+ * Utiliza React Query para caché automática y deduplicación.
+ * @architecture Application Layer
+ * 
  * @returns {{
- *  products: Product[],
- *  error: string | null,
- *  loading: boolean,
- *  initialLoading: boolean,
- *  hasMore: boolean,
- *  loadMore: (options?: Parameters<typeof useInfiniteQuery>[0]['queryFn']) => ReturnType<typeof useInfiniteQuery>['fetchNextPage'],
- *  isLoadingMore: boolean
- * }}
+ *   products: Product[],
+ *   error: string | null,
+ *   loading: boolean,
+ *   initialLoading: boolean,
+ *   hasMore: boolean,
+ *   loadMore: Function,
+ *   isLoadingMore: boolean
+ * }} Estado y funciones para gestión de productos
+ * 
+ * @example
+ * const { products, loading, loadMore, hasMore } = useProducts();
  */
 export const useProducts = () => {
   const {
@@ -32,11 +41,11 @@ export const useProducts = () => {
     isFetchingNextPage,
     isLoading,
   }: UseInfiniteQueryResult<InfiniteData<ProductsApiResponse>, Error> = useInfiniteQuery<
-    ProductsApiResponse, // TQueryFnData: type of each page's data
-    Error, // TError: type of the error
-    InfiniteData<ProductsApiResponse>, // TData: type of the data structure returned by the hook (InfiniteData)
-    ["products"], // TQueryKey: type of the query key
-    number // TPageParam: type of the page parameter
+    ProductsApiResponse,
+    Error,
+    InfiniteData<ProductsApiResponse>,
+    ["products"],
+    number
   >({
     queryKey: ["products"],
     queryFn: ({ pageParam = 1 }) => getProducts(pageParam),
@@ -50,7 +59,6 @@ export const useProducts = () => {
     initialPageParam: 1,
   });
 
-  // Flatten all pages into a single array of products
   const products: Product[] = data?.pages.flatMap((page) => page.products) ?? [];
 
   return {

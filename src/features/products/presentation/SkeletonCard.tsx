@@ -1,9 +1,21 @@
-// src/features/products/presentation/SkeletonCard.tsx
-import React from "react"; // Not strictly needed for this component, but good practice for JSX
+/**
+ * @file SkeletonCard.tsx
+ * @description Componente de carga (placeholder) que visualiza una tarjeta de producto mientras los datos reales se descargan.
+ * @architecture Presentation Layer - UI Skeleton
+ */
 
+import React from "react";
+
+/**
+ * @component SkeletonCard
+ * @description Renderiza una estructura vacía con una animación de pulso que imita la forma de la tarjeta de Producto real.
+ * Ayuda a reducir el 'layout shift' y mejora la sensación de velocidad percibida.
+ * 
+ * @returns {JSX.Element} Un contenedor animado con placeholders grises.
+ */
 const SkeletonCard: React.FC = () => {
     return (
-        <div className="skeleton-card w-full h-full flex flex-col animate-pulse">
+        <div className="skeleton-card w-full h-full flex flex-col animate-pulse" aria-hidden="true">
             {/* Image Skeleton */}
             <div className="h-56 bg-gray-200 dark:bg-gray-700 rounded-t-2xl"></div>
 

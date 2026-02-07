@@ -1,15 +1,25 @@
-// src/features/products/application/ProductModalContext.tsx
-import { createContext, useContext, ReactNode } from "react";
-import { useProductModal, UseProductModalResult } from "./useProductModal"; // Importamos el hook y la interfaz
+/**
+ * @file ProductModalContext.tsx
+ * @description Definición del contexto y proveedor para la gestión del modal de productos en toda la aplicación.
+ * @architecture Application Layer - Contexto de modal de producto
+ */
 
-// Creamos el contexto con un valor inicial de `undefined`.
-// El `useProductModalContext` garantizará que nunca se use un valor `undefined` si se usa dentro del `Provider`.
+import { createContext, useContext, ReactNode } from "react";
+import { useProductModal, UseProductModalResult } from "./useProductModal";
+
+/**
+ * Contexto de React para el estado del modal del producto.
+ * @constant {React.Context<UseProductModalResult | undefined>}
+ */
 const ProductModalContext = createContext<UseProductModalResult | undefined>(undefined);
 
 /**
- * Hook personalizado para acceder al contexto del modal del producto.
- * Lanza un error si se usa fuera de un `ProductModalProvider`.
- * @returns {UseProductModalResult}
+ * @function useProductModalContext
+ * @description Hook para acceder a las funciones y estado del modal de producto desde cualquier componente hijo.
+ * @architecture Application Layer - Hook de consumo de contexto
+ * 
+ * @returns {UseProductModalResult} El estado y las funciones del modal.
+ * @throws {Error} Si se utiliza fuera de un ProductModalProvider.
  */
 export const useProductModalContext = (): UseProductModalResult => {
   const context = useContext(ProductModalContext);
@@ -21,17 +31,25 @@ export const useProductModalContext = (): UseProductModalResult => {
   return context;
 };
 
+/**
+ * @interface ProductModalProviderProps
+ * @description Props para el componente ProductModalProvider.
+ */
 interface ProductModalProviderProps {
+  /** Componentes hijos que tendrán acceso al contexto */
   children: ReactNode;
 }
 
 /**
- * Componente proveedor para el contexto del modal del producto.
- * Encapsula la lógica para el modal del producto utilizando el hook useProductModal
- * y proporciona el estado y las funciones a sus hijos.
+ * @component ProductModalProvider
+ * @description Proveedor que envuelve la aplicación o una parte de ella para habilitar el modal de productos.
+ * Utiliza el hook useProductModal internamente para centralizar el estado.
+ * 
+ * @param {ProductModalProviderProps} props - Propiedades del componente.
+ * @returns {JSX.Element} El proveedor del contexto con los hijos envueltos.
  */
 export const ProductModalProvider = ({ children }: ProductModalProviderProps) => {
-  const value = useProductModal(); // El hook ya devuelve UseProductModalResult
+  const value = useProductModal();
   return (
     <ProductModalContext.Provider value={value}>
       {children}

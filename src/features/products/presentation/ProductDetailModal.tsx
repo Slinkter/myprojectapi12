@@ -1,23 +1,46 @@
-// src/features/products/presentation/ProductDetailModal.tsx
+/**
+ * @file ProductDetailModal.tsx
+ * @description Componente de modal para mostrar información detallada de un producto
+ * y permitir al usuario elegir la cantidad antes de agregarlo al carrito.
+ * @architecture Presentation Layer - Componente de UI / Modal
+ */
+
 import { useState, useEffect, MouseEvent } from "react";
 import { useCart } from "@/features/cart/application/useCart";
 import { motion, AnimatePresence } from "framer-motion";
 import { Product } from "@/features/products/application/types";
 import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
 
+/**
+ * @interface ProductDetailModalProps
+ * @description Propiedades para el modal de detalles del producto.
+ */
 interface ProductDetailModalProps {
+  /** El objeto del producto a mostrar, o null si está cerrado */
   product: Product | null;
+  /** Booleano que controla si el modal es visible */
   open: boolean;
+  /** Función callback para solicitar el cierre del modal */
   onClose: () => void;
 }
 
+/**
+ * @component ProductDetailModal
+ * @description Modal animado con Framer Motion que presenta los detalles del producto seleccionado.
+ * Permite seleccionar la cantidad respetando el stock disponible e integra con el CartContext
+ * para agregar el item al carrito.
+ * 
+ * @param {ProductDetailModalProps} props - Propiedades del componente.
+ * @returns {JSX.Element} El modal renderizado condicionalmente y con animaciones.
+ */
 const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps) => {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState<number>(1);
 
+  // Efecto para manejar accesibilidad y reseteo de estado local
   useEffect(() => {
     if (open) {
-      setQuantity(1);
+      setQuantity(1); // Reiniciar cantidad al abrir
 
       const handleEscape = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
@@ -31,6 +54,9 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
     return () => { };
   }, [open, onClose]);
 
+  /**
+   * Manejador para agregar el producto al carrito global y cerrar el modal.
+   */
   const handleAddToCart = () => {
     if (product) {
       addToCart(product, quantity);
@@ -38,6 +64,9 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
     onClose();
   };
 
+  /**
+   * Incrementa la cantidad a agregar, validando contra el stock disponible.
+   */
   const increment = () => {
     setQuantity((prev) => {
       if (product && prev < product.stock) return prev + 1;
@@ -45,10 +74,14 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
     });
   };
 
+  /**
+   * Decrementa la cantidad a agregar, deteniéndose en 1.
+   */
   const decrement = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
   };
 
+  // No renderizar nada si no hay producto (seguridad adicional)
   if (!product) {
     return null;
   }
@@ -68,13 +101,14 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
         >
           <motion.div
             className="product-detail-modal-card w-full max-w-lg p-4 sm:p-6 m-2 sm:m-4 max-h-[90vh] overflow-y-auto"
-            onClick={(e: MouseEvent) => e.stopPropagation()} // Type mouse event
+            onClick={(e: MouseEvent) => e.stopPropagation()}
             variants={MODAL_SLIDE_UP}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
           >
+            {/* Header del Modal */}
             <div className="flex justify-between items-center mb-3 sm:mb-4">
               <h5
                 id="modal-title"
@@ -90,28 +124,32 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                 &times;
               </button>
             </div>
+
+            {/* Contenido / Detalles */}
             <div className="border-t border-[var(--neumo-shadow-dark)] dark:border-[var(--neumo-shadow-dark-mode-dark)] pt-4">
               <img
                 src={product.thumbnail}
                 alt={`${product.title} product image`}
                 className="product-modal__image"
               />
-              <p id="modal-description" className="product-modal__description my-4">
+              <p id="modal-description" className="product-modal__description my-4 italic text-gray-600 dark:text-gray-400">
                 {product.description}
               </p>
               <h6
-                className="product-modal__price font-semibold"
+                className="product-modal__price font-semibold text-amber-600 dark:text-amber-500"
                 aria-label={`Price: $${product.price}`}
               >
                 Price: $ {product.price}
               </h6>
               <h6
-                className="product-modal__stock font-semibold"
+                className="product-modal__stock font-semibold text-gray-700 dark:text-gray-300"
                 aria-label={`${product.stock} units available`}
               >
                 Stock: {product.stock}
               </h6>
             </div>
+
+            {/* Footer / Controles de Acción */}
             <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 gap-3 sm:gap-0">
               <div
                 className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3"

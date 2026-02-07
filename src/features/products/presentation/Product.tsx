@@ -1,14 +1,33 @@
-// src/features/products/presentation/Product.tsx
-import React from "react"; // For React.memo
-import { useProductModalContext } from "../application/ProductModalContext"; // useProductModalContext is now typed
-import { Product as ProductInterface } from "../application/types"; // Import Product interface
+/**
+ * @file Product.tsx
+ * @description Componente de presentación para mostrar la tarjeta de un producto individual.
+ * @architecture Presentation Layer - Componente de UI
+ */
 
+import React from "react";
+import { useProductModalContext } from "../application/ProductModalContext";
+import { Product as ProductInterface } from "../application/types";
+
+/**
+ * @interface ProductProps
+ * @description Propiedades para el componente Product.
+ * @property {ProductInterface} product - Objeto con la información detallada del producto.
+ */
 interface ProductProps {
   product: ProductInterface;
 }
 
+/**
+ * @component Product
+ * @description Tarjeta de producto que muestra imagen, título, descripción, precio y stock.
+ * Permite abrir el modal de detalles para agregar al carrito.
+ * Utiliza React.memo para optimizar re-renders.
+ * 
+ * @param {ProductProps} props - Propiedades del componente.
+ * @returns {JSX.Element | null} La tarjeta del producto o null si los datos son inválidos.
+ */
 const Product = React.memo(({ product }: ProductProps) => {
-  // Validación de producto
+  // Validación de producto para evitar errores de renderizado
   if (!product || !product.id) {
     console.error("Product component received invalid product:", product);
     return null;
