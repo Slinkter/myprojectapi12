@@ -1,9 +1,8 @@
 // src/features/theme/presentation/ThemeSwitcher.tsx
-import { useTheme } from "@/features/theme/application/ThemeContext"; // useTheme hook is now typed
-import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
+import { useTheme } from "@/features/theme/application/ThemeContext";
+import { Sun, Moon } from "lucide-react";
 
 const ThemeSwitcher = () => {
-  // useTheme hook is already typed, so these are correctly inferred
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -13,9 +12,9 @@ const ThemeSwitcher = () => {
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
       {theme === "light" ? (
-        <HiOutlineMoon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700 dark:text-gray-300" />
+        <Moon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700 dark:text-gray-300" />
       ) : (
-        <HiOutlineSun className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700 dark:text-gray-300" />
+        <Sun className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700 dark:text-gray-300" />
       )}
     </button>
   );

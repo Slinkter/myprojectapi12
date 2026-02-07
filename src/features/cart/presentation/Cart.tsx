@@ -1,11 +1,8 @@
 // src/features/cart/presentation/Cart.tsx
 import { useNavigate } from "react-router-dom";
-import { IoMdClose, IoMdTrash } from "react-icons/io";
-// Assuming useCart comes from a file like src/features/cart/application/useCart.ts
-// The type definitions for useCart would ideally be in a shared type file for the cart feature.
-// For now, let's assume useCart returns an object with typed properties.
+import { X, Trash2 } from "lucide-react";
 import { useCart } from "@/features/cart/application/useCart";
-import { CartItem } from "@/features/checkout/application/types"; // Import CartItem from shared types
+import { CartItem } from "@/features/checkout/application/types";
 
 const Cart = () => {
     // useCart hook is already typed, so these are correctly inferred
@@ -36,11 +33,10 @@ const Cart = () => {
             )}
 
             <div
-                className={`fixed top-0 right-0 h-full transform transition-transform duration-300 ease-in-out ${
-                    isCartOpen
-                        ? "translate-x-0 shadow-[-10px_0_30px_rgba(0,0,0,0.15)]"
-                        : "translate-x-full"
-                } w-full sm:max-w-md z-50`}
+                className={`fixed top-0 right-0 h-full transform transition-transform duration-300 ease-in-out ${isCartOpen
+                    ? "translate-x-0 shadow-[-10px_0_30px_rgba(0,0,0,0.15)]"
+                    : "translate-x-full"
+                    } w-full sm:max-w-md z-50`}
                 role="dialog"
                 aria-modal="true"
                 aria-label="Shopping cart"
@@ -56,7 +52,7 @@ const Cart = () => {
                             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                             aria-label="Close shopping cart"
                         >
-                            <IoMdClose
+                            <X
                                 size={24}
                                 className="cart-drawer__close-icon"
                             />
@@ -85,7 +81,7 @@ const Cart = () => {
                                         className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500"
                                         aria-label={`Remove ${item.title} from cart`}
                                     >
-                                        <IoMdTrash
+                                        <Trash2
                                             size={18}
                                             className="cart-drawer__remove-icon sm:w-5 sm:h-5"
                                         />

@@ -1,6 +1,6 @@
 // src/components/common/ErrorFallback.tsx
-import { HiOutlineExclamationTriangle } from 'react-icons/hi2';
-import React from 'react'; // Import React for React.ErrorInfo
+import { TriangleAlert } from 'lucide-react';
+import React from 'react';
 
 interface ErrorFallbackProps {
     error: Error | null;
@@ -16,7 +16,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
             <div className="error-fallback-card max-w-2xl w-full p-8 text-center">
                 <div className="flex justify-center mb-6">
                     <div className="w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
-                        <HiOutlineExclamationTriangle className="w-12 h-12 text-red-600 dark:text-red-400" />
+                        <TriangleAlert className="w-12 h-12 text-red-600 dark:text-red-400" />
                     </div>
                 </div>
 
