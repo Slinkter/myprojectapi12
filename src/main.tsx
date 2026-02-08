@@ -1,4 +1,9 @@
-// src/main.tsx
+/**
+ * @file main.tsx
+ * @description Punto de entrada principal de la aplicación React.
+ * Configura los proveedores globales (Context, Router, QueryClient).
+ * @architecture Infrastructure Layer - Entry Point
+ */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -6,8 +11,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "@/features/theme/application/ThemeContext";
 import { CartProvider } from "@/features/cart/application/CartContext";
-import { queryClient } from "@/app/config/queryClient"; // queryClient is now typed
-import App from "./App"; // App.jsx will be App.tsx after migration
+import { queryClient } from "@/app/config/queryClient";
+import App from "./App";
 import "./index.css";
 
 const rootElement = document.getElementById("root");

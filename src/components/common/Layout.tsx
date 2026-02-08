@@ -1,4 +1,10 @@
-// src/components/common/Layout.tsx
+/**
+ * @file Layout.tsx
+ * @description Layout principal de la aplicación.
+ * Incluye la barra de navegación (Navbar), el contenedor principal y el pie de página.
+ * Maneja el estado de scroll para efectos visuales en el header.
+ * @architecture Presentation Layer - Layout
+ */
 import { useEffect, useState, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import ThemeSwitcher from "@/features/theme/presentation/ThemeSwitcher";
@@ -10,6 +16,12 @@ interface LayoutProps {
     children: ReactNode;
 }
 
+/**
+ * Componente de estructura base para todas las páginas.
+ *
+ * @component
+ * @param {LayoutProps} props
+ */
 const Layout = ({ children }: LayoutProps) => {
     const { toggleCart } = useCart(); // useCart is now typed
     const [scrolled, setScrolled] = useState<boolean>(false);

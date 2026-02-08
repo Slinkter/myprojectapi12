@@ -1,4 +1,10 @@
-// src/features/checkout/application/validation.ts
+/**
+ * @file validation.ts
+ * @description Funciones de utilidad para validación de formularios de checkout.
+ * Incluye lógica de negocio para validación de tarjetas de crédito y detección de tipo.
+ * @architecture Application Layer - Checkout Validation Logic
+ */
+
 import { CardInfo, ValidationErrors } from "./types";
 
 /**
@@ -6,13 +12,13 @@ import { CardInfo, ValidationErrors } from "./types";
  * @param {string} cardNumber - El número de tarjeta.
  * @returns {'visa' | 'mastercard' | ''} 'visa', 'mastercard', o ''.
  */
-export const getCardType = (cardNumber: string): 'visa' | 'mastercard' | '' => {
-    if (cardNumber.startsWith('4')) {
-        return 'visa';
-    } else if (cardNumber.startsWith('5')) {
-        return 'mastercard';
+export const getCardType = (cardNumber: string): "visa" | "mastercard" | "" => {
+    if (cardNumber.startsWith("4")) {
+        return "visa";
+    } else if (cardNumber.startsWith("5")) {
+        return "mastercard";
     }
-    return '';
+    return "";
 };
 
 /**
@@ -23,7 +29,7 @@ export const getCardType = (cardNumber: string): 'visa' | 'mastercard' | '' => {
 export const validateCardInfo = (cardInfo: CardInfo): ValidationErrors => {
     const { number, name, expiry, cvc } = cardInfo;
     const errors: ValidationErrors = {};
-    const sanitizedCardNumber = number.replace(/\s/g, '');
+    const sanitizedCardNumber = number.replace(/\s/g, "");
 
     // Card number validation (Luhn algorithm)
     let sum = 0;
@@ -39,27 +45,32 @@ export const validateCardInfo = (cardInfo: CardInfo): ValidationErrors => {
         shouldDouble = !shouldDouble;
     }
     if (sanitizedCardNumber.length > 0 && sum % 10 !== 0) {
-        errors.number = 'Invalid card number';
+        errors.number = "Invalid card number";
     } else if (sanitizedCardNumber.length === 0) {
-        errors.number = 'Card number is required';
+        errors.number = "Card number is required";
     }
-
 
     // Name validation
     if (!name) {
-        errors.name = 'Name is required';
+        errors.name = "Name is required";
     }
 
     // Expiry validation
     if (!expiry) {
-        errors.expiry = 'Expiry date is required';
+        errors.expiry = "Expiry date is required";
     } else {
-        const [monthStr, yearStr] = expiry.split('/');
+        const [monthStr, yearStr] = expiry.split("/");
         const month = parseInt(monthStr);
         const year = parseInt(yearStr);
 
-        if (isNaN(month) || isNaN(year) || month < 1 || month > 12 || yearStr.length !== 2) {
-            errors.expiry = 'Invalid date format (MM/YY)';
+        if (
+            isNaN(month) ||
+            isNaN(year) ||
+            month < 1 ||
+            month > 12 ||
+            yearStr.length !== 2
+        ) {
+            errors.expiry = "Invalid date format (MM/YY)";
         } else {
             // const currentYear = new Date().getFullYear() % 100; // Removed unused variable
             // const currentMonth = new Date().getMonth() + 1; // Removed unused variable
@@ -77,18 +88,17 @@ export const validateCardInfo = (cardInfo: CardInfo): ValidationErrors => {
             expiryDate.setMonth(expiryDate.getMonth() + 1, 0);
             expiryDate.setHours(23, 59, 59, 999);
 
-
             if (expiryDate < now) {
-                errors.expiry = 'Card has expired';
+                errors.expiry = "Card has expired";
             }
         }
     }
 
     // CVC validation
     if (!cvc) {
-        errors.cvc = 'CVC is required';
+        errors.cvc = "CVC is required";
     } else if (cvc.length < 3) {
-        errors.cvc = 'CVC must be at least 3 digits';
+        errors.cvc = "CVC must be at least 3 digits";
     }
 
     return errors;

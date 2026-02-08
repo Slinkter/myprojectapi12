@@ -1,10 +1,20 @@
-// src/components/common/ErrorBoundary.tsx
-import React, { Component, ReactNode } from 'react';
-import ErrorFallback from './ErrorFallback';
+/**
+ * @file ErrorBoundary.tsx
+ * @description Boundary de error global para la aplicación.
+ * Captura errores no controlados en el árbol de componentes y muestra una UI de fallback.
+ * @architecture Infrastructure Layer - Error Handling
+ */
+import React, { Component, ReactNode } from "react";
+import ErrorFallback from "./ErrorFallback";
 
+/**
+ * @interface ErrorBoundaryProps
+ * @property {ReactNode} children - Componentes hijos a envolver
+ * @property {ReactNode} [fallback] - UI opcional alternativa
+ */
 interface ErrorBoundaryProps {
     children: ReactNode;
-    fallback?: ReactNode; // Optional custom fallback UI
+    fallback?: ReactNode;
 }
 
 interface ErrorBoundaryState {
@@ -13,6 +23,12 @@ interface ErrorBoundaryState {
     errorInfo: React.ErrorInfo | null;
 }
 
+/**
+ * Componente de clase para manejo global de errores.
+ * Utiliza métodos de ciclo de vida para capturar excepciones.
+ *
+ * @component
+ */
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
@@ -29,7 +45,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
         if (import.meta.env.DEV) {
-            console.error('ErrorBoundary caught an error:', error, errorInfo);
+            console.error("ErrorBoundary caught an error:", error, errorInfo);
         }
         // You can also log the error to an error reporting service here
         // logErrorToService(error, errorInfo);

@@ -1,3 +1,9 @@
+/**
+ * @file FeatureErrorBoundary.tsx
+ * @description Boundary de error para aislar fallos en features específicas.
+ * Muestra un ErrorMessage o un fallback personalizado cuando ocurre un error en sus hijos.
+ * @architecture Presentation Layer - Common Components
+ */
 import { Component, ReactNode, ErrorInfo } from "react";
 import ErrorMessage from "./ErrorMessage";
 
@@ -12,6 +18,15 @@ interface State {
     error: Error | null;
 }
 
+/**
+ * Componente Class-based para capturar errores de renderizado en sus hijos.
+ *
+ * @component
+ * @example
+ * <FeatureErrorBoundary featureName="Products">
+ *   <ProductList />
+ * </FeatureErrorBoundary>
+ */
 class FeatureErrorBoundary extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -39,7 +54,9 @@ class FeatureErrorBoundary extends Component<Props, State> {
             return (
                 <ErrorMessage
                     title={`Error in ${this.props.featureName}`}
-                    message={this.state.error?.message || "Something went wrong"}
+                    message={
+                        this.state.error?.message || "Something went wrong"
+                    }
                     action={{
                         label: "Try again",
                         onClick: this.handleReset,

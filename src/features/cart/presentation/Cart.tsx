@@ -1,8 +1,24 @@
-// src/features/cart/presentation/Cart.tsx
+/**
+ * @file Cart.tsx
+ * @description Componente principal del carrito de compras (Drawer).
+ * Muestra la lista de productos agregados, total y opciones de checkout.
+ * Implementa un diseño de "drawer" lateral con backdrop.
+ * @architecture Presentation Layer - Cart Feature
+ */
 import { useNavigate } from "react-router-dom";
 import { X, Trash2 } from "lucide-react";
 import { useCart } from "@/features/cart/application/useCart";
 import { CartItem } from "@/features/checkout/application/types";
+
+/**
+ * Componente de visualización del carrito de compras.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Cart />
+ * )
+ */
 
 const Cart = () => {
     // useCart hook is already typed, so these are correctly inferred
@@ -33,10 +49,11 @@ const Cart = () => {
             )}
 
             <div
-                className={`fixed top-0 right-0 h-full transform transition-transform duration-300 ease-in-out ${isCartOpen
-                    ? "translate-x-0 shadow-[-10px_0_30px_rgba(0,0,0,0.15)]"
-                    : "translate-x-full"
-                    } w-full sm:max-w-md z-50`}
+                className={`fixed top-0 right-0 h-full transform transition-transform duration-300 ease-in-out ${
+                    isCartOpen
+                        ? "translate-x-0 shadow-[-10px_0_30px_rgba(0,0,0,0.15)]"
+                        : "translate-x-full"
+                } w-full sm:max-w-md z-50`}
                 role="dialog"
                 aria-modal="true"
                 aria-label="Shopping cart"
@@ -52,43 +69,49 @@ const Cart = () => {
                             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                             aria-label="Close shopping cart"
                         >
-                            <X
-                                size={24}
-                                className="cart-drawer__close-icon"
-                            />
+                            <X size={24} className="cart-drawer__close-icon" />
                         </button>
                     </div>
                     <div className="cart-drawer__item-list flex-grow overflow-y-auto px-1 sm:px-2">
-                        {cart.map((item: CartItem) => ( // Explicitly type item here
-                            <div key={item.id} className="cart-drawer__item">
-                                <div className="flex-1 min-w-0">
-                                    <h6 className="font-semibold text-sm sm:text-base truncate">
-                                        {item.title}
-                                    </h6>
-                                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                                        Quantity: {item.quantity}
-                                    </p>
+                        {cart.map(
+                            (
+                                item: CartItem, // Explicitly type item here
+                            ) => (
+                                <div
+                                    key={item.id}
+                                    className="cart-drawer__item"
+                                >
+                                    <div className="flex-1 min-w-0">
+                                        <h6 className="font-semibold text-sm sm:text-base truncate">
+                                            {item.title}
+                                        </h6>
+                                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                                            Quantity: {item.quantity}
+                                        </p>
+                                    </div>
+                                    <div className="cart-drawer__item-details">
+                                        <p className="cart-drawer__item-price text-sm sm:text-base">
+                                            ${" "}
+                                            {(
+                                                item.price * item.quantity
+                                            ).toFixed(2)}
+                                        </p>
+                                        <button
+                                            onClick={() =>
+                                                removeFromCart(item.id)
+                                            }
+                                            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500"
+                                            aria-label={`Remove ${item.title} from cart`}
+                                        >
+                                            <Trash2
+                                                size={18}
+                                                className="cart-drawer__remove-icon sm:w-5 sm:h-5"
+                                            />
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="cart-drawer__item-details">
-                                    <p className="cart-drawer__item-price text-sm sm:text-base">
-                                        ${" "}
-                                        {(item.price * item.quantity).toFixed(
-                                            2,
-                                        )}
-                                    </p>
-                                    <button
-                                        onClick={() => removeFromCart(item.id)}
-                                        className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500"
-                                        aria-label={`Remove ${item.title} from cart`}
-                                    >
-                                        <Trash2
-                                            size={18}
-                                            className="cart-drawer__remove-icon sm:w-5 sm:h-5"
-                                        />
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                            ),
+                        )}
                     </div>
                     {cart.length > 0 && (
                         <div className="cart-drawer__footer border-t border-gray-200 dark:border-gray-700 pt-4 mt-auto flex flex-col gap-3 sm:gap-4">

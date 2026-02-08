@@ -1,5 +1,20 @@
+/**
+ * @file ErrorMessage.tsx
+ * @description Componente de alerta para mostrar mensajes de error.
+ * Soporta título, mensaje y una acción opcional (ej. reintentar).
+ * @architecture Presentation Layer - Common Components
+ */
 import { memo } from "react";
 
+/**
+ * @interface ErrorMessageProps
+ * @property {string} message - Texto del error
+ * @property {string} [title] - Título de la alerta (default: "Error")
+ * @property {object} [action] - Acción opcional
+ * @property {string} action.label - Texto del botón de acción
+ * @property {function} action.onClick - Handler para la acción
+ * @property {string} [className] - Clases CSS adicionales
+ */
 interface ErrorMessageProps {
     message: string;
     title?: string;
@@ -26,41 +41,41 @@ const ErrorIcon = (
     </svg>
 );
 
-const ErrorMessage = memo(({
-    message,
-    title = "Error",
-    action,
-    className = ""
-}: ErrorMessageProps) => {
-    return (
-        <div
-            className={`error-message bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 ${className}`}
-            role="alert"
-        >
-            <div className="flex items-start">
-                <div className="flex-shrink-0">
-                    {ErrorIcon}
-                </div>
-                <div className="ml-3 flex-1">
-                    <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
-                        {title}
-                    </h3>
-                    <p className="mt-1 text-sm text-red-700 dark:text-red-300">
-                        {message}
-                    </p>
-                    {action && (
-                        <button
-                            onClick={action.onClick}
-                            className="mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors"
-                        >
-                            {action.label}
-                        </button>
-                    )}
+const ErrorMessage = memo(
+    ({
+        message,
+        title = "Error",
+        action,
+        className = "",
+    }: ErrorMessageProps) => {
+        return (
+            <div
+                className={`error-message bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 ${className}`}
+                role="alert"
+            >
+                <div className="flex items-start">
+                    <div className="flex-shrink-0">{ErrorIcon}</div>
+                    <div className="ml-3 flex-1">
+                        <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
+                            {title}
+                        </h3>
+                        <p className="mt-1 text-sm text-red-700 dark:text-red-300">
+                            {message}
+                        </p>
+                        {action && (
+                            <button
+                                onClick={action.onClick}
+                                className="mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors"
+                            >
+                                {action.label}
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-});
+        );
+    },
+);
 
 ErrorMessage.displayName = "ErrorMessage";
 

@@ -1,6 +1,16 @@
-// src/components/common/Loader.tsx
-import React from "react"; // Not strictly needed for this component, but good practice for JSX
+/**
+ * @file Loader.tsx
+ * @description Indicador de carga visual (Spinner).
+ * Utilizado durante peticiones asíncronas o cargas diferidas.
+ * @architecture Presentation Layer - Common Components
+ */
+import React from "react";
 
+/**
+ * Componente de spinner de carga.
+ *
+ * @component
+ */
 const Loader: React.FC = () => {
     return (
         <div className="loader">

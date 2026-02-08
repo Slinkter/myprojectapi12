@@ -1,9 +1,20 @@
-// src/App.tsx
-import Layout from "@/components/common/Layout"; // Layout is now typed
-import Cart from "@/features/cart/presentation/Cart"; // Cart is now typed
-import AppRouter from "@/app/routing/AppRouter"; // Will be AppRouter.tsx after migration
-import ErrorBoundary from "@/components/common/ErrorBoundary"; // ErrorBoundary is now typed
+/**
+ * @file App.tsx
+ * @description Componente raíz de la estructura de UI.
+ * Configura el Layout principal y el Enrutador.
+ * @architecture Application Layer - Root Component
+ */
+import Layout from "@/components/common/Layout";
+import Cart from "@/features/cart/presentation/Cart";
+import AppRouter from "@/app/routing/AppRouter";
+import ErrorBoundary from "@/components/common/ErrorBoundary";
 
+/**
+ * Componente principal de la aplicación.
+ * Envuelve el contenido en un Boundary de error y layout base.
+ *
+ * @component
+ */
 const App = () => {
     return (
         <ErrorBoundary>

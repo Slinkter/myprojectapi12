@@ -1,4 +1,10 @@
-// src/app/api/apiClient.ts
+/**
+ * @file apiClient.ts
+ * @description Cliente HTTP base para la aplicación.
+ * Provee una envoltura alrededor de fetch para manejar URLs base y headers comunes.
+ * @architecture Infrastructure Layer - Core API Client
+ */
+
 import { config } from "@/app/config/env";
 
 const BASE_URL = config.api.baseUrl;
@@ -14,24 +20,24 @@ const BASE_URL = config.api.baseUrl;
  * @throws {Error} Lanza un `Error` si el estado de la respuesta de red no es `ok` (ej. `response.ok` es false).
  */
 export const apiClient = async <T>(
-  endpoint: string,
-  options: RequestInit = {},
+    endpoint: string,
+    options: RequestInit = {},
 ): Promise<T> => {
-  const url = `${BASE_URL}${endpoint}`;
+    const url = `${BASE_URL}${endpoint}`;
 
-  const requestConfig: RequestInit = {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-  };
+    const requestConfig: RequestInit = {
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers,
+        },
+    };
 
-  const response = await fetch(url, requestConfig);
+    const response = await fetch(url, requestConfig);
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-  return response.json() as Promise<T>;
+    return response.json() as Promise<T>;
 };

@@ -1,6 +1,18 @@
+/**
+ * @file CardForm.tsx
+ * @description Formulario para ingreso de datos de tarjeta de crédito.
+ * @architecture Presentation Layer - Checkout Components
+ */
 import { ChangeEvent } from "react";
 import { CardInfo, ValidationErrors } from "../../application/types";
 
+/**
+ * @interface CardFormProps
+ * @property {CardInfo} cardInfo - Objeto con los datos de la tarjeta
+ * @property {ValidationErrors} errors - Objeto con los errores de validación
+ * @property {string} cardType - Tipo de tarjeta detectado para mostrar icono
+ * @property {function} onChange - Handler para cambios en los inputs
+ */
 interface CardFormProps {
     cardInfo: CardInfo;
     errors: ValidationErrors;
@@ -8,9 +20,18 @@ interface CardFormProps {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
+/**
+ * Componente de formulario para datos de tarjeta.
+ * Renderiza inputs controlados para número, nombre, fecha y CVC.
+ *
+ * @component
+ */
 const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
     return (
-        <form className="checkout-card__form" aria-label="Credit card information">
+        <form
+            className="checkout-card__form"
+            aria-label="Credit card information"
+        >
             {/* Card Number */}
             <div className="relative">
                 <label htmlFor="card-number" className="sr-only">
@@ -25,20 +46,27 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                     onChange={onChange}
                     maxLength={19}
                     aria-invalid={!!errors.number}
-                    aria-describedby={errors.number ? "card-number-error" : undefined}
+                    aria-describedby={
+                        errors.number ? "card-number-error" : undefined
+                    }
                     autoComplete="cc-number"
                 />
                 <i
-                    className={`absolute right-4 top-1/2 -translate-y-1/2 text-2xl ${cardType === "visa"
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 text-2xl ${
+                        cardType === "visa"
                             ? "fab fa-cc-visa"
                             : cardType === "mastercard"
-                                ? "fab fa-cc-mastercard"
-                                : ""
-                        }`}
+                              ? "fab fa-cc-mastercard"
+                              : ""
+                    }`}
                     aria-hidden="true"
                 />
                 {errors.number && (
-                    <p id="card-number-error" className="text-red-500 text-xs mt-1" role="alert">
+                    <p
+                        id="card-number-error"
+                        className="text-red-500 text-xs mt-1"
+                        role="alert"
+                    >
                         {errors.number}
                     </p>
                 )}
@@ -57,11 +85,17 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                     value={cardInfo.name}
                     onChange={onChange}
                     aria-invalid={!!errors.name}
-                    aria-describedby={errors.name ? "cardholder-name-error" : undefined}
+                    aria-describedby={
+                        errors.name ? "cardholder-name-error" : undefined
+                    }
                     autoComplete="cc-name"
                 />
                 {errors.name && (
-                    <p id="cardholder-name-error" className="text-red-500 text-xs mt-1" role="alert">
+                    <p
+                        id="cardholder-name-error"
+                        className="text-red-500 text-xs mt-1"
+                        role="alert"
+                    >
                         {errors.name}
                     </p>
                 )}
@@ -82,11 +116,17 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                         onChange={onChange}
                         maxLength={5}
                         aria-invalid={!!errors.expiry}
-                        aria-describedby={errors.expiry ? "card-expiry-error" : undefined}
+                        aria-describedby={
+                            errors.expiry ? "card-expiry-error" : undefined
+                        }
                         autoComplete="cc-exp"
                     />
                     {errors.expiry && (
-                        <p id="card-expiry-error" className="text-red-500 text-xs mt-1" role="alert">
+                        <p
+                            id="card-expiry-error"
+                            className="text-red-500 text-xs mt-1"
+                            role="alert"
+                        >
                             {errors.expiry}
                         </p>
                     )}
@@ -104,11 +144,17 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                         onChange={onChange}
                         maxLength={4}
                         aria-invalid={!!errors.cvc}
-                        aria-describedby={errors.cvc ? "card-cvc-error" : undefined}
+                        aria-describedby={
+                            errors.cvc ? "card-cvc-error" : undefined
+                        }
                         autoComplete="cc-csc"
                     />
                     {errors.cvc && (
-                        <p id="card-cvc-error" className="text-red-500 text-xs mt-1" role="alert">
+                        <p
+                            id="card-cvc-error"
+                            className="text-red-500 text-xs mt-1"
+                            role="alert"
+                        >
                             {errors.cvc}
                         </p>
                     )}

@@ -1,3 +1,9 @@
+/**
+ * @file animations.ts
+ * @description Definiciones de constantes para animaciones con Framer Motion.
+ * Centraliza las variantes reutilizables de animación.
+ * @architecture Presentation Layer - Animation Constants
+ */
 import { Variants } from "framer-motion";
 
 /**
@@ -31,7 +37,7 @@ export const PAGE_FADE_IN: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: { duration: 0.3 }
+        transition: { duration: 0.3 },
     },
 };
 
@@ -43,12 +49,12 @@ export const MODAL_SLIDE_UP: Variants = {
     visible: {
         y: 0,
         opacity: 1,
-        transition: { type: "spring", stiffness: 300, damping: 30 }
+        transition: { type: "spring", stiffness: 300, damping: 30 },
     },
     exit: {
         y: 50,
         opacity: 0,
-        transition: { duration: 0.2 }
+        transition: { duration: 0.2 },
     },
 };
 

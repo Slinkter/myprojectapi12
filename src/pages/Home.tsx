@@ -1,16 +1,30 @@
+/**
+ * @file Home.tsx
+ * @description Página de inicio de la aplicación.
+ * Muestra el listado de productos y gestiona el modal de detalles.
+ * @architecture Presentation Layer - Pages
+ */
 import ProductList from "@/features/products/presentation/ProductList";
 import { useProducts } from "@/features/products/application/useProducts";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
 import {
     ProductModalProvider,
-    useProductModalContext
+    useProductModalContext,
 } from "@/features/products/application/ProductModalContext";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
 import FeatureErrorBoundary from "@/components/common/FeatureErrorBoundary";
 
+/**
+ * Contenido principal de la Home.
+ * Gestiona la carga de productos y visualización del listado o skeletons.
+ *
+ * @component
+ */
 const HomeContent = () => {
-    const { products, initialLoading, loading, error, loadMore, hasMore } = useProducts();
-    const { selectedProduct, isModalOpen, handleCloseModal } = useProductModalContext();
+    const { products, initialLoading, loading, error, loadMore, hasMore } =
+        useProducts();
+    const { selectedProduct, isModalOpen, handleCloseModal } =
+        useProductModalContext();
 
     return (
         <div className="page-home">

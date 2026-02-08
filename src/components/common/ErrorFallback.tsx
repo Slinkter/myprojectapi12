@@ -1,13 +1,29 @@
-// src/components/common/ErrorFallback.tsx
-import { TriangleAlert } from 'lucide-react';
-import React from 'react';
+/**
+ * @file ErrorFallback.tsx
+ * @description UI de respaldo mostrada cuando ocurre un error crítico.
+ * Muestra detalles técnicos solo en modo desarrollo.
+ * @architecture Presentation Layer - Error Handling
+ */
+import { TriangleAlert } from "lucide-react";
+import React from "react";
 
+/**
+ * @interface ErrorFallbackProps
+ * @property {Error | null} error - El objeto de error capturado
+ * @property {React.ErrorInfo | null} errorInfo - Stack trace del componente
+ * @property {function} onReset - Función para intentar recuperar la aplicación
+ */
 interface ErrorFallbackProps {
     error: Error | null;
     errorInfo: React.ErrorInfo | null;
     onReset: () => void;
 }
 
+/**
+ * Componente visual para mostrar errores fatales.
+ *
+ * @component
+ */
 const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
     const isDev = import.meta.env.DEV;
 
@@ -25,7 +41,8 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
                 </h1>
 
                 <p className="text-[var(--text-secondary)] mb-6">
-                    We apologize for the inconvenience. An unexpected error has occurred.
+                    We apologize for the inconvenience. An unexpected error has
+                    occurred.
                 </p>
 
                 {isDev && error && (
@@ -37,14 +54,15 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
                             <div className="mt-2 space-y-2">
                                 <div>
                                     <p className="font-mono text-sm text-red-900 dark:text-red-300 break-all">
-                                        <strong>Message:</strong> {error.message}
+                                        <strong>Message:</strong>{" "}
+                                        {error.message}
                                     </p>
                                 </div>
                                 {error.stack && (
                                     <div>
                                         <p className="font-mono text-xs text-red-800 dark:text-red-400 whitespace-pre-wrap break-all">
                                             <strong>Stack:</strong>
-                                            {'\n'}
+                                            {"\n"}
                                             {error.stack}
                                         </p>
                                     </div>
@@ -70,7 +88,9 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
                         Try Again
                     </button>
                     <button
-                        onClick={() => (window.location.href = '/myprojectapi12/')}
+                        onClick={() =>
+                            (window.location.href = "/myprojectapi12/")
+                        }
                         className="error-fallback-home-button px-6 py-3"
                     >
                         Go to Home
