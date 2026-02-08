@@ -27,13 +27,13 @@ interface ProductProps {
  * @returns {JSX.Element | null} La tarjeta del producto o null si los datos son inválidos.
  */
 const Product = React.memo(({ product }: ProductProps) => {
+  const { handleOpenModal } = useProductModalContext();
+
   // Validación de producto para evitar errores de renderizado
   if (!product || !product.id) {
     console.error("Product component received invalid product:", product);
     return null;
   }
-
-  const { handleOpenModal } = useProductModalContext();
 
   return (
     <article

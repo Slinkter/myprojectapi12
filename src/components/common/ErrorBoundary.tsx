@@ -10,7 +10,7 @@ import ErrorFallback from "./ErrorFallback";
 /**
  * @interface ErrorBoundaryProps
  * @property {ReactNode} children - Componentes hijos a envolver
- * @property {ReactNode} [fallback] - UI opcional alternativa
+ * @property {ReactNode} [fallback] - UI opcional alternativa`
  */
 interface ErrorBoundaryProps {
     children: ReactNode;

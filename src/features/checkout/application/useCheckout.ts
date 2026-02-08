@@ -113,7 +113,8 @@ export const useCheckout = (): UseCheckoutReturn => {
     };
 
     const handleCardInfoChange = (e: ChangeEvent<HTMLInputElement>) => {
-        let { name, value } = e.target;
+        const { name } = e.target;
+        let { value } = e.target;
         if (name === "number") {
             value = value
                 .replace(/\D/g, "")

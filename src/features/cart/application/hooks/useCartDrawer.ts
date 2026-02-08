@@ -34,7 +34,7 @@ interface UseCartDrawerReturn {
  * @returns {UseCartDrawerReturn} Objeto con estado y funciones de control del drawer
  * 
  * @example
- * // Usar en CartProvider
+ * // Uso en ----> CartProvider
  * function CartProvider({ children }) {
  *   const { isCartOpen, openCart, closeCart, toggleCart } = useCartDrawer();
  *   
@@ -47,7 +47,7 @@ interface UseCartDrawerReturn {
  * }
  * 
  * @example
- * // Usar en un componente
+ * // Uso en ---->  componente
  * function CartIcon() {
  *   const { toggleCart } = useCart();
  *   

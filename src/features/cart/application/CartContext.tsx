@@ -12,9 +12,10 @@ import {
     useContext,
     type ReactNode,
 } from "react";
+import { useCartActions } from "./hooks/useCartActions";
 import { calculateTotal } from "../domain/cartUtils";
 import { useCartDrawer } from "./hooks/useCartDrawer";
-import { useCartActions } from "./hooks/useCartActions";
+/*  */
 import type { CartItem, Product } from "../domain/cartTypes";
 
 /**
@@ -34,26 +35,17 @@ import type { CartItem, Product } from "../domain/cartTypes";
  */
 interface CartContextValue {
     cart: CartItem[];
+    isCartOpen: boolean;
+    totalPrice: number;
     addToCart: (product: Product, quantity: number) => void;
     removeFromCart: (productId: number) => void;
     clearCart: () => void;
-    isCartOpen: boolean;
     openCart: () => void;
     closeCart: () => void;
     toggleCart: () => void;
-    totalPrice: number;
 }
 
-/**
- * @constant CartContext
- * @description Contexto de React para el carrito de compras.
- * Provee estado global del carrito, acciones y control del drawer.
- * @type {React.Context<CartContextValue | undefined>}
- * 
- * @example
- * // Consumir el contexto
- * const { cart, addToCart } = useCart();
- */
+
 export const CartContext = createContext<CartContextValue | undefined>(
     undefined,
 );

@@ -20,7 +20,6 @@ const App = () => {
         <ErrorBoundary>
             <Layout>
                 <Cart />
-                {/* AppRouter will be AppRouter.tsx after migration */}
                 <AppRouter />
             </Layout>
         </ErrorBoundary>

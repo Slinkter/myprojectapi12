@@ -7,10 +7,10 @@
  */
 import { useEffect, useState, ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import ThemeSwitcher from "@/features/theme/presentation/ThemeSwitcher";
 import CartIcon from "@/features/cart/presentation/CartIcon";
 import { useCart } from "@/features/cart/application/useCart";
-import { Toaster } from "react-hot-toast";
 
 interface LayoutProps {
     children: ReactNode;
@@ -23,14 +23,17 @@ interface LayoutProps {
  * @param {LayoutProps} props
  */
 const Layout = ({ children }: LayoutProps) => {
-    const { toggleCart } = useCart(); // useCart is now typed
+    /* local state */
     const [scrolled, setScrolled] = useState<boolean>(false);
+    /* global state */
+    const { toggleCart } = useCart();
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
         };
         window.addEventListener("scroll", handleScroll);
+        /* cleanup */
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
@@ -39,11 +42,10 @@ const Layout = ({ children }: LayoutProps) => {
             <Toaster position="top-center" reverseOrder={false} />
 
             <nav
-                className={`sticky top-0 z-30 w-full px-3 py-2 sm:px-4 sm:py-3 lg:px-8 lg:py-4 border-b transition-all duration-300 ${
-                    scrolled
-                        ? "bg-white/90 backdrop-blur-md shadow-md dark:bg-gray-900/90 border-gray-200 dark:border-gray-800"
-                        : "bg-transparent shadow-none border-transparent"
-                }`}
+                className={`sticky top-0 z-30 w-full px-3 py-2 sm:px-4 sm:py-3 lg:px-8 lg:py-4 border-b transition-all duration-300 ${scrolled
+                    ? "bg-white/90 backdrop-blur-md shadow-md dark:bg-gray-900/90 border-gray-200 dark:border-gray-800"
+                    : "bg-transparent shadow-none border-transparent"
+                    }`}
                 role="navigation"
                 aria-label="Main navigation"
             >
