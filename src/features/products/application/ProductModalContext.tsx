@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * @file ProductModalContext.tsx
  * @description Definición del contexto y proveedor para la gestión del modal de productos en toda la aplicación.

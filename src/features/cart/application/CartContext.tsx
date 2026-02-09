@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * @file CartContext.tsx
  * @description Gestión de estado global del carrito de compras usando Context API.
@@ -15,7 +16,6 @@ import {
 import { useCartActions } from "./hooks/useCartActions";
 import { calculateTotal } from "../domain/cartUtils";
 import { useCartDrawer } from "./hooks/useCartDrawer";
-/*  */
 import type { CartItem, Product } from "../domain/cartTypes";
 
 /**

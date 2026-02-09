@@ -32,7 +32,7 @@ interface ProductGridProps {
 const ProductGrid = memo(({ products }: ProductGridProps) => {
   return (
     <motion.div
-      className={clsx("product-grid")}
+      className={clsx("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8")}
       variants={PRODUCT_GRID_ANIMATIONS.container}
       initial="hidden"
       animate="visible"

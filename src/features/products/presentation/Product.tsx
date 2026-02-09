@@ -5,9 +5,11 @@
  */
 
 import React from "react";
-import clsx from 'clsx';
+import { cn } from "@/lib/utils";
 import { useProductModalContext } from "../application/ProductModalContext";
 import { Product as ProductInterface } from "../application/types";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 /**
  * @interface ProductProps
@@ -20,9 +22,8 @@ interface ProductProps {
 
 /**
  * @component Product
- * @description Tarjeta de producto que muestra imagen, título, descripción, precio y stock.
- * Permite abrir el modal de detalles para agregar al carrito.
- * Utiliza React.memo para optimizar re-renders.
+ * @description Tarjeta de producto premium que utiliza shadcn UI.
+ * Incluye efectos de hover, tipografía refinada y botones consistentes.
  * 
  * @param {ProductProps} props - Propiedades del componente.
  * @returns {JSX.Element | null} La tarjeta del producto o null si los datos son inválidos.
@@ -30,89 +31,69 @@ interface ProductProps {
 const Product = React.memo(({ product }: ProductProps) => {
   const { handleOpenModal } = useProductModalContext();
 
-  // Validación de producto para evitar errores de renderizado
   if (!product || !product.id) {
     console.error("Product component received invalid product:", product);
     return null;
   }
 
   return (
-    <article
-      className={clsx("product-card w-full h-full flex flex-col")}
+    <Card
+      className="group relative h-full flex flex-col overflow-hidden border-border bg-card transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1"
       role="article"
       aria-label={`Product: ${product?.title}`}
     >
-      {/* Card Header / Image */}
-      <div className={clsx("product-card__image-container h-56 flex items-center justify-center rounded-t-2xl border-b border-gray-100 dark:border-gray-700 p-4 overflow-hidden")}>
-        <img
-          src={product.thumbnail}
-          alt={`${product.title} product image`}
-          className={clsx("product-card__image h-full w-full object-contain transition-transform duration-300")}
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
+      <CardHeader className="p-0">
+        <div className="aspect-square w-full overflow-hidden bg-muted/30 p-6 flex items-center justify-center">
+          <img
+            src={product.thumbnail}
+            alt={`${product.title}`}
+            className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </CardHeader>
 
-      {/* Card Body */}
-      <div className={clsx("p-5 flex-grow flex flex-col")}>
-        <div className={clsx("mb-2")}>
-          <h3 className={clsx("font-bold text-lg leading-tight text-gray-900 dark:text-gray-100 line-clamp-2")}>
+      <CardContent className="flex-grow p-5 flex flex-col">
+        <div className="mb-2">
+          <h3 className="font-semibold text-base leading-tight text-foreground line-clamp-1 group-hover:text-primary transition-colors">
             {product.title}
           </h3>
+          <p className="text-sm text-muted-foreground mt-1 line-clamp-2 min-h-[2.5rem]">
+            {product.description}
+          </p>
         </div>
-        <p className={clsx("text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4 italic")}>
-          {product.description}
-        </p>
-        <div className={clsx("mt-auto flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4")}>
-          <span
-            className={clsx("font-bold text-xl text-amber-600 dark:text-amber-500")}
-            aria-label={`Price: $${product.price}`}
-          >
-            $ {product.price}
-          </span>
-          <span
-            className={clsx("text-sm font-medium text-gray-600 dark:text-gray-400")}
-            aria-label={`${product.stock} units in stock`}
-          >
-            Stock: {product.stock}
-          </span>
-        </div>
-      </div>
 
-      {/* Card Footer */}
-      <div className={clsx("p-5 pt-0")}>
-        {product.stock > 0 ? (
-          <button
-            onClick={() => handleOpenModal(product)}
-            onKeyDown={(e: React.KeyboardEvent<HTMLButtonElement>) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                handleOpenModal(product);
-              }
-            }}
-            className={clsx(
-              "product-add-to-cart-button w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2",
-              "bg-amber-500 text-white hover:bg-amber-600"
-            )}
-            aria-label={`Add ${product.title} to cart, price $${product.price}`}
-          >
-            Add to Cart
-          </button>
-        ) : (
-          <button
-            disabled
-            className={clsx(
-              "w-full py-3 px-4 rounded-xl font-semibold bg-gray-200 text-gray-400 cursor-not-allowed",
-              "dark:bg-gray-700 dark:text-gray-500"
-            )}
-            aria-label={`${product.title} is out of stock`}
-            aria-disabled="true"
-          >
-            Out of Stock
-          </button>
-        )}
-      </div>
-    </article>
+        <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/50">
+          <div className="flex flex-col">
+            <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Price</span>
+            <span className="font-bold text-lg text-foreground">
+              ${product.price}
+            </span>
+          </div>
+          <div className="text-right">
+            <span className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Availability</span>
+            <p className={cn(
+              "text-xs font-semibold",
+              product.stock > 10 ? "text-green-600 dark:text-green-500" : "text-amber-600 dark:text-amber-500"
+            )}>
+              {product.stock} left
+            </p>
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="p-5 pt-0">
+        <Button
+          onClick={() => handleOpenModal(product)}
+          disabled={product.stock === 0}
+          className="w-full font-semibold shadow-md active:scale-95 transition-all duration-200"
+          variant={product.stock > 0 ? "default" : "secondary"}
+        >
+          {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
+        </Button>
+      </CardFooter>
+    </Card>
   );
 });
 

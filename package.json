@@ -1,23 +1,13 @@
 {
-    "name": "myprojectapi12",
-    "homepage": "https://slinkter.github.io/myprojectapi12",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
-        "type-check": "tsc --noEmit",
-        "preview": "vite preview",
-        "predeploy": "pnpm run build",
-        "deploy": "gh-pages -d dist",
-        "test": "vitest",
-        "test:ui": "vitest --ui",
-        "test:coverage": "vitest --coverage"
-    },
     "dependencies": {
+        "@radix-ui/react-dialog": "^1.1.15",
+        "@radix-ui/react-dropdown-menu": "^2.1.16",
+        "@radix-ui/react-label": "^2.1.8",
+        "@radix-ui/react-scroll-area": "^1.2.10",
+        "@radix-ui/react-slot": "^1.2.4",
+        "@tailwindcss/vite": "^4.1.18",
         "@tanstack/react-query": "^5.90.20",
+        "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "framer-motion": "^12.31.0",
         "lucide-react": "^0.563.0",
@@ -25,9 +15,12 @@
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-hot-toast": "^2.6.0",
-        "react-router-dom": "^7.13.0"
+        "react-router-dom": "^7.13.0",
+        "tailwind-merge": "^3.4.0",
+        "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
+        "@tailwindcss/postcss": "^4.1.18",
         "@tanstack/react-query-devtools": "^5.91.3",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.2",
@@ -47,9 +40,27 @@
         "gh-pages": "^6.3.0",
         "jsdom": "^28.0.0",
         "postcss": "^8.5.6",
-        "tailwindcss": "^3.4.19",
+        "tailwindcss": "^4.0.0",
+        "tw-animate-css": "^1.4.0",
         "typescript": "^5.9.3",
         "vite": "^5.4.21",
         "vitest": "^4.0.18"
-    }
+    },
+    "homepage": "https://slinkter.github.io/myprojectapi12",
+    "name": "myprojectapi12",
+    "private": true,
+    "scripts": {
+        "build": "vite build",
+        "deploy": "gh-pages -d dist",
+        "dev": "vite",
+        "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "predeploy": "pnpm run build",
+        "preview": "vite preview",
+        "test": "vitest",
+        "test:coverage": "vitest --coverage",
+        "test:ui": "vitest --ui",
+        "type-check": "tsc --noEmit"
+    },
+    "type": "module",
+    "version": "0.0.0"
 }

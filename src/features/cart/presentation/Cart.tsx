@@ -10,6 +10,7 @@ import { X, Trash2 } from "lucide-react";
 import { useCart } from "@/features/cart/application/useCart";
 import { CartItem } from "@/features/checkout/application/types";
 import clsx from "clsx";
+import { useEffect, useRef } from "react"; // Import useEffect and useRef
 
 /**
  * Componente de visualización del carrito de compras.
@@ -26,11 +27,30 @@ const Cart = () => {
   const { cart, removeFromCart, clearCart, isCartOpen, closeCart, totalPrice } =
     useCart();
   const navigate = useNavigate();
+  const cartRef = useRef<HTMLDivElement>(null); // Ref for the cart drawer
 
   const handleCheckout = () => {
     closeCart();
     navigate("/checkout");
   };
+
+  useEffect(() => {
+    if (isCartOpen) {
+      // Focus the cart drawer when it opens
+      cartRef.current?.focus();
+
+      const handleEscape = (event: KeyboardEvent) => {
+        if (event.key === "Escape") {
+          closeCart();
+        }
+      };
+
+      document.addEventListener("keydown", handleEscape);
+      return () => {
+        document.removeEventListener("keydown", handleEscape);
+      };
+    }
+  }, [isCartOpen, closeCart]);
 
   return (
     <>
@@ -46,6 +66,8 @@ const Cart = () => {
       )}
 
       <div
+        ref={cartRef} // Attach ref to the drawer
+        tabIndex={-1} // Make it programmatically focusable
         className={clsx(
           "fixed top-0 right-0 h-full transform transition-transform duration-300 ease-in-out",
           isCartOpen

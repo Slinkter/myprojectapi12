@@ -6,7 +6,6 @@
  */
 import { Component, ReactNode, ErrorInfo } from "react";
 import ErrorMessage from "./ErrorMessage";
-import clsx from 'clsx';
 
 interface Props {
     children: ReactNode;

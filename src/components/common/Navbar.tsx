@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import clsx from 'clsx';
+import { cn } from "@/lib/utils";
 import { useCart } from "@/features/cart/application/useCart";
 import ThemeSwitcher from "@/features/theme/presentation/ThemeSwitcher";
 import CartIcon from "@/features/cart/presentation/CartIcon";
+import { Button } from "@/components/ui/button";
+
 const Navbar = () => {
-  /* local state */
   const [scrolled, setScrolled] = useState<boolean>(false);
-  /* global state */
   const { toggleCart } = useCart();
 
   const handleScroll = () => {
@@ -15,45 +15,48 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    /* exec */
-    window.addEventListener("scroll", handleScroll);
-    /* cleanup */
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <nav
-      className={clsx(
-        "sticky top-0 z-30 w-full px-3 py-2 sm:px-4 sm:py-3 lg:px-8 lg:py-4 border-b transition-all duration-300",
+      className={cn(
+        "sticky top-0 z-50 w-full px-4 py-2 sm:px-6 sm:py-3 lg:px-10 lg:py-4 transition-all duration-500",
         scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-md dark:bg-gray-900/90 border-gray-200 dark:border-gray-800"
-          : "bg-transparent shadow-none border-transparent"
+          ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-sm dark:bg-background/80"
+          : "bg-transparent border-b border-transparent shadow-none"
       )}
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="container mx-auto flex items-center justify-between text-gray-900 dark:text-gray-100">
+      <div className="container mx-auto flex items-center justify-between">
         <Link
           to="/"
-          className="mr-2 sm:mr-4 cursor-pointer py-1.5 font-medium"
+          className="group flex items-center gap-2 transition-transform duration-300 hover:scale-[1.02]"
           aria-label="Go to home page"
         >
-          <h1 className="text-lg sm:text-xl lg:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            My Project API 12
+          <div className="size-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20 transition-all duration-300 group-hover:shadow-primary/40 group-hover:rotate-3">
+            <span className="text-primary-foreground font-bold text-lg">A12</span>
+          </div>
+          <h1 className="text-lg sm:text-xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+            My project api 12
           </h1>
         </Link>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-3">
           <ThemeSwitcher />
 
           <div className="relative">
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={toggleCart}
-              className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="relative rounded-full hover:bg-accent/50 transition-all duration-300 active:scale-90"
               aria-label="Open shopping cart"
             >
               <CartIcon />
-            </button>
+            </Button>
           </div>
         </div>
       </div>

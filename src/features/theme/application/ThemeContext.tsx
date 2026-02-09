@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * @file ThemeContext.tsx
  * @description Contexto para el manejo del tema (claro/oscuro) de la aplicación.
