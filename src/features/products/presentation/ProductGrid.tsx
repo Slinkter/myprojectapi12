@@ -9,6 +9,7 @@ import Product from "./Product";
 import { motion } from "framer-motion";
 import { Product as ProductInterface } from "../application/types";
 import { PRODUCT_GRID_ANIMATIONS } from "@/constants/animations";
+import clsx from 'clsx';
 
 /**
  * @interface ProductGridProps
@@ -31,7 +32,7 @@ interface ProductGridProps {
 const ProductGrid = memo(({ products }: ProductGridProps) => {
   return (
     <motion.div
-      className="product-grid"
+      className={clsx("product-grid")}
       variants={PRODUCT_GRID_ANIMATIONS.container}
       initial="hidden"
       animate="visible"

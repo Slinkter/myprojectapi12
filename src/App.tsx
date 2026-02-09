@@ -8,6 +8,7 @@ import Layout from "@/components/common/Layout";
 import Cart from "@/features/cart/presentation/Cart";
 import AppRouter from "@/app/routing/AppRouter";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
+import clsx from 'clsx';
 
 /**
  * Componente principal de la aplicación.
@@ -16,14 +17,14 @@ import ErrorBoundary from "@/components/common/ErrorBoundary";
  * @component
  */
 const App = () => {
-    return (
-        <ErrorBoundary>
-            <Layout>
-                <Cart />
-                <AppRouter />
-            </Layout>
-        </ErrorBoundary>
-    );
+  return (
+    <ErrorBoundary>
+      <Layout>
+        <Cart />
+        <AppRouter />
+      </Layout>
+    </ErrorBoundary>
+  );
 };
 
 export default App;

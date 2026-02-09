@@ -6,6 +6,7 @@
  */
 import React, { Component, ReactNode } from "react";
 import ErrorFallback from "./ErrorFallback";
+import clsx from 'clsx';
 
 /**
  * @interface ErrorBoundaryProps

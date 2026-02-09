@@ -5,6 +5,7 @@
  */
 import { ChangeEvent } from "react";
 import { CardInfo, ValidationErrors } from "../../application/types";
+import clsx from 'clsx';
 
 /**
  * @interface CardFormProps
@@ -29,18 +30,18 @@ interface CardFormProps {
 const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
     return (
         <form
-            className="checkout-card__form"
+            className={clsx("checkout-card__form")}
             aria-label="Credit card information"
         >
             {/* Card Number */}
-            <div className="relative">
-                <label htmlFor="card-number" className="sr-only">
+            <div className={clsx("relative")}>
+                <label htmlFor="card-number" className={clsx("sr-only")}>
                     Card Number
                 </label>
                 <input
                     id="card-number"
                     placeholder="Card Number"
-                    className="checkout-form-input p-3"
+                    className={clsx("checkout-form-input p-3")}
                     name="number"
                     value={cardInfo.number}
                     onChange={onChange}
@@ -52,19 +53,19 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                     autoComplete="cc-number"
                 />
                 <i
-                    className={`absolute right-4 top-1/2 -translate-y-1/2 text-2xl ${
-                        cardType === "visa"
-                            ? "fab fa-cc-visa"
-                            : cardType === "mastercard"
-                              ? "fab fa-cc-mastercard"
-                              : ""
-                    }`}
+                    className={clsx(
+                        "absolute right-4 top-1/2 -translate-y-1/2 text-2xl",
+                        {
+                            "fab fa-cc-visa": cardType === "visa",
+                            "fab fa-cc-mastercard": cardType === "mastercard",
+                        }
+                    )}
                     aria-hidden="true"
                 />
                 {errors.number && (
                     <p
                         id="card-number-error"
-                        className="text-red-500 text-xs mt-1"
+                        className={clsx("text-red-500 text-xs mt-1")}
                         role="alert"
                     >
                         {errors.number}
@@ -73,14 +74,14 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
             </div>
 
             {/* Cardholder Name */}
-            <div>
-                <label htmlFor="cardholder-name" className="sr-only">
+            <div className={clsx("div")}>
+                <label htmlFor="cardholder-name" className={clsx("sr-only")}>
                     Cardholder Name
                 </label>
                 <input
                     id="cardholder-name"
                     placeholder="Cardholder Name"
-                    className="checkout-form-input p-3"
+                    className={clsx("checkout-form-input p-3")}
                     name="name"
                     value={cardInfo.name}
                     onChange={onChange}
@@ -93,7 +94,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                 {errors.name && (
                     <p
                         id="cardholder-name-error"
-                        className="text-red-500 text-xs mt-1"
+                        className={clsx("text-red-500 text-xs mt-1")}
                         role="alert"
                     >
                         {errors.name}
@@ -102,15 +103,15 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
             </div>
 
             {/* Expiry and CVC */}
-            <div className="checkout-card__form-row">
-                <div className="checkout-card__form-col--half">
-                    <label htmlFor="card-expiry" className="sr-only">
+            <div className={clsx("checkout-card__form-row")}>
+                <div className={clsx("checkout-card__form-col--half")}>
+                    <label htmlFor="card-expiry" className={clsx("sr-only")}>
                         Expiry Date (MM/YY)
                     </label>
                     <input
                         id="card-expiry"
                         placeholder="Expiry (MM/YY)"
-                        className="checkout-form-input p-3"
+                        className={clsx("checkout-form-input p-3")}
                         name="expiry"
                         value={cardInfo.expiry}
                         onChange={onChange}
@@ -124,21 +125,21 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                     {errors.expiry && (
                         <p
                             id="card-expiry-error"
-                            className="text-red-500 text-xs mt-1"
+                            className={clsx("text-red-500 text-xs mt-1")}
                             role="alert"
                         >
                             {errors.expiry}
                         </p>
                     )}
                 </div>
-                <div className="checkout-card__form-col--half">
-                    <label htmlFor="card-cvc" className="sr-only">
+                <div className={clsx("checkout-card__form-col--half")}>
+                    <label htmlFor="card-cvc" className={clsx("sr-only")}>
                         CVC Security Code
                     </label>
                     <input
                         id="card-cvc"
                         placeholder="CVC"
-                        className="checkout-form-input p-3"
+                        className={clsx("checkout-form-input p-3")}
                         name="cvc"
                         value={cardInfo.cvc}
                         onChange={onChange}
@@ -152,7 +153,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                     {errors.cvc && (
                         <p
                             id="card-cvc-error"
-                            className="text-red-500 text-xs mt-1"
+                            className={clsx("text-red-500 text-xs mt-1")}
                             role="alert"
                         >
                             {errors.cvc}

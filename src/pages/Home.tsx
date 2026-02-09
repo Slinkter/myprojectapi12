@@ -13,6 +13,7 @@ import {
 } from "@/features/products/application/ProductModalContext";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
 import FeatureErrorBoundary from "@/components/common/FeatureErrorBoundary";
+import clsx from 'clsx';
 
 /**
  * Contenido principal de la Home.
@@ -27,12 +28,12 @@ const HomeContent = () => {
         useProductModalContext();
 
     return (
-        <div className="page-home">
-            <div className="page-home__header px-4 sm:px-0">
-                <h1 className="page-home__title text-2xl sm:text-3xl lg:text-4xl font-bold">
+        <div className={clsx("page-home")}>
+            <div className={clsx("page-home__header px-4 sm:px-0")}>
+                <h1 className={clsx("page-home__title text-2xl sm:text-3xl lg:text-4xl font-bold")}>
                     Product List
                 </h1>
-                <p className="page-home__subtitle text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                <p className={clsx("page-home__subtitle text-sm sm:text-base text-gray-600 dark:text-gray-400")}>
                     React VITE + Tailwind CSS + DummyJSON API
                 </p>
             </div>

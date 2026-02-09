@@ -6,6 +6,7 @@
 
 import React from "react";
 import SkeletonCard from "./SkeletonCard";
+import clsx from 'clsx';
 
 /**
  * @component SkeletonGrid
@@ -16,7 +17,7 @@ import SkeletonCard from "./SkeletonCard";
  */
 const SkeletonGrid: React.FC = () => {
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" aria-hidden="true">
+        <div className={clsx("grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8")} aria-hidden="true">
             {Array.from({ length: 8 }).map((_, index) => (
                 <SkeletonCard key={index} />
             ))}

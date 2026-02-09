@@ -5,6 +5,7 @@
  * @architecture Presentation Layer - Checkout Components
  */
 import { KeyboardEvent } from "react";
+import clsx from 'clsx';
 
 /**
  * @interface PaymentMethodRadioProps
@@ -40,21 +41,22 @@ const PaymentMethodRadio = ({
     };
 
     return (
-        <div className="flex items-center">
+        <div className={clsx("flex items-center")}>
             <input
                 id={id}
                 type="radio"
                 name="paymentMethod"
-                className="hidden"
+                className={clsx("hidden")}
                 checked={checked}
                 onChange={onChange}
                 aria-label={`Pay with ${label}`}
             />
             <label
                 htmlFor={id}
-                className={`checkout-payment-method-button w-full text-center p-3 cursor-pointer focus-within:ring-2 focus-within:ring-amber-500 ${
-                    checked ? "checkout-payment-method-button--pressed" : ""
-                }`}
+                className={clsx(
+                    "checkout-payment-method-button w-full text-center p-3 cursor-pointer focus-within:ring-2 focus-within:ring-amber-500",
+                    { "checkout-payment-method-button--pressed": checked }
+                )}
                 role="button"
                 tabIndex={0}
                 onKeyDown={handleKeyDown}

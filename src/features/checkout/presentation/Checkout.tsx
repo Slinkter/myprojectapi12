@@ -7,6 +7,7 @@
 import { useCheckout } from "../application/useCheckout";
 import PaymentMethodRadio from "./components/PaymentMethodRadio";
 import CardForm from "./components/CardForm";
+import clsx from 'clsx';
 
 /**
  * Componente contenedor para la vista de Checkout.
@@ -31,20 +32,20 @@ const Checkout = () => {
 
     return (
         <main
-            className="checkout-page"
+            className={clsx("checkout-page")}
             role="main"
             aria-labelledby="checkout-title"
         >
-            <div className="checkout-card">
+            <div className={clsx("checkout-card")}>
                 <h4
                     id="checkout-title"
-                    className="checkout-card__title text-2xl font-bold"
+                    className={clsx("checkout-card__title text-2xl font-bold")}
                 >
                     Choose a payment method
                 </h4>
 
-                <fieldset className="checkout-card__payment-methods">
-                    <legend className="sr-only">
+                <fieldset className={clsx("checkout-card__payment-methods")}>
+                    <legend className={clsx("sr-only")}>
                         Payment method selection
                     </legend>
 
@@ -81,7 +82,12 @@ const Checkout = () => {
 
                 <button
                     onClick={handlePayment}
-                    className="checkout-pay-button checkout-card__pay-button bg-green-500 text-white disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                    className={clsx(
+                        "checkout-pay-button checkout-card__pay-button bg-green-500 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
+                        {
+                            "disabled:opacity-50 disabled:cursor-not-allowed": isPaymentDisabled
+                        }
+                    )}
                     disabled={isPaymentDisabled}
                     aria-label={`Pay now with ${paymentMethod}`}
                     aria-disabled={isPaymentDisabled}
