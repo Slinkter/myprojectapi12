@@ -102,7 +102,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
         >
           <motion.div
             className={cn(
-              "product-detail-modal-card w-full max-w-5xl p-0 m-4 overflow-hidden max-h-[90vh] flex flex-col shadow-2xl rounded-3xl bg-(--bg-card) ring-1 ring-slate-900/5",
+              "product-detail-modal-card relative w-full max-w-5xl p-0 m-4 overflow-hidden max-h-[90vh] flex flex-col shadow-2xl rounded-3xl bg-(--bg-card) ring-1 ring-slate-900/5",
             )}
             onClick={(e: MouseEvent) => e.stopPropagation()}
             variants={MODAL_SLIDE_UP}
