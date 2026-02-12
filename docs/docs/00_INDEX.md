@@ -51,6 +51,7 @@
 |-----------|-------------|-----------|
 | [07_CODING_STANDARDS.md](07_CODING_STANDARDS.md) | Guía de estilo y mejores prácticas | Dev |
 | [10_TAILWIND_MIGRATION.md](10_TAILWIND_MIGRATION.md) | Migración a Tailwind CSS puro | Dev, Arquitectos |
+| [../guides/DEPLOY_GUIDE.md](../guides/DEPLOY_GUIDE.md) | Guía paso a paso para despliegue | Todos |
 
 ### 4. Operaciones
 | Documento | Descripción | Audiencia |
