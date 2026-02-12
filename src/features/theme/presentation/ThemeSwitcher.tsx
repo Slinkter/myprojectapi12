@@ -6,7 +6,7 @@
  */
 import { useTheme } from "@/features/theme/application/ThemeContext";
 import { Sun, Moon } from "lucide-react";
-import clsx from 'clsx';
+import { cn } from "@/lib/utils";
 
 /**
  * Componente de botón toggle para el tema.
@@ -19,13 +19,17 @@ const ThemeSwitcher = () => {
     return (
         <button
             onClick={toggleTheme}
-            className={clsx("p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center")}
+            className={cn(
+                "p-2 rounded-full transition-all duration-200",
+                "hover:bg-(--bg-input) active:scale-95",
+                "text-(--text-primary) hover:text-(--text-accent)"
+            )}
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
         >
             {theme === "light" ? (
-                <Moon className={clsx("h-4 w-4 sm:h-5 sm:w-5 text-gray-700 dark:text-gray-300")} />
+                <Moon className={cn("h-5 w-5")} strokeWidth={2.5} />
             ) : (
-                <Sun className={clsx("h-4 w-4 sm:h-5 sm:w-5 text-gray-700 dark:text-gray-300")} />
+                <Sun className={cn("h-5 w-5")} strokeWidth={2.5} />
             )}
         </button>
     );

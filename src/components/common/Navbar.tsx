@@ -76,17 +76,15 @@ const Navbar = (): JSX.Element => {
                             variant="ghost"
                             size="icon"
                             onClick={toggleCart}
-                            className="relative w-10 h-10 rounded-full hover:bg-(--bg-input) transition-all duration-200 active:scale-95"
+                            className="relative w-10 h-10 rounded-full hover:bg-(--bg-input) transition-all duration-200 active:scale-95 text-(--text-primary)"
                             aria-label="Open shopping cart"
                         >
-                            <div className="relative">
-                                <CartIcon />
-                                {totalItems > 0 && (
-                                    <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm ring-2 ring-(--bg-main) animate-in zoom-in duration-300">
-                                        {totalItems > 9 ? '9+' : totalItems}
-                                    </span>
-                                )}
-                            </div>
+                            <CartIcon />
+                            {totalItems > 0 && (
+                                <span className="absolute -top-1 -right-1 flex h-5 w-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-sm ring-2 ring-(--bg-main) animate-in zoom-in duration-300 pointer-events-none">
+                                    {totalItems > 9 ? '9+' : totalItems}
+                                </span>
+                            )}
                         </Button>
                     </div>
                 </div>
