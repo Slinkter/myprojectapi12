@@ -1,9 +1,10 @@
 /**
  * @file Checkout.tsx
  * @description Página principal del proceso de pago.
- * Orquesta la selección del método de pago y el formulario de tarjeta.
+ * Rediseñada para una experiencia de usuario premium, segura y clara.
  * @architecture Presentation Layer - Checkout Feature
  */
+import { Link } from "react-router-dom";
 import { useCheckout } from "../application/useCheckout";
 import PaymentMethodRadio from "./components/PaymentMethodRadio";
 import CardForm from "./components/CardForm";
@@ -33,68 +34,114 @@ const Checkout = () => {
 
     return (
         <main
-            className={cn("checkout-page")}
+            className={cn("checkout-page min-h-[80vh] flex items-center justify-center p-4")}
             role="main"
             aria-labelledby="checkout-title"
         >
-            <div className={cn("checkout-card")}>
-                <h4
-                    id="checkout-title"
-                    className={cn("checkout-card__title text-2xl font-bold")}
-                >
-                    Choose a payment method
-                </h4>
+            <div className={cn("w-full max-w-2xl bg-(--bg-card) rounded-3xl shadow-xl border border-(--border-light) overflow-hidden")}>
+                
+                {/* Header */}
+                <div className={cn("p-6 sm:p-8 border-b border-(--border-light) bg-(--bg-input)/30")}>
+                    <div className={cn("flex items-center justify-between mb-4")}>
+                        <Link 
+                            to="/" 
+                            className={cn("text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors flex items-center gap-1")}
+                        >
+                            ← Back to Shop
+                        </Link>
+                        <div className={cn("flex items-center gap-2 text-green-600 dark:text-green-400 text-xs font-bold uppercase tracking-wider")}>
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            Secure Checkout
+                        </div>
+                    </div>
+                    <h1
+                        id="checkout-title"
+                        className={cn("text-3xl font-extrabold text-(--text-primary) tracking-tight")}
+                    >
+                        Payment Details
+                    </h1>
+                    <p className={cn("text-(--text-secondary) mt-2")}>
+                        Complete your purchase securely.
+                    </p>
+                </div>
 
-                <fieldset className={cn("checkout-card__payment-methods")}>
-                    <legend className={cn("sr-only")}>
-                        Payment method selection
-                    </legend>
+                <div className={cn("p-6 sm:p-8")}>
+                    {/* Payment Method Selector */}
+                    <div className={cn("mb-8")}>
+                        <label className={cn("block text-sm font-semibold text-(--text-primary) mb-4 uppercase tracking-wide")}>
+                            Select Payment Method
+                        </label>
+                        <fieldset className={cn("grid grid-cols-1 sm:grid-cols-3 gap-4")}>
+                            <legend className={cn("sr-only")}>
+                                Payment method selection
+                            </legend>
 
-                    <PaymentMethodRadio
-                        id="visa"
-                        label="Visa"
-                        checked={paymentMethod === "visa"}
-                        onChange={() => setPaymentMethod("visa")}
-                    />
+                            <PaymentMethodRadio
+                                id="visa"
+                                label="Visa"
+                                checked={paymentMethod === "visa"}
+                                onChange={() => setPaymentMethod("visa")}
+                            />
 
-                    <PaymentMethodRadio
-                        id="mastercard"
-                        label="Mastercard"
-                        checked={paymentMethod === "mastercard"}
-                        onChange={() => setPaymentMethod("mastercard")}
-                    />
+                            <PaymentMethodRadio
+                                id="mastercard"
+                                label="Mastercard"
+                                checked={paymentMethod === "mastercard"}
+                                onChange={() => setPaymentMethod("mastercard")}
+                            />
 
-                    <PaymentMethodRadio
-                        id="bitcoin"
-                        label="Bitcoin"
-                        checked={paymentMethod === "bitcoin"}
-                        onChange={() => setPaymentMethod("bitcoin")}
-                    />
-                </fieldset>
+                            <PaymentMethodRadio
+                                id="bitcoin"
+                                label="Bitcoin"
+                                checked={paymentMethod === "bitcoin"}
+                                onChange={() => setPaymentMethod("bitcoin")}
+                            />
+                        </fieldset>
+                    </div>
 
-                {showCardForm && (
-                    <CardForm
-                        cardInfo={cardInfo}
-                        errors={errors}
-                        cardType={cardType}
-                        onChange={handleCardInfoChange}
-                    />
-                )}
+                    {/* Card Form */}
+                    <div className={cn("min-h-[300px] transition-all duration-300 ease-in-out")}>
+                        {showCardForm ? (
+                            <CardForm
+                                cardInfo={cardInfo}
+                                errors={errors}
+                                cardType={cardType}
+                                onChange={handleCardInfoChange}
+                            />
+                        ) : (
+                            <div className={cn("flex flex-col items-center justify-center h-full py-12 bg-(--bg-input)/50 rounded-2xl border border-dashed border-(--border-light)")}>
+                                <div className={cn("w-16 h-16 bg-amber-100 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-4 text-3xl")}>
+                                    ₿
+                                </div>
+                                <p className={cn("text-lg font-medium text-(--text-primary)")}>Pay with Bitcoin</p>
+                                <p className={cn("text-sm text-(--text-secondary) mt-1 text-center max-w-xs")}>
+                                    You will be redirected to our secure crypto payment gateway.
+                                </p>
+                            </div>
+                        )}
+                    </div>
 
-                <button
-                    onClick={handlePayment}
-                    className={cn(
-                        "checkout-pay-button checkout-card__pay-button bg-green-500 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
-                        {
-                            "disabled:opacity-50 disabled:cursor-not-allowed": isPaymentDisabled
-                        }
-                    )}
-                    disabled={isPaymentDisabled}
-                    aria-label={`Pay now with ${paymentMethod}`}
-                    aria-disabled={isPaymentDisabled}
-                >
-                    Pay Now
-                </button>
+                    {/* Pay Button */}
+                    <button
+                        onClick={handlePayment}
+                        className={cn(
+                            "w-full mt-8 py-4 px-6 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 transform active:scale-[0.98]",
+                            isPaymentDisabled
+                                ? "bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed shadow-none"
+                                : "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-1"
+                        )}
+                        disabled={isPaymentDisabled}
+                        aria-label={`Pay now with ${paymentMethod}`}
+                        aria-disabled={isPaymentDisabled}
+                    >
+                        {paymentMethod === 'bitcoin' ? 'Proceed to Crypto Payment' : 'Pay Now'}
+                    </button>
+                    
+                    <p className={cn("text-xs text-center text-(--text-secondary) mt-6 flex items-center justify-center gap-1")}>
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+                        Transactions are encrypted and secured.
+                    </p>
+                </div>
             </div>
         </main>
     );
