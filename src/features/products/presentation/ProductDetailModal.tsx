@@ -186,7 +186,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                     </span>
                   </div>
                   {product.discountPercentage && (
-                    <span className={cn("mb-2 px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-bold rounded-md")}>
+                    <span className={cn("mb-2 px-2 py-1 bg-gray-100 dark:bg-gray-800 text-red-600 dark:text-red-400 text-xs font-bold rounded-md")}>
                       -{product.discountPercentage}%
                     </span>
                   )}
