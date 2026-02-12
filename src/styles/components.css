@@ -127,6 +127,27 @@ body.dark {
     transform: scale(1.1);
 }
 
+/* Product Modal - Expert UI */
+.product-modal__image {
+    @apply w-full h-64 sm:h-80 object-contain mx-auto mb-6 transition-transform duration-500;
+}
+
+.product-modal__image:hover {
+    transform: scale(1.05);
+}
+
+.product-modal__description {
+    @apply text-base text-(--text-secondary) leading-relaxed mb-6 font-normal;
+}
+
+.product-modal__price {
+    @apply text-2xl font-bold text-(--text-accent) mb-2;
+}
+
+.product-modal__stock {
+    @apply text-sm font-medium text-(--text-secondary) uppercase tracking-wide;
+}
+
 /* Smooth Scroll */
 html {
     scroll-behavior: smooth;
