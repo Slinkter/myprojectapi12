@@ -34,12 +34,41 @@ const buttonVariants = cva(
   }
 )
 
+/**
+ * Properties for the Button component.
+ */
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
   VariantProps<typeof buttonVariants> {
+  /**
+   * If true, the button will render its child as the component instead of a <button> element.
+   * Useful for using the button styles with a Link from React Router.
+   * @default false
+   */
   asChild?: boolean
 }
 
+/**
+ * A versatile button component built with Radix UI Slot and Tailwind CSS.
+ *
+ * @remarks
+ * Styles are managed using `class-variance-authority` (CVA).
+ * It supports multiple variants (default, destructive, outline, etc.) and sizes.
+ *
+ * @example
+ * ```tsx
+ * // Primary button
+ * <Button variant="default">Click me</Button>
+ *
+ * // Small outline button
+ * <Button variant="outline" size="sm">Small action</Button>
+ *
+ * // Used as a link
+ * <Button asChild>
+ *   <Link to="/home">Go Home</Link>
+ * </Button>
+ * ```
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"

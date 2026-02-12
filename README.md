@@ -77,74 +77,77 @@ Visit `http://localhost:5173`
 
 ### Core
 
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **React Router** - Routing
+- **React 18.3** - UI library
+- **TypeScript 5.9** - Type safety
+- **Vite 5.4** - Build tool
+- **React Router 7** - Routing
 
 ### Styling
 
-- **Tailwind CSS** - Utility-first CSS
-- **Framer Motion** - Animations
-- **Custom CSS System** - Modular design tokens
+- **Tailwind CSS 4.1** - CSS-first utility framework
+- **Framer Motion 12** - Animations
+- **Shadcn/UI** - Accessible component primitives
+- **Custom CSS System** - Modern design tokens with CSS variables
 
 ### State Management
 
-- **React Context** - Global state
-- **React Query** - Server state
-- **Custom Hooks** - Reusable logic
+- **TanStack Query v5** - Server state & data fetching
+- **React Context** - Global UI state
+- **Custom Hooks** - Encapsulated business logic
 
 ### Testing
 
-- **Vitest** - Unit testing
-- **React Testing Library** - Component testing
+- **Vitest 4.0** - Unit testing
+- **React Testing Library 16** - Component testing
 
 ### Tools
 
-- **ESLint** - Linting
-- **Prettier** - Code formatting
-- **pnpm** - Package manager
+- **ESLint 8** - Linting
+- **pnpm** - Efficient package manager
 
 ---
 
 ## 📁 Project Structure
 
-\`\`\`
+```
 myprojectapi12/
 ├── src/
-│ ├── app/ # App configuration
-│ │ ├── config/ # Environment & query client
-│ │ └── routing/ # Route definitions
-│ │
-│ ├── features/ # Feature modules
-│ │ ├── cart/ # Shopping cart (TypeScript)
-│ │ │ ├── application/ # Hooks & context
-│ │ │ ├── domain/ # Business logic (TS)
-│ │ │ └── presentation/ # UI components
-│ │ │
-│ │ ├── products/ # Product catalog
-│ │ ├── checkout/ # Checkout flow
-│ │ └── theme/ # Theme management
-│ │
-│ ├── components/ # Shared components
-│ │ └── common/ # Reusable UI
-│ │
-│ ├── styles/ # CSS modules
-│ │ ├── variables.css # Design tokens
-│ │ ├── animations.css # Keyframes
-│ │ ├── buttons.css # Button system
-│ │ ├── cards.css # Card system
-│ │ └── components.css # Specific styles
-│ │
-│ └── pages/ # Page components
+│   ├── app/                # Global configurations
+│   │   ├── api/            # TanStack Query client & base API
+│   │   ├── config/         # App configuration & providers
+│   │   └── routing/        # React Router 7 definitions
+│   │
+│   ├── features/           # Domain-driven modules
+│   │   ├── cart/           # Shopping cart feature
+│   │   │   ├── application/ # Hooks & Context
+│   │   │   ├── domain/     # Business logic & Types
+│   │   │   └── presentation/ # UI Components
+│   │   │
+│   │   ├── products/       # Product catalog
+│   │   │   ├── application/
+│   │   │   ├── infrastructure/ # API adapters
+│   │   │   └── presentation/
+│   │   │
+│   │   ├── checkout/       # Checkout flow
+│   │   └── theme/          # Theme management
+│   │
+│   ├── components/         # Shared UI components
+│   │   ├── common/         # Layout & Error boundaries
+│   │   └── ui/             # Shadcn/UI primitives
+│   │
+│   ├── styles/             # Global styles & variables
+│   │   ├── variables.css   # Modern design tokens
+│   │   └── index.css       # Tailwind 4 configuration
+│   │
+│   └── pages/              # Route entry points
 │
-├── docs/ # Documentation
-│ ├── guides/ # Developer guides
-│ ├── reports/ # Analysis reports
-│ └── architecture/ # Architecture docs
+├── docs/                   # System documentation
+│   ├── architecture/       # Architectural guides
+│   ├── guides/             # Developer onboarding
+│   └── reports/            # Analysis & metrics
 │
-└── public/ # Static assets
-\`\`\`
+└── public/                 # Static assets
+```
 
 ---
 

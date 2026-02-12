@@ -12,22 +12,28 @@ import { PRODUCT_GRID_ANIMATIONS } from "@/constants/animations";
 import clsx from 'clsx';
 
 /**
- * @interface ProductGridProps
- * @description Propiedades para el componente ProductGrid.
- * @property {ProductInterface[]} products - Lista de productos a mostrar en la cuadrícula.
+ * Properties for the ProductGrid component.
  */
 interface ProductGridProps {
+  /** Array of product objects to be displayed in the grid. */
   products: ProductInterface[];
 }
 
 /**
- * @component ProductGrid
- * @description Renderiza una cuadrícula responsiva de tarjetas de producto.
- * Implementa animaciones de entrada 'staggered' para una mejor experiencia de usuario.
- * Utiliza React.memo para evitar re-renderizados innecesarios si la lista de productos no cambia.
- * 
- * @param {ProductGridProps} props - Propiedades del componente.
- * @returns {JSX.Element} El contenedor animado de la cuadrícula.
+ * Responsive grid component that organizes product cards with animations.
+ *
+ * @remarks
+ * This component uses `framer-motion` to implement staggered entry animations.
+ * It is optimized for performance using `React.memo` to prevent unnecessary
+ * re-renders when the product list hasn't changed.
+ *
+ * @param props - Component properties.
+ * @returns An animated grid container.
+ *
+ * @example
+ * ```tsx
+ * <ProductGrid products={products} />
+ * ```
  */
 const ProductGrid = memo(({ products }: ProductGridProps) => {
   return (

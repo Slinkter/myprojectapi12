@@ -340,48 +340,61 @@ stock: number;
    ): CartItem[]
    \`\`\`
 
----
-
 ## CSS Architecture
 
-### Modular System
+### Modern Utility System (Tailwind 4)
 
-\`\`\`
-src/styles/
-├── variables.css # Design tokens
-├── animations.css # Keyframes
-├── buttons.css # Button system
-├── cards.css # Card system
-└── components.css # Specific styles
-\`\`\`
+The project leverages **Tailwind CSS 4**, which is a CSS-first utility framework. Configuration is primarily handled within the CSS itself using the `@theme` block, reducing reliance on JavaScript configuration files.
 
-### Design Tokens
+### Design Tokens with CSS Variables
 
-\`\`\`css
-:root {
-/_ Colors _/
---bg-main: #f8fafc;
---text-accent: #d97706;
+We use a "shadcn/ui" style approach for theming, where semantic design tokens are defined as CSS variables. This allows for easy dark mode support and consistent styling across components.
 
-    /* Shadows */
-    --shadow-soft: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
-
-}
-\`\`\`
-
-### Utility Classes
-
-\`\`\`css
-/_ Base button _/
-.btn-base {
-@apply px-5 py-2.5 rounded-xl font-medium transition-all;
+```css
+/* src/index.css */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --radius-lg: var(--radius);
 }
 
-/_ Primary button _/
-.btn-primary {
-@apply btn-base bg-gradient-to-r from-amber-600 to-orange-600;
+@layer base {
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --accent: oklch(0.97 0 0);
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+  }
 }
-\`\`\`
+```
+
+### Component Primitives
+
+Shared UI components are built using **Shadcn/UI** primitives, which are unstyled, accessible components powered by Radix UI and styled with Tailwind classes.
+
+```tsx
+// Example using tailwind-merge and cva
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+      },
+    },
+  }
+);
+```
 
 ---
 

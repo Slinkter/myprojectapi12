@@ -10,14 +10,25 @@ import { config } from "@/app/config/env";
 const BASE_URL = config.api.baseUrl;
 
 /**
- * Un cliente HTTP genérico y asíncrono para manejar solicitudes `fetch` a la API.
- * Construye la URL completa, aplica encabezados JSON predeterminados y maneja el estado de la respuesta de red.
+ * Base HTTP client for the application.
  *
- * @template T El tipo esperado de los datos de la respuesta JSON.
- * @param {string} endpoint La ruta específica del endpoint de la API (ej. "/products", "/users").
- * @param {RequestInit} [options={}] Objeto de configuración opcional para la solicitud `fetch`.
- * @returns {Promise<T>} Una promesa que se resuelve con los datos de la respuesta JSON de la API.
- * @throws {Error} Lanza un `Error` si el estado de la respuesta de red no es `ok` (ej. `response.ok` es false).
+ * @remarks
+ * This is a generic asynchronous HTTP client that wraps the native `fetch` API.
+ * It automatically handles the base URL, sets default JSON headers, and
+ * performs basic error handling for non-OK responses.
+ *
+ * @typeParam T - The expected shape of the JSON response data.
+ * @param endpoint - The specific API endpoint path (e.g., "/products").
+ * @param options - Optional configuration for the `fetch` request.
+ * @returns A promise that resolves to the parsed JSON data of type `T`.
+ *
+ * @throws {Error} If the network response status is not OK (2xx).
+ *
+ * @example
+ * ```typescript
+ * interface User { id: number; name: string; }
+ * const user = await apiClient<User>('/users/1');
+ * ```
  */
 export const apiClient = async <T>(
     endpoint: string,

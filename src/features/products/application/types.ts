@@ -5,45 +5,59 @@
  */
 
 /**
- * @interface Product
- * @description Representa un producto en el sistema con todos sus detalles.
+ * Represents a detailed product entity from the catalog.
+ *
+ * @remarks
+ * This interface contains all the metadata provided by the DummyJSON API.
+ * Some fields like `discountPercentage` and `rating` are optional.
+ *
+ * @example
+ * ```typescript
+ * const laptop: Product = {
+ *   id: 1,
+ *   title: "MacBook Pro",
+ *   description: "Apple MacBook Pro with M2 chip",
+ *   price: 1999,
+ *   stock: 50,
+ *   thumbnail: "https://.../macbook.jpg"
+ * };
+ * ```
  */
 export interface Product {
-    /** Identificador único del producto */
+    /** Unique product identifier */
     id: number;
-    /** Título o nombre del producto */
+    /** Product name */
     title: string;
-    /** Descripción detallada del producto */
+    /** Comprehensive product description */
     description: string;
-    /** Precio del producto en USD */
+    /** Current price in USD */
     price: number;
-    /** Porcentaje de descuento opcional */
+    /** Optional discount percentage (e.g., 10.5) */
     discountPercentage?: number;
-    /** Calificación del producto (1-5) */
+    /** Product rating score (typically 0-5) */
     rating?: number;
-    /** Cantidad disponible en stock */
+    /** Current inventory levels */
     stock: number;
-    /** Marca del fabricante */
+    /** Manufacturer's brand name */
     brand?: string;
-    /** Categoría a la que pertenece */
+    /** Product grouping/classification */
     category?: string;
-    /** URL de la imagen principal */
+    /** Primary display image URL */
     thumbnail: string;
-    /** Lista de URLs de imágenes secundarias */
+    /** Array of additional image URLs */
     images?: string[];
 }
 
 /**
- * @interface ProductsApiResponse
- * @description Estructura de la respuesta enviada por la API de productos.
+ * Structure of the paginated response from the products API.
  */
 export interface ProductsApiResponse {
-    /** Lista de productos devueltos */
+    /** Collection of products for the current page */
     products: Product[];
-    /** Número total de productos disponibles en la API */
+    /** Global count of all available products */
     total: number;
-    /** Número de elementos omitidos (para paginación) */
+    /** Number of items skipped (offset) */
     skip: number;
-    /** Límite de elementos por página */
+    /** Maximum number of items requested per page */
     limit: number;
 }

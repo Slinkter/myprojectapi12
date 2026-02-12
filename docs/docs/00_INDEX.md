@@ -1,6 +1,6 @@
 # 📚 Índice de Documentación - MyProjectAPI12
 
-**Última actualización**: 2026-02-04  
+**Última actualización**: 2026-02-12  
 **Estado del Proyecto**: ✅ Production Ready
 
 ---
@@ -9,8 +9,8 @@
 
 ### Para Nuevos Desarrolladores
 1. [Scope and Vision](01_SCOPE_AND_VISION.md) - Entender el proyecto
-2. [Architecture](03_ARCHITECTURE.md) - Estructura del código
-3. [Tech Stack](04_TECH_STACK.md) - Tecnologías usadas
+2. [Architecture](03_ARCHITECTURE.md) - Estructura del código (DDD + Layers)
+3. [Tech Stack](04_TECH_STACK.md) - Tecnologías usadas (Tailwind 4, TanStack Query 5)
 4. [Coding Standards](07_CODING_STANDARDS.md) - Guía de estilo
 
 ### Para Product Owners
@@ -71,8 +71,8 @@
 |-----------|--------|---------------------|
 | 01_SCOPE_AND_VISION.md | ✅ Actualizado | 2026-01-15 |
 | 02_ROADMAP.md | ✅ Actualizado | 2026-01-15 |
-| 03_ARCHITECTURE.md | ✅ Actualizado | 2026-01-15 |
-| 04_TECH_STACK.md | 🔄 Actualizar | 2026-02-04 |
+| 03_ARCHITECTURE.md | ✅ Actualizado | 2026-02-12 |
+| 04_TECH_STACK.md | ✅ Actualizado | 2026-02-12 |
 | 05_REQUIREMENTS.md | ✅ Actualizado | 2026-01-15 |
 | 06_USER_STORIES.md | ✅ Actualizado | 2026-01-15 |
 | 07_CODING_STANDARDS.md | ✅ Actualizado | 2026-01-15 |

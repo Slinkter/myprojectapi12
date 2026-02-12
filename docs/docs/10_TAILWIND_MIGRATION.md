@@ -20,6 +20,7 @@ Este documento detalla la migración completa de **Material Tailwind** a **Tailw
 3. ✅ Obtener control total sobre estilos
 4. ✅ Mejorar performance
 5. ✅ Mantener funcionalidad existente
+6. ✅ **Actualización a Tailwind CSS v4.1** (Arquitectura CSS-first)
 
 ### Secundarios
 1. ✅ Modernizar diseño con paleta Slate

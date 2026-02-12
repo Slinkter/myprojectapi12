@@ -54,19 +54,12 @@ const Navbar = (): JSX.Element => {
                     className="group flex items-center gap-2.5 transition-opacity hover:opacity-80"
                     aria-label="Go to home page"
                 >
-                    <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/20 group-hover:shadow-orange-500/40 transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
-                        <span className="font-bold text-lg leading-none tracking-tighter">
-                            A12
-                        </span>
-                    </div>
                     <div className="flex flex-col">
                         <h1 className="text-lg font-bold tracking-tight text-(--text-primary) leading-none">
-                            API 12
+                            My Project API
                         </h1>
-                        <span className="text-[10px] font-medium text-(--text-secondary) tracking-widest uppercase">
-                            Store
-                        </span>
                     </div>
+                    <span>12</span>
                 </Link>
 
                 {/* Actions Area */}

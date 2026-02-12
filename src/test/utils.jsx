@@ -6,32 +6,30 @@ import { CartProvider } from '@/features/cart/application/CartContext';
 import PropTypes from 'prop-types';
 
 /**
- * Función de renderizado personalizada que envuelve componentes con todos los proveedores necesarios para las pruebas.
- * Envuelve automáticamente los componentes con BrowserRouter, ThemeProvider y CartProvider.
+ * Custom render function that wraps components with all necessary providers for testing.
  *
- * Esto asegura que los componentes que se están probando tengan acceso a:
- * - Navegación de React Router (useNavigate, useLocation, etc.)
- * - Contexto del tema (estado del tema y función toggleTheme)
- * - Contexto del carrito (estado del carrito y funciones de manipulación del carrito)
+ * @remarks
+ * This utility automatically wraps the UI component with:
+ * - `BrowserRouter`: For React Router navigation logic.
+ * - `ThemeProvider`: For theme-related state (dark/light mode).
+ * - `CartProvider`: For shopping cart state management.
  *
- * @param {React.ReactElement} ui - Componente a renderizar
- * @param {Object} [options={}] - Opciones de renderizado adicionales de @testing-library/react
- * @returns {Object} Resultado de renderizado de @testing-library/react con todas las consultas y utilidades
+ * Use this instead of `@testing-library/react`'s `render` whenever testing components
+ * that depend on global state or routing.
  *
- * @example
- * // Uso básico
- * import { renderWithProviders } from '@/test/utils';
- *
- * test('renders component', () => {
- *   const { getByText } = renderWithProviders(<MyComponent />);
- *   expect(getByText('Hello')).toBeInTheDocument();
- * });
+ * @param {React.ReactElement} ui - The component to render.
+ * @param {Object} [options={}] - Additional options for the testing-library render.
+ * @returns {import('@testing-library/react').RenderResult} Result containing queries and utilities.
  *
  * @example
- * // Con opciones personalizadas
- * renderWithProviders(<MyComponent />, {
- *   initialEntries: ['/products'],
+ * ```jsx
+ * import { render } from '@/test/utils';
+ *
+ * test('renders a link', () => {
+ *   render(<Navbar />);
+ *   expect(screen.getByRole('navigation')).toBeInTheDocument();
  * });
+ * ```
  */
 export function renderWithProviders(ui, options = {}) {
     /**

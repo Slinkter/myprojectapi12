@@ -6,87 +6,75 @@
  */
 
 /**
- * @interface CartItem
- * @description Representa un item dentro del carrito de compras.
- * Extiende la información del producto con la cantidad seleccionada.
- * 
- * @property {number} id - Identificador único del producto
- * @property {string} title - Título o nombre del producto
- * @property {number} price - Precio unitario del producto en la moneda base (USD)
- * @property {number} quantity - Cantidad de unidades de este producto en el carrito
- * @property {string} thumbnail - URL de la imagen miniatura del producto
- * @property {number} stock - Cantidad disponible en inventario
- * 
+ * Represents an item within the shopping cart.
+ *
+ * @remarks
+ * This interface extends the base product information with the quantity
+ * currently selected by the user.
+ *
  * @example
+ * ```typescript
  * const item: CartItem = {
  *   id: 1,
- *   title: "Laptop HP",
- *   price: 899.99,
- *   quantity: 2,
- *   thumbnail: "https://example.com/laptop.jpg",
- *   stock: 10
+ *   title: "High-End Laptop",
+ *   price: 1200,
+ *   quantity: 1,
+ *   thumbnail: "https://api.example.com/images/laptop.png",
+ *   stock: 5
  * };
+ * ```
  */
 export interface CartItem {
+    /** Unique identifier for the product */
     id: number;
+    /** Display name of the product */
     title: string;
+    /** Unit price in USD */
     price: number;
+    /** Number of units currently in the cart */
     quantity: number;
+    /** URL to the product's thumbnail image */
     thumbnail: string;
+    /** Total units available in the warehouse */
     stock: number;
 }
 
 /**
- * @interface Product
- * @description Representa un producto disponible en el catálogo.
- * Información base necesaria para mostrar y agregar productos al carrito.
- * 
- * @property {number} id - Identificador único del producto
- * @property {string} title - Título o nombre del producto
- * @property {number} price - Precio del producto en USD
- * @property {string} thumbnail - URL de la imagen del producto
- * @property {number} stock - Cantidad disponible en stock
- * 
+ * Represents a base product from the catalog.
+ *
  * @example
- * const producto: Product = {
- *   id: 5,
- *   title: "Mouse Inalámbrico",
- *   price: 29.99,
+ * ```typescript
+ * const product: Product = {
+ *   id: 101,
+ *   title: "Wireless Mouse",
+ *   price: 25.99,
  *   thumbnail: "https://example.com/mouse.jpg",
- *   stock: 50
+ *   stock: 150
  * };
+ * ```
  */
 export interface Product {
+    /** Unique product ID */
     id: number;
+    /** Product name */
     title: string;
+    /** Product price in USD */
     price: number;
+    /** URL of the product image */
     thumbnail: string;
+    /** Current stock level */
     stock: number;
 }
 
 /**
- * @interface ValidationResult
- * @description Resultado de una validación de item del carrito.
- * Indica si la validación fue exitosa y proporciona mensaje de error si falló.
- * 
- * @property {boolean} valid - true si la validación fue exitosa, false en caso contrario
- * @property {string | null} error - Mensaje de error descriptivo si valid es false, null si es válido
- * 
- * @example
- * // Validación exitosa
- * const resultado: ValidationResult = {
- *   valid: true,
- *   error: null
- * };
- * 
- * @example
- * // Validación fallida
- * const resultado: ValidationResult = {
- *   valid: false,
- *   error: "Insufficient stock"
- * };
+ * Result of a cart item validation check.
  */
 export interface ValidationResult {
+    /** Indicates if the validation passed */
     valid: boolean;
+    /**
+     * Descriptive error message if `valid` is false.
+     * @example "Insufficient stock"
+     */
     error: string | null;
 }

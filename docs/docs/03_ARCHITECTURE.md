@@ -1,66 +1,66 @@
 # 🏗️ Arquitectura de Software
 
 ## Paradigma
-El proyecto sigue una **Arquitectura Basada en Features (Feature-Based Architecture)** inspirada en **Clean Architecture**. El objetivo es agrupar el código por *dominio funcional* (Producto, Carrito) en lugar de *tipo técnico* (Componentes, Hooks).
+El proyecto sigue una **Arquitectura Basada en Features (Feature-Based Architecture)** inspirada en **Clean Architecture** y **Domain-Driven Design (DDD)**. El código se organiza por módulos funcionales, cada uno con sus propias capas de responsabilidad.
 
-## Diagrama de Capas (Conceptual)
+## Diagrama de Capas
 
 ```mermaid
 graph TD
-    User((Usuario)) --> View[Capa de Presentación<br>(Components/Pages)]
+    User((Usuario)) --> View[Capa de Presentación<br>(React Components / UI)]
     
-    subgraph Frontend Logic
-        View --> Container[Contenedores / Hooks<br>(Application Layer)]
-        Container --> Domain[Reglas de Negocio / Entidades<br>(Domain Layer)]
+    subgraph Feature Module
+        View --> Application[Capa de Aplicación<br>(Hooks / Context)]
+        Application --> Domain[Capa de Dominio<br>(Lógica Pura / Tipos)]
+        Application --> Infrastructure[Capa de Infraestructura<br>(API Clients / Query)]
     end
     
-    subgraph Infrastructure
-        Container --> API[Repositorios / Servicios<br>(Infrastructure Layer)]
-        API --> External[API Externa Clean]
-    end
+    Infrastructure --> External[API Externa / TanStack Query]
 ```
 
-## Estructura de Directorios
+## Estructura de Directorios (Actualizada)
 
 La estructura `src/` se organiza de la siguiente manera:
 
 ```text
 src/
-├── app/                  # Capa "Main" o "Core"
-│   ├── config/           # Variables de entorno y configuración estática
-│   ├── routes/           # Definición de rutas (React Router)
-│   └── api/              # Cliente HTTP base (Axios/Fetch wrapper)
+├── app/                  # Configuración Global
+│   ├── api/              # Configuración de TanStack Query y clientes
+│   ├── config/           # Proveedores y variables de entorno
+│   └── routing/          # Definición de rutas (React Router 7)
 │
-├── common/               # UI Kit y utilidades compartidas
-│   ├── components/       # Átomos y moléculas UI (Button, Input, Modal)
-│   └── utils/            # Funciones puras (formatMoney, dateParsers)
+├── features/             # Módulos de Negocio Vertical (DDD)
+│   ├── [feature]/
+│   │   ├── application/  # Hooks (useFeature), Contextos
+│   │   ├── domain/       # Lógica de negocio, utilidades puras, tipos
+│   │   ├── infrastructure/ # Llamadas a API, adaptadores de datos
+│   │   └── presentation/ # Componentes UI específicos del feature
+│   ├── cart/             # Carrito de compras
+│   ├── products/         # Catálogo de productos
+│   └── checkout/         # Proceso de pago
 │
-├── features/ (o modules/) # Módulos de Negocio Vertical
-│   ├── products/
-│   │   ├── application/  # Casos de uso: hooks (useProducts), contextos
-│   │   ├── infrastructure/ # Gateways: adapters, servicios API
-│   │   └── presentation/   # UI Específica: ProductCard, ProductGrid
-│   ├── cart/
-│   └── checkout/
+├── components/           # Componentes Compartidos
+│   ├── common/           # Layout, Error Boundaries, Navbar
+│   └── ui/               # Componentes Shadcn/UI (primitivos)
 │
-├── pages/                # Composición de Vistas
-│   ├── Home.jsx          # Página que orquesta features/products
-│   └── Checkout.jsx      # Página que orquesta features/checkout
+├── pages/                # Vistas de Alto Nivel (Rutas)
 │
-└── main.jsx              # Punto de entrada
+└── styles/               # Estilos Globales y Configuración Tailwind 4
 ```
 
 ## Patrones de Diseño Aplicados
 
-### 1. Container / Presentational Pattern (En proceso)
-*   **Presentational (Dumb):** Se preocupan de *cómo se ve*. Reciben datos y callbacks por props. No dependen de la API ni del Contexto. (Ej: `ProductCard`).
-*   **Container (Smart):** Se preocupan de *cómo funciona*. Conectan con Hooks, Context o Store. Pasan datos a los componentes presentacionales.
+### 1. Domain-Driven Design (DDD) Lite
+Cada feature encapsula su propia lógica de dominio (`domain`), casos de uso (`application`) y adaptadores externos (`infrastructure`), permitiendo que el código sea modular y testeable.
 
-### 2. Custom Hooks como Controladores
-La lógica de estado y efectos colaterales se extrae a Custom Hooks (`useProducts`), actuando como la capa de "Application" o "Controller" en MVC.
+### 2. TanStack Query para Estado de Servidor
+Se utiliza React Query para manejar la sincronización con la API, eliminando la necesidad de manejar estados de carga y error manualmente en la mayoría de los casos.
 
-### 3. Context API para Estado Global
-Utilizado para estados que deben persistir a través de múltiples vistas (Carrito, Tema), evitando el Prop Drilling excesivo.
+### 3. Context API para Estado UI
+Para estados puramente de interfaz de usuario que atraviesan la aplicación (como el carrito o el tema), se utiliza React Context junto con Custom Hooks.
 
-### 4. Adapter Pattern (Recomendado)
-En la capa de infraestructura, transformar los datos "sucios" de la API (`infrastructure`) a entidades limpias del dominio antes de que lleguen a la UI.
+### 4. Shadcn/UI + Tailwind 4
+Adopción de un sistema de diseño basado en componentes reutilizables y altamente personalizables mediante clases de utilidad, con tokens de diseño definidos en CSS.
+
+---
+_Última actualización: 12 de febrero de 2026_
