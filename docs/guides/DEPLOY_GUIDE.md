@@ -6,7 +6,32 @@ Este documento explica paso a paso cómo funciona y cómo ejecutar el despliegue
 
 ## 🏗️ Cómo funciona el sistema
 
-El proyecto utiliza **GitHub Actions** para el CI/CD (Integración y Despliegue Continuo). Cada vez que realizas un `push` a la rama `main`, ocurre lo siguiente:
+El proyecto utiliza **GitHub Actions** para el CI/CD (Integración y Despliegue Continuo).
+
+```mermaid
+graph TD
+    A[💻 Desarrollador: git push origin main] --> B{GitHub Repository}
+    B --> C[⚙️ GitHub Actions: Workflow Disparado]
+    
+    subgraph Job_Build [Trabajo: Build]
+        C --> D[📥 Checkout Código]
+        D --> E[📦 Instalar pnpm y Dependencias]
+        E --> F[🔍 Linting: Check de Calidad]
+        F -- Éxito --> G[🏗️ Build: Generar /dist]
+        F -- Fallo --> H[❌ Parar y Notificar]
+    end
+    
+    G --> I[📦 Cargar Artefacto]
+    I --> J[🚀 Trabajo: Deploy]
+    
+    subgraph Job_Deploy [Trabajo: Deploy]
+        J --> K[🌍 Subiendo a Servidores de GitHub]
+        K --> L[✅ Sitio en Vivo / Live]
+    end
+```
+
+### Detalles del proceso
+Cada vez que realizas un `push` a la rama `main`, ocurre lo siguiente:
 
 1.  **Validación:** Se revisa el código con ESLint para asegurar que no hay errores.
 2.  **Construcción:** Se ejecuta el comando `build` para generar la versión de producción en la carpeta `dist/`.
