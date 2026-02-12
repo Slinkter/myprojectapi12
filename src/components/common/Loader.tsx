@@ -5,18 +5,19 @@
  * @architecture Presentation Layer - Common Components
  */
 import React from "react";
-import clsx from 'clsx';
+import { cn } from "@/lib/utils";
 
 /**
- * Componente de spinner de carga.
- *
- * @component
+ * @component Loader
+ * @description A simple loading spinner component.
+ * 
+ * @returns {JSX.Element} The loading spinner.
  */
 const Loader: React.FC = () => {
     return (
-        <div className={clsx("loader")}>
-            <div className={clsx("loader__spinner")}>
-                <div className={clsx("animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600")}></div>
+        <div className={cn("loader")}>
+            <div className={cn("loader__spinner")}>
+                <div className={cn("animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600")}></div>
             </div>
         </div>
     );

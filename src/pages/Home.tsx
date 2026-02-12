@@ -13,13 +13,14 @@ import {
 } from "@/features/products/application/ProductModalContext";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
 import FeatureErrorBoundary from "@/components/common/FeatureErrorBoundary";
-import clsx from 'clsx';
+import { cn } from "@/lib/utils";
 
 /**
- * Contenido principal de la Home.
+ * @component HomeContent
+ * @description Contenido principal de la Home.
  * Gestiona la carga de productos y visualización del listado o skeletons.
  *
- * @component
+ * @returns {JSX.Element} El layout principal de la página.
  */
 const HomeContent = () => {
     const { products, initialLoading, loading, error, loadMore, hasMore } =
@@ -28,12 +29,12 @@ const HomeContent = () => {
         useProductModalContext();
 
     return (
-        <div className={clsx("page-home")}>
-            <div className={clsx("page-home__header px-4 sm:px-0")}>
-                <h1 className={clsx("page-home__title text-2xl sm:text-3xl lg:text-4xl font-bold")}>
+        <div className={cn("page-home container mx-auto px-4 py-8")}>
+            <div className={cn("page-home__header flex flex-col items-center text-center mb-12")}>
+                <h1 className={cn("page-home__title")}>
                     Product List
                 </h1>
-                <p className={clsx("page-home__subtitle text-sm sm:text-base text-gray-600 dark:text-gray-400")}>
+                <p className={cn("page-home__subtitle")}>
                     React VITE + Tailwind CSS + DummyJSON API
                 </p>
             </div>
@@ -61,6 +62,12 @@ const HomeContent = () => {
     );
 };
 
+/**
+ * @component Home
+ * @description Wrapper de la página Home que provee el contexto del modal y el ErrorBoundary.
+ * 
+ * @returns {JSX.Element} La página Home completa.
+ */
 const Home = () => (
     <ProductModalProvider>
         <FeatureErrorBoundary featureName="Products">

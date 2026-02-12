@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /**
  * Componentes específicos de la aplicación.
  */
@@ -17,7 +19,7 @@
 
 /* Typography */
 body {
-    @apply bg-[var(--bg-main)] text-[var(--text-primary)] antialiased selection:bg-amber-100 selection:text-amber-900;
+    @apply bg-(--bg-main) text-(--text-primary) antialiased selection:bg-amber-100 selection:text-amber-900;
     font-family: "Lora", Georgia, serif;
     font-optical-sizing: auto;
     transition:
@@ -26,7 +28,7 @@ body {
 }
 
 body.dark {
-    @apply bg-[var(--bg-main)] text-[var(--text-primary)] selection:bg-amber-900 selection:text-amber-100;
+    @apply bg-(--bg-main) text-(--text-primary) selection:bg-amber-900 selection:text-amber-100;
 }
 
 /* Root Animation */
@@ -37,13 +39,13 @@ body.dark {
 /* Form Inputs */
 .neumo-input,
 .checkout-form-input {
-    @apply w-full rounded-xl bg-[var(--bg-input)] p-3.5 text-[var(--text-primary)] border border-transparent transition-all outline-none;
+    @apply w-full rounded-xl bg-(--bg-input) p-3.5 text-(--text-primary) border border-transparent transition-all outline-none;
     font-family: "Lora", Georgia, serif;
 }
 
 .neumo-input:focus,
 .checkout-form-input:focus {
-    @apply border-amber-500 bg-[var(--bg-card)] ring-2 ring-amber-500/20;
+    @apply border-amber-500 bg-(--bg-card) ring-2 ring-amber-500/20;
     box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
 }
 
@@ -54,39 +56,45 @@ body.dark {
 
 /* Page Titles */
 .page-home__title {
-    @apply text-4xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)] mb-3;
+    @apply text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-(--text-primary) mb-4;
+    font-family: 'Lora', serif;
     animation: fadeInDown 0.6s ease-out;
 }
 
 .page-home__subtitle {
-    @apply text-lg text-[var(--text-secondary)] font-normal max-w-2xl mx-auto mb-12 italic;
+    @apply text-lg md:text-xl text-(--text-secondary) font-light max-w-2xl mx-auto italic;
     animation: fadeIn 0.8s ease-out 0.2s backwards;
 }
 
 .page-home__load-more-button {
-    @apply mt-8 px-10 py-4 rounded-full font-bold transition-all shadow-lg;
+    @apply px-10 py-4 rounded-full font-bold transition-all shadow-lg;
     background: linear-gradient(135deg, var(--text-accent) 0%, #ea580c 100%);
     color: white;
-    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 4px 14px 0 rgba(234, 88, 12, 0.39);
 }
 
 .page-home__load-more-button:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 12px 28px rgba(217, 119, 6, 0.4);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.23);
+}
+
+.page-home__load-more-button:disabled {
+    @apply opacity-70 cursor-not-allowed transform-none shadow-none;
+    background: var(--text-secondary);
 }
 
 /* Cart Drawer */
 .cart-drawer {
-    @apply bg-[var(--bg-card)] shadow-2xl border-l border-[var(--border-light)];
+    @apply bg-(--bg-card) shadow-2xl border-l border-(--border-light);
     animation: slideInRight 0.3s ease-out;
 }
 
 .cart-drawer__header {
-    @apply border-b border-[var(--border-light)] pb-4 mb-4 flex items-center justify-between;
+    @apply border-b border-(--border-light) pb-4 mb-4 flex items-center justify-between;
 }
 
 .cart-drawer__item {
-    @apply border-b border-[var(--border-light)] last:border-0 py-4;
+    @apply border-b border-(--border-light) last:border-0 py-4;
     animation: fadeIn 0.3s ease-out;
 }
 

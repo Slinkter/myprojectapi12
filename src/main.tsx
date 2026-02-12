@@ -14,21 +14,27 @@ import { CartProvider } from "@/features/cart/application/CartContext";
 import { queryClient } from "@/app/config/queryClient";
 import App from "./App";
 import "./index.css";
+// Import global styles
+import "@/styles/variables.css";
+import "@/styles/animations.css";
+import "@/styles/buttons.css";
+import "@/styles/cards.css";
+import "@/styles/components.css";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Failed to find the root element");
 
 ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename="/myprojectapi12/">
-        <ThemeProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </ThemeProvider>
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  </React.StrictMode>,
+    <React.StrictMode>
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter basename="/myprojectapi12/">
+                <ThemeProvider>
+                    <CartProvider>
+                        <App />
+                    </CartProvider>
+                </ThemeProvider>
+            </BrowserRouter>
+            <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+    </React.StrictMode>,
 );

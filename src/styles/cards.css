@@ -1,9 +1,16 @@
+@import "tailwindcss";
+
 /**
  * Sistema de tarjetas reutilizables.
  */
 
-/* Base Card */
-.card-base {
+/* Base Card & Variants */
+.card-base,
+.error-fallback-card,
+.checkout-success-card,
+.checkout-card,
+.product-detail-modal-card,
+.skeleton-card {
     @apply bg-white rounded-2xl border border-slate-200;
     box-shadow:
         0 1px 3px 0 rgba(0, 0, 0, 0.1),
@@ -12,7 +19,12 @@
     animation: slideUp 0.5s ease-out;
 }
 
-.card-base:hover {
+.card-base:hover,
+.error-fallback-card:hover,
+.checkout-success-card:hover,
+.checkout-card:hover,
+.product-detail-modal-card:hover,
+.skeleton-card:hover {
     border-color: var(--text-accent);
     box-shadow:
         0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -20,32 +32,33 @@
     transform: translateY(-4px) scale(1.01);
 }
 
-.dark .card-base {
+.dark .card-base,
+.dark .error-fallback-card,
+.dark .checkout-success-card,
+.dark .checkout-card,
+.dark .product-detail-modal-card,
+.dark .skeleton-card {
     @apply bg-slate-800 border-slate-700;
     box-shadow:
         0 1px 3px 0 rgba(0, 0, 0, 0.3),
         0 1px 2px -1px rgba(0, 0, 0, 0.2);
 }
 
-.dark .card-base:hover {
+.dark .card-base:hover,
+.dark .error-fallback-card:hover,
+.dark .checkout-success-card:hover,
+.dark .checkout-card:hover,
+.dark .product-detail-modal-card:hover,
+.dark .skeleton-card:hover {
     @apply border-amber-500;
     box-shadow:
         0 10px 15px -3px rgba(0, 0, 0, 0.3),
         0 4px 6px -4px rgba(0, 0, 0, 0.2);
 }
 
-/* Card Variants */
-.error-fallback-card,
-.checkout-success-card,
-.checkout-card,
-.product-detail-modal-card,
-.skeleton-card {
-    @apply card-base;
-}
-
 /* Product Card (Special styling) */
 .product-card {
-    @apply flex flex-col h-full bg-[var(--bg-card)] rounded-2xl overflow-hidden border border-[var(--border-light)];
+    @apply flex flex-col h-full bg-(--bg-card) rounded-2xl overflow-hidden border border-(--border-light);
     box-shadow: var(--shadow-soft);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     animation: fadeInUp 0.6s ease-out backwards;

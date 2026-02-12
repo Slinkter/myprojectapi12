@@ -29,7 +29,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
     const isDev = import.meta.env.DEV;
 
     return (
-        <div className={clsx("min-h-screen flex items-center justify-center bg-[var(--bg-main)] p-4")}>
+        <div className={clsx("min-h-screen flex items-center justify-center bg-(--bg-main) p-4")}>
             <div className={clsx("error-fallback-card max-w-2xl w-full p-8 text-center")}>
                 <div className={clsx("flex justify-center mb-6")}>
                     <div className={clsx("w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center")}>
@@ -37,11 +37,11 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
                     </div>
                 </div>
 
-                <h1 className={clsx("text-3xl font-bold text-[var(--text-primary)] mb-4")}>
+                <h1 className={clsx("text-3xl font-bold text-(--text-primary) mb-4")}>
                     Oops! Something went wrong
                 </h1>
 
-                <p className={clsx("text-[var(--text-secondary)] mb-6")}>
+                <p className={clsx("text-(--text-secondary) mb-6")}>
                     We apologize for the inconvenience. An unexpected error has
                     occurred.
                 </p>

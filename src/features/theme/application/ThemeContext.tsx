@@ -2,23 +2,29 @@
 /**
  * @file ThemeContext.tsx
  * @description Contexto para el manejo del tema (claro/oscuro) de la aplicación.
- * Persiste la preferencia en localStorage y detecta preferencia del sistema.
+ * Gestiona el estado y la persistencia del tema mediante servicios de infraestructura.
  * @architecture Application Layer - Theme Feature
  */
 import {
     createContext,
     useState,
     useEffect,
+    useCallback,
     ReactNode,
     useContext,
 } from "react";
-
-type Theme = "light" | "dark";
+import {
+    getStoredTheme,
+    saveTheme,
+    applyThemeToDocument,
+    Theme,
+} from "../infrastructure/themeStorage";
 
 /**
  * @interface ThemeContextType
+ * @description Interfaz del contexto del tema.
  * @property {Theme} theme - El tema actual ('light' | 'dark')
- * @property {function} toggleTheme - Función para alternar entre temas
+ * @property {Function} toggleTheme - Función para alternar entre temas
  */
 interface ThemeContextType {
     theme: Theme;
@@ -26,31 +32,21 @@ interface ThemeContextType {
 }
 
 /**
- * Obtiene el tema inicial.
- * Prioridad: 1. localStorage, 2. Preferencia del sistema, 3. 'light'
- * @returns {Theme} El tema inicial
+ * @constant ThemeContext
+ * @description Contexto de React para el estado del tema.
+ * Inicializado como undefined para detectar uso fuera del proveedor.
  */
-const getInitialTheme = (): Theme => {
-    const storedTheme = localStorage.getItem("theme") as Theme | null;
-    if (storedTheme) {
-        return storedTheme;
-    }
-
-    if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-        return "dark";
-    }
-    return "light";
-};
-
-// Valor predeterminado para el contexto. Usamos 'undefined' inicialmente,
-// y el proveedor garantizará que el valor real nunca sea 'undefined'
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-// Hook personalizado para consumir el ThemeContext
-export const useTheme = () => {
+/**
+ * @function useTheme
+ * @description Hook personalizado para consumir el contexto del tema.
+ * @architecture Application Layer - Custom Hook
+ * 
+ * @returns {ThemeContextType} Objeto con el tema y la función toggle.
+ * @throws {Error} Si se usa fuera de un ThemeProvider.
+ */
+export const useTheme = (): ThemeContextType => {
     const context = useContext(ThemeContext);
     if (context === undefined) {
         throw new Error("useTheme must be used within a ThemeProvider");
@@ -58,25 +54,39 @@ export const useTheme = () => {
     return context;
 };
 
+/**
+ * @interface ThemeProviderProps
+ * @property {ReactNode} children - Componentes hijos envueltos.
+ */
 interface ThemeProviderProps {
     children: ReactNode;
 }
 
-const ThemeProvider = ({ children }: ThemeProviderProps) => {
-    const [theme, setTheme] = useState<Theme>(getInitialTheme);
+/**
+ * @component ThemeProvider
+ * @description Proveedor del contexto del tema.
+ * Gestiona el estado local del tema y sincroniza cambios con el almacenamiento y el DOM.
+ * 
+ * @param {ThemeProviderProps} props - Props del componente.
+ * @returns {JSX.Element} El proveedor del contexto.
+ */
+export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => {
+    const [theme, setTheme] = useState<Theme>(getStoredTheme);
 
+    // Efecto para aplicar cambios al DOM y guardar en localStorage
     useEffect(() => {
-        if (theme === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-        localStorage.setItem("theme", theme);
+        applyThemeToDocument(theme);
+        saveTheme(theme);
     }, [theme]);
 
-    const toggleTheme = () => {
+    /**
+     * @function toggleTheme
+     * @description Alterna el estado del tema entre 'light' y 'dark'.
+     * Memoizado con useCallback.
+     */
+    const toggleTheme = useCallback(() => {
         setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-    };
+    }, []);
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -85,4 +95,4 @@ const ThemeProvider = ({ children }: ThemeProviderProps) => {
     );
 };
 
-export { ThemeContext, ThemeProvider };
+export { ThemeContext };

@@ -9,16 +9,17 @@ import { memo } from "react";
 import { Product } from "../application/types";
 import ProductGrid from "./ProductGrid";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import clsx from 'clsx';
+import LoadMoreButton from "./components/LoadMoreButton";
+import { cn } from "@/lib/utils";
 
 /**
  * @interface ProductListProps
  * @description Propiedades para el componente ProductList.
- * @property {ProductInterface[]} products - Lista de productos cargados actualmente
+ * @property {Product[]} products - Lista de productos cargados actualmente
  * @property {boolean} loading - Indica si hay una operación de carga en curso
- * @property {string} error - Mensaje de error si la carga falló, o null si fue exitosa
+ * @property {string | null} error - Mensaje de error si la carga falló, o null si fue exitosa
  * @property {boolean} hasMore - Indica si existen más productos disponibles para cargar
- * @property {function} loadMore - Función para solicitar la siguiente página de productos
+ * @property {() => void} loadMore - Función para solicitar la siguiente página de productos
  */
 interface ProductListProps {
     products: Product[];
@@ -60,37 +61,23 @@ const ProductList = memo(({
 
     // Renderizado de estado vacío
     if (products.length === 0 && !loading) {
-        return <p className={clsx("page-home__info-message")}>No products found.</p>;
+        return <p className={cn("page-home__info-message")}>No products found.</p>;
     }
 
     return (
         <>
             <ProductGrid products={products} />
 
-            <div className={clsx("page-home__pagination")}>
+            <div className={cn("page-home__pagination flex justify-center w-full mt-12 mb-8")}>
                 {hasMore && (
-                    <button
-                        onClick={loadMore}
-                        disabled={loading}
-                        className={clsx(
-                            "page-home__load-more-button flex items-center justify-center gap-2",
-                            loading && "opacity-70 cursor-not-allowed"
-                        )}
-                        aria-label="Load more products"
-                    >
-                        {loading ? (
-                            <>
-                                <div className={clsx("animate-spin rounded-full h-5 w-5 border-b-2 border-white")} />
-                                <span>Loading...</span>
-                            </>
-                        ) : (
-                            "Load More"
-                        )}
-                    </button>
+                    <LoadMoreButton 
+                        onClick={loadMore} 
+                        loading={loading} 
+                    />
                 )}
 
                 {!hasMore && products.length > 0 && (
-                    <p className={clsx("page-home__info-message")}>
+                    <p className={cn("page-home__info-message text-center text-gray-500 dark:text-gray-400 mt-8")}>
                         You have reached the end of the list.
                     </p>
                 )}

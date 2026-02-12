@@ -127,7 +127,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
             </div>
 
             {/* Contenido / Detalles */}
-            <div className={clsx("border-t border-[var(--neumo-shadow-dark)] dark:border-[var(--neumo-shadow-dark-mode-dark)] pt-4")}>
+            <div className={clsx("border-t border-(--neumo-shadow-dark) dark:border-(--neumo-shadow-dark-mode-dark) pt-4")}>
               <img
                 src={product.thumbnail}
                 alt={`${product.title} product image`}

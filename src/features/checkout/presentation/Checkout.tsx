@@ -7,13 +7,14 @@
 import { useCheckout } from "../application/useCheckout";
 import PaymentMethodRadio from "./components/PaymentMethodRadio";
 import CardForm from "./components/CardForm";
-import clsx from 'clsx';
+import { cn } from "@/lib/utils";
 
 /**
- * Componente contenedor para la vista de Checkout.
+ * @component Checkout
+ * @description Contenedor principal para la vista de Checkout.
  * Utiliza el hook useCheckout para manejar la lógica de negocio.
  *
- * @component
+ * @returns {JSX.Element} La página de checkout.
  */
 const Checkout = () => {
     const {
@@ -32,20 +33,20 @@ const Checkout = () => {
 
     return (
         <main
-            className={clsx("checkout-page")}
+            className={cn("checkout-page")}
             role="main"
             aria-labelledby="checkout-title"
         >
-            <div className={clsx("checkout-card")}>
+            <div className={cn("checkout-card")}>
                 <h4
                     id="checkout-title"
-                    className={clsx("checkout-card__title text-2xl font-bold")}
+                    className={cn("checkout-card__title text-2xl font-bold")}
                 >
                     Choose a payment method
                 </h4>
 
-                <fieldset className={clsx("checkout-card__payment-methods")}>
-                    <legend className={clsx("sr-only")}>
+                <fieldset className={cn("checkout-card__payment-methods")}>
+                    <legend className={cn("sr-only")}>
                         Payment method selection
                     </legend>
 
@@ -82,7 +83,7 @@ const Checkout = () => {
 
                 <button
                     onClick={handlePayment}
-                    className={clsx(
+                    className={cn(
                         "checkout-pay-button checkout-card__pay-button bg-green-500 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
                         {
                             "disabled:opacity-50 disabled:cursor-not-allowed": isPaymentDisabled

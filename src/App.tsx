@@ -19,16 +19,16 @@ import React from "react";
 // ... (existing imports)
 
 const App = () => {
-  return (
-    <React.StrictMode>
-      <ErrorBoundary>
-        <Layout>
-          <Cart />
-          <AppRouter />
-        </Layout>
-      </ErrorBoundary>
-    </React.StrictMode>
-  );
+    return (
+        <React.StrictMode>
+            <ErrorBoundary>
+                <Layout>
+                    <Cart />
+                    <AppRouter />
+                </Layout>
+            </ErrorBoundary>
+        </React.StrictMode>
+    );
 };
 
 export default App;

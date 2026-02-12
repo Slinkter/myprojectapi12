@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /**
  * Sistema de botones reutilizables.
  */
@@ -15,7 +17,7 @@
 
 /* Primary Button (Gradient Amber) */
 .btn-primary {
-    @apply btn-base bg-gradient-to-r from-amber-600 to-orange-600 text-white border-transparent shadow-lg;
+    @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-300 border bg-gradient-to-r from-amber-600 to-orange-600 text-white border-transparent shadow-lg;
 }
 
 .btn-primary:hover {
@@ -26,10 +28,11 @@
 
 /* Secondary Button (Card Style) */
 .btn-secondary {
-    @apply btn-base border-transparent;
+    @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-300 border border-transparent;
     background-color: var(--bg-card);
     border-color: var(--border-light);
     color: var(--text-primary);
+    box-shadow: var(--shadow-soft);
 }
 
 .btn-secondary:hover {
@@ -45,8 +48,30 @@
 }
 
 /* Button Variants - Specific Use Cases */
-.cart-clear-button {
-    @apply btn-secondary;
+.cart-clear-button,
+.error-fallback-home-button,
+.checkout-payment-method-button {
+    @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-300 border border-transparent;
+    background-color: var(--bg-card);
+    border-color: var(--border-light);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-soft);
+}
+
+.cart-clear-button:hover,
+.error-fallback-home-button:hover,
+.checkout-payment-method-button:hover {
+    @apply bg-amber-50 border-amber-300;
+    color: var(--text-accent);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.dark .cart-clear-button:hover,
+.dark .error-fallback-home-button:hover,
+.dark .checkout-payment-method-button:hover {
+    @apply bg-amber-900/30 border-amber-700;
+    color: var(--text-accent);
 }
 
 .cart-checkout-button,
@@ -55,10 +80,16 @@
 .product-detail-add-to-cart-button,
 .checkout-success-continue-button,
 .error-fallback-try-again-button {
-    @apply btn-primary;
+    @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-300 border bg-gradient-to-r from-amber-600 to-orange-600 text-white border-transparent shadow-lg;
 }
 
-.error-fallback-home-button,
-.checkout-payment-method-button {
-    @apply btn-secondary;
+.cart-checkout-button:hover,
+.checkout-pay-button:hover,
+.product-add-to-cart-button:hover,
+.product-detail-add-to-cart-button:hover,
+.checkout-success-continue-button:hover,
+.error-fallback-try-again-button:hover {
+    @apply from-amber-700 to-orange-700 shadow-xl;
+    box-shadow: 0 8px 20px -4px rgba(217, 119, 6, 0.4);
+    transform: translateY(-2px);
 }

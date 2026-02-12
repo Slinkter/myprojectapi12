@@ -5,31 +5,30 @@
  * @architecture Presentation Layer - Common Components
  */
 import { memo } from "react";
-import clsx from 'clsx';
+import { cn } from "@/lib/utils";
 
 /**
  * @interface ErrorMessageProps
- * @property {string} message - Texto del error
- * @property {string} [title] - Título de la alerta (default: "Error")
- * @property {object} [action] - Acción opcional
- * @property {string} action.label - Texto del botón de acción
- * @property {function} action.onClick - Handler para la acción
- * @property {string} [className] - Clases CSS adicionales
+ * @description Properties for the ErrorMessage component.
  */
 interface ErrorMessageProps {
+    /** The error message text to display */
     message: string;
+    /** Optional title for the alert. Defaults to "Error" */
     title?: string;
+    /** Optional action button configuration */
     action?: {
         label: string;
         onClick: () => void;
     };
+    /** Additional CSS classes */
     className?: string;
 }
 
 // Hoist static SVG icon outside component to avoid recreation
 const ErrorIcon = (
     <svg
-        className={clsx("h-5 w-5 text-red-400")}
+        className={cn("h-5 w-5 text-red-400")}
         viewBox="0 0 20 20"
         fill="currentColor"
         aria-hidden="true"
@@ -42,6 +41,13 @@ const ErrorIcon = (
     </svg>
 );
 
+/**
+ * @component ErrorMessage
+ * @description Renders an error alert with an optional action button.
+ * 
+ * @param {ErrorMessageProps} props - The component props.
+ * @returns {JSX.Element} The error message alert.
+ */
 const ErrorMessage = memo(
     ({
         message,
@@ -51,25 +57,25 @@ const ErrorMessage = memo(
     }: ErrorMessageProps) => {
         return (
             <div
-                className={clsx(
+                className={cn(
                     "error-message bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4",
                     className
                 )}
                 role="alert"
             >
-                <div className={clsx("flex items-start")}>
-                    <div className={clsx("flex-shrink-0")}>{ErrorIcon}</div>
-                    <div className={clsx("ml-3 flex-1")}>
-                        <h3 className={clsx("text-sm font-medium text-red-800 dark:text-red-200")}>
+                <div className={cn("flex items-start")}>
+                    <div className={cn("flex-shrink-0")}>{ErrorIcon}</div>
+                    <div className={cn("ml-3 flex-1")}>
+                        <h3 className={cn("text-sm font-medium text-red-800 dark:text-red-200")}>
                             {title}
                         </h3>
-                        <p className={clsx("mt-1 text-sm text-red-700 dark:text-red-300")}>
+                        <p className={cn("mt-1 text-sm text-red-700 dark:text-red-300")}>
                             {message}
                         </p>
                         {action && (
                             <button
                                 onClick={action.onClick}
-                                className={clsx("mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors")}
+                                className={cn("mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors")}
                             >
                                 {action.label}
                             </button>

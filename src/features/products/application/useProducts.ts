@@ -13,25 +13,38 @@ import { getProducts } from "../infrastructure/productsApi";
 import { Product, ProductsApiResponse } from "./types";
 
 /**
+ * @interface UseProductsResult
+ * @description Interface for the return value of the useProducts hook.
+ */
+export interface UseProductsResult {
+  /** Array of flattened products from all pages */
+  products: Product[];
+  /** Error message if the query fails */
+  error: string | null;
+  /** True if fetching next page */
+  loading: boolean;
+  /** True if fetching the first page */
+  initialLoading: boolean;
+  /** True if there are more pages to fetch */
+  hasMore: boolean;
+  /** Function to fetch the next page */
+  loadMore: () => void;
+  /** True if specifically loading more data (next page) */
+  isLoadingMore: boolean;
+}
+
+/**
  * @function useProducts
  * @description Hook para obtener productos con paginación infinita.
  * Utiliza React Query para caché automática y deduplicación.
  * @architecture Application Layer
  * 
- * @returns {{
- *   products: Product[],
- *   error: string | null,
- *   loading: boolean,
- *   initialLoading: boolean,
- *   hasMore: boolean,
- *   loadMore: Function,
- *   isLoadingMore: boolean
- * }} Estado y funciones para gestión de productos
+ * @returns {UseProductsResult} Estado y funciones para gestión de productos
  * 
  * @example
  * const { products, loading, loadMore, hasMore } = useProducts();
  */
-export const useProducts = () => {
+export const useProducts = (): UseProductsResult => {
   const {
     data,
     error,
