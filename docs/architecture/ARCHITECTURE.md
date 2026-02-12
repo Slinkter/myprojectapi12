@@ -13,41 +13,18 @@ MyProjectAPI12 follows a **feature-based architecture** with clear separation of
 
 ## Architecture Layers
 
+The architecture is designed around the **SOLID** and **DRY** principles, ensuring high cohesion and low coupling between modules.
+
 ### 1. Domain Layer (Business Logic)
-
 **Location:** `src/features/*/domain/`
-
-**Purpose:** Pure business logic, independent of frameworks
-
-**Characteristics:**
-
-- Pure functions (no side effects)
-- Framework-agnostic
-- Highly testable
-- TypeScript for type safety
-
-**Example:**
-\`\`\`typescript
-// src/features/cart/domain/cartUtils.ts
-export const calculateTotal = (cart: CartItem[]): number => {
-return cart.reduce((sum, item) => sum + item.price \* item.quantity, 0);
-};
-\`\`\`
-
----
+**Purpose:** Pure business logic, independent of frameworks.
+**SOLID:** Implements the *Single Responsibility Principle* by isolating rules from the UI.
 
 ### 2. Application Layer (Use Cases)
-
 **Location:** `src/features/*/application/`
-
-**Purpose:** Orchestrate business logic and manage state
-
-**Characteristics:**
-
-- React hooks
-- Context providers
-- State management
-- Side effects coordination
+**Purpose:** Orchestrate business logic and manage state.
+**SOLID:** Implements *Dependency Inversion* by using Context/Hooks to provide data to components.
+**DRY:** Centralizes logic in Custom Hooks to avoid duplication across views.
 
 **Example:**
 \`\`\`typescript
