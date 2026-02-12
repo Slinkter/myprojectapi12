@@ -101,7 +101,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
           aria-hidden="true"
         >
           <motion.div
-            className={cn("product-detail-modal-card w-full max-w-lg p-4 sm:p-6 m-2 sm:m-4 max-h-[90vh] overflow-y-auto")}
+            className={cn("product-detail-modal-card w-full max-w-4xl p-0 m-4 overflow-hidden max-h-[90vh] flex flex-col")}
             onClick={(e: MouseEvent) => e.stopPropagation()}
             variants={MODAL_SLIDE_UP}
             role="dialog"
@@ -109,105 +109,108 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
           >
-            {/* Header del Modal */}
-            <div className={cn("flex justify-between items-center mb-3 sm:mb-4")}>
-              <h5
-                id="modal-title"
-                className={cn("font-bold text-lg sm:text-xl text-gray-900 dark:text-gray-100 pr-2")}
-              >
-                {product.title}
-              </h5>
+            {/* Header (Mobile Only / Absolute close button) */}
+            <div className={cn("absolute top-4 right-4 z-10")}>
               <button
                 onClick={onClose}
-                className={cn("p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center justify-center text-2xl leading-none text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-amber-500")}
+                className={cn("p-2 rounded-full bg-white/80 dark:bg-black/50 hover:bg-white dark:hover:bg-black/70 backdrop-blur-sm transition-all shadow-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white")}
                 aria-label={`Close ${product.title} details`}
               >
                 &times;
               </button>
             </div>
 
-            {/* Contenido / Detalles */}
-            <div className={cn("border-t border-gray-200 dark:border-gray-700 pt-4")}>
-              <img
-                src={product.thumbnail}
-                alt={`${product.title} product image`}
-                className={cn("product-modal__image")}
-              />
-              <p id="modal-description" className={cn("product-modal__description my-4 italic text-gray-600 dark:text-gray-400")}>
-                {product.description}
-              </p>
-              <h6
-                className={cn("product-modal__price font-semibold text-amber-600 dark:text-amber-500")}
-                aria-label={`Price: $${product.price}`}
-              >
-                Price: $ {product.price}
-              </h6>
-              <h6
-                className={cn("product-modal__stock font-semibold text-gray-700 dark:text-gray-300")}
-                aria-label={`${product.stock} units available`}
-              >
-                Stock: {product.stock}
-              </h6>
-            </div>
+            <div className={cn("flex flex-col sm:flex-row h-full overflow-y-auto sm:overflow-hidden")}>
+              {/* Columna Izquierda: Información (Título, Descripción, Controles) */}
+              <div className={cn("flex-1 p-6 sm:p-8 flex flex-col order-2 sm:order-1 overflow-y-auto")}>
+                <div className={cn("mb-auto")}>
+                  <h5
+                    id="modal-title"
+                    className={cn("text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2 leading-tight")}
+                  >
+                    {product.title}
+                  </h5>
+                  
+                  <div className={cn("flex items-center gap-4 mb-6")}>
+                    <span className={cn("product-modal__price text-xl font-bold text-amber-600 dark:text-amber-500")}>
+                      $ {product.price}
+                    </span>
+                    <span className={cn("text-sm px-2.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 font-medium")}>
+                      Stock: {product.stock}
+                    </span>
+                  </div>
 
-            {/* Footer / Controles de Acción */}
-            <div className={cn("flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 gap-3 sm:gap-0")}>
-              <div
-                className={cn("flex items-center justify-center sm:justify-start gap-2 sm:gap-3")}
-                role="group"
-                aria-label="Quantity selector"
-              >
-                <button
-                  onClick={decrement}
-                  disabled={quantity === 1}
-                  className={cn(
-                    "w-10 h-10 rounded-lg border-2 flex items-center justify-center text-xl font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500",
-                    quantity === 1
-                      ? "border-gray-300 dark:border-gray-600 opacity-30 cursor-not-allowed text-gray-700 dark:text-gray-300"
-                      : "border-gray-300 dark:border-gray-600 hover:border-amber-500 dark:hover:border-amber-500 text-gray-700 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-500"
-                  )}
-                  aria-label="Decrease quantity"
-                  aria-disabled={quantity === 1}
-                >
-                  −
-                </button>
-                <span
-                  className={cn("min-w-[3rem] text-center px-3 sm:px-4 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 font-semibold text-gray-900 dark:text-gray-100")}
-                  aria-live="polite"
-                  aria-atomic="true"
-                  aria-label={`Quantity: ${quantity}`}
-                >
-                  {quantity}
-                </span>
-                <button
-                  onClick={increment}
-                  disabled={quantity >= product.stock}
-                  className={cn(
-                    "w-10 h-10 rounded-lg border-2 flex items-center justify-center text-xl font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500",
-                    quantity >= product.stock
-                      ? "border-gray-300 dark:border-gray-600 opacity-30 cursor-not-allowed text-gray-700 dark:text-gray-300"
-                      : "border-gray-300 dark:border-gray-600 hover:border-amber-500 dark:hover:border-amber-500 text-gray-700 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-500"
-                  )}
-                  aria-label="Increase quantity"
-                  aria-disabled={quantity >= product.stock}
-                >
-                  +
-                </button>
+                  <p id="modal-description" className={cn("product-modal__description text-gray-600 dark:text-gray-300 leading-relaxed text-base sm:text-lg mb-8")}>
+                    {product.description}
+                  </p>
+                </div>
+
+                {/* Footer / Controles de Acción */}
+                <div className={cn("mt-6 pt-6 border-t border-gray-100 dark:border-gray-800")}>
+                  <div className={cn("flex flex-col sm:flex-row gap-4 items-center")}>
+                    <div
+                      className={cn("flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl p-1")}
+                      role="group"
+                      aria-label="Quantity selector"
+                    >
+                      <button
+                        onClick={decrement}
+                        disabled={quantity === 1}
+                        className={cn(
+                          "w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold transition-colors",
+                          quantity === 1
+                            ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                            : "text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 shadow-sm"
+                        )}
+                        aria-label="Decrease quantity"
+                      >
+                        −
+                      </button>
+                      <span
+                        className={cn("w-12 text-center font-semibold text-gray-900 dark:text-white")}
+                        aria-live="polite"
+                      >
+                        {quantity}
+                      </span>
+                      <button
+                        onClick={increment}
+                        disabled={quantity >= product.stock}
+                        className={cn(
+                          "w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold transition-colors",
+                          quantity >= product.stock
+                            ? "text-gray-300 dark:text-gray-600 cursor-not-allowed"
+                            : "text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 shadow-sm"
+                        )}
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={product.stock === 0}
+                      className={cn(
+                        "product-detail-add-to-cart-button flex-1 py-3.5 rounded-xl font-bold text-base shadow-lg hover:shadow-amber-500/25 active:scale-[0.98] transition-all",
+                        product.stock === 0
+                          ? "opacity-50 cursor-not-allowed bg-gray-300 text-gray-500"
+                          : "bg-gradient-to-r from-amber-500 to-orange-600 text-white"
+                      )}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button
-                onClick={handleAddToCart}
-                disabled={product.stock === 0}
-                className={cn(
-                  "product-detail-add-to-cart-button px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2",
-                  product.stock === 0
-                    ? "opacity-50 cursor-not-allowed"
-                    : "bg-amber-500 text-white hover:bg-amber-600"
-                )}
-                aria-label={`Add ${quantity} ${quantity === 1 ? "unit" : "units"} of ${product.title} to cart`}
-                aria-disabled={product.stock === 0}
-              >
-                Add to Cart
-              </button>
+
+              {/* Columna Derecha: Imagen */}
+              <div className={cn("w-full sm:w-2/5 bg-gray-50 dark:bg-gray-800/50 flex items-center justify-center p-8 order-1 sm:order-2 border-b sm:border-b-0 sm:border-l border-gray-100 dark:border-gray-800")}>
+                <img
+                  src={product.thumbnail}
+                  alt={`${product.title} product image`}
+                  className={cn("w-full h-48 sm:h-full object-contain mix-blend-multiply dark:mix-blend-normal transition-transform duration-500 hover:scale-110 drop-shadow-xl")}
+                />
+              </div>
             </div>
           </motion.div>
         </motion.div>
