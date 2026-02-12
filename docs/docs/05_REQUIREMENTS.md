@@ -25,16 +25,16 @@
 *   **FR-04.2:** El formulario debe validar visualmente (simulado) los campos.
 *   **FR-04.3:** Al confirmar, se debe redirigir a una página de "Éxito".
 
-## Requerimientos No Funcionales (NFR)
+## Requerimientos Técnicos (TR)
 
-### NFR-01: Performance
-*   El tiempo de carga inicial (FCP) debe ser menor a 1.5 segundos en 4G.
-*   Las animaciones de UI deben correr a 60fps constantes.
+### TR-01: Framework de Estilos (Tailwind CSS 4.1)
+*   **Justificación:** Se utiliza la versión 4.1 por su motor de alto rendimiento y arquitectura CSS-first, que reduce drásticamente el tamaño del bundle de JavaScript al eliminar configuraciones pesadas de JS.
 
-### NFR-02: Usabilidad
-*   La interfaz debe implementar un diseño "Neumórfico" consistente.
-*   El diseño debe ser completamente responsivo (Mobile First).
+### TR-02: Navegación (React Router 7)
+*   **Justificación:** Se utiliza la v7 para aprovechar las optimizaciones de carga y la compatibilidad futura con Remix, garantizando un enrutamiento rápido y seguro.
 
-### NFR-03: Código
-*   El código debe cumplir con las reglas de ESLint sin warnings bloqueantes.
-*   Se debe seguir la arquitectura definida en `03_ARCHITECTURE.md`.
+### TR-03: Gestión de Estado de Servidor (TanStack Query v5)
+*   **Justificación:** Se utiliza para manejar la caché, revalidación y sincronización asíncrona, eliminando la necesidad de manejar estados `isLoading` y `error` manualmente de forma repetitiva (DRY).
+
+### TR-04: Tipado (TypeScript Strict Mode)
+*   **Justificación:** Se requiere tipado estricto para prevenir errores en tiempo de ejecución y documentar implícitamente la forma de los datos del negocio.

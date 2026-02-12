@@ -7,23 +7,30 @@
 import { QueryClient } from "@tanstack/react-query";
 
 /**
- * Instancia global de QueryClient.
- * Configurada con tiempos de stale/cache optimizados para e-commerce.
+ * Global QueryClient instance.
  *
- * @property {object} defaultOptions.queries
- * @property {number} staleTime - 5 minutos (tiempo que los datos se consideran frescos)
- * @property {number} gcTime - 30 minutos (tiempo que la caché persiste)
- * @property {number} retry - 2 reintentos en caso de fallo
+ * @remarks
+ * This instance centralizes the data fetching and caching strategy for the app.
+ *
+ * Justification for default options:
+ * - `staleTime` (5 min): In an e-commerce context, product data (prices, titles)
+ *   doesn't change every second. 5 minutes is a safe balance to reduce API
+ *   calls while keeping data fresh.
+ * - `gcTime` (30 min): Keeps data in memory longer to allow fast navigation
+ *   back and forth between products.
+ * - `retry` (2): Provides resilience against transient network failures
+ *   without causing excessive load on the server during outages.
+ * - `refetchOnWindowFocus` (false): Prevents unnecessary re-fetches when
+ *   switching browser tabs, saving bandwidth.
  */
-
 export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 1000 * 60 * 5, // Data is considered fresh for 5 minutes
-            gcTime: 1000 * 60 * 30, // Cache persists for 30 minutes
-            retry: 2, // Retry failed requests twice
-            refetchOnWindowFocus: false, // Don't refetch on window focus (can be enabled if needed)
-            refetchOnReconnect: true, // Refetch on reconnect
+            staleTime: 1000 * 60 * 5,
+            gcTime: 1000 * 60 * 30,
+            retry: 2,
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: true,
         },
     },
 });

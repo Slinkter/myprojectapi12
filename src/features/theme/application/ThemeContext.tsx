@@ -21,30 +21,31 @@ import {
 } from "../infrastructure/themeStorage";
 
 /**
- * @interface ThemeContextType
- * @description Interfaz del contexto del tema.
- * @property {Theme} theme - El tema actual ('light' | 'dark')
- * @property {Function} toggleTheme - Función para alternar entre temas
+ * Interface for the Theme Context value.
  */
 interface ThemeContextType {
+    /** The active theme identifier. */
     theme: Theme;
+    /** Toggles between 'light' and 'dark' modes. */
     toggleTheme: () => void;
 }
 
 /**
- * @constant ThemeContext
- * @description Contexto de React para el estado del tema.
- * Inicializado como undefined para detectar uso fuera del proveedor.
+ * React context for theme management.
+ *
+ * @remarks
+ * We use Context for the theme because it is a global UI state that affects
+ * almost every component in the app. Using a provider ensures that theme changes
+ * trigger re-renders only where needed while keeping the state centralized.
  */
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 /**
- * @function useTheme
- * @description Hook personalizado para consumir el contexto del tema.
- * @architecture Application Layer - Custom Hook
- * 
- * @returns {ThemeContextType} Objeto con el tema y la función toggle.
- * @throws {Error} Si se usa fuera de un ThemeProvider.
+ * Hook to consume the Theme Context.
+ *
+ * @remarks
+ * Throws an error if the consumer is outside of a `ThemeProvider`, ensuring
+ * type safety and correct architecture usage.
  */
 export const useTheme = (): ThemeContextType => {
     const context = useContext(ThemeContext);
@@ -55,20 +56,14 @@ export const useTheme = (): ThemeContextType => {
 };
 
 /**
- * @interface ThemeProviderProps
- * @property {ReactNode} children - Componentes hijos envueltos.
- */
-interface ThemeProviderProps {
-    children: ReactNode;
-}
-
-/**
- * @component ThemeProvider
- * @description Proveedor del contexto del tema.
- * Gestiona el estado local del tema y sincroniza cambios con el almacenamiento y el DOM.
- * 
- * @param {ThemeProviderProps} props - Props del componente.
- * @returns {JSX.Element} El proveedor del contexto.
+ * Provider component for Theme Context.
+ *
+ * @remarks
+ * This component handles the synchronization between the React state,
+ * the `localStorage` (for persistence), and the DOM (adding/removing the `.dark` class).
+ *
+ * By applying the theme to the document root, we allow Tailwind's `dark:`
+ * variants to work across the entire application.
  */
 export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => {
     const [theme, setTheme] = useState<Theme>(getStoredTheme);

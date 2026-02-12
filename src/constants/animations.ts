@@ -7,8 +7,12 @@
 import { Variants } from "framer-motion";
 
 /**
- * Animaciones para el grid de productos.
- * Usa stagger para animar los items secuencialmente.
+ * Product grid entrance animations.
+ *
+ * @remarks
+ * Uses a "stagger" effect where each child element animates with a slight delay
+ * after the previous one. This improves perceived performance and creates
+ * a more professional, "flowing" user experience.
  */
 export const PRODUCT_GRID_ANIMATIONS = {
     container: {
@@ -31,7 +35,11 @@ export const PRODUCT_GRID_ANIMATIONS = {
 } as const;
 
 /**
- * Animación de fade in para páginas.
+ * Page-level fade-in transition.
+ *
+ * @remarks
+ * A subtle 0.3s duration is chosen to be fast enough not to hinder
+ * navigation speed but slow enough to be visually pleasant.
  */
 export const PAGE_FADE_IN: Variants = {
     hidden: { opacity: 0 },
@@ -42,7 +50,12 @@ export const PAGE_FADE_IN: Variants = {
 };
 
 /**
- * Animación de slide up para modales.
+ * Modal slide-up and entry animation.
+ *
+ * @remarks
+ * Uses a "spring" transition instead of a linear curve.
+ * Spring physics (`stiffness: 300`, `damping: 30`) provide a more
+ * organic, "iOS-like" feel that responds naturally to user interaction.
  */
 export const MODAL_SLIDE_UP: Variants = {
     hidden: { y: 50, opacity: 0 },
