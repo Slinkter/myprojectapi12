@@ -102,7 +102,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
         >
           <motion.div
             className={cn(
-              "product-detail-modal-card w-full max-w-5xl p-0 m-4 overflow-hidden max-h-[90vh] flex flex-col shadow-2xl rounded-3xl bg-white dark:bg-slate-900 ring-1 ring-slate-900/5",
+              "product-detail-modal-card w-full max-w-5xl p-0 m-4 overflow-hidden max-h-[90vh] flex flex-col shadow-2xl rounded-3xl bg-(--bg-card) ring-1 ring-slate-900/5",
             )}
             onClick={(e: MouseEvent) => e.stopPropagation()}
             variants={MODAL_SLIDE_UP}
@@ -116,7 +116,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
               <button
                 onClick={onClose}
                 className={cn(
-                  "group p-2.5 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border border-slate-200 dark:border-slate-700 shadow-sm transition-all hover:scale-110 active:scale-95 hover:shadow-md",
+                  "group p-2.5 rounded-full bg-(--bg-card)/90 backdrop-blur-md border border-(--border-light) shadow-sm transition-all hover:scale-110 active:scale-95 hover:shadow-md",
                 )}
                 aria-label="Close modal"
               >
@@ -130,7 +130,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className={cn("text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors")}
+                  className={cn("text-(--text-secondary) group-hover:text-(--text-primary) transition-colors")}
                 >
                   <path d="M18 6 6 18" />
                   <path d="m6 6 12 12" />
@@ -140,7 +140,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
 
             <div className={cn("flex flex-col md:flex-row h-full overflow-y-auto md:overflow-hidden")}>
               {/* Left Column: Content & Actions */}
-              <div className={cn("flex-1 p-8 md:p-12 flex flex-col order-2 md:order-1 overflow-y-auto relative bg-white dark:bg-slate-900")}>
+              <div className={cn("flex-1 p-8 md:p-12 flex flex-col order-2 md:order-1 overflow-y-auto relative bg-(--bg-card)")}>
                 
                 {/* Brand/Category Tag */}
                 <div className={cn("mb-4 flex items-center gap-2")}>
@@ -151,8 +151,8 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                   )}
                   {product.category && (
                     <>
-                      <span className={cn("text-slate-300 dark:text-slate-700")}>•</span>
-                      <span className={cn("text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400")}>
+                      <span className={cn("text-(--border-light)")}>•</span>
+                      <span className={cn("text-xs font-semibold uppercase tracking-wider text-(--text-secondary)")}>
                         {product.category}
                       </span>
                     </>
@@ -162,7 +162,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                 <h2
                   id="modal-title"
                   className={cn(
-                    "text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight tracking-tight",
+                    "text-3xl md:text-4xl font-extrabold text-(--text-primary) mb-6 leading-tight tracking-tight",
                   )}
                 >
                   {product.title}
@@ -171,17 +171,17 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                 <p
                   id="modal-description"
                   className={cn(
-                    "text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal mb-8 max-w-prose",
+                    "text-base md:text-lg text-(--text-secondary) leading-relaxed font-normal mb-8 max-w-prose",
                   )}
                 >
                   {product.description}
                 </p>
 
                 {/* Price & Stock Row */}
-                <div className={cn("flex items-end gap-4 mb-10 border-b border-slate-100 dark:border-slate-800 pb-8")}>
+                <div className={cn("flex items-end gap-4 mb-10 border-b border-(--border-light) pb-8")}>
                   <div className={cn("flex flex-col")}>
-                    <span className={cn("text-sm font-medium text-slate-400 dark:text-slate-500 mb-1")}>Price</span>
-                    <span className={cn("text-4xl font-bold text-slate-900 dark:text-white tracking-tight")}>
+                    <span className={cn("text-sm font-medium text-(--text-secondary) mb-1")}>Price</span>
+                    <span className={cn("text-4xl font-bold text-(--text-primary) tracking-tight")}>
                       ${product.price}
                     </span>
                   </div>
@@ -192,7 +192,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                   )}
                   <div className={cn("ml-auto mb-2 flex items-center gap-2")}>
                     <div className={cn("w-2 h-2 rounded-full", product.stock > 0 ? "bg-green-500" : "bg-red-500")} />
-                    <span className={cn("text-sm font-medium text-slate-500 dark:text-slate-400")}>
+                    <span className={cn("text-sm font-medium text-(--text-secondary)")}>
                       {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
                     </span>
                   </div>
@@ -204,19 +204,19 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                   {/* Quantity & Add Row */}
                   <div className={cn("flex flex-col sm:flex-row gap-4")}>
                     {/* Sleek Quantity Capsule */}
-                    <div className={cn("flex items-center justify-between sm:justify-start bg-slate-100 dark:bg-slate-800 rounded-full px-1.5 py-1.5 w-full sm:w-auto min-w-[160px]")}>
+                    <div className={cn("flex items-center justify-between sm:justify-start bg-(--bg-input) rounded-full px-1.5 py-1.5 w-full sm:w-auto min-w-[160px]")}>
                       <button
                         onClick={decrement}
                         disabled={quantity === 1}
                         className={cn(
-                          "w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                          "w-10 h-10 flex items-center justify-center rounded-full bg-(--bg-card) shadow-sm text-(--text-primary) transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                         )}
                         aria-label="Decrease quantity"
                       >
                         <span className="text-xl font-medium leading-none mb-0.5">−</span>
                       </button>
                       
-                      <span className={cn("flex-1 text-center font-bold text-lg text-slate-900 dark:text-white font-mono")}>
+                      <span className={cn("flex-1 text-center font-bold text-lg text-(--text-primary) font-mono")}>
                         {quantity}
                       </span>
                       
@@ -224,7 +224,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                         onClick={increment}
                         disabled={quantity >= product.stock}
                         className={cn(
-                          "w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                          "w-10 h-10 flex items-center justify-center rounded-full bg-(--bg-card) shadow-sm text-(--text-primary) transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                         )}
                         aria-label="Increase quantity"
                       >
@@ -255,7 +255,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
               </div>
 
               {/* Right Column: Image */}
-              <div className={cn("w-full md:w-1/2 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center p-8 md:p-12 order-1 md:order-2")}>
+              <div className={cn("w-full md:w-1/2 bg-(--bg-input) flex items-center justify-center p-8 md:p-12 order-1 md:order-2")}>
                 <div className={cn("relative w-full h-64 md:h-full max-h-[500px] flex items-center justify-center")}>
                   {/* Decorative blobs/background elements could go here */}
                   <div className={cn("absolute inset-0 bg-gradient-to-tr from-white to-transparent dark:from-slate-900/20 opacity-50 rounded-full blur-3xl transform scale-75")} />
