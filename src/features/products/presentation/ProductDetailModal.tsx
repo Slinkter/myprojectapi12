@@ -237,8 +237,10 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                       onClick={handleAddToCart}
                       disabled={product.stock === 0}
                       className={cn(
-                        "flex-1 relative overflow-hidden group bg-slate-900 dark:bg-white text-white dark:text-slate-900 py-4 px-8 rounded-full font-bold text-base md:text-lg tracking-wide shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 dark:hover:shadow-white/10 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0",
-                        product.stock === 0 && "bg-slate-300 dark:bg-slate-700 cursor-not-allowed shadow-none hover:translate-y-0 text-slate-500"
+                        "flex-1 relative overflow-hidden group py-4 px-8 rounded-full font-bold text-base md:text-lg tracking-wide shadow-xl transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0",
+                        product.stock === 0
+                          ? "bg-slate-300 dark:bg-slate-700 cursor-not-allowed shadow-none hover:translate-y-0 text-slate-500"
+                          : "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white shadow-orange-500/20 hover:shadow-orange-500/40"
                       )}
                     >
                       <span className="relative z-10 flex items-center justify-center gap-2">
