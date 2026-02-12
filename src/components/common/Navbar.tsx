@@ -42,7 +42,7 @@ const Navbar = (): JSX.Element => {
                 "sticky top-0 z-50 w-full transition-all duration-300 ease-in-out border-b",
                 scrolled
                     ? "bg-(--bg-main)/80 backdrop-blur-md border-(--border-light) shadow-sm"
-                    : "bg-transparent border-transparent"
+                    : "bg-transparent border-transparent",
             )}
             role="navigation"
             aria-label="Main navigation"
@@ -55,7 +55,9 @@ const Navbar = (): JSX.Element => {
                     aria-label="Go to home page"
                 >
                     <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/20 group-hover:shadow-orange-500/40 transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
-                        <span className="font-bold text-lg leading-none tracking-tighter">A12</span>
+                        <span className="font-bold text-lg leading-none tracking-tighter">
+                            A12
+                        </span>
                     </div>
                     <div className="flex flex-col">
                         <h1 className="text-lg font-bold tracking-tight text-(--text-primary) leading-none">
@@ -82,7 +84,7 @@ const Navbar = (): JSX.Element => {
                             <CartIcon />
                             {totalItems > 0 && (
                                 <span className="absolute -top-1 -right-1 flex h-5 w-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-sm ring-2 ring-(--bg-main) animate-in zoom-in duration-300 pointer-events-none">
-                                    {totalItems > 9 ? '9+' : totalItems}
+                                    {totalItems > 9 ? "9+" : totalItems}
                                 </span>
                             )}
                         </Button>

@@ -9,6 +9,7 @@ import { useCheckout } from "../application/useCheckout";
 import PaymentMethodRadio from "./components/PaymentMethodRadio";
 import CardForm from "./components/CardForm";
 import { cn } from "@/lib/utils";
+import { ArrowLeft, ShieldCheck, Lock } from "lucide-react";
 
 /**
  * @component Checkout
@@ -47,10 +48,10 @@ const Checkout = () => {
                             to="/" 
                             className={cn("text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors flex items-center gap-1")}
                         >
-                            ← Back to Shop
+                            <ArrowLeft className="w-4 h-4" /> Back to Shop
                         </Link>
                         <div className={cn("flex items-center gap-2 text-green-600 dark:text-green-400 text-xs font-bold uppercase tracking-wider")}>
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            <ShieldCheck className="w-4 h-4" />
                             Secure Checkout
                         </div>
                     </div>
@@ -138,7 +139,7 @@ const Checkout = () => {
                     </button>
                     
                     <p className={cn("text-xs text-center text-(--text-secondary) mt-6 flex items-center justify-center gap-1")}>
-                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+                        <Lock className="w-3 h-3" />
                         Transactions are encrypted and secured.
                     </p>
                 </div>

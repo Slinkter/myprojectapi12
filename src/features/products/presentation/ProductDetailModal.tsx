@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Product } from "@/features/products/application/types";
 import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
 import { cn } from "@/lib/utils";
+import { X, ShoppingCart } from "lucide-react";
 
 /**
  * @interface ProductDetailModalProps
@@ -120,21 +121,10 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                 )}
                 aria-label="Close modal"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={cn("text-(--text-secondary) group-hover:text-(--text-primary) transition-colors")}
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="m6 6 12 12" />
-                </svg>
+                <X 
+                  className={cn("w-5 h-5 text-(--text-secondary) group-hover:text-(--text-primary) transition-colors")} 
+                  strokeWidth={2}
+                />
               </button>
             </div>
 
@@ -247,7 +237,7 @@ const ProductDetailModal = ({ product, open, onClose }: ProductDetailModalProps)
                         {product.stock === 0 ? "Out of Stock" : (
                           <>
                             Add to Cart
-                            <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            <ShoppingCart className="w-5 h-5 transition-transform group-hover:translate-x-1" strokeWidth={2.5} />
                           </>
                         )}
                       </span>

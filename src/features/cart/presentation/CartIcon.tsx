@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * @property {string} [className] - Clases CSS adicionales
  */
 interface CartIconProps {
-  className?: string;
+    className?: string;
 }
 
 /**
@@ -22,9 +22,12 @@ interface CartIconProps {
  * @param {CartIconProps} props
  */
 const CartIcon = ({ className }: CartIconProps) => {
-  return (
-    <ShoppingCart className={cn("h-5 w-5 sm:h-6 sm:w-6", className)} strokeWidth={2} />
-  );
+    return (
+        <ShoppingCart
+            className={cn("h-5 w-5 sm:h-6 sm:w-6", className)}
+            strokeWidth={2}
+        />
+    );
 };
 
 export default CartIcon;

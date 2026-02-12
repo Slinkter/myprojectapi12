@@ -7,6 +7,7 @@
 import { ChangeEvent } from "react";
 import { CardInfo, ValidationErrors } from "../../application/types";
 import { cn } from "@/lib/utils";
+import { CreditCard, User, Calendar, Lock, AlertCircle } from "lucide-react";
 
 /**
  * @interface CardFormProps
@@ -62,7 +63,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                         autoComplete="cc-number"
                     />
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                        <CreditCard className="w-5 h-5" />
                     </div>
                     
                     {/* Card Type Icon Indicator */}
@@ -78,7 +79,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                 </div>
                 {errors.number && (
                     <p id="card-number-error" className={cn("text-red-500 text-xs mt-1.5 flex items-center gap-1 font-medium")}>
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <AlertCircle className="w-3 h-3" />
                         {errors.number}
                     </p>
                 )}
@@ -102,12 +103,12 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                         autoComplete="cc-name"
                     />
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        <User className="w-5 h-5" />
                     </div>
                 </div>
                 {errors.name && (
                     <p id="cardholder-name-error" className={cn("text-red-500 text-xs mt-1.5 flex items-center gap-1 font-medium")}>
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <AlertCircle className="w-3 h-3" />
                         {errors.name}
                     </p>
                 )}
@@ -133,12 +134,12 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                             autoComplete="cc-exp"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <Calendar className="w-5 h-5" />
                         </div>
                     </div>
                     {errors.expiry && (
                         <p id="card-expiry-error" className={cn("text-red-500 text-xs mt-1.5 flex items-center gap-1 font-medium")}>
-                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <AlertCircle className="w-3 h-3" />
                             {errors.expiry}
                         </p>
                     )}
@@ -162,12 +163,12 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: CardFormProps) => {
                             autoComplete="cc-csc"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            <Lock className="w-5 h-5" />
                         </div>
                     </div>
                     {errors.cvc && (
                         <p id="card-cvc-error" className={cn("text-red-500 text-xs mt-1.5 flex items-center gap-1 font-medium")}>
-                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <AlertCircle className="w-3 h-3" />
                             {errors.cvc}
                         </p>
                     )}

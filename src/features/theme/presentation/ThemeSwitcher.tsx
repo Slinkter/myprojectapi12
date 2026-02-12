@@ -22,7 +22,7 @@ const ThemeSwitcher = () => {
             className={cn(
                 "p-2 rounded-full transition-all duration-200",
                 "hover:bg-(--bg-input) active:scale-95",
-                "text-(--text-primary) hover:text-(--text-accent)"
+                "text-(--text-primary) hover:text-(--text-accent)",
             )}
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
         >
