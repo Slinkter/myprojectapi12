@@ -1,20 +1,17 @@
 /**
  * @file main.tsx
- * @description Punto de entrada principal de la aplicación React.
- * Configura los proveedores globales (Context, Router, QueryClient).
+ * @description Application entry point.
  * @architecture Infrastructure Layer - Entry Point
  */
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ThemeProvider } from "@/features/theme/application/ThemeContext";
-import { CartProvider } from "@/features/cart/application/CartContext";
-import { queryClient } from "@/app/config/queryClient";
+
+// Root Component
 import App from "./App";
+
+// Global Styles
 import "./index.css";
-// Import global styles
 import "@/styles/variables.css";
 import "@/styles/animations.css";
 import "@/styles/buttons.css";
@@ -24,17 +21,16 @@ import "@/styles/components.css";
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Failed to find the root element");
 
+/**
+ * Mounts the React application to the DOM.
+ *
+ * @remarks
+ * The application is wrapped in `React.StrictMode` to help identify potential
+ * problems during development. The `<App />` component handles all providers
+ * and internal routing.
+ */
 ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <BrowserRouter basename="/myprojectapi12/">
-                <ThemeProvider>
-                    <CartProvider>
-                        <App />
-                    </CartProvider>
-                </ThemeProvider>
-            </BrowserRouter>
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        <App />
     </React.StrictMode>,
 );

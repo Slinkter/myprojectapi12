@@ -1,75 +1,50 @@
 # 🛍️ MyProjectAPI12
 
-> Modern e-commerce SPA built with React, TypeScript, and Tailwind CSS
+> SPA de comercio electrónico moderna construida con React, TypeScript y Tailwind CSS v4.
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Slinkter/myprojectapi12)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue)](https://www.typescriptlang.org/)
 [![Tests](https://img.shields.io/badge/tests-23%20passing-success)](./docs/reports/TESTING_REPORT.md)
-[![Accessibility](https://img.shields.io/badge/WCAG-2.1%20AA-green)](./docs/reports/ACCESSIBILITY_REPORT.md)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A production-ready e-commerce application showcasing modern React patterns, TypeScript integration, and clean architecture principles.
+Una aplicación de comercio electrónico lista para producción que muestra patrones modernos de React, integración con TypeScript y principios de arquitectura limpia.
 
 ---
 
-## ✨ Features
+## ✨ Características
 
-- 🛒 **Shopping Cart** - Full-featured cart with TypeScript type safety
-- 🎨 **Dark Mode** - Seamless theme switching
-- 📱 **Responsive Design** - Mobile-first approach with Tailwind CSS
-- ⚡ **Performance** - Optimized build (3.23s) with code splitting
-- 🧪 **Well Tested** - 23 tests with 100% domain layer coverage
-- 🔒 **Type Safe** - TypeScript strict mode enabled
-- ♿ **Accessible** - ARIA labels and keyboard navigation
-- 📦 **Modular CSS** - Organized design system
+- 🛒 **Carrito de Compras** - Funcionalidad completa con seguridad de tipos de TypeScript.
+- 🎨 **Modo Oscuro** - Cambio de tema fluido (Light/Dark).
+- 📱 **Diseño Responsivo** - Enfoque mobile-first con Tailwind CSS v4.
+- ⚡ **Rendimiento** - Carga optimizada con división de código (Lazy Loading).
+- 🧪 **Bien Testeado** - Cobertura del 100% en la capa de dominio.
+- 🔒 **Type Safe** - Uso estricto de TypeScript en todo el proyecto.
+- ♿ **Accesible** - Etiquetas ARIA y navegación por teclado (Radix UI / Shadcn).
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Inicio Rápido
 
-### Prerequisites
+### Requisitos Previos
 
 - Node.js >= 18
 - pnpm >= 8
 
-### Installation
+### Instalación
 
-\`\`\`bash
-
-# Clone repository
-
+```bash
+# Clonar el repositorio
 git clone https://github.com/Slinkter/myprojectapi12.git
 cd myprojectapi12
 
-# Install dependencies
-
+# Instalar dependencias
 pnpm install
 
-# Start development server
-
+# Iniciar servidor de desarrollo
 pnpm dev
-\`\`\`
+```
 
-Visit `http://localhost:5173`
-
----
-
-## 📚 Documentation
-
-### For Developers
-
-- **[Getting Started](./docs/guides/GETTING_STARTED.md)** - Setup and development guide
-- **[Architecture](./docs/architecture/ARCHITECTURE.md)** - System design and patterns
-- **[TypeScript Guide](./docs/guides/TYPESCRIPT_GUIDE.md)** - TypeScript usage and conventions
-- **[Testing Strategy](./docs/guides/TESTING_GUIDE.md)** - How to write and run tests
-- **[CSS System](./docs/guides/CSS_SYSTEM.md)** - Design system and utilities
-- **[Contributing](./CONTRIBUTING.md)** - How to contribute
-
-### Reports & Analysis
-
-- **[Project Analysis](./docs/reports/PROJECT_ANALYSIS.md)** - Code quality metrics
-- **[Refactoring Report](./docs/reports/REFACTORING_REPORT.md)** - Phases 1-6 summary
-- **[Testing Report](./docs/reports/TESTING_REPORT.md)** - Test coverage and results
+Visita `http://localhost:5173`
 
 ---
 
@@ -77,237 +52,109 @@ Visit `http://localhost:5173`
 
 ### Core
 
-- **React 18.3** - UI library
-- **TypeScript 5.9** - Type safety
-- **Vite 5.4** - Build tool
-- **React Router 7** - Routing
+- **React 18.3** - Librería de UI.
+- **TypeScript 5.9** - Tipado estático.
+- **Vite 5.4** - Herramienta de compilación rápida.
+- **React Router 7** - Enrutamiento dinámico.
 
-### Styling
+### Estilos y UI
 
-- **Tailwind CSS 4.1** - CSS-first utility framework
-- **Framer Motion 12** - Animations
-- **Shadcn/UI** - Accessible component primitives
-- **Custom CSS System** - Modern design tokens with CSS variables
+- **Tailwind CSS 4.1** - Framework de utilidades CSS-first.
+- **Framer Motion 12** - Animaciones fluidas.
+- **Shadcn/UI** - Primitivas de componentes accesibles.
+- **Sistema CSS Moderno** - Tokens de diseño mediante variables CSS (OKLCH).
 
-### State Management
+### Gestión de Estado
 
-- **TanStack Query v5** - Server state & data fetching
-- **React Context** - Global UI state
-- **Custom Hooks** - Encapsulated business logic
+- **TanStack Query v5** - Estado del servidor y fetching de datos.
+- **React Context** - Estado global de la interfaz (Carrito, Tema).
+- **Custom Hooks** - Lógica de negocio encapsulada.
 
 ### Testing
 
-- **Vitest 4.0** - Unit testing
-- **React Testing Library 16** - Component testing
-
-### Tools
-
-- **ESLint 8** - Linting
-- **pnpm** - Efficient package manager
+- **Vitest 4.0** - Framework de pruebas unitarias.
+- **React Testing Library 16** - Pruebas de componentes.
 
 ---
 
-## 📁 Project Structure
+## 📁 Estructura del Proyecto
 
 ```
 myprojectapi12/
 ├── src/
-│   ├── app/                # Global configurations
-│   │   ├── api/            # TanStack Query client & base API
-│   │   ├── config/         # App configuration & providers
-│   │   └── routing/        # React Router 7 definitions
+│   ├── app/                # Configuraciones globales
+│   │   ├── api/            # Cliente de TanStack Query y API base
+│   │   ├── config/         # Configuración de la app y proveedores
+│   │   └── routing/        # Definiciones de React Router 7
 │   │
-│   ├── features/           # Domain-driven modules
-│   │   ├── cart/           # Shopping cart feature
-│   │   │   ├── application/ # Hooks & Context
-│   │   │   ├── domain/     # Business logic & Types
-│   │   │   └── presentation/ # UI Components
-│   │   │
-│   │   ├── products/       # Product catalog
-│   │   │   ├── application/
-│   │   │   ├── infrastructure/ # API adapters
-│   │   │   └── presentation/
-│   │   │
-│   │   ├── checkout/       # Checkout flow
-│   │   └── theme/          # Theme management
+│   ├── features/           # Módulos basados en dominios (DDD)
+│   │   ├── cart/           # Funcionalidad del carrito
+│   │   ├── products/       # Catálogo de productos
+│   │   ├── checkout/       # Proceso de pago
+│   │   └── theme/          # Gestión de temas
 │   │
-│   ├── components/         # Shared UI components
-│   │   ├── common/         # Layout & Error boundaries
-│   │   └── ui/             # Shadcn/UI primitives
+│   ├── components/         # Componentes compartidos
+│   │   ├── common/         # Layout y límites de error
+│   │   └── ui/             # Primitivas de Shadcn/UI
 │   │
-│   ├── styles/             # Global styles & variables
-│   │   ├── variables.css   # Modern design tokens
-│   │   └── index.css       # Tailwind 4 configuration
+│   ├── styles/             # Estilos globales y variables
+│   │   ├── variables.css   # Tokens de diseño modernos
+│   │   └── index.css       # Configuración de Tailwind 4
 │   │
-│   └── pages/              # Route entry points
+│   └── pages/              # Puntos de entrada de rutas
 │
-├── docs/                   # System documentation
-│   ├── architecture/       # Architectural guides
-│   ├── guides/             # Developer onboarding
-│   └── reports/            # Analysis & metrics
-│
-└── public/                 # Static assets
+├── docs/                   # Documentación del sistema
+└── public/                 # Activos estáticos
 ```
 
 ---
 
-## 🧪 Testing
+## 📚 Documentación Detallada
 
-\`\`\`bash
+- **[Índice de Documentación](./docs/docs/00_INDEX.md)** - Guía completa de documentos técnicos.
+- **[Arquitectura](./docs/architecture/ARCHITECTURE.md)** - Diseño del sistema y capas (DDD).
+- **[Stack Tecnológico](./docs/docs/04_TECH_STACK.md)** - Decisiones técnicas y versiones.
+- **[Guía de Estilos](./docs/docs/07_CODING_STANDARDS.md)** - Estándares de código y JSDoc.
 
-# Run all tests
+---
 
+## 🧪 Pruebas
+
+```bash
+# Ejecutar todos los tests
 pnpm test
 
-# Run tests in watch mode
-
-pnpm test -- --watch
-
-# Run tests with UI
-
+# Ejecutar tests con interfaz UI
 pnpm test:ui
 
-# Generate coverage report
-
+# Generar reporte de cobertura
 pnpm test:coverage
-\`\`\`
-
-**Current Coverage:**
-
-- Total Tests: 23
-- Domain Layer: 100%
-- Application Layer: 100%
-- Overall: ~40%
+```
 
 ---
 
-## 🛠️ Available Scripts
+## 🛠️ Scripts Disponibles
 
-| Script               | Description              |
-| -------------------- | ------------------------ |
-| `pnpm dev`           | Start development server |
-| `pnpm build`         | Build for production     |
-| `pnpm preview`       | Preview production build |
-| `pnpm lint`          | Run ESLint               |
-| `pnpm type-check`    | Run TypeScript check     |
-| `pnpm test`          | Run tests                |
-| `pnpm test:ui`       | Run tests with UI        |
-| `pnpm test:coverage` | Generate coverage report |
-| `pnpm deploy`        | Deploy to GitHub Pages   |
+| Script | Descripción |
+| :--- | :--- |
+| `pnpm dev` | Inicia el servidor de desarrollo |
+| `pnpm build` | Compila para producción |
+| `pnpm preview` | Previsualiza la compilación de producción |
+| `pnpm lint` | Ejecuta el linter (ESLint) |
+| `pnpm type-check` | Ejecuta la verificación de tipos de TS |
+| `pnpm deploy` | Despliega en GitHub Pages |
 
 ---
 
-## 📊 Performance Metrics
+## 👨‍💻 Autor
 
-| Metric                 | Value    |
-| ---------------------- | -------- |
-| Build Time             | 3.23s    |
-| Bundle Size (gzipped)  | 76.69 KB |
-| CSS Size (gzipped)     | 6.73 KB  |
-| Lighthouse Score       | 95+      |
-| First Contentful Paint | < 1s     |
-
----
-
-## 🔍 Code Analysis & Best Practices Review (February 2026)
-
-A recent in-depth review of the codebase highlighted strong adherence to modern React, TypeScript, and Vercel best practices.
-
-### Key Strengths Observed:
-- **Performance Optimizations:** Extensive use of `React.memo`, `useMemo`, `useEffect` cleanup, skeleton loaders, `loading="lazy"` for images, and `framer-motion` for smooth, perceived performance.
-- **Maintainability & Architecture:** Clear component structure, modularity with custom hooks and Context API, strong TypeScript typing, and detailed JSDoc comments.
-- **Accessibility (A11y):** Consistent application of `aria-label`, `role`, `aria-hidden`, `sr-only`, and keyboard navigation patterns.
-- **Robust Error Handling:** Comprehensive error boundaries at global and feature levels, providing graceful fallbacks.
-- **Code Quality:** Organized styling with `clsx` and Tailwind CSS, clear separation of concerns.
-
-### Implemented Improvements During Review:
-- **`src/components/common/Navbar.tsx`**: Added `{ passive: true }` to the scroll event listener for improved scroll performance.
-- **`src/App.tsx`**: Wrapped the root component in `<React.StrictMode>` to enable additional development-time checks and warnings.
-
-### Further Potential Enhancements:
-- **Advanced Data Fetching:** Explore more advanced caching/deduplication strategies (e.g., with React Query/SWR) for the `productsApi`.
-- **Error Logging Service:** Integrate with a production error monitoring service (e.g., Sentry) within `ErrorBoundary` components.
-- **Focus Management:** Improve keyboard focus management for interactive elements like modals and cart drawers upon opening/closing.
-
----
-
-## 🎨 Design System
-
-### Colors
-
-- Primary: Amber (#d97706)
-- Background: Slate (#f8fafc / #0f172a)
-- Text: Slate (#1a1614 / #f8fafc)
-
-### Typography
-
-- Font Family: Lora (serif)
-- Base Size: 16px
-- Scale: 1.25 (Major Third)
-
-### Spacing
-
-- Base Unit: 4px
-- Scale: 0.25rem, 0.5rem, 1rem, 1.5rem, 2rem, 3rem
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run tests (`pnpm test`)
-5. Run type-check (`pnpm type-check`)
-6. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
-
----
-
-## 📝 Changelog
-
-See [CHANGELOG.md](./docs/CHANGELOG.md) for a list of changes.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👨‍💻 Author
-
-**Luis Reyes**
-
+**Luis J Cueva**
 - GitHub: [@Slinkter](https://github.com/Slinkter)
-- LinkedIn: [Luis Reyes](https://linkedin.com/in/luis-reyes)
-
----
-
-## 🙏 Acknowledgments
-
-- [DummyJSON API](https://dummyjson.com/) - Mock data provider
-- [React Icons](https://react-icons.github.io/react-icons/) - Icon library
-- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
-- [Vite](https://vitejs.dev/) - Build tool
-
----
-
-## 🔗 Links
-
-- **Live Demo:** [https://slinkter.github.io/myprojectapi12](https://slinkter.github.io/myprojectapi12)
-- **Repository:** [https://github.com/Slinkter/myprojectapi12](https://github.com/Slinkter/myprojectapi12)
-- **Documentation:** [./docs](./docs)
+- LinkedIn: [Luis J Cueva](https://linkedin.com/in/luis-cueva)
 
 ---
 
 <div align="center">
-  <p>Made with ❤️ by Luis Reyes</p>
-  <p>© 2026 MyProjectAPI12. All rights reserved.</p>
+  <p>Hecho con ❤️ por Luis J Cueva</p>
+  <p>© 2026 MyProjectAPI12. Todos los derechos reservados.</p>
 </div>
