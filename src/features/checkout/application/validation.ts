@@ -2,7 +2,7 @@
  * @file validation.ts
  * @description Funciones de utilidad para validación de formularios de checkout.
  * Incluye lógica de negocio para validación de tarjetas de crédito y fechas.
- * @architecture Application Layer - Checkout Validation Logic
+ * @architecture Capa de Aplicación - Lógica de Validación de Checkout
  */
 
 import { CardInfo, ValidationErrors } from "./types";
@@ -34,7 +34,7 @@ const isValidLuhn = (cardNumber: string): boolean => {
  * @returns {string | null} Mensaje de error o null si es válida.
  */
 const validateExpiry = (expiry: string): string | null => {
-    if (!expiry) return "Expiry date is required";
+    if (!expiry) return "La fecha de expiración es requerida";
 
     const [monthStr, yearStr] = expiry.split("/");
     const month = parseInt(monthStr);
@@ -48,7 +48,7 @@ const validateExpiry = (expiry: string): string | null => {
         !yearStr ||
         yearStr.length !== 2
     ) {
-        return "Invalid date format (MM/YY)";
+        return "Formato de fecha inválido (MM/YY)";
     }
 
     // Calcular fecha de expiración (último día del mes indicado)
@@ -57,11 +57,9 @@ const validateExpiry = (expiry: string): string | null => {
     expiryDate.setHours(23, 59, 59, 999);
 
     const now = new Date();
-    // Normalizar 'ahora' al principio del mes actual para comparaciones justas
-    // (aunque la tarjeta expira al final del mes, la comparación simple es suficiente si usamos el último día)
     
     if (expiryDate < now) {
-        return "Card has expired";
+        return "La tarjeta ha expirado";
     }
 
     return null;
@@ -79,14 +77,14 @@ export const validateCardInfo = (cardInfo: CardInfo): ValidationErrors => {
 
     // 1. Validar Número
     if (!sanitizedCardNumber) {
-        errors.number = "Card number is required";
+        errors.number = "El número de tarjeta es requerido";
     } else if (!isValidLuhn(sanitizedCardNumber)) {
-        errors.number = "Invalid card number";
+        errors.number = "Número de tarjeta inválido";
     }
 
     // 2. Validar Nombre
     if (!name.trim()) {
-        errors.name = "Name is required";
+        errors.name = "El nombre es requerido";
     }
 
     // 3. Validar Expiración
@@ -97,9 +95,9 @@ export const validateCardInfo = (cardInfo: CardInfo): ValidationErrors => {
 
     // 4. Validar CVC
     if (!cvc) {
-        errors.cvc = "CVC is required";
+        errors.cvc = "El CVC es requerido";
     } else if (cvc.length < 3) {
-        errors.cvc = "CVC must be at least 3 digits";
+        errors.cvc = "El CVC debe tener al menos 3 dígitos";
     }
 
     return errors;

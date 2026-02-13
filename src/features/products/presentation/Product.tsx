@@ -12,25 +12,25 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 
 /**
- * Properties for the Product component.
+ * Propiedades para el componente Product.
  */
 interface ProductProps {
-  /** Detailed product information object. */
+  /** Objeto con información detallada del producto. */
   product: ProductInterface;
 }
 
 /**
- * Premium product card component built with shadcn UI.
+ * Componente de tarjeta de producto premium construido con shadcn UI.
  *
  * @remarks
- * This component displays key product information including title, description,
- * price, and stock status. It features hover effects and a "Add to Cart" button
- * that triggers a modal via `ProductModalContext`.
+ * Este componente muestra información clave del producto, incluyendo título, descripción,
+ * precio y estado del stock. Cuenta con efectos de hover y un botón "Add to Cart"
+ * que activa un modal a través de `ProductModalContext`.
  *
- * It is wrapped in `React.memo` to optimize rendering performance in large lists.
+ * Está envuelto en `React.memo` para optimizar el rendimiento de renderizado en listas grandes.
  *
- * @param props - Component properties.
- * @returns The product card element or null if product data is invalid.
+ * @param props - Propiedades del componente.
+ * @returns El elemento de la tarjeta del producto o null si los datos del producto no son válidos.
  *
  * @example
  * ```tsx

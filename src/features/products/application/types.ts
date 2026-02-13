@@ -5,59 +5,47 @@
  */
 
 /**
- * Represents a detailed product entity from the catalog.
+ * Representa una entidad de producto detallada del catálogo.
  *
  * @remarks
- * This interface contains all the metadata provided by the DummyJSON API.
- * Some fields like `discountPercentage` and `rating` are optional.
- *
- * @example
- * ```typescript
- * const laptop: Product = {
- *   id: 1,
- *   title: "MacBook Pro",
- *   description: "Apple MacBook Pro with M2 chip",
- *   price: 1999,
- *   stock: 50,
- *   thumbnail: "https://.../macbook.jpg"
- * };
- * ```
+ * Esta interfaz contiene todos los metadatos proporcionados por la API de DummyJSON.
+ * Algunos campos como `discountPercentage` y `rating` son opcionales.
  */
 export interface Product {
-    /** Unique product identifier */
+    /** Identificador único del producto */
     id: number;
-    /** Product name */
+    /** Nombre del producto */
     title: string;
-    /** Comprehensive product description */
+    /** Descripción completa del producto */
     description: string;
-    /** Current price in USD */
+    /** Precio actual en USD */
     price: number;
-    /** Optional discount percentage (e.g., 10.5) */
+    /** Porcentaje de descuento opcional (ej., 10.5) */
     discountPercentage?: number;
-    /** Product rating score (typically 0-5) */
+    /** Puntuación de calificación del producto (típicamente 0-5) */
     rating?: number;
-    /** Current inventory levels */
+    /** Niveles de inventario actuales */
     stock: number;
-    /** Manufacturer's brand name */
+    /** Nombre de la marca del fabricante */
     brand?: string;
-    /** Product grouping/classification */
+    /** Agrupación/clasificación del producto */
     category?: string;
-    /** Primary display image URL */
+    /** URL de la imagen de visualización principal */
     thumbnail: string;
-    /** Array of additional image URLs */
+    /** Array de URLs de imágenes adicionales */
     images?: string[];
 }
 
 /**
- * Structure of the paginated response from the products API.
+ * Estructura de la respuesta paginada de la API de productos.
  */
 export interface ProductsApiResponse {
-    /** Collection of products for the current page */
+    /** Colección de productos para la página actual */
     products: Product[];
-    /** Global count of all available products */
+    /** Recuento global de todos los productos disponibles */
     total: number;
-    /** Number of items skipped (offset) */
+    /** Número de elementos omitidos (offset) */
     skip: number;
-    /** Maximum number of items requested per page */
+    /** Número máximo de elementos solicitados por página */
     limit: number;
 }

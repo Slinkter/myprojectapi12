@@ -15,183 +15,204 @@ import { useEffect, useRef } from "react";
 /**
  * @component Cart
  * @description Componente de visualización del carrito de compras.
- * 
+ *
  * @returns {JSX.Element} El drawer del carrito.
  */
 const Cart = () => {
-  const { cart, removeFromCart, clearCart, isCartOpen, closeCart, totalPrice } =
-    useCart();
-  const navigate = useNavigate();
-  const cartRef = useRef<HTMLDivElement>(null);
+    const {
+        cart,
+        removeFromCart,
+        clearCart,
+        isCartOpen,
+        closeCart,
+        totalPrice,
+    } = useCart();
+    const navigate = useNavigate();
+    const cartRef = useRef<HTMLDivElement>(null);
 
-  const handleCheckout = () => {
-    closeCart();
-    navigate("/checkout");
-  };
+    const handleCheckout = () => {
+        closeCart();
+        navigate("/checkout");
+    };
 
-  useEffect(() => {
-    if (isCartOpen) {
-      cartRef.current?.focus();
+    useEffect(() => {
+        if (isCartOpen) {
+            cartRef.current?.focus();
 
-      const handleEscape = (event: KeyboardEvent) => {
-        if (event.key === "Escape") {
-          closeCart();
+            const handleEscape = (event: KeyboardEvent) => {
+                if (event.key === "Escape") {
+                    closeCart();
+                }
+            };
+
+            document.addEventListener("keydown", handleEscape);
+            return () => {
+                document.removeEventListener("keydown", handleEscape);
+            };
         }
-      };
+    }, [isCartOpen, closeCart]);
 
-      document.addEventListener("keydown", handleEscape);
-      return () => {
-        document.removeEventListener("keydown", handleEscape);
-      };
-    }
-  }, [isCartOpen, closeCart]);
-
-  return (
-    <>
-      {/* Backdrop */}
-      {isCartOpen && (
-        <div
-          className={cn(
-            "fixed inset-0 bg-black/50 z-40 backdrop-blur-sm transition-opacity duration-300",
-          )}
-          onClick={closeCart}
-          aria-hidden="true"
-        />
-      )}
-
-      <div
-        ref={cartRef}
-        tabIndex={-1}
-        className={cn(
-          "fixed top-0 right-0 h-full transform transition-transform duration-300 ease-in-out",
-          isCartOpen
-            ? "translate-x-0 shadow-[-10px_0_30px_rgba(0,0,0,0.15)]"
-            : "translate-x-full",
-          "w-full sm:max-w-md z-50",
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Shopping cart"
-        aria-hidden={!isCartOpen}
-      >
-        <div
-          className={cn(
-            "cart-drawer h-full flex flex-col p-4 sm:p-6 bg-(--bg-card)",
-          )}
-        >
-          <div className={cn("cart-drawer__header")}>
-            <h5 className={cn("font-bold text-lg sm:text-xl")}>
-              Shopping Cart
-            </h5>
-            <button
-              onClick={closeCart}
-              className={cn(
-                "p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors",
-              )}
-              aria-label="Close shopping cart"
-            >
-              <X size={24} className={cn("cart-drawer__close-icon")} />
-            </button>
-          </div>
-          <div
-            className={cn(
-              "cart-drawer__item-list flex-grow overflow-y-auto px-1 sm:px-2",
+    return (
+        <>
+            {/* Backdrop */}
+            {isCartOpen && (
+                <div
+                    className={cn(
+                        "fixed inset-0 bg-black/50 z-40 backdrop-blur-sm transition-opacity duration-300",
+                    )}
+                    onClick={closeCart}
+                    aria-hidden="true"
+                />
             )}
-          >
-            {cart.map(
-              (item: CartItem) => (
-                <div key={item.id} className={cn("cart-drawer__item")}>
-                  <div className={cn("flex-1 min-w-0")}>
-                    <h6
-                      className={cn(
-                        "font-semibold text-sm sm:text-base truncate",
-                      )}
-                    >
-                      {item.title}
-                    </h6>
-                    <p
-                      className={cn(
-                        "text-xs sm:text-sm text-gray-600 dark:text-gray-400",
-                      )}
-                    >
-                      Quantity: {item.quantity}
-                    </p>
-                  </div>
-                  <div className={cn("cart-drawer__item-details")}>
-                    <p
-                      className={cn(
-                        "cart-drawer__item-price text-sm sm:text-base",
-                      )}
-                    >
-                      $ {(item.price * item.quantity).toFixed(2)}
-                    </p>
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className={cn(
-                        "p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500",
-                      )}
-                      aria-label={`Remove ${item.title} from cart`}
-                    >
-                      <Trash2
-                        size={18}
-                        className={cn(
-                          "cart-drawer__remove-icon sm:w-5 sm:h-5",
-                        )}
-                      />
-                    </button>
-                  </div>
-                </div>
-              ),
-            )}
-          </div>
-          {cart.length > 0 && (
+
             <div
-              className={cn(
-                "cart-drawer__footer border-t border-gray-200 dark:border-gray-700 pt-4 mt-auto flex flex-col gap-3 sm:gap-4",
-              )}
-            >
-              <div className={cn("cart-drawer__total-row")}>
-                <h6 className={cn("font-bold text-base sm:text-lg")}>
-                  Total:
-                </h6>
-                <h6
-                  className={cn(
-                    "font-bold text-base sm:text-lg text-amber-600 dark:text-amber-500",
-                  )}
-                >
-                  $ {totalPrice.toFixed(2)}
-                </h6>
-              </div>
-              <div
+                ref={cartRef}
+                tabIndex={-1}
                 className={cn(
-                  "flex flex-col sm:flex-row w-full gap-2 sm:gap-3",
+                    "fixed top-0 right-0 h-full transform transition-transform duration-300 ease-in-out",
+                    isCartOpen
+                        ? "translate-x-0 shadow-[-10px_0_30px_rgba(0,0,0,0.15)]"
+                        : "translate-x-full",
+                    "w-full sm:max-w-md z-50",
                 )}
-              >
-                <button
-                  onClick={clearCart}
-                  className={cn(
-                    "cart-clear-button w-full sm:w-1/2 py-2.5 sm:py-3 bg-red-500 hover:bg-red-600 text-white text-sm sm:text-base",
-                  )}
-                  aria-label="Clear all items from cart"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Carrito de compras"
+                aria-hidden={!isCartOpen}
+            >
+                <div
+                    className={cn(
+                        "cart-drawer h-full flex flex-col p-4 sm:p-6 bg-(--bg-card)",
+                    )}
                 >
-                  Clear Cart
-                </button>
-                <button
-                  onClick={handleCheckout}
-                  className={cn(
-                    "cart-checkout-button w-full sm:w-1/2 py-2.5 sm:py-3 text-sm sm:text-base",
-                  )}
-                  aria-label="Proceed to checkout"
-                >
-                  Checkout
-                </button>
-              </div>
+                    <div className={cn("cart-drawer__header")}>
+                        <h5 className={cn("font-bold text-lg sm:text-xl")}>
+                            Carrito de Compras
+                        </h5>
+                        <button
+                            onClick={closeCart}
+                            className={cn(
+                                "p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors",
+                            )}
+                            aria-label="Cerrar carrito de compras"
+                        >
+                            <X
+                                size={24}
+                                className={cn("cart-drawer__close-icon")}
+                            />
+                        </button>
+                    </div>
+                    <div
+                        className={cn(
+                            "cart-drawer__item-list flex-grow overflow-y-auto px-1 sm:px-2",
+                        )}
+                    >
+                        {cart.length === 0 ? (
+                            <p className="text-center text-(--text-secondary) mt-10">Tu carrito está vacío.</p>
+                        ) : cart.map((item: CartItem) => (
+                            <div
+                                key={item.id}
+                                className={cn("cart-drawer__item")}
+                            >
+                                <div className={cn("flex-1 min-w-0")}>
+                                    <h6
+                                        className={cn(
+                                            "font-semibold text-sm sm:text-base truncate",
+                                        )}
+                                    >
+                                        {item.title}
+                                    </h6>
+                                    <p
+                                        className={cn(
+                                            "text-xs sm:text-sm text-gray-600 dark:text-gray-400",
+                                        )}
+                                    >
+                                        Cantidad: {item.quantity}
+                                    </p>
+                                </div>
+                                <div
+                                    className={cn("cart-drawer__item-details")}
+                                >
+                                    <p
+                                        className={cn(
+                                            "cart-drawer__item-price text-sm sm:text-base",
+                                        )}
+                                    >
+                                        ${" "}
+                                        {(item.price * item.quantity).toFixed(
+                                            2,
+                                        )}
+                                    </p>
+                                    <button
+                                        onClick={() => removeFromCart(item.id)}
+                                        className={cn(
+                                            "p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500",
+                                        )}
+                                        aria-label={`Eliminar ${item.title} del carrito`}
+                                    >
+                                        <Trash2
+                                            size={18}
+                                            className={cn(
+                                                "cart-drawer__remove-icon sm:w-5 sm:h-5",
+                                            )}
+                                        />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    {cart.length > 0 && (
+                        <div
+                            className={cn(
+                                "cart-drawer__footer border-t border-gray-200 dark:border-gray-700 pt-4 mt-auto flex flex-col gap-3 sm:gap-4",
+                            )}
+                        >
+                            <div className={cn("cart-drawer__total-row")}>
+                                <h6
+                                    className={cn(
+                                        "font-bold text-base sm:text-lg",
+                                    )}
+                                >
+                                    Total:
+                                </h6>
+                                <h6
+                                    className={cn(
+                                        "font-bold text-base sm:text-lg text-amber-600 dark:text-amber-500",
+                                    )}
+                                >
+                                    $ {totalPrice.toFixed(2)}
+                                </h6>
+                            </div>
+                            <div
+                                className={cn(
+                                    "flex flex-col sm:flex-row w-full gap-2 sm:gap-3",
+                                )}
+                            >
+                                <button
+                                    onClick={clearCart}
+                                    className={cn(
+                                        "cart-clear-button w-full sm:w-1/2 py-2.5 sm:py-3 bg-red-500 hover:bg-red-600 text-white text-sm sm:text-base",
+                                    )}
+                                    aria-label="Vaciar todos los productos del carrito"
+                                >
+                                    Vaciar Carrito
+                                </button>
+                                <button
+                                    onClick={handleCheckout}
+                                    className={cn(
+                                        "cart-checkout-button w-full sm:w-1/2 py-2.5 sm:py-3 text-sm sm:text-base",
+                                    )}
+                                    aria-label="Proceder al pago"
+                                >
+                                    Pagar
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
-          )}
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default Cart;

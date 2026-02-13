@@ -2,7 +2,7 @@
  * @file ThemeSwitcher.tsx
  * @description Botón para alternar el tema de la aplicación.
  * Muestra icono de Sol o Luna según el estado actual.
- * @architecture Presentation Layer - Theme Feature
+ * @architecture Capa de Presentación - Feature de Tema
  */
 import { useTheme } from "@/features/theme/application/ThemeContext";
 import { Sun, Moon } from "lucide-react";
@@ -27,7 +27,7 @@ const ThemeSwitcher = () => {
                 "hover:bg-(--bg-input) active:scale-95",
                 "text-(--text-primary) hover:text-(--text-accent)"
             )}
-            aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+            aria-label={`Cambiar a modo ${theme === "light" ? "oscuro" : "claro"}`}
         >
             {theme === "light" ? (
                 <Moon className={cn("h-5 w-5 sm:h-6 sm:w-6")} strokeWidth={2} />

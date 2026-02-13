@@ -1,66 +1,53 @@
-# 🏗️ Arquitectura de Software
+# 🏗️ Arquitectura de Software (Documentación Técnica Completa)
 
-## Paradigma
-El proyecto sigue una **Arquitectura Basada en Features (Feature-Based Architecture)** inspirada en **Clean Architecture** y **Domain-Driven Design (DDD)**. El código se organiza por módulos funcionales, cada uno con sus propias capas de responsabilidad.
+## 1. Arquitectura de Software (Macro)
 
-## Diagrama de Capas
+### 1.1 Single Page Application (SPA)
+El sistema está diseñado como una **SPA** utilizando React. Toda la lógica de navegación y renderizado ocurre en el cliente (Client-Side Rendering - CSR).
 
-```mermaid
-graph TD
-    User((Usuario)) --> View[Capa de Presentación<br>(React Components / UI)]
-    
-    subgraph Feature Module
-        View --> Application[Capa de Aplicación<br>(Hooks / Context)]
-        Application --> Domain[Capa de Dominio<br>(Lógica Pura / Tipos)]
-        Application --> Infrastructure[Capa de Infraestructura<br>(API Clients / Query)]
-    end
-    
-    Infrastructure --> External[API Externa / TanStack Query]
-```
+*   **Justificación de CSR:**
+    *   **Interactividad Elevada:** El flujo de compra y gestión del carrito requiere una respuesta inmediata sin recargas de página.
+    *   **Costo de Infraestructura:** Al ser una aplicación estática (HTML/JS/CSS), el hosting en GitHub Pages es gratuito y escalable vía CDN.
+    *   **SEO:** Dado que es una aplicación de demostración/herramienta interna, el SEO no es la prioridad crítica que justificaría la complejidad de un SSR (Next.js).
+*   **Decisiones descartadas:**
+    *   **SSR (Next.js):** Descartado para evitar la sobrecarga de un servidor Node.js y mantener la simplicidad del despliegue.
+    *   **Microfrontends:** Descartado por el tamaño actual del equipo y del dominio; añadiría una complejidad innecesaria en la orquestación.
 
-## Estructura de Directorios (Actualizada)
+## 2. Arquitectura de Frontend (Feature-Based)
 
-La estructura `src/` se organiza de la siguiente manera:
+Adoptamos una variante de **Feature-Sliced Design (FSD)** simplificada para garantizar que el crecimiento del código sea horizontal y no vertical.
 
-```text
-src/
-├── app/                  # Configuración Global
-│   ├── api/              # Configuración de TanStack Query y clientes
-│   ├── config/           # Proveedores y variables de entorno
-│   └── routing/          # Definición de rutas (React Router 7)
-│
-├── features/             # Módulos de Negocio Vertical (DDD)
-│   ├── [feature]/
-│   │   ├── application/  # Hooks (useFeature), Contextos
-│   │   ├── domain/       # Lógica de negocio, utilidades puras, tipos
-│   │   ├── infrastructure/ # Llamadas a API, adaptadores de datos
-│   │   └── presentation/ # Componentes UI específicos del feature
-│   ├── cart/             # Carrito de compras
-│   ├── products/         # Catálogo de productos
-│   └── checkout/         # Proceso de pago
-│
-├── components/           # Componentes Compartidos
-│   ├── common/           # Layout, Error Boundaries, Navbar
-│   └── ui/               # Componentes Shadcn/UI (primitivos)
-│
-├── pages/                # Vistas de Alto Nivel (Rutas)
-│
-└── styles/               # Estilos Globales y Configuración Tailwind 4
-```
+*   **Capas por Feature:**
+    *   **Infrastructure:** Adaptadores para el mundo exterior (API calls).
+    *   **Application:** Hooks de React, Contextos y lógica que orquestra el estado.
+    *   **Domain:** Tipos puros y reglas de negocio independientes de la UI.
+    *   **Presentation:** Componentes de React puros que reciben props o usan hooks locales del feature.
 
-## Patrones de Diseño Aplicados
+## 3. Arquitectura de Datos y Estado
 
-### 1. Domain-Driven Design (DDD) Lite
-Cada feature encapsula su propia lógica de dominio (`domain`), casos de uso (`application`) y adaptadores externos (`infrastructure`), permitiendo que el código sea modular y testeable.
+### 3.1 TanStack Query (Server State)
+Es el pilar central de la gestión de datos.
+*   **Por qué TanStack Query:**
+    *   **Abstracción de Fetching:** Elimina `useEffect` repetitivos para llamadas a API.
+    *   **Cache Inteligente:** Implementa `stale-while-revalidate` automáticamente.
+    *   **Sincronización:** Maneja reintentos, estados de carga y error de forma nativa.
+*   **Estado Local vs Global:**
+    *   **Context API:** Reservado para estados UI transversales (Carrito, Tema).
+    *   **useState/useReducer:** Para estados efímeros dentro de componentes.
 
-### 2. TanStack Query para Estado de Servidor
-Se utiliza React Query para manejar la sincronización con la API, eliminando la necesidad de manejar estados de carga y error manualmente en la mayoría de los casos.
+## 4. Arquitectura de Componentes
 
-### 3. Context API para Estado UI
-Para estados puramente de interfaz de usuario que atraviesan la aplicación (como el carrito o el tema), se utiliza React Context junto con Custom Hooks.
+### 4.1 Patrón Container/Presentational (Evolucionado)
+Aunque React moderno prefiere Hooks, mantenemos la separación conceptual:
+*   **Smart Components (Features):** Componentes en la capa `presentation` que consumen hooks de la capa `application`.
+*   **Dumb Components (UI Kit):** Componentes en `src/components/ui` que son agnósticos al negocio y solo reciben props de estilo y datos.
 
-### 4. Shadcn/UI + Tailwind 4
-Adopción de un sistema de diseño basado en componentes reutilizables y altamente personalizables mediante clases de utilidad, con tokens de diseño definidos en CSS.
+### 4.2 Atomic Design (Descartado)
+Se decidió NO seguir Atomic Design estrictamente (Atoms, Molecules, Organisms) para evitar la "parálisis por análisis" al clasificar componentes pequeños. En su lugar, usamos una estructura basada en **Composición de Componentes**.
 
----
-_Última actualización: 12 de febrero de 2026_
+## 5. Arquitectura de Comunicación
+
+### 5.1 Capa de Servicios (ApiClient)
+*   **API REST:** Consumo de DummyJSON.
+*   **Generic Client:** `apiClient` centralizado que inyecta headers, maneja la `BASE_URL` y captura excepciones HTTP.
+*   **Manejo de Errores:** Se utiliza un patrón de propagación de errores hacia los `ErrorBoundary` de React para fallos catastróficos, y estados de error de TanStack Query para fallos controlados de red.

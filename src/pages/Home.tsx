@@ -4,13 +4,13 @@
  * Muestra el listado de productos y gestiona el modal de detalles.
  * @architecture Presentation Layer - Pages
  */
-import ProductList from "@/features/products/presentation/ProductList";
 import { useProducts } from "@/features/products/application/useProducts";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
-import {
-    ProductModalProvider,
-    useProductModalContext,
-} from "@/features/products/application/ProductModalContext";
+import ProductList from "@/features/products/presentation/ProductList";
+
+import { ProductModalProvider } from "@/features/products/application/ProductModalContext";
+import { useProductModalContext } from "@/features/products/application/ProductModalContext";
+
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
 import FeatureErrorBoundary from "@/components/common/FeatureErrorBoundary";
 import { cn } from "@/lib/utils";
@@ -30,10 +30,12 @@ const HomeContent = () => {
 
     return (
         <div className={cn("page-home container mx-auto px-4 py-8")}>
-            <div className={cn("page-home__header flex flex-col items-center text-center mb-12")}>
-                <h1 className={cn("page-home__title")}>
-                    Product List
-                </h1>
+            <div
+                className={cn(
+                    "page-home__header flex flex-col items-center text-center mb-12",
+                )}
+            >
+                <h1 className={cn("page-home__title")}>Listado de Productos</h1>
                 <p className={cn("page-home__subtitle")}>
                     React VITE + Tailwind CSS + DummyJSON API
                 </p>
@@ -65,7 +67,7 @@ const HomeContent = () => {
 /**
  * @component Home
  * @description Wrapper de la página Home que provee el contexto del modal y el ErrorBoundary.
- * 
+ *
  * @returns {JSX.Element} La página Home completa.
  */
 const Home = () => (

@@ -1,7 +1,7 @@
 /**
  * @file formatters.ts
  * @description Funciones de dominio para el formateo de datos de tarjetas de crédito.
- * @architecture Domain Layer - Checkout Feature
+ * @architecture Capa de Dominio - Feature de Checkout
  */
 
 /**

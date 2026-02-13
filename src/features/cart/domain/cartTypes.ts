@@ -6,75 +6,52 @@
  */
 
 /**
- * Represents an item within the shopping cart.
+ * Representa un artículo dentro del carrito de compras.
  *
  * @remarks
- * This interface extends the base product information with the quantity
- * currently selected by the user.
- *
- * @example
- * ```typescript
- * const item: CartItem = {
- *   id: 1,
- *   title: "High-End Laptop",
- *   price: 1200,
- *   quantity: 1,
- *   thumbnail: "https://api.example.com/images/laptop.png",
- *   stock: 5
- * };
- * ```
+ * Esta interfaz extiende la información básica del producto con la cantidad
+ * seleccionada actualmente por el usuario.
  */
 export interface CartItem {
-    /** Unique identifier for the product */
+    /** Identificador único del producto */
     id: number;
-    /** Display name of the product */
+    /** Nombre visible del producto */
     title: string;
-    /** Unit price in USD */
+    /** Precio unitario en USD */
     price: number;
-    /** Number of units currently in the cart */
+    /** Número de unidades actualmente en el carrito */
     quantity: number;
-    /** URL to the product's thumbnail image */
+    /** URL de la imagen en miniatura del producto */
     thumbnail: string;
-    /** Total units available in the warehouse */
+    /** Unidades totales disponibles en el almacén */
     stock: number;
 }
 
 /**
- * Represents a base product from the catalog.
- *
- * @example
- * ```typescript
- * const product: Product = {
- *   id: 101,
- *   title: "Wireless Mouse",
- *   price: 25.99,
- *   thumbnail: "https://example.com/mouse.jpg",
- *   stock: 150
- * };
- * ```
+ * Representa un producto base del catálogo.
  */
 export interface Product {
-    /** Unique product ID */
+    /** ID único del producto */
     id: number;
-    /** Product name */
+    /** Nombre del producto */
     title: string;
-    /** Product price in USD */
+    /** Precio del producto en USD */
     price: number;
-    /** URL of the product image */
+    /** URL de la imagen del producto */
     thumbnail: string;
-    /** Current stock level */
+    /** Nivel de stock actual */
     stock: number;
 }
 
 /**
- * Result of a cart item validation check.
+ * Resultado de una comprobación de validación de un artículo del carrito.
  */
 export interface ValidationResult {
-    /** Indicates if the validation passed */
+    /** Indica si la validación fue exitosa */
     valid: boolean;
     /**
-     * Descriptive error message if `valid` is false.
-     * @example "Insufficient stock"
+     * Mensaje de error descriptivo si `valid` es false.
+     * @example "Stock insuficiente"
      */
     error: string | null;
 }

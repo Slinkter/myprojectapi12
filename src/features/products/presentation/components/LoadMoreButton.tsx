@@ -1,8 +1,8 @@
 /**
  * @file LoadMoreButton.tsx
- * @description Button component specifically designed for triggering "load more" actions
- * with built-in loading state visualization.
- * @architecture Presentation Layer - UI Component
+ * @description Componente de botón diseñado específicamente para activar acciones de "cargar más"
+ * con visualización integrada del estado de carga.
+ * @architecture Capa de Presentación - Componente de UI
  */
 
 import { memo } from "react";
@@ -10,23 +10,23 @@ import { cn } from "@/lib/utils";
 
 /**
  * @interface LoadMoreButtonProps
- * @description Props for the LoadMoreButton component.
+ * @description Propiedades para el componente LoadMoreButton.
  */
 interface LoadMoreButtonProps {
-    /** Function to execute when the button is clicked */
+    /** Función a ejecutar cuando se hace clic en el botón */
     onClick: () => void;
-    /** Whether the action is currently loading */
+    /** Indica si la acción está actualmente cargando */
     loading: boolean;
-    /** Optional custom class name */
+    /** Nombre de clase personalizado opcional */
     className?: string;
 }
 
 /**
  * @component LoadMoreButton
- * @description Renders a button with loading spinner and accessibility attributes.
+ * @description Renderiza un botón con un spinner de carga y atributos de accesibilidad.
  * 
- * @param {LoadMoreButtonProps} props - The component props.
- * @returns {JSX.Element} The load more button.
+ * @param {LoadMoreButtonProps} props - Las propiedades del componente.
+ * @returns {JSX.Element} El botón de cargar más.
  */
 const LoadMoreButton = memo(({ onClick, loading, className }: LoadMoreButtonProps) => {
     return (
@@ -38,15 +38,15 @@ const LoadMoreButton = memo(({ onClick, loading, className }: LoadMoreButtonProp
                 loading && "opacity-70 cursor-not-allowed",
                 className
             )}
-            aria-label={loading ? "Loading more items..." : "Load more items"}
+            aria-label={loading ? "Cargando más items..." : "Cargar más items"}
         >
             {loading ? (
                 <>
                     <div className={cn("animate-spin rounded-full h-5 w-5 border-b-2 border-white")} />
-                    <span>Loading...</span>
+                    <span>Cargando...</span>
                 </>
             ) : (
-                "Load More"
+                "Cargar más"
             )}
         </button>
     );

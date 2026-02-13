@@ -1,8 +1,8 @@
 /**
  * @file Navbar.tsx
- * @description The main navigation bar for the application.
- * Handles scroll state to change appearance and provides access to ThemeSwitcher and Cart.
- * @architecture Presentation Layer - Common Components
+ * @description La barra de navegación principal de la aplicación.
+ * Maneja el estado del scroll para cambiar la apariencia y proporciona acceso a ThemeSwitcher y al Carrito.
+ * @architecture Capa de Presentación - Componentes Comunes
  */
 
 import { useEffect, useState } from "react";
@@ -15,10 +15,10 @@ import { Button } from "@/components/ui/button";
 
 /**
  * @component Navbar
- * @description Main navigation header component.
- * Features a sticky behavior that changes background on scroll.
+ * @description Componente de cabecera de navegación principal.
+ * Presenta un comportamiento pegajoso (sticky) que cambia el fondo al hacer scroll.
  *
- * @returns {JSX.Element} The rendered Navbar.
+ * @returns {JSX.Element} El Navbar renderizado.
  */
 const Navbar = (): JSX.Element => {
     const [scrolled, setScrolled] = useState<boolean>(false);
@@ -45,14 +45,14 @@ const Navbar = (): JSX.Element => {
                     : "bg-transparent border-transparent",
             )}
             role="navigation"
-            aria-label="Main navigation"
+            aria-label="Navegación principal"
         >
             <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-                {/* Logo Area */}
+                {/* Área del Logo */}
                 <Link
                     to="/"
                     className="group flex items-center gap-2.5 transition-opacity hover:opacity-80"
-                    aria-label="Go to home page"
+                    aria-label="Ir a la página de inicio"
                 >
                     <div className="flex flex-col">
                         <h1 className="text-lg font-bold tracking-tight text-(--text-primary) leading-none">
@@ -62,7 +62,7 @@ const Navbar = (): JSX.Element => {
                     <span>12</span>
                 </Link>
 
-                {/* Actions Area */}
+                {/* Área de Acciones */}
                 <div className="flex items-center gap-2 sm:gap-4">
                     <ThemeSwitcher />
 
@@ -72,7 +72,7 @@ const Navbar = (): JSX.Element => {
                             size="icon"
                             onClick={toggleCart}
                             className="relative w-10 h-10 rounded-full hover:bg-(--bg-input) transition-all duration-200 active:scale-95 text-(--text-primary)"
-                            aria-label="Open shopping cart"
+                            aria-label="Abrir carrito de compras"
                         >
                             <CartIcon />
                             {totalItems > 0 && (

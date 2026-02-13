@@ -2,32 +2,32 @@
  * @file env.ts
  * @description Archivo de configuración centralizado para variables de entorno.
  * Proporciona acceso tipado a las variables de entorno de Vite.
- * @architecture Infrastructure Layer - Configuration
+ * @architecture Capa de Infraestructura - Configuración
  */
 
 /**
- * Global application configuration object.
+ * Objeto de configuración global de la aplicación.
  *
  * @remarks
- * This object centralizes all environment-dependent variables and static constants.
- * Using a centralized config object instead of direct `import.meta.env` calls
- * throughout the app provides:
- * 1. Type safety for configuration.
- * 2. Easier mocking during tests.
- * 3. A single point of change for infrastructure updates.
+ * Este objeto centraliza todas las variables dependientes del entorno y las constantes estáticas.
+ * El uso de un objeto de configuración centralizado en lugar de llamadas directas a `import.meta.env`
+ * en toda la aplicación proporciona:
+ * 1. Seguridad de tipos para la configuración.
+ * 2. Facilidad para realizar mocks durante las pruebas.
+ * 3. Un único punto de cambio para las actualizaciones de infraestructura.
  */
 export const config = {
     /**
-     * API related configurations.
+     * Configuraciones relacionadas con la API.
      */
     api: {
         /**
-         * The base URL for the DummyJSON API.
+         * La URL base para la API de DummyJSON.
          *
          * @remarks
-         * We use DummyJSON as it provides a stable and comprehensive set of
-         * mock data for e-commerce (products, users, carts).
-         * Defaults to the production URL if the environment variable is not set.
+         * Utilizamos DummyJSON ya que proporciona un conjunto estable y completo de
+         * datos de prueba para comercio electrónico (productos, usuarios, carritos).
+         * Por defecto utiliza la URL de producción si la variable de entorno no está establecida.
          */
         baseUrl: import.meta.env.VITE_API_BASE_URL || "https://dummyjson.com",
     },

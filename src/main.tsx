@@ -1,16 +1,16 @@
 /**
  * @file main.tsx
- * @description Application entry point.
- * @architecture Infrastructure Layer - Entry Point
+ * @description Punto de entrada principal de la aplicación.
+ * Inicializa el árbol de React y monta el componente raíz en el DOM.
+ * @architecture Capa de Aplicación - Punto de Entrada
  */
-
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// Root Component
+// Componente Raíz
 import App from "./App";
 
-// Global Styles
+// Estilos Globales
 import "./index.css";
 import "@/styles/variables.css";
 import "@/styles/animations.css";
@@ -19,16 +19,8 @@ import "@/styles/cards.css";
 import "@/styles/components.css";
 
 const rootElement = document.getElementById("root");
-if (!rootElement) throw new Error("Failed to find the root element");
+if (!rootElement) throw new Error("No se pudo encontrar el elemento raíz");
 
-/**
- * Mounts the React application to the DOM.
- *
- * @remarks
- * The application is wrapped in `React.StrictMode` to help identify potential
- * problems during development. The `<App />` component handles all providers
- * and internal routing.
- */
 ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
         <App />

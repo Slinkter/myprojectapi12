@@ -2,7 +2,7 @@
  * @file Checkout.tsx
  * @description Página principal del proceso de pago.
  * Rediseñada para una experiencia de usuario premium, segura y clara.
- * @architecture Presentation Layer - Checkout Feature
+ * @architecture Capa de Presentación - Feature de Checkout
  */
 import { Link } from "react-router-dom";
 import { useCheckout } from "../application/useCheckout";
@@ -41,40 +41,40 @@ const Checkout = () => {
         >
             <div className={cn("w-full max-w-2xl bg-(--bg-card) rounded-3xl shadow-xl border border-(--border-light) overflow-hidden")}>
                 
-                {/* Header */}
+                {/* Cabecera */}
                 <div className={cn("p-6 sm:p-8 border-b border-(--border-light) bg-(--bg-input)/30")}>
                     <div className={cn("flex items-center justify-between mb-4")}>
                         <Link 
                             to="/" 
                             className={cn("text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors flex items-center gap-1")}
                         >
-                            <ArrowLeft className="w-4 h-4" /> Back to Shop
+                            <ArrowLeft className="w-4 h-4" /> Volver a la Tienda
                         </Link>
                         <div className={cn("flex items-center gap-2 text-green-600 dark:text-green-400 text-xs font-bold uppercase tracking-wider")}>
                             <ShieldCheck className="w-4 h-4" />
-                            Secure Checkout
+                            Pago Seguro
                         </div>
                     </div>
                     <h1
                         id="checkout-title"
                         className={cn("text-3xl font-extrabold text-(--text-primary) tracking-tight")}
                     >
-                        Payment Details
+                        Detalles de Pago
                     </h1>
                     <p className={cn("text-(--text-secondary) mt-2")}>
-                        Complete your purchase securely.
+                        Complete su compra de forma segura.
                     </p>
                 </div>
 
                 <div className={cn("p-6 sm:p-8")}>
-                    {/* Payment Method Selector */}
+                    {/* Selector de Método de Pago */}
                     <div className={cn("mb-8")}>
                         <label className={cn("block text-sm font-semibold text-(--text-primary) mb-4 uppercase tracking-wide")}>
-                            Select Payment Method
+                            Seleccione Método de Pago
                         </label>
                         <fieldset className={cn("grid grid-cols-1 sm:grid-cols-3 gap-4")}>
                             <legend className={cn("sr-only")}>
-                                Payment method selection
+                                Selección del método de pago
                             </legend>
 
                             <PaymentMethodRadio
@@ -100,7 +100,7 @@ const Checkout = () => {
                         </fieldset>
                     </div>
 
-                    {/* Card Form */}
+                    {/* Formulario de Tarjeta */}
                     <div className={cn("min-h-[300px] transition-all duration-300 ease-in-out")}>
                         {showCardForm ? (
                             <CardForm
@@ -114,15 +114,15 @@ const Checkout = () => {
                                 <div className={cn("w-16 h-16 bg-amber-100 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-4 text-3xl")}>
                                     ₿
                                 </div>
-                                <p className={cn("text-lg font-medium text-(--text-primary)")}>Pay with Bitcoin</p>
+                                <p className={cn("text-lg font-medium text-(--text-primary)")}>Pagar con Bitcoin</p>
                                 <p className={cn("text-sm text-(--text-secondary) mt-1 text-center max-w-xs")}>
-                                    You will be redirected to our secure crypto payment gateway.
+                                    Será redirigido a nuestra pasarela de pago cripto segura.
                                 </p>
                             </div>
                         )}
                     </div>
 
-                    {/* Pay Button */}
+                    {/* Botón de Pago */}
                     <button
                         onClick={handlePayment}
                         className={cn(
@@ -132,15 +132,15 @@ const Checkout = () => {
                                 : "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-1"
                         )}
                         disabled={isPaymentDisabled}
-                        aria-label={`Pay now with ${paymentMethod}`}
+                        aria-label={`Pagar ahora con ${paymentMethod}`}
                         aria-disabled={isPaymentDisabled}
                     >
-                        {paymentMethod === 'bitcoin' ? 'Proceed to Crypto Payment' : 'Pay Now'}
+                        {paymentMethod === 'bitcoin' ? 'Proceder al Pago Cripto' : 'Pagar Ahora'}
                     </button>
                     
                     <p className={cn("text-xs text-center text-(--text-secondary) mt-6 flex items-center justify-center gap-1")}>
                         <Lock className="w-3 h-3" />
-                        Transactions are encrypted and secured.
+                        Las transacciones están encriptadas y son seguras.
                     </p>
                 </div>
             </div>

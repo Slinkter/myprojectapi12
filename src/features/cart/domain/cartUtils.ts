@@ -114,7 +114,7 @@ export const removeItemFromCart = (
  * @function validateCartItem
  * @description Valida si un producto puede ser agregado al carrito.
  * Verifica que el producto sea válido, la cantidad sea positiva y haya stock suficiente.
- * @architecture Domain Layer - Validación de negocio
+ * @architecture Capa de Dominio - Validación de negocio
  * 
  * @param {Product | null | undefined} product - Producto a validar
  * @param {number} quantity - Cantidad deseada
@@ -133,33 +133,33 @@ export const removeItemFromCart = (
  * // Stock insuficiente
  * const product = { id: 1, title: "Laptop", price: 899, thumbnail: "url", stock: 3 };
  * const result = validateCartItem(product, 5);
- * // { valid: false, error: "Insufficient stock" }
+ * // { valid: false, error: "Stock insuficiente" }
  * 
  * @example
  * // Producto inválido (null)
  * const result = validateCartItem(null, 1);
- * // { valid: false, error: "Invalid product" }
+ * // { valid: false, error: "Producto inválido" }
  * 
  * @example
  * // Cantidad inválida
  * const product = { id: 1, title: "Laptop", price: 899, thumbnail: "url", stock: 10 };
  * const result = validateCartItem(product, 0);
- * // { valid: false, error: "Quantity must be greater than 0" }
+ * // { valid: false, error: "La cantidad debe ser mayor a 0" }
  */
 export const validateCartItem = (
     product: Product | null | undefined,
     quantity: number,
 ): ValidationResult => {
     if (!product || !product.id) {
-        return { valid: false, error: "Invalid product" };
+        return { valid: false, error: "Producto inválido" };
     }
 
     if (quantity <= 0) {
-        return { valid: false, error: "Quantity must be greater than 0" };
+        return { valid: false, error: "La cantidad debe ser mayor a 0" };
     }
 
     if (product.stock < quantity) {
-        return { valid: false, error: "Insufficient stock" };
+        return { valid: false, error: "Stock insuficiente" };
     }
 
     return { valid: true, error: null };

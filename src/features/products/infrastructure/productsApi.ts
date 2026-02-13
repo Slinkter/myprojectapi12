@@ -8,30 +8,32 @@ import { apiClient } from "@/app/api/apiClient";
 import { ProductsApiResponse } from "../application/types";
 
 /**
- * Number of products to fetch per page.
+ * Número de productos a obtener por página.
  *
  * @remarks
- * A limit of 20 is chosen to balance between enough content to fill the screen
- * (even on large displays) and keeping the initial payload small for mobile performance.
+ * Se elige un límite de 20 para equilibrar entre tener suficiente contenido para llenar la pantalla
+ * (incluso en pantallas grandes) y mantener el tamaño de la carga inicial pequeño para el rendimiento móvil.
  */
 const LIMIT = 20;
 
 /**
- * Fetches a paginated list of products from the external API.
+ * Obtiene una lista paginada de productos de la API externa.
  *
  * @remarks
- * This function handles the logic of converting a human-readable page number
- * into the `limit` and `skip` parameters required by the DummyJSON API.
+ * Esta función maneja la lógica de convertir un número de página legible por humanos
+ * en los parámetros `limit` y `skip` requeridos por la API de DummyJSON.
  *
- * @param page - The page number to retrieve (1-based).
- * @returns A promise resolving to the products and pagination metadata.
+ * @param page - El número de página a recuperar (basado en 1).
+ * @returns Una promesa que se resuelve con los productos y los metadatos de paginación.
  *
  * @example
  * ```typescript
  * const firstPage = await getProducts(1);
  * ```
  */
-export const getProducts = async (page: number): Promise<ProductsApiResponse> => {
+export const getProducts = async (
+    page: number,
+): Promise<ProductsApiResponse> => {
     const skip = (page - 1) * LIMIT;
     const endpoint = `/products?limit=${LIMIT}&skip=${skip}`;
     return apiClient<ProductsApiResponse>(endpoint);

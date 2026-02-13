@@ -153,40 +153,16 @@ export const CartProvider = ({ children }: CartProviderProps) => {
  * @function useCart
  * @description Hook personalizado para consumir el contexto del carrito.
  * Proporciona acceso al estado del carrito y todas sus acciones.
- * @architecture Application Layer - Custom Hook
+ * @architecture Capa de Aplicación - Hook Personalizado
  * 
  * @returns {CartContextValue} Valor del contexto con estado y acciones del carrito
  * 
  * @throws {Error} Si se usa fuera de un CartProvider
- * 
- * @example
- * // Usar el hook en un componente
- * function ShoppingCart() {
- *   const { cart, totalPrice, removeFromCart } = useCart();
- *   
- *   return (
- *     <div>
- *       <h2>Total: ${totalPrice}</h2>
- *       {cart.map(item => (
- *         <div key={item.id}>
- *           {item.title} - ${item.price} x {item.quantity}
- *           <button onClick={() => removeFromCart(item.id)}>Remove</button>
- *         </div>
- *       ))}
- *     </div>
- *   );
- * }
- * 
- * @example
- * // Error: usar fuera del provider
- * function BadComponent() {
- *   const { cart } = useCart(); // ❌ Error: must be used within CartProvider
- * }
  */
 export const useCart = () => {
     const context = useContext(CartContext);
     if (!context) {
-        throw new Error("useCart must be used within CartProvider");
+        throw new Error("useCart debe usarse dentro de un CartProvider");
     }
     return context;
 };

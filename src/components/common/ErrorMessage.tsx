@@ -9,23 +9,23 @@ import { cn } from "@/lib/utils";
 
 /**
  * @interface ErrorMessageProps
- * @description Properties for the ErrorMessage component.
+ * @description Propiedades para el componente ErrorMessage.
  */
 interface ErrorMessageProps {
-    /** The error message text to display */
+    /** El texto del mensaje de error a mostrar */
     message: string;
-    /** Optional title for the alert. Defaults to "Error" */
+    /** Título opcional para la alerta. Por defecto es "Error" */
     title?: string;
-    /** Optional action button configuration */
+    /** Configuración opcional del botón de acción */
     action?: {
         label: string;
         onClick: () => void;
     };
-    /** Additional CSS classes */
+    /** Clases CSS adicionales */
     className?: string;
 }
 
-// Hoist static SVG icon outside component to avoid recreation
+// Elevar el icono SVG estático fuera del componente para evitar recreaciones
 const ErrorIcon = (
     <svg
         className={cn("h-5 w-5 text-red-400")}
@@ -43,10 +43,10 @@ const ErrorIcon = (
 
 /**
  * @component ErrorMessage
- * @description Renders an error alert with an optional action button.
+ * @description Renderiza una alerta de error con un botón de acción opcional.
  * 
- * @param {ErrorMessageProps} props - The component props.
- * @returns {JSX.Element} The error message alert.
+ * @param {ErrorMessageProps} props - Las propiedades del componente.
+ * @returns {JSX.Element} La alerta con el mensaje de error.
  */
 const ErrorMessage = memo(
     ({

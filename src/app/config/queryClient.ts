@@ -2,26 +2,26 @@
  * @file queryClient.ts
  * @description Configuración del cliente de TanStack Query (React Query).
  * Define las opciones por defecto para caché, reintentos y comportamiento de red.
- * @architecture Infrastructure Layer - Query Client Configuration
+ * @architecture Capa de Infraestructura - Configuración del Cliente de Query
  */
 import { QueryClient } from "@tanstack/react-query";
 
 /**
- * Global QueryClient instance.
+ * Instancia global de QueryClient.
  *
  * @remarks
- * This instance centralizes the data fetching and caching strategy for the app.
+ * Esta instancia centraliza la estrategia de obtención de datos y caché para la aplicación.
  *
- * Justification for default options:
- * - `staleTime` (5 min): In an e-commerce context, product data (prices, titles)
- *   doesn't change every second. 5 minutes is a safe balance to reduce API
- *   calls while keeping data fresh.
- * - `gcTime` (30 min): Keeps data in memory longer to allow fast navigation
- *   back and forth between products.
- * - `retry` (2): Provides resilience against transient network failures
- *   without causing excessive load on the server during outages.
- * - `refetchOnWindowFocus` (false): Prevents unnecessary re-fetches when
- *   switching browser tabs, saving bandwidth.
+ * Justificación de las opciones por defecto:
+ * - `staleTime` (5 min): En un contexto de comercio electrónico, los datos de los productos (precios, títulos)
+ *   no cambian cada segundo. 5 minutos es un equilibrio seguro para reducir las llamadas a la API
+ *   mientras se mantienen los datos frescos.
+ * - `gcTime` (30 min): Mantiene los datos en memoria más tiempo para permitir una navegación rápida
+ *   hacia atrás y adelante entre productos.
+ * - `retry` (2): Proporciona resiliencia contra fallos de red transitorios
+ *   sin causar una carga excesiva en el servidor durante las interrupciones.
+ * - `refetchOnWindowFocus` (false): Evita re-obtenciones innecesarias al
+ *   cambiar de pestaña en el navegador, ahorrando ancho de banda.
  */
 export const queryClient = new QueryClient({
     defaultOptions: {

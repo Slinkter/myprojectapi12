@@ -2,7 +2,7 @@
  * @file apiClient.ts
  * @description Cliente HTTP base para la aplicación.
  * Provee una envoltura alrededor de fetch para manejar URLs base y headers comunes.
- * @architecture Infrastructure Layer - Core API Client
+ * @architecture Capa de Infraestructura - Cliente de API Core
  */
 
 import { config } from "@/app/config/env";
@@ -10,19 +10,19 @@ import { config } from "@/app/config/env";
 const BASE_URL = config.api.baseUrl;
 
 /**
- * Base HTTP client for the application.
+ * Cliente HTTP base para la aplicación.
  *
  * @remarks
- * This is a generic asynchronous HTTP client that wraps the native `fetch` API.
- * It automatically handles the base URL, sets default JSON headers, and
- * performs basic error handling for non-OK responses.
+ * Este es un cliente HTTP asíncrono genérico que envuelve la API nativa `fetch`.
+ * Maneja automáticamente la URL base, establece encabezados JSON predeterminados y
+ * realiza un manejo básico de errores para respuestas que no son OK.
  *
- * @typeParam T - The expected shape of the JSON response data.
- * @param endpoint - The specific API endpoint path (e.g., "/products").
- * @param options - Optional configuration for the `fetch` request.
- * @returns A promise that resolves to the parsed JSON data of type `T`.
+ * @typeParam T - La forma esperada de los datos de respuesta JSON.
+ * @param endpoint - La ruta específica del endpoint de la API (ej., "/products").
+ * @param options - Configuración opcional para la solicitud `fetch`.
+ * @returns Una promesa que se resuelve con los datos JSON analizados de tipo `T`.
  *
- * @throws {Error} If the network response status is not OK (2xx).
+ * @throws {Error} Si el estado de la respuesta de red no es OK (2xx).
  *
  * @example
  * ```typescript

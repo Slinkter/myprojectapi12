@@ -2,14 +2,14 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 /**
- * Utility function to merge Tailwind CSS classes conditionally.
+ * Función de utilidad para fusionar clases de Tailwind CSS condicionalmente.
  *
  * @remarks
- * This function combines `clsx` for conditional class joining and `tailwind-merge`
- * to handle CSS conflict resolution (e.g., overriding `p-4` with `p-2`).
+ * Esta función combina `clsx` para la unión condicional de clases y `tailwind-merge`
+ * para manejar la resolución de conflictos de CSS (por ejemplo, sobrescribir `p-4` con `p-2`).
  *
- * @param inputs - Array of class values (strings, objects, arrays, etc.)
- * @returns A single string of merged CSS classes.
+ * @param inputs - Array de valores de clase (strings, objetos, arrays, etc.)
+ * @returns Una cadena única de clases CSS fusionadas.
  *
  * @example
  * ```typescript

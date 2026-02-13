@@ -59,10 +59,13 @@
 | [08_DEPLOYMENT.md](08_DEPLOYMENT.md) | Guía de despliegue y CI/CD | DevOps |
 | [09_GLOSSARY.md](09_GLOSSARY.md) | Glosario de términos | Todos |
 
-### 5. Análisis y Auditoría
+### 5. Ingeniería y Metodología
 | Documento | Descripción | Audiencia |
 |-----------|-------------|-----------|
-| [ANALISIS_PROFUNDO.md](ANALISIS_PROFUNDO.md) | Análisis técnico completo del proyecto | Arquitectos, Auditores |
+| [11_SCRUM_METHODOLOGY.md](11_SCRUM_METHODOLOGY.md) | Metodología ágil y roles del equipo | Todos |
+| [12_ENGINEERING_DECISIONS.md](12_ENGINEERING_DECISIONS.md) | Justificación técnica y arquitectura | Arquitectos, Dev |
+| [13_FUTURE_SCALABILITY.md](13_FUTURE_SCALABILITY.md) | Análisis de riesgos y evolución | PM, Arquitectos |
+| [../reports/PROJECT_DIAGNOSIS_2026.md](../reports/PROJECT_DIAGNOSIS_2026.md) | Diagnóstico técnico formal | Auditores |
 
 ---
 
@@ -75,12 +78,10 @@
 | 03_ARCHITECTURE.md | ✅ Actualizado | 2026-02-12 |
 | 04_TECH_STACK.md | ✅ Actualizado | 2026-02-12 |
 | 05_REQUIREMENTS.md | ✅ Actualizado | 2026-01-15 |
-| 06_USER_STORIES.md | ✅ Actualizado | 2026-01-15 |
-| 07_CODING_STANDARDS.md | ✅ Actualizado | 2026-01-15 |
-| 08_DEPLOYMENT.md | ✅ Actualizado | 2026-01-15 |
-| 09_GLOSSARY.md | ✅ Actualizado | 2026-01-15 |
-| 10_TAILWIND_MIGRATION.md | ✅ Nuevo | 2026-02-04 |
-| ANALISIS_PROFUNDO.md | ✅ Nuevo | 2026-02-04 |
+| 11_SCRUM_METHODOLOGY.md | ✅ Nuevo | 2026-02-12 |
+| 12_ENGINEERING_DECISIONS.md | ✅ Nuevo | 2026-02-12 |
+| 13_FUTURE_SCALABILITY.md | ✅ Nuevo | 2026-02-12 |
+| ../reports/PROJECT_DIAGNOSIS_2026.md | ✅ Nuevo | 2026-02-12 |
 
 ---
 

@@ -1,8 +1,8 @@
 /**
  * @file useCheckout.ts
- * @description Hook personalizado para manejar la lógica de negocio del proceso de checkout.
+ * @description Hook personalizado para manejar la lógica de negocio del proceso de pago (checkout).
  * Orquesta la validación, formateo y navegación.
- * @architecture Application Layer - Checkout Business Logic
+ * @architecture Capa de Aplicación - Lógica de Negocio de Checkout
  */
 import { useReducer, useEffect, ChangeEvent, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";

@@ -17,7 +17,7 @@ const ProductModalContext = createContext<UseProductModalResult | undefined>(und
 /**
  * @function useProductModalContext
  * @description Hook para acceder a las funciones y estado del modal de producto desde cualquier componente hijo.
- * @architecture Application Layer - Hook de consumo de contexto
+ * @architecture Capa de Aplicación - Hook de consumo de contexto
  * 
  * @returns {UseProductModalResult} El estado y las funciones del modal.
  * @throws {Error} Si se utiliza fuera de un ProductModalProvider.
@@ -26,7 +26,7 @@ export const useProductModalContext = (): UseProductModalResult => {
   const context = useContext(ProductModalContext);
   if (context === undefined) {
     throw new Error(
-      "useProductModalContext must be used within a ProductModalProvider",
+      "useProductModalContext debe usarse dentro de un ProductModalProvider",
     );
   }
   return context;

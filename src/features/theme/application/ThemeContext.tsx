@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 /**
  * @file ThemeContext.tsx
- * @description Context for application theme management (light/dark).
- * @architecture Application Layer - Theme Feature
+ * @description Contexto para la gestión del tema de la aplicación (claro/oscuro).
+ * @architecture Capa de Aplicación - Feature de Tema
  */
 import {
     createContext,
@@ -20,72 +20,72 @@ import {
 } from "../infrastructure/themeStorage";
 
 /**
- * Interface for the Theme Context value.
+ * Interfaz para el valor del Contexto de Tema.
  */
 interface ThemeContextType {
-    /** The active theme identifier. */
+    /** El identificador del tema activo. */
     theme: Theme;
-    /** Toggles between 'light' and 'dark' modes. */
+    /** Alterna entre los modos 'light' (claro) y 'dark' (oscuro). */
     toggleTheme: () => void;
 }
 
 /**
- * Props for the ThemeProvider component.
+ * Propiedades para el componente ThemeProvider.
  */
 interface ThemeProviderProps {
-    /** Child components to be wrapped by the provider. */
+    /** Componentes hijos que serán envueltos por el proveedor. */
     children: ReactNode;
 }
 
 /**
- * React context for theme management.
+ * Contexto de React para la gestión del tema.
  *
  * @remarks
- * We use Context for the theme because it is a global UI state that affects
- * almost every component in the app. Using a provider ensures that theme changes
- * trigger re-renders only where needed while keeping the state centralized.
+ * Utilizamos Context para el tema porque es un estado global de la UI que afecta
+ * a casi todos los componentes de la aplicación. El uso de un proveedor asegura que los cambios
+ * de tema disparen re-renderizados solo donde sea necesario mientras se mantiene el estado centralizado.
  */
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 /**
- * Hook to consume the Theme Context.
+ * Hook para consumir el Contexto de Tema.
  *
  * @remarks
- * Throws an error if the consumer is outside of a `ThemeProvider`, ensuring
- * type safety and correct architecture usage.
+ * Lanza un error si el consumidor está fuera de un `ThemeProvider`, asegurando
+ * la seguridad de tipos y el uso correcto de la arquitectura.
  */
 export const useTheme = (): ThemeContextType => {
     const context = useContext(ThemeContext);
     if (context === undefined) {
-        throw new Error("useTheme must be used within a ThemeProvider");
+        throw new Error("useTheme debe usarse dentro de un ThemeProvider");
     }
     return context;
 };
 
 /**
- * Provider component for Theme Context.
+ * Componente Proveedor para el Contexto de Tema.
  *
  * @remarks
- * This component handles the synchronization between the React state,
- * the `localStorage` (for persistence), and the DOM (adding/removing the `.dark` class).
+ * Este componente maneja la sincronización entre el estado de React,
+ * el `localStorage` (para persistencia) y el DOM (añadiendo/eliminando la clase `.dark`).
  *
- * By applying the theme to the document root, we allow Tailwind's `dark:`
- * variants to work across the entire application.
+ * Al aplicar el tema a la raíz del documento, permitimos que las variantes `dark:`
+ * de Tailwind funcionen en toda la aplicación.
  *
- * @param props - Component properties.
- * @returns The provider element wrapping the children.
+ * @param props - Propiedades del componente.
+ * @returns El elemento proveedor que envuelve a los hijos.
  */
 export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => {
     const [theme, setTheme] = useState<Theme>(getStoredTheme);
 
-    // Effect to apply changes to the DOM and persist in localStorage
+    // Efecto para aplicar cambios al DOM y persistir en localStorage
     useEffect(() => {
         applyThemeToDocument(theme);
         saveTheme(theme);
     }, [theme]);
 
     /**
-     * Toggles the theme state between 'light' and 'dark'.
+     * Alterna el estado del tema entre 'light' y 'dark'.
      */
     const toggleTheme = useCallback(() => {
         setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

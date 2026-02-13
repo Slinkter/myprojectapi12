@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 
 /**
  * @component Loader
- * @description A simple loading spinner component.
+ * @description Un componente simple de spinner de carga.
  * 
- * @returns {JSX.Element} The loading spinner.
+ * @returns {JSX.Element} El spinner de carga.
  */
 const Loader: React.FC = () => {
     return (

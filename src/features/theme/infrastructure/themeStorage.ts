@@ -1,8 +1,8 @@
 /**
  * @file themeStorage.ts
- * @description Servicio de infraestructura para persistencia del tema.
+ * @description Servicio de infraestructura para la persistencia del tema.
  * Abstrae el acceso a localStorage y la detección de preferencias del sistema.
- * @architecture Infrastructure Layer - Theme Persistence
+ * @architecture Capa de Infraestructura - Persistencia de Tema
  */
 
 export type Theme = "light" | "dark";
