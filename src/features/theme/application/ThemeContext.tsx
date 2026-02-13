@@ -1,8 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 /**
  * @file ThemeContext.tsx
- * @description Contexto para el manejo del tema (claro/oscuro) de la aplicación.
- * Gestiona el estado y la persistencia del tema mediante servicios de infraestructura.
+ * @description Context for application theme management (light/dark).
  * @architecture Application Layer - Theme Feature
  */
 import {
@@ -10,8 +9,8 @@ import {
     useState,
     useEffect,
     useCallback,
-    ReactNode,
     useContext,
+    ReactNode,
 } from "react";
 import {
     getStoredTheme,
@@ -28,6 +27,14 @@ interface ThemeContextType {
     theme: Theme;
     /** Toggles between 'light' and 'dark' modes. */
     toggleTheme: () => void;
+}
+
+/**
+ * Props for the ThemeProvider component.
+ */
+interface ThemeProviderProps {
+    /** Child components to be wrapped by the provider. */
+    children: ReactNode;
 }
 
 /**
@@ -64,20 +71,21 @@ export const useTheme = (): ThemeContextType => {
  *
  * By applying the theme to the document root, we allow Tailwind's `dark:`
  * variants to work across the entire application.
+ *
+ * @param props - Component properties.
+ * @returns The provider element wrapping the children.
  */
 export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => {
     const [theme, setTheme] = useState<Theme>(getStoredTheme);
 
-    // Efecto para aplicar cambios al DOM y guardar en localStorage
+    // Effect to apply changes to the DOM and persist in localStorage
     useEffect(() => {
         applyThemeToDocument(theme);
         saveTheme(theme);
     }, [theme]);
 
     /**
-     * @function toggleTheme
-     * @description Alterna el estado del tema entre 'light' y 'dark'.
-     * Memoizado con useCallback.
+     * Toggles the theme state between 'light' and 'dark'.
      */
     const toggleTheme = useCallback(() => {
         setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
