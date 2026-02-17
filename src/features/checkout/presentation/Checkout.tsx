@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 import { useCheckout } from "../application/useCheckout";
 import PaymentMethodRadio from "./components/PaymentMethodRadio";
 import CardForm from "./components/CardForm";
-import { cn } from "@/lib/utils";
 import { ArrowLeft, ShieldCheck, Lock } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 /**
  * @component Checkout
@@ -19,133 +20,139 @@ import { ArrowLeft, ShieldCheck, Lock } from "lucide-react";
  * @returns {JSX.Element} La página de checkout.
  */
 const Checkout = () => {
-    const {
-        paymentMethod,
-        cardInfo,
-        errors,
-        cardType,
-        handlePayment,
-        handleCardInfoChange,
-        setPaymentMethod,
-        isPaymentDisabled,
-    } = useCheckout();
+  const {
+    paymentMethod,
+    cardInfo,
+    errors,
+    cardType,
+    handlePayment,
+    handleCardInfoChange,
+    setPaymentMethod,
+    isPaymentDisabled,
+  } = useCheckout();
 
-    const showCardForm =
-        paymentMethod === "visa" || paymentMethod === "mastercard";
+  const showCardForm =
+    paymentMethod === "visa" || paymentMethod === "mastercard";
 
-    return (
-        <main
-            className={cn("checkout-page min-h-[80vh] flex items-center justify-center p-4")}
-            role="main"
-            aria-labelledby="checkout-title"
-        >
-            <div className={cn("w-full max-w-2xl bg-(--bg-card) rounded-3xl shadow-xl border border-(--border-light) overflow-hidden")}>
-                
-                {/* Cabecera */}
-                <div className={cn("p-6 sm:p-8 border-b border-(--border-light) bg-(--bg-input)/30")}>
-                    <div className={cn("flex items-center justify-between mb-4")}>
-                        <Link 
-                            to="/" 
-                            className={cn("text-sm font-medium text-(--text-secondary) hover:text-(--text-primary) transition-colors flex items-center gap-1")}
-                        >
-                            <ArrowLeft className="w-4 h-4" /> Volver a la Tienda
-                        </Link>
-                        <div className={cn("flex items-center gap-2 text-green-600 dark:text-green-400 text-xs font-bold uppercase tracking-wider")}>
-                            <ShieldCheck className="w-4 h-4" />
-                            Pago Seguro
-                        </div>
-                    </div>
-                    <h1
-                        id="checkout-title"
-                        className={cn("text-3xl font-extrabold text-(--text-primary) tracking-tight")}
-                    >
-                        Detalles de Pago
-                    </h1>
-                    <p className={cn("text-(--text-secondary) mt-2")}>
-                        Complete su compra de forma segura.
-                    </p>
-                </div>
-
-                <div className={cn("p-6 sm:p-8")}>
-                    {/* Selector de Método de Pago */}
-                    <div className={cn("mb-8")}>
-                        <label className={cn("block text-sm font-semibold text-(--text-primary) mb-4 uppercase tracking-wide")}>
-                            Seleccione Método de Pago
-                        </label>
-                        <fieldset className={cn("grid grid-cols-1 sm:grid-cols-3 gap-4")}>
-                            <legend className={cn("sr-only")}>
-                                Selección del método de pago
-                            </legend>
-
-                            <PaymentMethodRadio
-                                id="visa"
-                                label="Visa"
-                                checked={paymentMethod === "visa"}
-                                onChange={() => setPaymentMethod("visa")}
-                            />
-
-                            <PaymentMethodRadio
-                                id="mastercard"
-                                label="Mastercard"
-                                checked={paymentMethod === "mastercard"}
-                                onChange={() => setPaymentMethod("mastercard")}
-                            />
-
-                            <PaymentMethodRadio
-                                id="bitcoin"
-                                label="Bitcoin"
-                                checked={paymentMethod === "bitcoin"}
-                                onChange={() => setPaymentMethod("bitcoin")}
-                            />
-                        </fieldset>
-                    </div>
-
-                    {/* Formulario de Tarjeta */}
-                    <div className={cn("min-h-[300px] transition-all duration-300 ease-in-out")}>
-                        {showCardForm ? (
-                            <CardForm
-                                cardInfo={cardInfo}
-                                errors={errors}
-                                cardType={cardType}
-                                onChange={handleCardInfoChange}
-                            />
-                        ) : (
-                            <div className={cn("flex flex-col items-center justify-center h-full py-12 bg-(--bg-input)/50 rounded-2xl border border-dashed border-(--border-light)")}>
-                                <div className={cn("w-16 h-16 bg-amber-100 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-4 text-3xl")}>
-                                    ₿
-                                </div>
-                                <p className={cn("text-lg font-medium text-(--text-primary)")}>Pagar con Bitcoin</p>
-                                <p className={cn("text-sm text-(--text-secondary) mt-1 text-center max-w-xs")}>
-                                    Será redirigido a nuestra pasarela de pago cripto segura.
-                                </p>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Botón de Pago */}
-                    <button
-                        onClick={handlePayment}
-                        className={cn(
-                            "w-full mt-8 py-4 px-6 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 transform active:scale-[0.98]",
-                            isPaymentDisabled
-                                ? "bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed shadow-none"
-                                : "bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-1"
-                        )}
-                        disabled={isPaymentDisabled}
-                        aria-label={`Pagar ahora con ${paymentMethod}`}
-                        aria-disabled={isPaymentDisabled}
-                    >
-                        {paymentMethod === 'bitcoin' ? 'Proceder al Pago Cripto' : 'Pagar Ahora'}
-                    </button>
-                    
-                    <p className={cn("text-xs text-center text-(--text-secondary) mt-6 flex items-center justify-center gap-1")}>
-                        <Lock className="w-3 h-3" />
-                        Las transacciones están encriptadas y son seguras.
-                    </p>
-                </div>
+  return (
+    <main
+      className="min-h-[80vh] flex items-center justify-center p-4"
+      role="main"
+      aria-labelledby="checkout-title"
+    >
+      <div className="w-full max-w-2xl bg-card rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+        {/* Cabecera */}
+        <div className="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+          <div className="flex items-center justify-between mb-6">
+            <Link
+              to="/"
+              className="text-sm font-semibold text-slate-500 hover:text-amber-600 transition-colors flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" /> Volver a la Tienda
+            </Link>
+            <div className="flex items-center gap-2 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-green-50 dark:bg-green-900/20 rounded-full border border-green-100 dark:border-green-900/30">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Pago Seguro
             </div>
-        </main>
-    );
+          </div>
+          <h1
+            id="checkout-title"
+            className="text-3xl font-extrabold text-foreground tracking-tight"
+          >
+            Detalles de Pago
+          </h1>
+          <p className="text-slate-500 mt-2 font-medium">
+            Tu pago será procesado de forma segura y encriptada.
+          </p>
+        </div>
+
+        <div className="p-8">
+          {/* Selector de Método de Pago */}
+          <div className="mb-8">
+            <label className="block text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">
+              Seleccione Método de Pago
+            </label>
+            <fieldset className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <legend className="sr-only">Selección del método de pago</legend>
+
+              <PaymentMethodRadio
+                id="visa"
+                label="Visa"
+                checked={paymentMethod === "visa"}
+                onChange={() => setPaymentMethod("visa")}
+              />
+
+              <PaymentMethodRadio
+                id="mastercard"
+                label="Mastercard"
+                checked={paymentMethod === "mastercard"}
+                onChange={() => setPaymentMethod("mastercard")}
+              />
+
+              <PaymentMethodRadio
+                id="bitcoin"
+                label="Bitcoin"
+                checked={paymentMethod === "bitcoin"}
+                onChange={() => setPaymentMethod("bitcoin")}
+              />
+            </fieldset>
+          </div>
+
+          {/* Formulario de Tarjeta */}
+          <div className="min-h-[300px] transition-all duration-300 ease-in-out">
+            {showCardForm ? (
+              <CardForm
+                cardInfo={cardInfo}
+                errors={errors}
+                cardType={cardType}
+                onChange={handleCardInfoChange}
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full py-12 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-500">
+                <div className="w-20 h-20 bg-amber-100 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-4 text-4xl text-amber-600 shadow-inner">
+                  ₿
+                </div>
+                <h3 className="text-xl font-bold text-foreground">
+                  Pagar con Bitcoin
+                </h3>
+                <p className="text-sm text-slate-500 mt-2 text-center max-w-xs px-4">
+                  Será redirigido a nuestra pasarela de pago cripto segura de
+                  **BitPay**.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Botón de Pago */}
+          <Button
+            onClick={handlePayment}
+            disabled={isPaymentDisabled}
+            className="w-full mt-10 h-14 text-lg font-bold"
+            size="lg"
+            aria-label={`Pagar ahora con ${paymentMethod}`}
+          >
+            {paymentMethod === "bitcoin" ? (
+              <span className="flex items-center gap-2">
+                Proceder al Pago Cripto{" "}
+                <ArrowLeft className="w-5 h-5 rotate-180" />
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                Pagar Ahora <ShieldCheck className="w-5 h-5" />
+              </span>
+            )}
+          </Button>
+
+          <div className="flex flex-col items-center gap-2 mt-8 py-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
+            <p className="text-[11px] text-slate-400 font-medium flex items-center gap-2 uppercase tracking-widest">
+              <Lock className="w-3.5 h-3.5" />
+              Transacción encriptada SSL de 256 bits
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default Checkout;

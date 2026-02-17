@@ -1,73 +1,78 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
-
-import { cn } from "@/lib/utils"
-
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cn } from "@/lib/utils";
 
 /**
  * Propiedades para el componente Button.
  */
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Si es true, el botón renderizará a su hijo como el componente en lugar de un elemento <button>.
-   * Útil para usar los estilos de botón con un Link de React Router.
-   * @default false
    */
-  asChild?: boolean
+  asChild?: boolean;
+  /** Variante del botón para definir su estilo base */
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
+  /** Tamaño del botón */
+  size?: "default" | "sm" | "lg" | "icon";
 }
 
 /**
- * Un componente de botón versátil construido con Radix UI Slot y Tailwind CSS.
+ * Un componente de botón versátil construido con Radix UI Slot y Tailwind CSS puro.
  *
  * @remarks
- * Los estilos se gestionan mediante `class-variance-authority` (CVA).
- * Soporta múltiples variantes (default, destructive, outline, etc.) y tamaños.
+ * Los estilos se gestionan directamente con clases de Tailwind para evitar redundancia.
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+  (
+    {
+      className,
+      variant = "default",
+      size = "default",
+      asChild = false,
+      ...props
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : "button";
+
+    // Mapeo de estilos base y variantes (Tailwind Puro)
+    const baseStyles =
+      "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 disabled:pointer-events-none disabled:opacity-50 active:scale-95 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0";
+
+    const variants = {
+      default:
+        "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg hover:from-amber-700 hover:to-orange-700 hover:shadow-xl hover:-translate-y-0.5 border-transparent",
+      destructive: "bg-red-600 text-white shadow-sm hover:bg-red-700",
+      outline:
+        "border border-slate-200 bg-transparent shadow-sm hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800",
+      secondary:
+        "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-sm hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-300",
+      ghost: "hover:bg-slate-100 dark:hover:bg-slate-800",
+      link: "text-amber-600 underline-offset-4 hover:underline",
+    };
+
+    const sizes = {
+      default: "px-5 py-2.5",
+      sm: "h-8 rounded-lg px-3 text-xs",
+      lg: "h-12 rounded-xl px-10 text-base",
+      icon: "h-10 w-10",
+    };
+
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(baseStyles, variants[variant], sizes[size], className)}
         ref={ref}
         {...props}
       />
-    )
-  }
-)
-Button.displayName = "Button"
+    );
+  },
+);
+Button.displayName = "Button";
 
-// eslint-disable-next-line react-refresh/only-export-components
-export { Button, buttonVariants }
+export { Button };

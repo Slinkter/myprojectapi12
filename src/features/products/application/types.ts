@@ -4,48 +4,36 @@
  * @architecture Domain Layer - Tipos de producto
  */
 
-/**
- * Representa una entidad de producto detallada del catálogo.
- *
- * @remarks
- * Esta interfaz contiene todos los metadatos proporcionados por la API de DummyJSON.
- * Algunos campos como `discountPercentage` y `rating` son opcionales.
- */
+import { ReactNode } from "react";
+
 export interface Product {
-    /** Identificador único del producto */
-    id: number;
-    /** Nombre del producto */
-    title: string;
-    /** Descripción completa del producto */
-    description: string;
-    /** Precio actual en USD */
-    price: number;
-    /** Porcentaje de descuento opcional (ej., 10.5) */
-    discountPercentage?: number;
-    /** Puntuación de calificación del producto (típicamente 0-5) */
-    rating?: number;
-    /** Niveles de inventario actuales */
-    stock: number;
-    /** Nombre de la marca del fabricante */
-    brand?: string;
-    /** Agrupación/clasificación del producto */
-    category?: string;
-    /** URL de la imagen de visualización principal */
-    thumbnail: string;
-    /** Array de URLs de imágenes adicionales */
-    images?: string[];
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage?: number;
+  rating?: number;
+  stock: number;
+  brand?: string;
+  category?: string;
+  thumbnail: string;
+  images?: string[];
 }
 
-/**
- * Estructura de la respuesta paginada de la API de productos.
- */
 export interface ProductsApiResponse {
-    /** Colección de productos para la página actual */
-    products: Product[];
-    /** Recuento global de todos los productos disponibles */
-    total: number;
-    /** Número de elementos omitidos (offset) */
-    skip: number;
-    /** Número máximo de elementos solicitados por página */
-    limit: number;
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export interface UseProductModalResult {
+  isModalOpen: boolean;
+  selectedProduct: Product | null;
+  handleOpenModal: (product: Product) => void;
+  handleCloseModal: () => void;
+}
+
+export interface ProductModalProviderProps {
+  children: ReactNode;
 }

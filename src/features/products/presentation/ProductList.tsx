@@ -10,7 +10,6 @@ import { Product } from "../application/types";
 import ProductGrid from "./ProductGrid";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import LoadMoreButton from "./components/LoadMoreButton";
-import { cn } from "@/lib/utils";
 
 /**
  * @interface ProductListProps
@@ -22,11 +21,11 @@ import { cn } from "@/lib/utils";
  * @property {() => void} loadMore - Función para solicitar la siguiente página de productos
  */
 interface ProductListProps {
-    products: Product[];
-    loading: boolean;
-    error: string | null;
-    hasMore: boolean;
-    loadMore: () => void;
+  products: Product[];
+  loading: boolean;
+  error: string | null;
+  hasMore: boolean;
+  loadMore: () => void;
 }
 
 /**
@@ -34,57 +33,50 @@ interface ProductListProps {
  * @description Orquesta el ProductGrid y los controles de paginación.
  * Maneja visualmente los estados de error y la carga progresiva mediante un botón "Load More".
  * Memoizado para optimizar el rendimiento durante actualizaciones de otros estados.
- * 
+ *
  * @param {ProductListProps} props - Propiedades del componente.
  * @returns {JSX.Element} La sección de lista de productos con controles.
  */
-const ProductList = memo(({
-    products,
-    loading,
-    error,
-    hasMore,
-    loadMore
-}: ProductListProps) => {
+const ProductList = memo(
+  ({ products, loading, error, hasMore, loadMore }: ProductListProps) => {
     // Renderizado de estado de error
     if (error) {
-        return (
-            <ErrorMessage
-                message={error}
-                title="Failed to load products"
-                action={{
-                    label: "Try again",
-                    onClick: loadMore
-                }}
-            />
-        );
+      return (
+        <ErrorMessage
+          message={error}
+          title="Failed to load products"
+          action={{
+            label: "Try again",
+            onClick: loadMore,
+          }}
+        />
+      );
     }
 
     // Renderizado de estado vacío
     if (products.length === 0 && !loading) {
-        return <p className={cn("page-home__info-message")}>No products found.</p>;
+      return (
+        <p className="text-center text-slate-500 py-10">No products found.</p>
+      );
     }
 
     return (
-        <>
-            <ProductGrid products={products} />
+      <>
+        <ProductGrid products={products} />
 
-            <div className={cn("page-home__pagination flex justify-center w-full mt-12 mb-8")}>
-                {hasMore && (
-                    <LoadMoreButton 
-                        onClick={loadMore} 
-                        loading={loading} 
-                    />
-                )}
+        <div className="flex flex-col items-center justify-center w-full mt-12 mb-8">
+          {hasMore && <LoadMoreButton onClick={loadMore} loading={loading} />}
 
-                {!hasMore && products.length > 0 && (
-                    <p className={cn("page-home__info-message text-center text-gray-500 dark:text-gray-400 mt-8")}>
-                        You have reached the end of the list.
-                    </p>
-                )}
-            </div>
-        </>
+          {!hasMore && products.length > 0 && (
+            <p className="text-center text-slate-500 dark:text-slate-400 mt-8">
+              Has llegado al final de la lista.
+            </p>
+          )}
+        </div>
+      </>
     );
-});
+  },
+);
 
 ProductList.displayName = "ProductList";
 

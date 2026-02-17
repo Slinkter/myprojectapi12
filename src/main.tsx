@@ -12,17 +12,12 @@ import App from "./App";
 
 // Estilos Globales
 import "./index.css";
-import "@/styles/variables.css";
-import "@/styles/animations.css";
-import "@/styles/buttons.css";
-import "@/styles/cards.css";
-import "@/styles/components.css";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("No se pudo encontrar el elemento raíz");
 
 ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
 );
