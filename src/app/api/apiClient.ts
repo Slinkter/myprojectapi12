@@ -30,13 +30,14 @@ const BASE_URL = config.api.baseUrl;
  * const user = await apiClient<User>('/users/1');
  * ```
  */
+
 export const apiClient = async <T>(
     endpoint: string,
     options: RequestInit = {},
 ): Promise<T> => {
     const url = `${BASE_URL}${endpoint}`;
 
-    const requestConfig: RequestInit = {
+    const config: RequestInit = {
         ...options,
         headers: {
             "Content-Type": "application/json",
@@ -44,7 +45,7 @@ export const apiClient = async <T>(
         },
     };
 
-    const response = await fetch(url, requestConfig);
+    const response = await fetch(url, config);
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
