@@ -8,23 +8,20 @@
 import { useState, useEffect, MouseEvent } from "react";
 import { useCart } from "@/features/cart/application/useCart";
 import { motion, AnimatePresence } from "framer-motion";
-import { Product } from "@/features/products/application/types";
+import { ProductDetailModalProps } from "@/features/products/application/types";
 import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
 import { cn } from "@/lib/utils";
 import { X, ShoppingCart } from "lucide-react";
 
 /**
- * @interface ProductDetailModalProps
- * @description Propiedades para el modal de detalles del producto.
+ * @component ProductDetailModal
+ * @description Modal animado con Framer Motion que presenta los detalles del producto seleccionado.
+ * Permite seleccionar la cantidad respetando el stock disponible e integra con el CartContext
+ * para agregar el item al carrito.
+ *
+ * @param {ProductDetailModalProps} props - Propiedades del componente.
+ * @returns {JSX.Element} El modal renderizado condicionalmente y con animaciones.
  */
-interface ProductDetailModalProps {
-  /** El objeto del producto a mostrar, o null si está cerrado */
-  product: Product | null;
-  /** Booleano que controla si el modal es visible */
-  open: boolean;
-  /** Función callback para solicitar el cierre del modal */
-  onClose: () => void;
-}
 
 /**
  * @component ProductDetailModal

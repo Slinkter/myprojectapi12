@@ -4,16 +4,18 @@
  * @architecture Application Layer - Checkout Types
  */
 
+import { ChangeEvent } from "react";
+
 /**
  * @interface CartItem
  * @description Estructura de un item en el contexto del checkout.
  * Mapea la información necesaria del producto y cantidad.
  */
 export interface CartItem {
-    id: number;
-    title: string;
-    price: number;
-    quantity: number;
+  id: number;
+  title: string;
+  price: number;
+  quantity: number;
 }
 
 /**
@@ -27,14 +29,14 @@ export type PaymentMethod = "visa" | "mastercard" | "bitcoin";
  * @description Información de tarjeta de crédito/débito ingresada por el usuario.
  */
 export interface CardInfo {
-    /** Número de la tarjeta (sin espacios) */
-    number: string;
-    /** Nombre del titular como aparece en la tarjeta */
-    name: string;
-    /** Fecha de expiración en formato MM/YY */
-    expiry: string;
-    /** Código de seguridad (CVC/CVV) */
-    cvc: string;
+  /** Número de la tarjeta (sin espacios) */
+  number: string;
+  /** Nombre del titular como aparece en la tarjeta */
+  name: string;
+  /** Fecha de expiración en formato MM/YY */
+  expiry: string;
+  /** Código de seguridad (CVC/CVV) */
+  cvc: string;
 }
 
 /**
@@ -43,10 +45,10 @@ export interface CardInfo {
  * Si una propiedad no existe, el campo es válido.
  */
 export interface ValidationErrors {
-    number?: string;
-    name?: string;
-    expiry?: string;
-    cvc?: string;
+  number?: string;
+  name?: string;
+  expiry?: string;
+  cvc?: string;
 }
 
 /**
@@ -54,14 +56,14 @@ export interface ValidationErrors {
  * @description Estado completo del flujo de checkout.
  */
 export interface CheckoutState {
-    /** Método de pago seleccionado actualmente */
-    paymentMethod: PaymentMethod;
-    /** Información del formulario de tarjeta */
-    cardInfo: CardInfo;
-    /** Errores de validación actuales */
-    errors: ValidationErrors;
-    /** Tipo de tarjeta detectado (visa/mastercard) */
-    cardType: string;
+  /** Método de pago seleccionado actualmente */
+  paymentMethod: PaymentMethod;
+  /** Información del formulario de tarjeta */
+  cardInfo: CardInfo;
+  /** Errores de validación actuales */
+  errors: ValidationErrors;
+  /** Tipo de tarjeta detectado (visa/mastercard) */
+  cardType: string;
 }
 
 /**
@@ -69,10 +71,25 @@ export interface CheckoutState {
  * @description Acciones disponibles para el reducer de checkout.
  */
 export type CheckoutAction =
-    | {
-          type: "SET_FIELD_VALUE";
-          payload: { name: keyof CardInfo; value: string };
-      }
-    | { type: "SET_PAYMENT_METHOD"; payload: PaymentMethod }
-    | { type: "SET_ERRORS"; payload: ValidationErrors }
-    | { type: "SET_CARD_TYPE"; payload: string };
+  | {
+      type: "SET_FIELD_VALUE";
+      payload: { name: keyof CardInfo; value: string };
+    }
+  | { type: "SET_PAYMENT_METHOD"; payload: PaymentMethod }
+  | { type: "SET_ERRORS"; payload: ValidationErrors }
+  | { type: "SET_CARD_TYPE"; payload: string };
+
+/**
+ * @interface UseCheckoutReturn
+ * @description Retorno del hook useCheckout.
+ */
+export interface UseCheckoutReturn {
+  paymentMethod: PaymentMethod;
+  cardInfo: CardInfo;
+  errors: ValidationErrors;
+  cardType: string;
+  handlePayment: () => void;
+  handleCardInfoChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  setPaymentMethod: (method: PaymentMethod) => void;
+  isPaymentDisabled: boolean;
+}

@@ -10,29 +10,15 @@ import {
   InfiniteData,
 } from "@tanstack/react-query";
 import { getProducts } from "../infrastructure/productsApi";
-import { Product, ProductsApiResponse } from "./types";
-
-/**
- * @interface UseProductsResult
- * @description Interfaz para el valor de retorno del hook useProducts.
- */
-export interface UseProductsResult {
-  products: Product[];
-  error: string | null;
-  loading: boolean;
-  initialLoading: boolean;
-  hasMore: boolean;
-  isLoadingMore: boolean;
-  loadMore: () => void;
-}
+import { Product, ProductsApiResponse, UseProductsResult } from "./types";
 
 /**
  * @function useProducts
- * @description Hook para obtener productos con paginación infinita.
- * Utiliza React Query para caché automática y deduplicación.
- * @architecture Application Layer
+ * @description Hook personalizado para obtener productos paginados con scroll infinito.
+ * Utiliza React Query para el cacheo y gestión del estado de carga.
+ * @architecture Capa de Aplicación - Hook de obtención de datos
  *
- * @returns {UseProductsResult} Estado y funciones para gestión de productos
+ * @returns {UseProductsResult} Objeto con la lista de productos acumulados, estados de carga y función para cargar más.
  *
  * @example
  * const { products, loading, loadMore, hasMore } = useProducts();

@@ -4,6 +4,7 @@ import { useProductModalContext } from "@/features/products/application/ProductM
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
 import ProductList from "@/features/products/presentation/ProductList";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
+import Homehead from "./Homehead";
 
 export const HomeContent = () => {
   const { products, initialLoading, loading, error, loadMore, hasMore } =
@@ -13,14 +14,8 @@ export const HomeContent = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col items-center text-center mb-12">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground mb-4 animate-fade-in-up">
-          Listado de Productos
-        </h1>
-        <p className="text-lg md:text-xl text-muted-foreground font-light max-w-2xl mx-auto italic animate-fade-in [animation-delay:200ms]">
-          React VITE + Tailwind CSS + DummyJSON API
-        </p>
-      </div>
+      <Homehead />
+
       {initialLoading && <SkeletonGrid />}
       {!initialLoading && (
         <ProductList

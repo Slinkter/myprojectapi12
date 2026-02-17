@@ -28,9 +28,7 @@ export const ProductModalProvider = (props: ProductModalProviderProps) => {
 export const useProductModalContext = (): UseProductModalResult => {
   const context = useContext(ProductModalContext);
   if (context === undefined) {
-    throw new Error(
-      "useProductModalContext debe usarse dentro de un ProductModalProvider",
-    );
+    throw new Error(" debe usarse dentro de un ProductModalProvider");
   }
   return context;
 };
