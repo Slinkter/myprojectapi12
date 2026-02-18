@@ -10,11 +10,11 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "./Navbar";
 import clsx from "clsx";
 
-interface LayoutProps {
+interface ILayoutProps {
     children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children }: ILayoutProps) => {
     return (
         <div className={clsx("min-h-dvh bg-(--bg-main)")}>
             <Toaster position="top-center" reverseOrder={false} />

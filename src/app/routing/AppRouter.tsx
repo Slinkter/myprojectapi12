@@ -5,10 +5,10 @@ import Loader from "@/components/common/Loader";
 // Componentes cargados de forma diferida (ahora .tsx tras la migración)
 const Home = lazy(() => import("@/pages/Home"));
 const Checkout = lazy(
-  () => import("@/features/checkout/presentation/Checkout"),
+    () => import("@/features/checkout/presentation/Checkout"),
 );
 const CheckoutSuccess = lazy(
-  () => import("@/features/checkout/presentation/CheckoutSuccess"),
+    () => import("@/features/checkout/presentation/CheckoutSuccess"),
 );
 
 /**
@@ -16,15 +16,15 @@ const CheckoutSuccess = lazy(
  * Utiliza Suspense para mostrar un indicador de carga mientras se cargan los componentes.
  */
 const AppRouter: React.FC = () => {
-  return (
-    <Suspense fallback={<Loader />}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/checkout-success" element={<CheckoutSuccess />} />
-      </Routes>
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<Loader />}>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/checkout-success" element={<CheckoutSuccess />} />
+            </Routes>
+        </Suspense>
+    );
 };
 
 export default AppRouter;

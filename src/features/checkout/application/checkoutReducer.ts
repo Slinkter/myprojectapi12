@@ -4,12 +4,12 @@
  * Implementa una máquina de estados simple para la gestión de campos y errores.
  * @architecture Application Layer - Checkout State
  */
-import { CheckoutState, CheckoutAction } from "./types";
+import { ICheckoutState, CheckoutAction } from "./types";
 
 /**
  * Estado inicial del formulario de checkout.
  */
-export const initialState: CheckoutState = {
+export const initialState: ICheckoutState = {
     paymentMethod: "visa",
     cardInfo: { number: "", name: "", expiry: "", cvc: "" },
     errors: {},
@@ -18,15 +18,15 @@ export const initialState: CheckoutState = {
 
 /**
  * Reducer puro para gestionar transiciones de estado del checkout.
- * 
- * @param {CheckoutState} state - Estado actual.
+ *
+ * @param {ICheckoutState} state - Estado actual.
  * @param {CheckoutAction} action - Acción despachada.
- * @returns {CheckoutState} Nuevo estado.
+ * @returns {ICheckoutState} Nuevo estado.
  */
 export function checkoutReducer(
-    state: CheckoutState,
+    state: ICheckoutState,
     action: CheckoutAction,
-): CheckoutState {
+): ICheckoutState {
     switch (action.type) {
         case "SET_FIELD_VALUE":
             return {

@@ -6,27 +6,11 @@
  */
 
 import { memo } from "react";
-import { Product } from "../application/types";
 import ProductGrid from "./ProductGrid";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import LoadMoreButton from "./components/LoadMoreButton";
-
-/**
- * @interface ProductListProps
- * @description Propiedades para el componente ProductList.
- * @property {Product[]} products - Lista de productos cargados actualmente
- * @property {boolean} loading - Indica si hay una operación de carga en curso
- * @property {string | null} error - Mensaje de error si la carga falló, o null si fue exitosa
- * @property {boolean} hasMore - Indica si existen más productos disponibles para cargar
- * @property {() => void} loadMore - Función para solicitar la siguiente página de productos
- */
-interface ProductListProps {
-  products: Product[];
-  loading: boolean;
-  error: string | null;
-  hasMore: boolean;
-  loadMore: () => void;
-}
+import { IProductListProps } from "./type";
+import { IProduct } from "../application/types";
 
 /**
  * @component ProductList
@@ -34,50 +18,70 @@ interface ProductListProps {
  * Maneja visualmente los estados de error y la carga progresiva mediante un botón "Load More".
  * Memoizado para optimizar el rendimiento durante actualizaciones de otros estados.
  *
- * @param {ProductListProps} props - Propiedades del componente.
+ * @param {IProductListProps} props - Propiedades del componente.
  * @returns {JSX.Element} La sección de lista de productos con controles.
  */
-const ProductList = memo(
-  ({ products, loading, error, hasMore, loadMore }: ProductListProps) => {
+const ProductList = memo((props: IProductListProps) => {
+    /* variables props */
+    const { products, loading, error, hasMore, loadMore } = props;
     // Renderizado de estado de error
     if (error) {
-      return (
-        <ErrorMessage
-          message={error}
-          title="Failed to load products"
-          action={{
-            label: "Try again",
-            onClick: loadMore,
-          }}
-        />
-      );
+        return (
+            <ErrorMessage
+                message={error}
+                title="Failed to load products"
+                action={{
+                    label: "Try again",
+                    onClick: loadMore,
+                }}
+            />
+        );
     }
 
     // Renderizado de estado vacío
     if (products.length === 0 && !loading) {
-      return (
-        <p className="text-center text-slate-500 py-10">No products found.</p>
-      );
+        return (
+            <p className="text-center text-slate-500 py-10">
+                No products found.
+            </p>
+        );
     }
 
     return (
-      <>
-        <ProductGrid products={products} />
-
-        <div className="flex flex-col items-center justify-center w-full mt-12 mb-8">
-          {hasMore && <LoadMoreButton onClick={loadMore} loading={loading} />}
-
-          {!hasMore && products.length > 0 && (
-            <p className="text-center text-slate-500 dark:text-slate-400 mt-8">
-              Has llegado al final de la lista.
-            </p>
-          )}
-        </div>
-      </>
+        <>
+            <ProductGrid products={products} />
+            <ButtonMore
+                products={products}
+                hasMore={hasMore}
+                loadMore={loadMore}
+                loading={loading}
+            />
+        </>
     );
-  },
-);
+});
 
 ProductList.displayName = "ProductList";
+
+interface IButtonMore {
+    products: IProduct[];
+    hasMore: boolean;
+    loading: boolean;
+    loadMore: () => void;
+}
+
+const ButtonMore = (props: IButtonMore) => {
+    const { products, hasMore, loadMore, loading } = props;
+    return (
+        <div className="flex flex-col items-center justify-center w-full mt-12 mb-8">
+            {hasMore && <LoadMoreButton onClick={loadMore} loading={loading} />}
+
+            {!hasMore && products.length > 0 && (
+                <p className="text-center text-slate-500 dark:text-slate-400 mt-8">
+                    Has llegado al final de la lista.
+                </p>
+            )}
+        </div>
+    );
+};
 
 export default ProductList;

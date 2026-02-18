@@ -5,37 +5,40 @@
  */
 
 import { memo } from "react";
-import Product from "./Product";
+import ProductCard from "./ProductCard";
 import { motion } from "framer-motion";
-import { Product as ProductInterface } from "../application/types";
+import { IProduct } from "../application/types";
 import { PRODUCT_GRID_ANIMATIONS } from "@/constants/animations";
 
 /**
  * Propiedades para el componente ProductGrid.
  */
-interface ProductGridProps {
-  /** Array de objetos de producto a mostrar en la cuadrícula. */
-  products: ProductInterface[];
+interface IProductGridProps {
+    /** Array de objetos de producto a mostrar en la cuadrícula. */
+    products: IProduct[];
 }
 
 /**
  * Componente de cuadrícula responsiva que organiza las tarjetas de productos con animaciones.
  */
-const ProductGrid = memo(({ products }: ProductGridProps) => {
-  return (
-    <motion.div
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-      variants={PRODUCT_GRID_ANIMATIONS.container}
-      initial="hidden"
-      animate="visible"
-    >
-      {products.map((product: ProductInterface) => (
-        <motion.div key={product.id} variants={PRODUCT_GRID_ANIMATIONS.item}>
-          <Product product={product} />
+const ProductGrid = memo(({ products }: IProductGridProps) => {
+    return (
+        <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+            variants={PRODUCT_GRID_ANIMATIONS.container}
+            initial="hidden"
+            animate="visible"
+        >
+            {products.map((product: IProduct) => (
+                <motion.div
+                    key={product.id}
+                    variants={PRODUCT_GRID_ANIMATIONS.item}
+                >
+                    <ProductCard product={product} />
+                </motion.div>
+            ))}
         </motion.div>
-      ))}
-    </motion.div>
-  );
+    );
 });
 
 ProductGrid.displayName = "ProductGrid";

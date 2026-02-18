@@ -12,12 +12,12 @@ import ErrorFallback from "./ErrorFallback";
  * @property {ReactNode} children - Componentes hijos a envolver
  * @property {ReactNode} [fallback] - UI opcional alternativa`
  */
-interface ErrorBoundaryProps {
+interface IErrorBoundaryProps {
     children: ReactNode;
     fallback?: ReactNode;
 }
 
-interface ErrorBoundaryState {
+interface IErrorBoundaryState {
     hasError: boolean;
     error: Error | null;
     errorInfo: React.ErrorInfo | null;
@@ -29,8 +29,11 @@ interface ErrorBoundaryState {
  *
  * @component
  */
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    constructor(props: ErrorBoundaryProps) {
+class ErrorBoundary extends Component<
+    IErrorBoundaryProps,
+    IErrorBoundaryState
+> {
+    constructor(props: IErrorBoundaryProps) {
         super(props);
         this.state = {
             hasError: false,
@@ -39,7 +42,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
         };
     }
 
-    static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+    static getDerivedStateFromError(
+        error: Error,
+    ): Partial<IErrorBoundaryState> {
         return { hasError: true, error };
     }
 

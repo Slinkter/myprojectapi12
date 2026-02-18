@@ -1,55 +1,34 @@
-/**
- * @file cartTypes.ts
- * @description Definiciones de tipos para el dominio del carrito de compras.
- * Incluye interfaces para items del carrito, productos y resultados de validación.
- * @architecture Domain Layer - Tipos de dominio del carrito
- */
-
-/**
- * Representa un artículo dentro del carrito de compras.
- *
- * @remarks
- * Esta interfaz extiende la información básica del producto con la cantidad
- * seleccionada actualmente por el usuario.
- */
 import { ReactNode } from "react";
 
-/**
- * Representa un artículo dentro del carrito de compras.
- *
- * @remarks
- * Esta interfaz extiende la información básica del producto con la cantidad
- * seleccionada actualmente por el usuario.
- */
-export interface CartItem {
-  /** Identificador único del producto */
-  id: number;
-  /** Nombre visible del producto */
-  title: string;
-  /** Precio unitario en USD */
-  price: number;
-  /** Número de unidades actualmente en el carrito */
-  quantity: number;
-  /** URL de la imagen en miniatura del producto */
-  thumbnail: string;
-  /** Unidades totales disponibles en el almacén */
-  stock: number;
+export interface ICartItem {
+    /** Identificador único del producto */
+    id: number;
+    /** Nombre visible del producto */
+    title: string;
+    /** Precio unitario en USD */
+    price: number;
+    /** Número de unidades actualmente en el carrito */
+    quantity: number;
+    /** URL de la imagen en miniatura del producto */
+    thumbnail: string;
+    /** Unidades totales disponibles en el almacén */
+    stock: number;
 }
 
 /**
  * Representa un producto base del catálogo.
  */
-export interface Product {
-  /** ID único del producto */
-  id: number;
-  /** Nombre del producto */
-  title: string;
-  /** Precio del producto en USD */
-  price: number;
-  /** URL de la imagen del producto */
-  thumbnail: string;
-  /** Nivel de stock actual */
-  stock: number;
+export interface IProduct {
+    /** ID único del producto */
+    id: number;
+    /** Nombre del producto */
+    title: string;
+    /** Precio del producto en USD */
+    price: number;
+    /** URL de la imagen del producto */
+    thumbnail: string;
+    /** Nivel de stock actual */
+    stock: number;
 }
 
 /**
@@ -58,14 +37,14 @@ export interface Product {
 /**
  * Resultado de una comprobación de validación de un artículo del carrito.
  */
-export interface ValidationResult {
-  /** Indica si la validación fue exitosa */
-  valid: boolean;
-  /**
-   * Mensaje de error descriptivo si `valid` es false.
-   * @example "Stock insuficiente"
-   */
-  error: string | null;
+export interface IValidationResult {
+    /** Indica si la validación fue exitosa */
+    valid: boolean;
+    /**
+     * Mensaje de error descriptivo si `valid` es false.
+     * @example "Stock insuficiente"
+     */
+    error: string | null;
 }
 
 /**
@@ -83,16 +62,16 @@ export interface ValidationResult {
  * @property {Function} toggleCart - Función para alternar visibilidad del drawer
  * @property {number} totalPrice - Precio total de todos los items en el carrito
  */
-export interface CartContextValue {
-  cart: CartItem[];
-  isCartOpen: boolean;
-  totalPrice: number;
-  addToCart: (product: Product, quantity: number) => void;
-  removeFromCart: (productId: number) => void;
-  clearCart: () => void;
-  openCart: () => void;
-  closeCart: () => void;
-  toggleCart: () => void;
+export interface ICartContextValue {
+    cart: ICartItem[];
+    isCartOpen: boolean;
+    totalPrice: number;
+    addToCart: (product: IProduct, quantity: number) => void;
+    removeFromCart: (productId: number) => void;
+    clearCart: () => void;
+    openCart: () => void;
+    closeCart: () => void;
+    toggleCart: () => void;
 }
 
 /**
@@ -100,6 +79,6 @@ export interface CartContextValue {
  * @description Props del CartProvider
  * @property {ReactNode} children - Componentes hijos que tendrán acceso al contexto
  */
-export interface CartProviderProps {
-  children: ReactNode;
+export interface ICartProviderProps {
+    children: ReactNode;
 }

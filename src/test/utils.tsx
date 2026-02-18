@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from '@/features/theme/application/ThemeContext';
-import { CartProvider } from '@/features/cart/application/CartContext';
-import PropTypes from 'prop-types';
+import { render } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "@/features/theme/application/ThemeContext";
+import { CartProvider } from "@/features/cart/application/CartContext";
+import { ReactElement, ReactNode } from "react";
 
 /**
  * Custom render function that wraps components with all necessary providers for testing.
@@ -20,44 +20,26 @@ import PropTypes from 'prop-types';
  * @param {React.ReactElement} ui - The component to render.
  * @param {Object} [options={}] - Additional options for the testing-library render.
  * @returns {import('@testing-library/react').RenderResult} Result containing queries and utilities.
- *
- * @example
- * ```jsx
- * import { render } from '@/test/utils';
- *
- * test('renders a link', () => {
- *   render(<Navbar />);
- *   expect(screen.getByRole('navigation')).toBeInTheDocument();
- * });
- * ```
  */
-export function renderWithProviders(ui, options = {}) {
+export function renderWithProviders(ui: ReactElement, options = {}) {
     /**
      * Componente envoltorio que proporciona todos los contextos necesarios para las pruebas.
-     * @param {Object} props
-     * @param {React.ReactNode} props.children - Componentes a envolver con proveedores
      */
-    const AllProviders = ({ children }) => {
+    const AllProviders = ({ children }: { children: ReactNode }) => {
         return (
             <BrowserRouter>
                 <ThemeProvider>
-                    <CartProvider>
-                        {children}
-                    </CartProvider>
+                    <CartProvider>{children}</CartProvider>
                 </ThemeProvider>
             </BrowserRouter>
         );
-    };
-
-    AllProviders.propTypes = {
-        children: PropTypes.node.isRequired,
     };
 
     return render(ui, { wrapper: AllProviders, ...options });
 }
 
 // Re-exporta todo desde @testing-library/react
-export * from '@testing-library/react';
+export * from "@testing-library/react";
 
 // Sobrescribe render con nuestra versión personalizada
 export { renderWithProviders as render };

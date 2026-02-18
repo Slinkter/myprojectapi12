@@ -8,7 +8,7 @@ import { InfiniteData } from "@tanstack/react-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
 import { getProducts } from "../infrastructure/productsApi";
-import { Product, ProductsApiResponse, UseProductsResult } from "./types";
+import { IProduct, IProductsApiResponse, IUseProductsResult } from "./types";
 
 /**
  * @function useProducts
@@ -16,12 +16,12 @@ import { Product, ProductsApiResponse, UseProductsResult } from "./types";
  * Utiliza React Query para el cacheo y gestión del estado de carga.
  * @architecture Capa de Aplicación - Hook de obtención de datos
  *
- * @returns {UseProductsResult} Objeto con la lista de productos acumulados, estados de carga y función para cargar más.
+ * @returns {IUseProductsResult} Objeto con la lista de productos acumulados, estados de carga y función para cargar más.
  *
  * @example
  * const { products, loading, loadMore, hasMore } = useProducts();
  */
-export const useProducts = (): UseProductsResult => {
+export const useProducts = (): IUseProductsResult => {
     const {
         data,
         error,
@@ -31,20 +31,20 @@ export const useProducts = (): UseProductsResult => {
         isFetchingNextPage,
         isLoading,
     }: UseInfiniteQueryResult<
-        InfiniteData<ProductsApiResponse>,
+        InfiniteData<IProductsApiResponse>,
         Error
     > = useInfiniteQuery<
-        ProductsApiResponse,
+        IProductsApiResponse,
         Error,
-        InfiniteData<ProductsApiResponse>,
+        InfiniteData<IProductsApiResponse>,
         ["products"],
         number
     >({
         queryKey: ["products"],
         queryFn: ({ pageParam = 1 }) => getProducts(pageParam),
         getNextPageParam: (
-            lastPage: ProductsApiResponse,
-            allPages: ProductsApiResponse[],
+            lastPage: IProductsApiResponse,
+            allPages: IProductsApiResponse[],
         ) => {
             const totalFetched = allPages.reduce(
                 (acc, page) => acc + page.products.length,
@@ -57,7 +57,7 @@ export const useProducts = (): UseProductsResult => {
         initialPageParam: 1,
     });
 
-    const products: Product[] =
+    const products: IProduct[] =
         data?.pages.flatMap((page) => page.products) ?? [];
 
     return {

@@ -6,7 +6,7 @@
  */
 import { TriangleAlert } from "lucide-react";
 import React from "react";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 /**
  * @interface ErrorFallbackProps
@@ -14,7 +14,7 @@ import clsx from 'clsx';
  * @property {React.ErrorInfo | null} errorInfo - Stack trace del componente
  * @property {function} onReset - Función para intentar recuperar la aplicación
  */
-interface ErrorFallbackProps {
+interface IErrorFallbackProps {
     error: Error | null;
     errorInfo: React.ErrorInfo | null;
     onReset: () => void;
@@ -25,19 +25,39 @@ interface ErrorFallbackProps {
  *
  * @component
  */
-const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
+const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
     const isDev = import.meta.env.DEV;
 
     return (
-        <div className={clsx("min-h-screen flex items-center justify-center bg-(--bg-main) p-4")}>
-            <div className={clsx("error-fallback-card max-w-2xl w-full p-8 text-center")}>
+        <div
+            className={clsx(
+                "min-h-screen flex items-center justify-center bg-(--bg-main) p-4",
+            )}
+        >
+            <div
+                className={clsx(
+                    "error-fallback-card max-w-2xl w-full p-8 text-center",
+                )}
+            >
                 <div className={clsx("flex justify-center mb-6")}>
-                    <div className={clsx("w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center")}>
-                        <TriangleAlert className={clsx("w-12 h-12 text-red-600 dark:text-red-400")} />
+                    <div
+                        className={clsx(
+                            "w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center",
+                        )}
+                    >
+                        <TriangleAlert
+                            className={clsx(
+                                "w-12 h-12 text-red-600 dark:text-red-400",
+                            )}
+                        />
                     </div>
                 </div>
 
-                <h1 className={clsx("text-3xl font-bold text-(--text-primary) mb-4")}>
+                <h1
+                    className={clsx(
+                        "text-3xl font-bold text-(--text-primary) mb-4",
+                    )}
+                >
                     ¡Oops! Algo salió mal
                 </h1>
 
@@ -47,20 +67,36 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
 
                 {isDev && error && (
                     <div className={clsx("mb-6 text-left")}>
-                        <details className={clsx("bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-4")}>
-                            <summary className={clsx("cursor-pointer font-semibold text-red-800 dark:text-red-400 mb-2")}>
+                        <details
+                            className={clsx(
+                                "bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-4",
+                            )}
+                        >
+                            <summary
+                                className={clsx(
+                                    "cursor-pointer font-semibold text-red-800 dark:text-red-400 mb-2",
+                                )}
+                            >
                                 Detalles del Error (Solo Desarrollo)
                             </summary>
                             <div className={clsx("mt-2 space-y-2")}>
                                 <div>
-                                    <p className={clsx("font-mono text-sm text-red-900 dark:text-red-300 break-all")}>
+                                    <p
+                                        className={clsx(
+                                            "font-mono text-sm text-red-900 dark:text-red-300 break-all",
+                                        )}
+                                    >
                                         <strong>Mensaje:</strong>{" "}
                                         {error.message}
                                     </p>
                                 </div>
                                 {error.stack && (
                                     <div>
-                                        <p className={clsx("font-mono text-xs text-red-800 dark:text-red-400 whitespace-pre-wrap break-all")}>
+                                        <p
+                                            className={clsx(
+                                                "font-mono text-xs text-red-800 dark:text-red-400 whitespace-pre-wrap break-all",
+                                            )}
+                                        >
                                             <strong>Pila de ejecución:</strong>
                                             {"\n"}
                                             {error.stack}
@@ -69,8 +105,14 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
                                 )}
                                 {errorInfo && errorInfo.componentStack && (
                                     <div>
-                                        <p className={clsx("font-mono text-xs text-red-800 dark:text-red-400 whitespace-pre-wrap break-all")}>
-                                            <strong>Pila de componentes:</strong>
+                                        <p
+                                            className={clsx(
+                                                "font-mono text-xs text-red-800 dark:text-red-400 whitespace-pre-wrap break-all",
+                                            )}
+                                        >
+                                            <strong>
+                                                Pila de componentes:
+                                            </strong>
                                             {errorInfo.componentStack}
                                         </p>
                                     </div>
@@ -83,7 +125,9 @@ const ErrorFallback = ({ error, errorInfo, onReset }: ErrorFallbackProps) => {
                 <div className={clsx("flex gap-4 justify-center")}>
                     <button
                         onClick={onReset}
-                        className={clsx("error-fallback-try-again-button px-6 py-3")}
+                        className={clsx(
+                            "error-fallback-try-again-button px-6 py-3",
+                        )}
                     >
                         Reintentar
                     </button>

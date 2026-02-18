@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  * @interface CartIconProps
  * @property {string} [className] - Clases CSS adicionales
  */
-interface CartIconProps {
+interface ICartIconProps {
     className?: string;
 }
 
@@ -21,7 +21,7 @@ interface CartIconProps {
  * @component
  * @param {CartIconProps} props
  */
-const CartIcon = ({ className }: CartIconProps) => {
+const CartIcon = ({ className }: ICartIconProps) => {
     return (
         <ShoppingCart
             className={cn("h-5 w-5 sm:h-6 sm:w-6", className)}

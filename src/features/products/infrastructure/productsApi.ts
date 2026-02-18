@@ -5,7 +5,7 @@
  */
 
 import { apiClient } from "@/app/api/apiClient";
-import { ProductsApiResponse } from "../application/types";
+import { IProductsApiResponse } from "../application/types";
 
 /**
  * Número de productos a obtener por página.
@@ -33,8 +33,8 @@ const LIMIT = 20;
  */
 export const getProducts = async (
     page: number,
-): Promise<ProductsApiResponse> => {
+): Promise<IProductsApiResponse> => {
     const skip = (page - 1) * LIMIT;
     const endpoint = `/products?limit=${LIMIT}&skip=${skip}`;
-    return apiClient<ProductsApiResponse>(endpoint);
+    return apiClient<IProductsApiResponse>(endpoint);
 };

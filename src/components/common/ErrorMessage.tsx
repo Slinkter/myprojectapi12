@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  * @interface ErrorMessageProps
  * @description Propiedades para el componente ErrorMessage.
  */
-interface ErrorMessageProps {
+interface IErrorMessageProps {
     /** El texto del mensaje de error a mostrar */
     message: string;
     /** Título opcional para la alerta. Por defecto es "Error" */
@@ -44,7 +44,7 @@ const ErrorIcon = (
 /**
  * @component ErrorMessage
  * @description Renderiza una alerta de error con un botón de acción opcional.
- * 
+ *
  * @param {ErrorMessageProps} props - Las propiedades del componente.
  * @returns {JSX.Element} La alerta con el mensaje de error.
  */
@@ -54,28 +54,38 @@ const ErrorMessage = memo(
         title = "Error",
         action,
         className = "",
-    }: ErrorMessageProps) => {
+    }: IErrorMessageProps) => {
         return (
             <div
                 className={cn(
                     "error-message bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4",
-                    className
+                    className,
                 )}
                 role="alert"
             >
                 <div className={cn("flex items-start")}>
                     <div className={cn("flex-shrink-0")}>{ErrorIcon}</div>
                     <div className={cn("ml-3 flex-1")}>
-                        <h3 className={cn("text-sm font-medium text-red-800 dark:text-red-200")}>
+                        <h3
+                            className={cn(
+                                "text-sm font-medium text-red-800 dark:text-red-200",
+                            )}
+                        >
                             {title}
                         </h3>
-                        <p className={cn("mt-1 text-sm text-red-700 dark:text-red-300")}>
+                        <p
+                            className={cn(
+                                "mt-1 text-sm text-red-700 dark:text-red-300",
+                            )}
+                        >
                             {message}
                         </p>
                         {action && (
                             <button
                                 onClick={action.onClick}
-                                className={cn("mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors")}
+                                className={cn(
+                                    "mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors",
+                                )}
                             >
                                 {action.label}
                             </button>

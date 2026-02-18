@@ -5,18 +5,18 @@
  * @architecture Domain Layer - Lógica pura de negocio
  */
 
-import type { CartItem, Product, ValidationResult } from "./cartTypes";
+import type { ICartItem, IProduct, IValidationResult } from "./cartTypes";
 
 /**
  * @function calculateTotal
- * @description Calcula el precio total del carrito sumando el precio de cada item 
+ * @description Calcula el precio total del carrito sumando el precio de cada item
  * multiplicado por su cantidad. Función pura sin efectos secundarios.
  * @architecture Domain Layer - Lógica pura de negocio
- * 
+ *
  * @param {CartItem[]} cart - Array de items en el carrito
- * 
+ *
  * @returns {number} Precio total del carrito en USD (suma de precio * cantidad de cada item)
- * 
+ *
  * @example
  * const cart = [
  *   { id: 1, price: 10, quantity: 2, title: "Item 1", thumbnail: "", stock: 10 },
@@ -24,13 +24,13 @@ import type { CartItem, Product, ValidationResult } from "./cartTypes";
  * ];
  * const total = calculateTotal(cart);
  * console.log(total); // 35 (10*2 + 5*3)
- * 
+ *
  * @example
  * // Carrito vacío
  * const total = calculateTotal([]);
  * console.log(total); // 0
  */
-export const calculateTotal = (cart: CartItem[]): number => {
+export const calculateTotal = (cart: ICartItem[]): number => {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 };
 
@@ -39,20 +39,20 @@ export const calculateTotal = (cart: CartItem[]): number => {
  * @description Agrega un producto al carrito o incrementa su cantidad si ya existe.
  * Función pura que no modifica el array original, retorna un nuevo array.
  * @architecture Domain Layer - Lógica de carrito
- * 
+ *
  * @param {CartItem[]} cart - Array actual del carrito
  * @param {Product} product - Producto a agregar
  * @param {number} quantity - Cantidad a agregar (debe ser mayor a 0)
- * 
+ *
  * @returns {CartItem[]} Nuevo array del carrito con el item agregado o actualizado
- * 
+ *
  * @example
  * // Agregar nuevo producto al carrito vacío
  * const cart = [];
  * const product = { id: 1, title: "Laptop", price: 899, thumbnail: "url", stock: 5 };
  * const newCart = addItemToCart(cart, product, 2);
  * // newCart = [{ id: 1, title: "Laptop", price: 899, quantity: 2, thumbnail: "url", stock: 5 }]
- * 
+ *
  * @example
  * // Incrementar cantidad de producto existente
  * const cart = [{ id: 1, quantity: 2, price: 899, title: "Laptop", thumbnail: "url", stock: 5 }];
@@ -61,12 +61,13 @@ export const calculateTotal = (cart: CartItem[]): number => {
  * // newCart = [{ id: 1, quantity: 5, ... }] (2 + 3)
  */
 export const addItemToCart = (
-    cart: CartItem[],
-    product: Product,
+    cart: ICartItem[],
+    product: IProduct,
     quantity: number,
-): CartItem[] => {
+): ICartItem[] => {
+    /*  */
     const existingItem = cart.find((item) => item.id === product.id);
-
+    /*  */
     if (existingItem) {
         return cart.map((item) =>
             item.id === product.id
@@ -74,7 +75,7 @@ export const addItemToCart = (
                 : item,
         );
     }
-
+    /*  */
     return [...cart, { ...product, quantity }];
 };
 
@@ -83,12 +84,12 @@ export const addItemToCart = (
  * @description Elimina un item del carrito por su ID.
  * Función pura que retorna un nuevo array sin el item especificado.
  * @architecture Domain Layer - Lógica de carrito
- * 
+ *
  * @param {CartItem[]} cart - Array actual del carrito
  * @param {number} productId - ID del producto a eliminar
- * 
+ *
  * @returns {CartItem[]} Nuevo array del carrito sin el item eliminado
- * 
+ *
  * @example
  * const cart = [
  *   { id: 1, title: "Laptop", price: 899, quantity: 2, thumbnail: "url", stock: 5 },
@@ -96,7 +97,7 @@ export const addItemToCart = (
  * ];
  * const newCart = removeItemFromCart(cart, 1);
  * // newCart = [{ id: 2, title: "Mouse", ... }]
- * 
+ *
  * @example
  * // Intentar eliminar item que no existe (no hace nada)
  * const cart = [{ id: 1, ... }];
@@ -104,9 +105,9 @@ export const addItemToCart = (
  * // newCart = [{ id: 1, ... }] (sin cambios)
  */
 export const removeItemFromCart = (
-    cart: CartItem[],
+    cart: ICartItem[],
     productId: number,
-): CartItem[] => {
+): ICartItem[] => {
     return cart.filter((item) => item.id !== productId);
 };
 
@@ -115,31 +116,31 @@ export const removeItemFromCart = (
  * @description Valida si un producto puede ser agregado al carrito.
  * Verifica que el producto sea válido, la cantidad sea positiva y haya stock suficiente.
  * @architecture Capa de Dominio - Validación de negocio
- * 
+ *
  * @param {Product | null | undefined} product - Producto a validar
  * @param {number} quantity - Cantidad deseada
- * 
+ *
  * @returns {ValidationResult} Objeto con resultado de validación:
  *   - valid: true si pasa todas las validaciones
  *   - error: mensaje descriptivo si falla, null si es válido
- * 
+ *
  * @example
  * // Producto válido con stock suficiente
  * const product = { id: 1, title: "Laptop", price: 899, thumbnail: "url", stock: 10 };
  * const result = validateCartItem(product, 5);
  * // { valid: true, error: null }
- * 
+ *
  * @example
  * // Stock insuficiente
  * const product = { id: 1, title: "Laptop", price: 899, thumbnail: "url", stock: 3 };
  * const result = validateCartItem(product, 5);
  * // { valid: false, error: "Stock insuficiente" }
- * 
+ *
  * @example
  * // Producto inválido (null)
  * const result = validateCartItem(null, 1);
  * // { valid: false, error: "Producto inválido" }
- * 
+ *
  * @example
  * // Cantidad inválida
  * const product = { id: 1, title: "Laptop", price: 899, thumbnail: "url", stock: 10 };
@@ -147,9 +148,9 @@ export const removeItemFromCart = (
  * // { valid: false, error: "La cantidad debe ser mayor a 0" }
  */
 export const validateCartItem = (
-    product: Product | null | undefined,
+    product: IProduct | null | undefined,
     quantity: number,
-): ValidationResult => {
+): IValidationResult => {
     if (!product || !product.id) {
         return { valid: false, error: "Producto inválido" };
     }

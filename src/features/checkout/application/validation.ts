@@ -5,7 +5,7 @@
  * @architecture Capa de Aplicación - Lógica de Validación de Checkout
  */
 
-import { CardInfo, ValidationErrors } from "./types";
+import { ICardInfo, IValidationErrors } from "./types";
 
 /**
  * Valida el número de tarjeta usando el algoritmo de Luhn simplificado.
@@ -57,7 +57,7 @@ const validateExpiry = (expiry: string): string | null => {
     expiryDate.setHours(23, 59, 59, 999);
 
     const now = new Date();
-    
+
     if (expiryDate < now) {
         return "La tarjeta ha expirado";
     }
@@ -70,9 +70,9 @@ const validateExpiry = (expiry: string): string | null => {
  * @param {CardInfo} cardInfo - El objeto con la información de la tarjeta.
  * @returns {ValidationErrors} Un objeto que contiene mensajes de error para cada campo inválido.
  */
-export const validateCardInfo = (cardInfo: CardInfo): ValidationErrors => {
+export const validateCardInfo = (cardInfo: ICardInfo): IValidationErrors => {
     const { number, name, expiry, cvc } = cardInfo;
-    const errors: ValidationErrors = {};
+    const errors: IValidationErrors = {};
     const sanitizedCardNumber = number.replace(/\s/g, "");
 
     // 1. Validar Número

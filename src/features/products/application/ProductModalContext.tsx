@@ -1,34 +1,55 @@
+/**
+ * @file ProductModalContext.tsx
+ * @description Gestión de estado global para el modal de detalles de producto.
+ * @architecture Application Layer - Context y Provider
+ */
+
 import { createContext, useContext } from "react";
 import { useProductModal } from "./useProductModal";
-import { ProductModalProviderProps, UseProductModalResult } from "./types";
+import { IProductModalProviderProps, IUseProductModalResult } from "./types";
 
-const ProductModalContext = createContext<UseProductModalResult | undefined>(
-  undefined,
-);
+/**
+ * Contexto para el modal de producto.
+ */
+export const ProductModalContext = createContext<
+    IUseProductModalResult | undefined
+>(undefined);
 
-export const ProductModalProvider = (props: ProductModalProviderProps) => {
-  const { children } = props;
-  const { isModalOpen, selectedProduct, handleOpenModal, handleCloseModal } =
-    useProductModal();
+/**
+ * @component ProductModalProvider
+ * @description Proveedor que envuelve la aplicación para dar acceso al estado del modal.
+ */
+export const ProductModalProvider = ({
+    children,
+}: IProductModalProviderProps) => {
+    const { isModalOpen, selectedProduct, handleOpenModal, handleCloseModal } =
+        useProductModal();
 
-  const value = {
-    isModalOpen,
-    selectedProduct,
-    handleOpenModal,
-    handleCloseModal,
-  };
+    const value = {
+        isModalOpen,
+        selectedProduct,
+        handleOpenModal,
+        handleCloseModal,
+    };
 
-  return (
-    <ProductModalContext.Provider value={value}>
-      {children}
-    </ProductModalContext.Provider>
-  );
+    return (
+        <ProductModalContext.Provider value={value}>
+            {children}
+        </ProductModalContext.Provider>
+    );
 };
-/* custom hook  */
-export const useProductModalContext = (): UseProductModalResult => {
-  const context = useContext(ProductModalContext);
-  if (context === undefined) {
-    throw new Error(" debe usarse dentro de un ProductModalProvider");
-  }
-  return context;
+
+/**
+ * @function useProductModalContext
+ * @description Hook para acceder a las funciones y estado del modal de producto.
+ * @throws {Error} Si se usa fuera de un ProductModalProvider.
+ */
+export const useProductModalContext = () => {
+    const context = useContext(ProductModalContext);
+    if (context === undefined) {
+        throw new Error(
+            "useProductModalContext debe usarse dentro de un ProductModalProvider",
+        );
+    }
+    return context;
 };
