@@ -5,7 +5,7 @@
  * @architecture Infrastructure Layer - Error Handling
  */
 import React, { Component, ReactNode } from "react";
-import ErrorFallback from "./ErrorFallback";
+import ErrorFallback from "@/components/common/ErrorFallback";
 
 /**
  * @interface ErrorBoundaryProps
@@ -13,14 +13,14 @@ import ErrorFallback from "./ErrorFallback";
  * @property {ReactNode} [fallback] - UI opcional alternativa`
  */
 interface IErrorBoundaryProps {
-    children: ReactNode;
-    fallback?: ReactNode;
+  children: ReactNode;
+  fallback?: ReactNode;
 }
 
 interface IErrorBoundaryState {
-    hasError: boolean;
-    error: Error | null;
-    errorInfo: React.ErrorInfo | null;
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: React.ErrorInfo | null;
 }
 
 /**
@@ -30,62 +30,60 @@ interface IErrorBoundaryState {
  * @component
  */
 class ErrorBoundary extends Component<
-    IErrorBoundaryProps,
-    IErrorBoundaryState
+  IErrorBoundaryProps,
+  IErrorBoundaryState
 > {
-    constructor(props: IErrorBoundaryProps) {
-        super(props);
-        this.state = {
-            hasError: false,
-            error: null,
-            errorInfo: null,
-        };
-    }
-
-    static getDerivedStateFromError(
-        error: Error,
-    ): Partial<IErrorBoundaryState> {
-        return { hasError: true, error };
-    }
-
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-        if (import.meta.env.DEV) {
-            console.error("ErrorBoundary capturó un error:", error, errorInfo);
-        }
-        // Aquí también se podría enviar el error a un servicio de reporte (ej. Sentry)
-        // logErrorToService(error, errorInfo);
-
-        this.setState({
-            error,
-            errorInfo,
-        });
-    }
-
-    handleReset = (): void => {
-        this.setState({
-            hasError: false,
-            error: null,
-            errorInfo: null,
-        });
+  constructor(props: IErrorBoundaryProps) {
+    super(props);
+    this.state = {
+      hasError: false,
+      error: null,
+      errorInfo: null,
     };
+  }
 
-    render() {
-        if (this.state.hasError) {
-            if (this.props.fallback) {
-                return this.props.fallback;
-            }
+  static getDerivedStateFromError(error: Error): Partial<IErrorBoundaryState> {
+    return { hasError: true, error };
+  }
 
-            return (
-                <ErrorFallback
-                    error={this.state.error}
-                    errorInfo={this.state.errorInfo}
-                    onReset={this.handleReset}
-                />
-            );
-        }
-
-        return this.props.children;
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+    if (import.meta.env.DEV) {
+      console.error("ErrorBoundary capturó un error:", error, errorInfo);
     }
+    // Aquí también se podría enviar el error a un servicio de reporte (ej. Sentry)
+    // logErrorToService(error, errorInfo);
+
+    this.setState({
+      error,
+      errorInfo,
+    });
+  }
+
+  handleReset = (): void => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null,
+    });
+  };
+
+  render() {
+    if (this.state.hasError) {
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+
+      return (
+        <ErrorFallback
+          error={this.state.error}
+          errorInfo={this.state.errorInfo}
+          onReset={this.handleReset}
+        />
+      );
+    }
+
+    return this.props.children;
+  }
 }
 
 export default ErrorBoundary;

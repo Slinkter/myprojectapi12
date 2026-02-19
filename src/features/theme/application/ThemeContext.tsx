@@ -5,36 +5,36 @@
  * @architecture Capa de Aplicación - Feature de Tema
  */
 import {
-    createContext,
-    useState,
-    useEffect,
-    useCallback,
-    useContext,
-    ReactNode,
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  ReactNode,
 } from "react";
 import {
-    getStoredTheme,
-    saveTheme,
-    applyThemeToDocument,
-    Theme,
-} from "../infrastructure/themeStorage";
+  getStoredTheme,
+  saveTheme,
+  applyThemeToDocument,
+  Theme,
+} from "@/features/theme/infrastructure/themeStorage";
 
 /**
  * Interfaz para el valor del Contexto de Tema.
  */
 interface ThemeContextType {
-    /** El identificador del tema activo. */
-    theme: Theme;
-    /** Alterna entre los modos 'light' (claro) y 'dark' (oscuro). */
-    toggleTheme: () => void;
+  /** El identificador del tema activo. */
+  theme: Theme;
+  /** Alterna entre los modos 'light' (claro) y 'dark' (oscuro). */
+  toggleTheme: () => void;
 }
 
 /**
  * Propiedades para el componente ThemeProvider.
  */
 interface ThemeProviderProps {
-    /** Componentes hijos que serán envueltos por el proveedor. */
-    children: ReactNode;
+  /** Componentes hijos que serán envueltos por el proveedor. */
+  children: ReactNode;
 }
 
 /**
@@ -55,11 +55,11 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
  * la seguridad de tipos y el uso correcto de la arquitectura.
  */
 export const useTheme = (): ThemeContextType => {
-    const context = useContext(ThemeContext);
-    if (context === undefined) {
-        throw new Error("useTheme debe usarse dentro de un ThemeProvider");
-    }
-    return context;
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error("useTheme debe usarse dentro de un ThemeProvider");
+  }
+  return context;
 };
 
 /**
@@ -75,27 +75,29 @@ export const useTheme = (): ThemeContextType => {
  * @param props - Propiedades del componente.
  * @returns El elemento proveedor que envuelve a los hijos.
  */
-export const ThemeProvider = ({ children }: ThemeProviderProps): JSX.Element => {
-    const [theme, setTheme] = useState<Theme>(getStoredTheme);
+export const ThemeProvider = ({
+  children,
+}: ThemeProviderProps): JSX.Element => {
+  const [theme, setTheme] = useState<Theme>(getStoredTheme);
 
-    // Efecto para aplicar cambios al DOM y persistir en localStorage
-    useEffect(() => {
-        applyThemeToDocument(theme);
-        saveTheme(theme);
-    }, [theme]);
+  // Efecto para aplicar cambios al DOM y persistir en localStorage
+  useEffect(() => {
+    applyThemeToDocument(theme);
+    saveTheme(theme);
+  }, [theme]);
 
-    /**
-     * Alterna el estado del tema entre 'light' y 'dark'.
-     */
-    const toggleTheme = useCallback(() => {
-        setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-    }, []);
+  /**
+   * Alterna el estado del tema entre 'light' y 'dark'.
+   */
+  const toggleTheme = useCallback(() => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  }, []);
 
-    return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
-            {children}
-        </ThemeContext.Provider>
-    );
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };
 
 export { ThemeContext };

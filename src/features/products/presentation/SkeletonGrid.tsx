@@ -5,7 +5,7 @@
  */
 
 import React from "react";
-import SkeletonCard from "./SkeletonCard";
+import SkeletonCard from "@/features/products/presentation/SkeletonCard";
 
 /**
  * @component SkeletonGrid

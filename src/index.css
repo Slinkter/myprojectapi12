@@ -1,9 +1,5 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
-
 @plugin "tailwindcss-animate";
-
-@custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-sans: "Raleway", ui-sans-serif, system-ui, sans-serif;
@@ -96,9 +92,14 @@
   }
 }
 
+@custom-variant dark (&:is(.dark *));
+
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
   }
 
   html {

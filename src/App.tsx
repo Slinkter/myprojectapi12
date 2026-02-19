@@ -38,23 +38,23 @@ import ErrorBoundary from "@/components/common/ErrorBoundary";
  * @returns El árbol completo de elementos de React para la aplicación.
  */
 const App: React.FC = () => {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <BrowserRouter basename="/myprojectapi12/">
-                <ThemeProvider>
-                    <CartProvider>
-                        <ErrorBoundary>
-                            <Layout>
-                                <AppRouter />
-                                <Cart />
-                            </Layout>
-                        </ErrorBoundary>
-                    </CartProvider>
-                </ThemeProvider>
-            </BrowserRouter>
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-    );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter basename="/myprojectapi12/">
+        <ThemeProvider>
+          <CartProvider>
+            <ErrorBoundary>
+              <Layout>
+                <AppRouter />
+                <Cart />
+              </Layout>
+            </ErrorBoundary>
+          </CartProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 };
 
 export default App;

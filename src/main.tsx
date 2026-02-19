@@ -8,7 +8,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 // Componente Raíz
-import App from "./App";
+import App from "@/App";
 
 // Estilos Globales
 import "./index.css";

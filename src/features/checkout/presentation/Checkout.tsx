@@ -5,9 +5,9 @@
  * @architecture Capa de Presentación - Feature de Checkout
  */
 import { Link } from "react-router-dom";
-import { useCheckout } from "../application/useCheckout";
-import PaymentMethodRadio from "./components/PaymentMethodRadio";
-import CardForm from "./components/CardForm";
+import { useCheckout } from "@/features/checkout/application/useCheckout";
+import PaymentMethodRadio from "@/features/checkout/presentation/components/PaymentMethodRadio";
+import CardForm from "@/features/checkout/presentation/components/CardForm";
 import { ArrowLeft, ShieldCheck, Lock } from "lucide-react";
 
 import { Button } from "@/components/ui/button";

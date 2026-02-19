@@ -1,4 +1,4 @@
-import { IProduct } from "../application/types";
+import { IProduct } from "@/features/products/application/types";
 /**
  * @interface IProductListProps
  * @description Propiedades para el componente ProductList.
@@ -10,9 +10,9 @@ import { IProduct } from "../application/types";
  */
 
 export interface IProductListProps {
-    products: IProduct[];
-    loading: boolean;
-    error: string | null;
-    hasMore: boolean;
-    loadMore: () => void;
+  products: IProduct[];
+  loading: boolean;
+  error: string | null;
+  hasMore: boolean;
+  loadMore: () => void;
 }

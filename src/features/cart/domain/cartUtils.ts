@@ -5,7 +5,11 @@
  * @architecture Domain Layer - Lógica pura de negocio
  */
 
-import type { ICartItem, IProduct, IValidationResult } from "./cartTypes";
+import type {
+  ICartItem,
+  IProduct,
+  IValidationResult,
+} from "@/features/cart/domain/cartTypes";
 
 /**
  * @function calculateTotal
@@ -31,7 +35,7 @@ import type { ICartItem, IProduct, IValidationResult } from "./cartTypes";
  * console.log(total); // 0
  */
 export const calculateTotal = (cart: ICartItem[]): number => {
-    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 };
 
 /**
@@ -61,22 +65,22 @@ export const calculateTotal = (cart: ICartItem[]): number => {
  * // newCart = [{ id: 1, quantity: 5, ... }] (2 + 3)
  */
 export const addItemToCart = (
-    cart: ICartItem[],
-    product: IProduct,
-    quantity: number,
+  cart: ICartItem[],
+  product: IProduct,
+  quantity: number,
 ): ICartItem[] => {
-    /*  */
-    const existingItem = cart.find((item) => item.id === product.id);
-    /*  */
-    if (existingItem) {
-        return cart.map((item) =>
-            item.id === product.id
-                ? { ...item, quantity: item.quantity + quantity }
-                : item,
-        );
-    }
-    /*  */
-    return [...cart, { ...product, quantity }];
+  /*  */
+  const existingItem = cart.find((item) => item.id === product.id);
+  /*  */
+  if (existingItem) {
+    return cart.map((item) =>
+      item.id === product.id
+        ? { ...item, quantity: item.quantity + quantity }
+        : item,
+    );
+  }
+  /*  */
+  return [...cart, { ...product, quantity }];
 };
 
 /**
@@ -105,10 +109,10 @@ export const addItemToCart = (
  * // newCart = [{ id: 1, ... }] (sin cambios)
  */
 export const removeItemFromCart = (
-    cart: ICartItem[],
-    productId: number,
+  cart: ICartItem[],
+  productId: number,
 ): ICartItem[] => {
-    return cart.filter((item) => item.id !== productId);
+  return cart.filter((item) => item.id !== productId);
 };
 
 /**
@@ -148,20 +152,20 @@ export const removeItemFromCart = (
  * // { valid: false, error: "La cantidad debe ser mayor a 0" }
  */
 export const validateCartItem = (
-    product: IProduct | null | undefined,
-    quantity: number,
+  product: IProduct | null | undefined,
+  quantity: number,
 ): IValidationResult => {
-    if (!product || !product.id) {
-        return { valid: false, error: "Producto inválido" };
-    }
+  if (!product || !product.id) {
+    return { valid: false, error: "Producto inválido" };
+  }
 
-    if (quantity <= 0) {
-        return { valid: false, error: "La cantidad debe ser mayor a 0" };
-    }
+  if (quantity <= 0) {
+    return { valid: false, error: "La cantidad debe ser mayor a 0" };
+  }
 
-    if (product.stock < quantity) {
-        return { valid: false, error: "Stock insuficiente" };
-    }
+  if (product.stock < quantity) {
+    return { valid: false, error: "Stock insuficiente" };
+  }
 
-    return { valid: true, error: null };
+  return { valid: true, error: null };
 };

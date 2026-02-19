@@ -7,8 +7,11 @@
 
 import { useCallback } from "react";
 import toast from "react-hot-toast";
-import { addItemToCart, removeItemFromCart } from "../../domain/cartUtils";
-import type { ICartItem, IProduct } from "../../domain/cartTypes";
+import {
+  addItemToCart,
+  removeItemFromCart,
+} from "@/features/cart/domain/cartUtils";
+import type { ICartItem, IProduct } from "@/features/cart/domain/cartTypes";
 
 /**
  * @interface UseCartActionsReturn
@@ -20,9 +23,9 @@ import type { ICartItem, IProduct } from "../../domain/cartTypes";
  * @property {Function} clearCart - Función para vaciar completamente el carrito
  */
 interface IUseCartActionsReturn {
-    addToCart: (product: IProduct, quantity: number) => void;
-    removeFromCart: (productId: number) => void;
-    clearCart: () => void;
+  addToCart: (product: IProduct, quantity: number) => void;
+  removeFromCart: (productId: number) => void;
+  clearCart: () => void;
 }
 
 /**
@@ -61,75 +64,75 @@ interface IUseCartActionsReturn {
  * // addToCart solo se recrea si setCart u openCart cambian
  */
 export const useCartActions = (
-    setCart: React.Dispatch<React.SetStateAction<ICartItem[]>>,
-    openCart: () => void,
+  setCart: React.Dispatch<React.SetStateAction<ICartItem[]>>,
+  openCart: () => void,
 ): IUseCartActionsReturn => {
-    /**
-     * @function addToCart
-     * @description Agrega un producto al carrito con la cantidad especificada.
-     * Si el producto ya existe, incrementa su cantidad.
-     * Muestra notificación de éxito y abre el drawer del carrito.
-     * @memoized useCallback - Solo se recrea si setCart u openCart cambian
-     *
-     * @param {Product} product - Producto a agregar
-     * @param {number} quantity - Cantidad a agregar (debe ser > 0)
-     *
-     * @returns {void}
-     *
-     * @example
-     * addToCart(
-     *   { id: 1, title: "Laptop", price: 899, thumbnail: "url", stock: 10 },
-     *   2
-     * );
-     * // Resultado: Producto agregado, toast mostrado, drawer abierto
-     */
-    const addToCart = useCallback(
-        (product: IProduct, quantity: number) => {
-            setCart((prev) => addItemToCart(prev, product, quantity));
-            toast.success("Product added to cart!");
-            openCart();
-        },
-        [setCart, openCart],
-    );
+  /**
+   * @function addToCart
+   * @description Agrega un producto al carrito con la cantidad especificada.
+   * Si el producto ya existe, incrementa su cantidad.
+   * Muestra notificación de éxito y abre el drawer del carrito.
+   * @memoized useCallback - Solo se recrea si setCart u openCart cambian
+   *
+   * @param {Product} product - Producto a agregar
+   * @param {number} quantity - Cantidad a agregar (debe ser > 0)
+   *
+   * @returns {void}
+   *
+   * @example
+   * addToCart(
+   *   { id: 1, title: "Laptop", price: 899, thumbnail: "url", stock: 10 },
+   *   2
+   * );
+   * // Resultado: Producto agregado, toast mostrado, drawer abierto
+   */
+  const addToCart = useCallback(
+    (product: IProduct, quantity: number) => {
+      setCart((prev) => addItemToCart(prev, product, quantity));
+      toast.success("Product added to cart!");
+      openCart();
+    },
+    [setCart, openCart],
+  );
 
-    /**
-     * @function removeFromCart
-     * @description Elimina un producto del carrito por su ID.
-     * Muestra notificación de error (rojo) para indicar la eliminación.
-     * @memoized useCallback - Solo se recrea si setCart cambia
-     *
-     * @param {number} productId - ID del producto a eliminar
-     *
-     * @returns {void}
-     *
-     * @example
-     * removeFromCart(1);
-     * // Resultado: Producto con ID 1 eliminado, toast mostrado
-     */
-    const removeFromCart = useCallback(
-        (productId: number) => {
-            setCart((prev) => removeItemFromCart(prev, productId));
-            toast.error("Product removed from cart.");
-        },
-        [setCart],
-    );
+  /**
+   * @function removeFromCart
+   * @description Elimina un producto del carrito por su ID.
+   * Muestra notificación de error (rojo) para indicar la eliminación.
+   * @memoized useCallback - Solo se recrea si setCart cambia
+   *
+   * @param {number} productId - ID del producto a eliminar
+   *
+   * @returns {void}
+   *
+   * @example
+   * removeFromCart(1);
+   * // Resultado: Producto con ID 1 eliminado, toast mostrado
+   */
+  const removeFromCart = useCallback(
+    (productId: number) => {
+      setCart((prev) => removeItemFromCart(prev, productId));
+      toast.error("Product removed from cart.");
+    },
+    [setCart],
+  );
 
-    /**
-     * @function clearCart
-     * @description Vacía completamente el carrito eliminando todos los items.
-     * Muestra notificación de éxito confirmando la acción.
-     * @memoized useCallback - Solo se recrea si setCart cambia
-     *
-     * @returns {void}
-     *
-     * @example
-     * clearCart();
-     * // Resultado: Carrito vacío [], toast mostrado
-     */
-    const clearCart = useCallback(() => {
-        setCart([]);
-        toast.success("The cart has been emptied.");
-    }, [setCart]);
+  /**
+   * @function clearCart
+   * @description Vacía completamente el carrito eliminando todos los items.
+   * Muestra notificación de éxito confirmando la acción.
+   * @memoized useCallback - Solo se recrea si setCart cambia
+   *
+   * @returns {void}
+   *
+   * @example
+   * clearCart();
+   * // Resultado: Carrito vacío [], toast mostrado
+   */
+  const clearCart = useCallback(() => {
+    setCart([]);
+    toast.success("The cart has been emptied.");
+  }, [setCart]);
 
-    return { addToCart, removeFromCart, clearCart };
+  return { addToCart, removeFromCart, clearCart };
 };
