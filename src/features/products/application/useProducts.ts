@@ -14,6 +14,7 @@ import {
   IProductsApiResponse,
   IUseProductsResult,
 } from "@/features/products/application/types";
+import { log } from "console";
 
 /**
  * @function useProducts
@@ -28,13 +29,13 @@ import {
  */
 export const useProducts = (): IUseProductsResult => {
   const {
-    data,
+    isLoading,
     error,
+    data,
     fetchNextPage,
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    isLoading,
   }: UseInfiniteQueryResult<
     InfiniteData<IProductsApiResponse>,
     Error
@@ -51,6 +52,8 @@ export const useProducts = (): IUseProductsResult => {
       lastPage: IProductsApiResponse,
       allPages: IProductsApiResponse[],
     ) => {
+      console.log(lastPage, allPages);
+
       const totalFetched = allPages.reduce(
         (acc, page) => acc + page.products.length,
         0,
