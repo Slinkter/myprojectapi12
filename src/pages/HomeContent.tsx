@@ -1,6 +1,12 @@
+/**
+ * @file HomeContent.tsx
+ * @description Página principal de la aplicación. Orquesta la carga de productos,
+ * el estado de carga inicial, el modal de detalle y la paginación infinita.
+ * @architecture Presentation Layer - Página
+ */
+
 import { useProducts } from "@/features/products/application/useProducts";
 import { useProductModalContext } from "@/features/products/application/useProductModalContext";
-/*  */
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
 import ProductList from "@/features/products/presentation/ProductList";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";

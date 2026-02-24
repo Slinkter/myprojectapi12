@@ -69,9 +69,8 @@ export const addItemToCart = (
   product: IProduct,
   quantity: number,
 ): ICartItem[] => {
-  /*  */
   const existingItem = cart.find((item) => item.id === product.id);
-  /*  */
+
   if (existingItem) {
     return cart.map((item) =>
       item.id === product.id
@@ -79,7 +78,7 @@ export const addItemToCart = (
         : item,
     );
   }
-  /*  */
+
   return [...cart, { ...product, quantity }];
 };
 

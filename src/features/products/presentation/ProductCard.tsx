@@ -1,7 +1,15 @@
+/**
+ * @file ProductCard.tsx
+ * @description Tarjeta de producto individual. Muestra imagen, título, descripción,
+ * precio, stock y botón de acción para abrir el modal de detalle.
+ * @architecture Presentation Layer - Componente de Feature
+ */
+
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useProductModalContext } from "@/features/products/application/useProductModalContext";
 import { IProduct } from "@/features/products/application/types";
+import { getStockStatus } from "@/features/products/application/stockUtils";
 import {
   Card,
   CardContent,
@@ -24,11 +32,11 @@ interface IProductCardProps {
  */
 const ProductCard = React.memo(({ product }: IProductCardProps) => {
   const { handleOpenModal } = useProductModalContext();
-
   if (!product || !product.id) {
     console.error("ProductCard component received invalid product:", product);
     return null;
   }
+  const stockStatus = getStockStatus(product.stock);
 
   return (
     <Card
@@ -73,7 +81,7 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
             <p
               className={cn(
                 "text-xs font-bold",
-                product.stock > 10 ? "text-green-600" : "text-amber-600",
+                stockStatus === "ok" ? "text-green-600" : "text-amber-600",
               )}
             >
               {product.stock} disponibles
@@ -85,11 +93,11 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
       <CardFooter className="p-5 pt-0">
         <Button
           onClick={() => handleOpenModal(product)}
-          disabled={product.stock === 0}
+          disabled={stockStatus === "out"}
           className="w-full"
-          variant={product.stock > 0 ? "default" : "secondary"}
+          variant={stockStatus !== "out" ? "default" : "secondary"}
         >
-          {product.stock > 0 ? "Ver detalles" : "Sin stock"}
+          {stockStatus !== "out" ? "Ver detalles" : "Sin stock"}
         </Button>
       </CardFooter>
     </Card>

@@ -4,17 +4,17 @@
  * @architecture Application Layer - Custom Hook
  */
 
-import { InfiniteData } from "@tanstack/react-query";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { UseInfiniteQueryResult } from "@tanstack/react-query";
-/*  */
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
 import { getProducts } from "@/features/products/infrastructure/productsApi";
 import {
   IProduct,
   IProductsApiResponse,
   IUseProductsResult,
 } from "@/features/products/application/types";
-import { log } from "console";
 
 /**
  * @function useProducts
@@ -34,7 +34,6 @@ export const useProducts = (): IUseProductsResult => {
     data,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
   }: UseInfiniteQueryResult<
     InfiniteData<IProductsApiResponse>,
@@ -52,8 +51,6 @@ export const useProducts = (): IUseProductsResult => {
       lastPage: IProductsApiResponse,
       allPages: IProductsApiResponse[],
     ) => {
-      console.log(lastPage, allPages);
-
       const totalFetched = allPages.reduce(
         (acc, page) => acc + page.products.length,
         0,
@@ -69,7 +66,7 @@ export const useProducts = (): IUseProductsResult => {
   return {
     products,
     error: error?.message || null,
-    loading: isFetching,
+    loading: isFetchingNextPage,
     initialLoading: isLoading,
     hasMore: hasNextPage ?? false,
     loadMore: fetchNextPage,

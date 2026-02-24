@@ -8,14 +8,13 @@
 import { memo } from "react";
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import LoadMoreButton from "@/features/products/presentation/components/LoadMoreButton";
+import ButtonMore from "@/features/products/presentation/components/ButtonMore";
 import { IProductListProps } from "@/features/products/presentation/type";
-import { IProduct } from "@/features/products/application/types";
 
 /**
  * @component ProductList
  * @description Orquesta el ProductGrid y los controles de paginación.
- * Maneja visualmente los estados de error y la carga progresiva mediante un botón "Load More".
+ * Maneja visualmente los estados de error y la carga progresiva mediante un botón "Cargar más".
  * Memoizado para optimizar el rendimiento durante actualizaciones de otros estados.
  *
  * @param {IProductListProps} props - Propiedades del componente.
@@ -24,14 +23,15 @@ import { IProduct } from "@/features/products/application/types";
 const ProductList = memo((props: IProductListProps) => {
   /* variables props */
   const { products, loading, error, hasMore, loadMore } = props;
+
   // Renderizado de estado de error
   if (error) {
     return (
       <ErrorMessage
         message={error}
-        title="Failed to load products"
+        title="Error al cargar los productos"
         action={{
-          label: "Try again",
+          label: "Reintentar",
           onClick: loadMore,
         }}
       />
@@ -41,7 +41,9 @@ const ProductList = memo((props: IProductListProps) => {
   // Renderizado de estado vacío
   if (products.length === 0 && !loading) {
     return (
-      <p className="text-center text-slate-500 py-10">No products found.</p>
+      <p className="text-center text-slate-500 py-10">
+        No se encontraron productos.
+      </p>
     );
   }
 
@@ -59,27 +61,5 @@ const ProductList = memo((props: IProductListProps) => {
 });
 
 ProductList.displayName = "ProductList";
-
-interface IButtonMore {
-  products: IProduct[];
-  hasMore: boolean;
-  loading: boolean;
-  loadMore: () => void;
-}
-
-const ButtonMore = (props: IButtonMore) => {
-  const { products, hasMore, loadMore, loading } = props;
-  return (
-    <div className="flex flex-col items-center justify-center w-full mt-12 mb-8">
-      {hasMore && <LoadMoreButton onClick={loadMore} loading={loading} />}
-
-      {!hasMore && products.length > 0 && (
-        <p className="text-center text-slate-500 dark:text-slate-400 mt-8">
-          Has llegado al final de la lista.
-        </p>
-      )}
-    </div>
-  );
-};
 
 export default ProductList;

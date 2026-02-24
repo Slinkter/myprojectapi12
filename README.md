@@ -111,10 +111,10 @@ myprojectapi12/
 
 ## 📚 Documentación Detallada
 
-- **[Índice de Documentación](./docs/docs/00_INDEX.md)** - Guía completa de documentos técnicos.
-- **[Arquitectura](./docs/architecture/ARCHITECTURE.md)** - Diseño del sistema y capas (DDD).
-- **[Stack Tecnológico](./docs/docs/04_TECH_STACK.md)** - Decisiones técnicas y versiones.
-- **[Guía de Estilos](./docs/docs/07_CODING_STANDARDS.md)** - Estándares de código y JSDoc.
+- **[Manual Técnico Profesional](./src/docs/TECHNICAL_MANUAL.md)** - Guía exhaustiva de arquitectura, patrones y estándares (Actualizado Feb 2026).
+- **[Arquitectura](./src/docs/architecture/ARCHITECTURE.md)** - Diseño del sistema y capas (DDD).
+- **[Guía de Estilos](./src/docs/guides/JSDOC_GUIDE.md)** - Estándares de código y JSDoc.
+- **[Changelog](./src/docs/CHANGELOG.md)** - Historial de cambios y versiones.
 
 ---
 
@@ -135,20 +135,21 @@ pnpm test:coverage
 
 ## 🛠️ Scripts Disponibles
 
-| Script | Descripción |
-| :--- | :--- |
-| `pnpm dev` | Inicia el servidor de desarrollo |
-| `pnpm build` | Compila para producción |
-| `pnpm preview` | Previsualiza la compilación de producción |
-| `pnpm lint` | Ejecuta el linter (ESLint) |
-| `pnpm type-check` | Ejecuta la verificación de tipos de TS |
-| `pnpm deploy` | Despliega en GitHub Pages |
+| Script            | Descripción                               |
+| :---------------- | :---------------------------------------- |
+| `pnpm dev`        | Inicia el servidor de desarrollo          |
+| `pnpm build`      | Compila para producción                   |
+| `pnpm preview`    | Previsualiza la compilación de producción |
+| `pnpm lint`       | Ejecuta el linter (ESLint)                |
+| `pnpm type-check` | Ejecuta la verificación de tipos de TS    |
+| `pnpm deploy`     | Despliega en GitHub Pages                 |
 
 ---
 
 ## 👨‍💻 Autor
 
 **Luis J Cueva**
+
 - GitHub: [@Slinkter](https://github.com/Slinkter)
 - LinkedIn: [Luis J Cueva](https://linkedin.com/in/luis-cueva)
 

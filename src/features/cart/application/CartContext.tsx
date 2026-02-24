@@ -55,7 +55,6 @@ export const CartContext = createContext<ICartContextValue | undefined>(
  * }
  */
 export const CartProvider = ({ children }: ICartProviderProps) => {
-  /*  */
   const [cart, setCart] = useState<ICartItem[]>([]);
 
   // Control del drawer del carrito
