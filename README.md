@@ -111,10 +111,20 @@ myprojectapi12/
 
 ## 📚 Documentación Detallada
 
-- **[Manual Técnico Profesional](./src/docs/TECHNICAL_MANUAL.md)** - Guía exhaustiva de arquitectura, patrones y estándares (Actualizado Feb 2026).
-- **[Arquitectura](./src/docs/architecture/ARCHITECTURE.md)** - Diseño del sistema y capas (DDD).
-- **[Guía de Estilos](./src/docs/guides/JSDOC_GUIDE.md)** - Estándares de código y JSDoc.
-- **[Changelog](./src/docs/CHANGELOG.md)** - Historial de cambios y versiones.
+- **[Manual Técnico Profesional](./src/docs/engineering/TECHNICAL_MANUAL.md)** - Guía exhaustiva técnica: configuraciones, stack, convenciones JSDoc, CSS y Testing.
+- **[Análisis y Explicación del Proyecto](./src/docs/engineering/SYSTEM_BEHAVIOR.md)** - Explicación detallada de algoritmos de paginación infinita, flujos y contexto.
+- **[Arquitectura DDD y Capas](./src/docs/architecture/ARCHITECTURE.md)** - Diseño moderno del sistema y capas.
+- **[Sistema de Diseño UI](./src/docs/architecture/DESIGN_SYSTEM.md)** - Estilo Neumórfico, Tailwind v4 y Glassmorphism.
+- **[Diagramas UML (Ascii/Mermaid)](./src/docs/architecture/DIAGRAMS.md)** - Secuencias de ejecución, bootstrapping, y cómo se ejecutan las funciones.
+- **[Requerimientos (FR/NFR)](./src/docs/requirements/REQUIREMENTS.md)** - Requerimientos Funcionales y No Funcionales.
+- **[Casos de Uso (Stories)](./src/docs/requirements/USER_STORIES.md)** - Historias de Usuario formales.
+- **[Changelog](./CHANGELOG.md)** - Historial de cambios y revisiones del proyecto.
+- **[Guía de Contribución](./CONTRIBUTING.md)** - Reglas para realizar aportes al repositorio.
+
+### Archivos Históricos (Legacy)
+
+- **[Arquitectura (Versión Antigua)](./src/docs/legacy/03_ARCHITECTURE_OLD.md)** - Documento anterior para consulta.
+- **[Índice Antiguo](./src/docs/legacy/00_INDEX_OLD.md)** - Índice histórico de la documentación anterior.
 
 ---
 

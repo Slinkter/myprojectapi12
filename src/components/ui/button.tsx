@@ -47,21 +47,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         const variants = {
             default:
-                "bg-gradient-to-r from-green-600 to-green-600 text-white shadow-lg hover:from-blue-700 hover:to-blue-700 hover:shadow-xl hover:-translate-y-0.5 border-transparent",
-            destructive: "bg-destructive text-white shadow-sm hover:bg-red-700",
+                "bg-amber-600 text-white shadow-md hover:bg-amber-700 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0",
+            destructive: 
+                "bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30",
             outline:
-                "border border-slate-200 bg-transparent shadow-sm hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800",
+                "border border-slate-200 bg-transparent shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800 hover:border-amber-200 dark:hover:border-amber-900/50",
             secondary:
-                "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-sm hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-300",
-            ghost: "hover:bg-slate-100 dark:hover:bg-slate-800",
+                "bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
+            ghost: "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-foreground",
             link: "text-amber-600 underline-offset-4 hover:underline",
         };
 
         const sizes = {
-            default: "px-5 py-2.5",
-            sm: "h-8 rounded-lg px-3 text-xs",
-            lg: "h-12 rounded-xl px-10 text-base",
-            icon: "h-10 w-10",
+            default: "h-11 px-6",
+            sm: "h-9 px-4 text-xs",
+            lg: "h-13 px-8 text-base",
+            icon: "h-11 w-11",
         };
 
         return (

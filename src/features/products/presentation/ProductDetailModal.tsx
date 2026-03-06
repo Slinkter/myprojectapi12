@@ -14,6 +14,7 @@ import { IProductDetailModalProps } from "@/features/products/application/types"
 import { getStockStatus } from "@/features/products/application/stockUtils";
 import QuantityControl from "@/features/products/presentation/components/QuantityControl";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const ProductDetailModal = (props: IProductDetailModalProps) => {
   const { product, open, onClose } = props;
@@ -67,16 +68,18 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
           >
             {/* Botón de Cierre */}
             <div className="absolute top-6 right-6 z-20">
-              <button
+              <Button
+                variant="outline"
+                size="icon"
                 onClick={onClose}
-                className="group p-2.5 rounded-full bg-card/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 hover:shadow-md cursor-pointer"
+                className="rounded-full bg-card/90 backdrop-blur-md border-slate-200 dark:border-slate-800 shadow-sm"
                 aria-label="Cerrar modal"
               >
                 <X
                   className="w-5 h-5 text-slate-500 group-hover:text-amber-600 transition-colors"
                   strokeWidth={2}
                 />
-              </button>
+              </Button>
             </div>
 
             <div className="flex flex-col md:flex-row h-full overflow-y-auto md:overflow-hidden">
@@ -146,23 +149,15 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                     />
 
                     {/* Botón Añadir */}
-                    <button
+                    <Button
                       onClick={handleAddToCart}
                       disabled={stockStatus === "out"}
-                      className={cn(
-                        "flex-1 group py-4 px-8 rounded-full font-bold text-base md:text-lg tracking-wide shadow-xl transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0",
-                        stockStatus === "out"
-                          ? "bg-slate-300 dark:bg-slate-700 cursor-not-allowed text-slate-500"
-                          : "bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-amber-500/20",
-                      )}
+                      size="lg"
+                      className="flex-1 rounded-full text-base font-bold shadow-amber-500/20"
                     >
-                      <span className="flex items-center justify-center gap-2">
-                        {stockStatus === "out"
-                          ? "Sin Stock"
-                          : "Agregar al Carrito"}
-                        <ShoppingCart className="w-5 h-5" strokeWidth={2.5} />
-                      </span>
-                    </button>
+                      {stockStatus === "out" ? "Sin Stock" : "Agregar al Carrito"}
+                      <ShoppingCart className="ml-2 w-5 h-5" strokeWidth={2.5} />
+                    </Button>
                   </div>
                 </div>
               </div>

@@ -79,13 +79,15 @@ const Cart = () => {
             <h2 className="font-bold text-xl sm:text-2xl text-foreground">
               Mi Carrito
             </h2>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={closeCart}
-              className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all hover:rotate-90 cursor-pointer"
+              className="rounded-full hover:rotate-90"
               aria-label="Cerrar carrito de compras"
             >
               <X size={20} className="text-slate-500" strokeWidth={2} />
-            </button>
+            </Button>
           </div>
 
           <div className="flex-grow overflow-y-auto px-1 space-y-4 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
@@ -157,14 +159,14 @@ const Cart = () => {
                   onClick={handleCheckout}
                   variant="default"
                   size="lg"
-                  className="w-full text-base font-bold h-14"
+                  className="w-full text-base font-bold shadow-amber-500/20"
                 >
                   Proceder al pago
                 </Button>
                 <Button
                   onClick={clearCart}
-                  variant="secondary"
-                  className="w-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 border-none"
+                  variant="destructive"
+                  className="w-full font-semibold"
                 >
                   Vaciar Carrito
                 </Button>
