@@ -11,7 +11,7 @@ import { useCart } from "@/features/cart/application/useCart";
 import { m, AnimatePresence } from "framer-motion";
 import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
 import { IProductDetailModalProps } from "@/features/products/application/types";
-import { getStockStatus } from "@/features/products/application/stockUtils";
+import { getStockStatus } from "@/features/products/domain/stockUtils";
 import QuantityControl from "@/features/products/presentation/components/QuantityControl";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

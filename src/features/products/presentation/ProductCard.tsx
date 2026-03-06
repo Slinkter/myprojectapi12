@@ -8,8 +8,8 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useProductModalContext } from "@/features/products/application/useProductModalContext";
-import { IProduct } from "@/features/products/application/types";
-import { getStockStatus } from "@/features/products/application/stockUtils";
+import { IProduct } from "@/features/products/domain/productTypes";
+import { getStockStatus } from "@/features/products/domain/stockUtils";
 import {
   Card,
   CardContent,

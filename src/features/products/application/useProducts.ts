@@ -10,11 +10,8 @@ import {
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 import { getProducts } from "@/features/products/infrastructure/productsApi";
-import {
-  IProduct,
-  IProductsApiResponse,
-  IUseProductsResult,
-} from "@/features/products/application/types";
+import { IProduct, IProductsApiResponse } from "@/features/products/domain/productTypes";
+import { IUseProductsResult } from "@/features/products/application/types";
 
 /**
  * @function useProducts
