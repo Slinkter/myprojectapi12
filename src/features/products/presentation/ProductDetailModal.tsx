@@ -8,7 +8,7 @@
 import { X, ShoppingCart } from "lucide-react";
 import { useState, useEffect, MouseEvent } from "react";
 import { useCart } from "@/features/cart/application/useCart";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
 import { IProductDetailModalProps } from "@/features/products/application/types";
 import { getStockStatus } from "@/features/products/application/stockUtils";
@@ -49,7 +49,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-4"
           onClick={onClose}
           variants={BACKDROP_FADE}
@@ -58,7 +58,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
           exit="hidden"
           role="presentation"
         >
-          <motion.div
+          <m.div
             className="relative w-full max-w-5xl overflow-hidden max-h-[90vh] flex flex-col shadow-2xl rounded-3xl bg-card border border-slate-200 dark:border-slate-800"
             onClick={(e: MouseEvent) => e.stopPropagation()}
             variants={MODAL_SLIDE_UP}
@@ -179,8 +179,8 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                 </div>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

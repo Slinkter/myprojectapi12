@@ -6,7 +6,7 @@
 
 import { memo } from "react";
 import ProductCard from "@/features/products/presentation/ProductCard";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { IProduct } from "@/features/products/application/types";
 import { PRODUCT_GRID_ANIMATIONS } from "@/constants/animations";
 
@@ -23,18 +23,18 @@ interface IProductGridProps {
  */
 const ProductGrid = memo(({ products }: IProductGridProps) => {
   return (
-    <motion.div
+    <m.div
       className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
       variants={PRODUCT_GRID_ANIMATIONS.container}
       initial="hidden"
       animate="visible"
     >
       {products.map((product: IProduct) => (
-        <motion.div key={product.id} variants={PRODUCT_GRID_ANIMATIONS.item}>
+        <m.div key={product.id} variants={PRODUCT_GRID_ANIMATIONS.item}>
           <ProductCard product={product} />
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   );
 });
 

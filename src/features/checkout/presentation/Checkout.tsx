@@ -69,10 +69,10 @@ const Checkout = () => {
         <div className="p-8">
           {/* Selector de Método de Pago */}
           <div className="mb-8">
-            <label className="block text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">
+            <label htmlFor="payment-method" className="block text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">
               Seleccione Método de Pago
             </label>
-            <fieldset className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <fieldset id="payment-method" className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <legend className="sr-only">Selección del método de pago</legend>
 
               <PaymentMethodRadio

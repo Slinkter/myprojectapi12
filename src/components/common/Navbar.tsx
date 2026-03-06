@@ -44,7 +44,6 @@ const Navbar = (): JSX.Element => {
                     ? "bg-(--bg-main)/80 backdrop-blur-md border-(--border-light) shadow-sm"
                     : "bg-transparent border-transparent",
             )}
-            role="navigation"
             aria-label="Navegación principal"
         >
             <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">

@@ -8,6 +8,7 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 // Proveedores de Contexto
 import { ThemeProvider } from "@/features/theme/application/ThemeContext";
@@ -41,16 +42,18 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename="/myprojectapi12/">
-        <ThemeProvider>
-          <CartProvider>
-            <ErrorBoundary>
-              <Layout>
-                <AppRouter />
-                <Cart />
-              </Layout>
-            </ErrorBoundary>
-          </CartProvider>
-        </ThemeProvider>
+        <LazyMotion features={domAnimation}>
+          <ThemeProvider>
+            <CartProvider>
+              <ErrorBoundary>
+                <Layout>
+                  <AppRouter />
+                  <Cart />
+                </Layout>
+              </ErrorBoundary>
+            </CartProvider>
+          </ThemeProvider>
+        </LazyMotion>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
