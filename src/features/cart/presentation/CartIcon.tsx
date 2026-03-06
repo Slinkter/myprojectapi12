@@ -24,7 +24,7 @@ interface ICartIconProps {
 const CartIcon = ({ className }: ICartIconProps) => {
     return (
         <ShoppingCart
-            className={cn("h-5 w-5 sm:h-6 sm:w-6", className)}
+            className={cn("h-5 w-5", className)}
             strokeWidth={2}
         />
     );
