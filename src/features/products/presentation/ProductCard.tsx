@@ -40,14 +40,14 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
 
   return (
     <Card
-      className="group relative h-full flex flex-col overflow-hidden border-slate-200 dark:border-slate-800 bg-card transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 hover:-translate-y-1 rounded-2xl"
+      className="group relative h-full flex flex-col overflow-hidden border-slate-200 dark:border-slate-800 bg-card transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 rounded-2xl cursor-pointer"
       role="article"
       aria-label={`Producto: ${product.title}`}
     >
       <CardHeader className="p-0">
         <div className="aspect-square w-full overflow-hidden bg-slate-50 dark:bg-slate-900/50 p-6 flex items-center justify-center">
           <img
-            className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110"
+            className="h-full w-full object-contain transition-opacity duration-300 group-hover:opacity-80"
             src={product.thumbnail}
             alt={product.title}
             loading="lazy"
