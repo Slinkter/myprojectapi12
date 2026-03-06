@@ -69,7 +69,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
             <div className="absolute top-6 right-6 z-20">
               <button
                 onClick={onClose}
-                className="group p-2.5 rounded-full bg-card/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:scale-110 active:scale-95 hover:shadow-md"
+                className="group p-2.5 rounded-full bg-card/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 hover:shadow-md cursor-pointer"
                 aria-label="Cerrar modal"
               >
                 <X
@@ -174,7 +174,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                   <img
                     src={product.thumbnail}
                     alt={product.title}
-                    className="relative z-10 w-full h-full object-contain drop-shadow-2xl transition-transform duration-700 hover:scale-105"
+                    className="relative z-10 w-full h-full object-contain drop-shadow-2xl transition-opacity duration-300 hover:opacity-80"
                   />
                 </div>
               </div>
