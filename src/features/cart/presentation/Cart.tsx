@@ -81,10 +81,10 @@ const Cart = () => {
             </h2>
             <button
               onClick={closeCart}
-              className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all hover:rotate-90"
+              className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all hover:rotate-90 cursor-pointer"
               aria-label="Cerrar carrito de compras"
             >
-              <X size={24} className="text-slate-500" />
+              <X size={20} className="text-slate-500" strokeWidth={2} />
             </button>
           </div>
 
@@ -92,7 +92,7 @@ const Cart = () => {
             {cart.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-center">
                 <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
-                  <X className="text-slate-400" size={32} />
+                  <X className="text-slate-400" size={28} strokeWidth={2} />
                 </div>
                 <p className="text-slate-500 font-medium">
                   Tu carrito está vacío.
@@ -130,10 +130,10 @@ const Cart = () => {
                     </p>
                     <button
                       onClick={() => removeFromCart(item.id)}
-                      className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500"
+                      className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500 cursor-pointer"
                       aria-label={`Eliminar ${item.title} del carrito`}
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={18} strokeWidth={2} />
                     </button>
                   </div>
                 </div>

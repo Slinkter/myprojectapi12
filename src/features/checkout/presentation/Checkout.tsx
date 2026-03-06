@@ -48,10 +48,10 @@ const Checkout = () => {
               to="/"
               className="text-sm font-semibold text-slate-500 hover:text-amber-600 transition-colors flex items-center gap-2"
             >
-              <ArrowLeft className="w-4 h-4" /> Volver a la Tienda
+              <ArrowLeft className="w-4 h-4" strokeWidth={2} /> Volver a la Tienda
             </Link>
             <div className="flex items-center gap-2 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-green-50 dark:bg-green-900/20 rounded-full border border-green-100 dark:border-green-900/30">
-              <ShieldCheck className="w-3.5 h-3.5" />
+              <ShieldCheck className="w-3.5 h-3.5" strokeWidth={2} />
               Pago Seguro
             </div>
           </div>
@@ -134,18 +134,18 @@ const Checkout = () => {
             {paymentMethod === "bitcoin" ? (
               <span className="flex items-center gap-2">
                 Proceder al Pago Cripto{" "}
-                <ArrowLeft className="w-5 h-5 rotate-180" />
+                <ArrowLeft className="w-5 h-5 rotate-180" strokeWidth={2} />
               </span>
             ) : (
               <span className="flex items-center gap-2">
-                Pagar Ahora <ShieldCheck className="w-5 h-5" />
+                Pagar Ahora <ShieldCheck className="w-5 h-5" strokeWidth={2} />
               </span>
             )}
           </Button>
 
           <div className="flex flex-col items-center gap-2 mt-8 py-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
             <p className="text-[11px] text-slate-400 font-medium flex items-center gap-2 uppercase tracking-widest">
-              <Lock className="w-3.5 h-3.5" />
+              <Lock className="w-3.5 h-3.5" strokeWidth={2} />
               Transacción encriptada SSL de 256 bits
             </p>
           </div>

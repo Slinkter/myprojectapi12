@@ -49,6 +49,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
                             className={clsx(
                                 "w-12 h-12 text-red-600 dark:text-red-400",
                             )}
+                            strokeWidth={2}
                         />
                     </div>
                 </div>

@@ -35,7 +35,7 @@ const QuantityControl = ({
       <button
         onClick={onDecrement}
         disabled={quantity === 1}
-        className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-foreground transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 active:scale-95 disabled:opacity-50"
+        className="w-11 h-11 min-w-[44px] flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-foreground transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 active:scale-95 disabled:opacity-50"
       >
         <span className="text-xl font-medium mb-0.5">−</span>
       </button>
@@ -45,7 +45,7 @@ const QuantityControl = ({
       <button
         onClick={onIncrement}
         disabled={quantity >= stock}
-        className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-foreground transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 active:scale-95 disabled:opacity-50"
+        className="w-11 h-11 min-w-[44px] flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-foreground transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 active:scale-95 disabled:opacity-50"
       >
         <span className="text-xl font-medium mb-0.5">+</span>
       </button>
