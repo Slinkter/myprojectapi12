@@ -24,15 +24,15 @@ const ThemeSwitcher = () => {
             onClick={toggleTheme}
             className={cn(
                 "relative w-11 h-11 rounded-full transition-all duration-200",
-                "hover:bg-(--bg-input) active:scale-95",
-                "text-(--text-primary) hover:text-(--text-accent)"
+                "hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95",
+                "text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400"
             )}
             aria-label={`Cambiar a modo ${theme === "light" ? "oscuro" : "claro"}`}
         >
             {theme === "light" ? (
-                <Moon className={cn("h-5 w-5 sm:h-6 sm:w-6")} strokeWidth={2} />
+                <Moon className={cn("h-5 w-5")} strokeWidth={2} />
             ) : (
-                <Sun className={cn("h-5 w-5 sm:h-6 sm:w-6")} strokeWidth={2} />
+                <Sun className={cn("h-5 w-5")} strokeWidth={2} />
             )}
         </Button>
     );

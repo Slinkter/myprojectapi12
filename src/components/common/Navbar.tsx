@@ -70,7 +70,7 @@ const Navbar = (): JSX.Element => {
                             variant="ghost"
                             size="icon"
                             onClick={toggleCart}
-                            className="relative w-11 h-11 rounded-full hover:bg-(--bg-input) transition-all duration-200 active:scale-95 text-(--text-primary)"
+                            className="relative w-11 h-11 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 active:scale-95 text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400"
                             aria-label="Abrir carrito de compras"
                         >
                             <CartIcon />
