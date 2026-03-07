@@ -125,6 +125,10 @@
 }
 
 @layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 text-base font-bold transition-all duration-300 bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+
   /* Animaciones de entrada para grids y listas */
   .animate-stagger-fade > * {
     opacity: 0;
