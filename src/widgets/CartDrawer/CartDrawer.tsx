@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { X, Trash2 } from 'lucide-react'
 import { useCart } from '@/features/cart/application/useCart'
 import type { ICartItem } from '@/features/cart/domain/cartTypes'
@@ -9,7 +9,12 @@ import { Button } from '@/shared/ui/Button'
 export function CartDrawer() {
   const { cart, removeFromCart, clearCart, isCartOpen, closeCart, totalPrice } = useCart()
   const navigate = useNavigate()
+  const location = useLocation()
   const cartRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    closeCart()
+  }, [location.pathname, closeCart])
 
   const handleCheckout = () => {
     closeCart()
