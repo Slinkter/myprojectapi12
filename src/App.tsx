@@ -48,8 +48,8 @@ const App: React.FC = () => {
               <ErrorBoundary>
                 <Layout>
                   <AppRouter />
-                  <CartDrawer />
                 </Layout>
+                <CartDrawer />
               </ErrorBoundary>
             </CartProvider>
           </ThemeProvider>
