@@ -4,13 +4,15 @@
  * Rediseñada para una experiencia de usuario premium, segura y clara.
  * @architecture Capa de Presentación - Feature de Checkout
  */
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCheckout } from "@/features/checkout/application/useCheckout";
 import { useCart } from "@/features/cart/application/useCart";
 import PaymentMethodRadio from "@/features/checkout/presentation/components/PaymentMethodRadio";
 import CardForm from "@/features/checkout/presentation/components/CardForm";
 import { OrderSummary } from "@/features/checkout/presentation/components/OrderSummary";
-import { ArrowLeft, ShieldCheck, Lock } from "lucide-react";
+import { CheckoutSteps } from "@/features/checkout/presentation/components/CheckoutSteps";
+import { ArrowLeft, ShieldCheck, Lock, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -27,9 +29,21 @@ const Checkout = () => {
   } = useCheckout();
 
   const { cart, totalPrice } = useCart();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const showCardForm =
     paymentMethod === "visa" || paymentMethod === "mastercard";
+
+  const handlePaymentClick = async () => {
+    setIsProcessing(true)
+    try {
+      await handlePayment()
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  const steps = ['Carrito', 'Pago', 'Confirmación']
 
   return (
     <main
@@ -43,6 +57,7 @@ const Checkout = () => {
           <div className="bg-card rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
             {/* Cabecera */}
             <div className="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+              <CheckoutSteps steps={steps} currentStep={1} />
               <div className="flex items-center justify-between mb-6">
                 <Link
                   to="/"
@@ -125,13 +140,18 @@ const Checkout = () => {
 
               {/* Botón de Pago */}
               <Button
-                onClick={handlePayment}
-                disabled={isPaymentDisabled || cart.length === 0}
+                onClick={handlePaymentClick}
+                disabled={isPaymentDisabled || cart.length === 0 || isProcessing}
                 className="w-full mt-10 h-14 text-lg font-bold"
                 size="lg"
                 aria-label={`Pagar ahora con ${paymentMethod}`}
               >
-                {paymentMethod === "bitcoin" ? (
+                {isProcessing ? (
+                  <span className="flex items-center gap-2">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Procesando...
+                  </span>
+                ) : paymentMethod === "bitcoin" ? (
                   <span className="flex items-center gap-2">
                     Proceder al Pago Cripto{" "}
                     <ArrowLeft className="w-5 h-5 rotate-180" strokeWidth={2} />

@@ -9,6 +9,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { useProducts } from '@/features/products/application/useProducts'
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { SearchInput } from '@/features/products/presentation/components/SearchInput'
+import { LoadingProgress } from '@/components/common/LoadingProgress'
 import SkeletonGrid from '@/features/products/presentation/SkeletonGrid'
 import ProductList from '@/features/products/presentation/ProductList'
 import ProductDetailModal from '@/features/products/presentation/ProductDetailModal'
@@ -18,6 +19,7 @@ import { useDebounce } from '@/shared/hooks/useDebounce'
 export const HomeContent = () => {
   const { products, initialLoading, loading, error, loadMore, hasMore } = useProducts()
   const { selectedProduct, isModalOpen, handleCloseModal } = useProductModalContext()
+  const isLoading = initialLoading || loading
   
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 350)
@@ -45,7 +47,9 @@ export const HomeContent = () => {
   }, [])
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <LoadingProgress isLoading={isLoading} />
+      <div className="container mx-auto px-4 py-8">
       <Homehead />
       
       <div className="mb-8 max-w-xl mx-auto">
@@ -78,6 +82,7 @@ export const HomeContent = () => {
           onClose={handleCloseModal}
         />
       )}
-    </div>
+      </div>
+    </>
   )
 }
