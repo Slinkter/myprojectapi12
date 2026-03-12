@@ -138,7 +138,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                   </div>
                 </div>
 
-                <div className="mt-auto flex flex-col gap-6">
+                  <div className="mt-auto flex flex-col gap-6">
                   <div className="flex flex-col sm:flex-row gap-4">
                     {/* Control de Cantidad */}
                     <QuantityControl
@@ -159,6 +159,15 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                       <ShoppingCart className="ml-2 w-5 h-5" strokeWidth={2.5} />
                     </Button>
                   </div>
+                  
+                  {/* Botón Continuar Comprando */}
+                  <Button
+                    variant="outline"
+                    onClick={onClose}
+                    className="w-full rounded-full"
+                  >
+                    Continuar Comprando
+                  </Button>
                 </div>
               </div>
 

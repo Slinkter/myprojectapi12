@@ -5,29 +5,69 @@
  * @architecture Presentation Layer - Página
  */
 
-import { useProducts } from "@/features/products/application/useProducts";
-import { useProductModalContext } from "@/features/products/application/useProductModalContext";
-import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
-import ProductList from "@/features/products/presentation/ProductList";
-import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
-import Homehead from "@/pages/Homehead";
+import { useState, useCallback, useEffect } from 'react'
+import { useProducts } from '@/features/products/application/useProducts'
+import { useProductModalContext } from '@/features/products/application/useProductModalContext'
+import { SearchInput } from '@/features/products/presentation/components/SearchInput'
+import SkeletonGrid from '@/features/products/presentation/SkeletonGrid'
+import ProductList from '@/features/products/presentation/ProductList'
+import ProductDetailModal from '@/features/products/presentation/ProductDetailModal'
+import Homehead from '@/pages/Homehead'
+import { useDebounce } from '@/shared/hooks/useDebounce'
 
 export const HomeContent = () => {
-  const { products, initialLoading, loading, error, loadMore, hasMore } =
-    useProducts();
-  const { selectedProduct, isModalOpen, handleCloseModal } =
-    useProductModalContext();
+  const { products, initialLoading, loading, error, loadMore, hasMore } = useProducts()
+  const { selectedProduct, isModalOpen, handleCloseModal } = useProductModalContext()
+  
+  const [searchQuery, setSearchQuery] = useState('')
+  const debouncedSearch = useDebounce(searchQuery, 350)
+  
+  const [filteredProducts, setFilteredProducts] = useState(products)
+  
+  useEffect(() => {
+    if (!debouncedSearch) {
+      setFilteredProducts(products)
+    } else {
+      const lowerQuery = debouncedSearch.toLowerCase()
+      const filtered = products.filter(
+        (p) =>
+          p.title.toLowerCase().includes(lowerQuery) ||
+          p.description.toLowerCase().includes(lowerQuery) ||
+          p.category?.toLowerCase().includes(lowerQuery) ||
+          p.brand?.toLowerCase().includes(lowerQuery)
+      )
+      setFilteredProducts(filtered)
+    }
+  }, [debouncedSearch, products])
+
+  const handleSearchChange = useCallback((query: string) => {
+    setSearchQuery(query)
+  }, [])
 
   return (
     <div className="container mx-auto px-4 py-8">
       <Homehead />
+      
+      <div className="mb-8 max-w-xl mx-auto">
+        <SearchInput
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Buscar productos por nombre, descripción o categoría..."
+        />
+        {searchQuery && (
+          <p className="mt-2 text-sm text-slate-500 text-center">
+            {filteredProducts.length} resultado{filteredProducts.length !== 1 ? 's' : ''} para &quot;{searchQuery}&quot;
+          </p>
+        )}
+      </div>
+      
       {initialLoading && <SkeletonGrid />}
       {!initialLoading && (
         <ProductList
-          products={products}
+          products={filteredProducts}
           loading={loading}
           error={error}
-          hasMore={hasMore}
+          hasMore={hasMore && !searchQuery}
           loadMore={loadMore}
         />
       )}
@@ -39,5 +79,5 @@ export const HomeContent = () => {
         />
       )}
     </div>
-  );
-};
+  )
+}
