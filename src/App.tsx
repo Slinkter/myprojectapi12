@@ -19,7 +19,7 @@ import { queryClient } from "@/app/config/queryClient";
 
 // Componentes y Enrutamiento
 import Layout from "@/components/common/Layout";
-import Cart from "@/features/cart/presentation/Cart";
+import { CartDrawer } from "@/widgets/CartDrawer";
 import AppRouter from "@/app/routing/AppRouter";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 
@@ -48,7 +48,7 @@ const App: React.FC = () => {
               <ErrorBoundary>
                 <Layout>
                   <AppRouter />
-                  <Cart />
+                  <CartDrawer />
                 </Layout>
               </ErrorBoundary>
             </CartProvider>

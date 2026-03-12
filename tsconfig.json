@@ -21,9 +21,12 @@
         "allowImportingTsExtensions": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": [
-                "./src/*"
-            ]
+            "@/*": ["./src/*"],
+            "@shared/*": ["./src/shared/*"],
+            "@features/*": ["./src/features/*"],
+            "@entities/*": ["./src/entities/*"],
+            "@widgets/*": ["./src/widgets/*"],
+            "@pages/*": ["./src/pages/*"]
         },
         "noEmit": true,
         "allowSyntheticDefaultImports": true,

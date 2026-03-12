@@ -7,7 +7,7 @@
  */
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/common/Navbar";
+import { Navbar } from "@/widgets/Navbar";
 import clsx from "clsx";
 
 interface ILayoutProps {

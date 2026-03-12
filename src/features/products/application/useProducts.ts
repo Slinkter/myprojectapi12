@@ -4,26 +4,13 @@
  * @architecture Application Layer - Custom Hook
  */
 
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  UseInfiniteQueryResult,
-} from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProducts } from "@/features/products/infrastructure/productsApi";
-import { IProduct, IProductsApiResponse } from "@/features/products/domain/productTypes";
-import { IUseProductsResult } from "@/features/products/application/types";
+import type { Product } from "@/entities/product/types/product.types";
+import type { IUseProductsResult } from "@/features/products/application/types";
 
-/**
- * @function useProducts
- * @description Hook personalizado para obtener productos paginados con scroll infinito.
- * Utiliza React Query para el cacheo y gestión del estado de carga.
- * @architecture Capa de Aplicación - Hook de obtención de datos
- *
- * @returns {IUseProductsResult} Objeto con la lista de productos acumulados, estados de carga y función para cargar más.
- *
- * @example
- * const { products, loading, loadMore, hasMore } = useProducts();
- */
+const LIMIT = 20;
+
 export const useProducts = (): IUseProductsResult => {
   const {
     isLoading,
@@ -32,22 +19,14 @@ export const useProducts = (): IUseProductsResult => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  }: UseInfiniteQueryResult<
-    InfiniteData<IProductsApiResponse>,
-    Error
-  > = useInfiniteQuery<
-    IProductsApiResponse,
-    Error,
-    InfiniteData<IProductsApiResponse>,
-    ["products"],
-    number
-  >({
-    queryKey: ["products"],
-    queryFn: ({ pageParam = 1 }) => getProducts(pageParam),
-    getNextPageParam: (
-      lastPage: IProductsApiResponse,
-      allPages: IProductsApiResponse[],
-    ) => {
+  } = useInfiniteQuery({
+    queryKey: ["products"] as const,
+    queryFn: async ({ pageParam = 1 }) => {
+      const skip = (pageParam - 1) * LIMIT
+      const response = await getProducts(skip, LIMIT)
+      return response
+    },
+    getNextPageParam: (lastPage, allPages) => {
       const totalFetched = allPages.reduce(
         (acc, page) => acc + page.products.length,
         0,
@@ -57,7 +36,7 @@ export const useProducts = (): IUseProductsResult => {
     initialPageParam: 1,
   });
 
-  const products: IProduct[] =
+  const products: Product[] =
     data?.pages.flatMap((page) => page.products) ?? [];
 
   return {

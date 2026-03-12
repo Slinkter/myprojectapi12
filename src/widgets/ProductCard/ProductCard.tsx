@@ -1,34 +1,24 @@
-/**
- * @file ProductCard.tsx
- * @description Tarjeta de producto individual. Muestra imagen, título, descripción,
- * precio, stock y botón de acción para abrir el modal de detalle.
- * @architecture Presentation Layer - Componente de Feature
- */
+import React from 'react'
+import { cn } from '@/shared/lib/cn'
+import { getStockStatus } from '@/shared/lib/stockUtils'
+import { useProductModalContext } from '@/features/products/application/useProductModalContext'
+import type { Product } from '@/entities/product/types/product.types'
+import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/Card'
+import { Button } from '@/shared/ui/Button'
 
-import React from "react";
-import { cn } from "@/shared/lib/cn";
-import { useProductModalContext } from "@/features/products/application/useProductModalContext";
-import { getStockStatus } from "@/shared/lib/stockUtils";
-import type { Product } from "@/entities/product/types/product.types";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/shared/ui/Card";
-import { Button } from "@/shared/ui/Button";
-
-interface IProductCardProps {
-  product: Product;
+interface ProductCardProps {
+  product: Product
 }
 
-const ProductCard = React.memo(({ product }: IProductCardProps) => {
-  const { handleOpenModal } = useProductModalContext();
+const ProductCard = React.memo(({ product }: ProductCardProps) => {
+  const { handleOpenModal } = useProductModalContext()
+  
   if (!product || !product.id) {
-    console.error("ProductCard component received invalid product:", product);
-    return null;
+    console.error('ProductCard component received invalid product:', product)
+    return null
   }
-  const stockStatus = getStockStatus(product.stock);
+  
+  const stockStatus = getStockStatus(product.stock)
 
   return (
     <Card
@@ -47,17 +37,17 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
         </div>
       </CardHeader>
 
-      <CardContent className=" p-5 flex flex-col">
+      <CardContent className="p-5 flex flex-col">
         <div className="mb-2">
           <h3 className="font-bold text-base leading-tight text-foreground line-clamp-1 group-hover:text-amber-600 transition-colors">
             {product.title}
           </h3>
-          <p className="text-sm text-slate-500 mt-1 line-clamp-2 ">
+          <p className="text-sm text-slate-500 mt-1 line-clamp-2">
             {product.description}
           </p>
         </div>
 
-        <div className=" flex items-center justify-between border-t  border-slate-100 dark:border-slate-800  mt-auto pt-4">
+        <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 mt-auto pt-4">
           <div className="flex flex-col">
             <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
               Precio
@@ -72,8 +62,8 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
             </span>
             <p
               className={cn(
-                "text-xs font-bold",
-                stockStatus === "ok" ? "text-green-600" : "text-amber-600",
+                'text-xs font-bold',
+                stockStatus === 'ok' ? 'text-green-600' : 'text-amber-600'
               )}
             >
               {product.stock} disponibles
@@ -85,17 +75,17 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
       <CardFooter className="p-5 pt-0">
         <Button
           onClick={() => handleOpenModal(product)}
-          disabled={stockStatus === "out"}
+          disabled={stockStatus === 'out'}
           className="w-full"
-          variant={stockStatus !== "out" ? "default" : "secondary"}
+          variant={stockStatus !== 'out' ? 'default' : 'secondary'}
         >
-          {stockStatus !== "out" ? "Ver detalles" : "Sin stock"}
+          {stockStatus !== 'out' ? 'Ver detalles' : 'Sin stock'}
         </Button>
       </CardFooter>
     </Card>
-  );
-});
+  )
+})
 
-ProductCard.displayName = "ProductCard";
+ProductCard.displayName = 'ProductCard'
 
-export default ProductCard;
+export { ProductCard }

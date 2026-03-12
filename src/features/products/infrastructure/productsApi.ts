@@ -5,15 +5,13 @@
  */
 
 import { apiClient } from "@/app/api/apiClient";
-import { IProductsApiResponse } from "@/features/products/application/types";
-
-const LIMIT = 20;
+import type { ProductsApiResponse } from "@/entities/product/types/product.types";
 
 export const getProducts = async (
-  page: number,
-): Promise<IProductsApiResponse> => {
-  const skip = (page - 1) * LIMIT;
-  const endpoint = `/products?limit=${LIMIT}&skip=${skip}`;
-  const rpta = apiClient<IProductsApiResponse>(endpoint);
+  skip: number,
+  limit: number,
+): Promise<ProductsApiResponse> => {
+  const endpoint = `/products?limit=${limit}&skip=${skip}`;
+  const rpta = apiClient<ProductsApiResponse>(endpoint);
   return rpta;
 };

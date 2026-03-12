@@ -1,0 +1,42 @@
+import type { Product } from '@/entities/product/types/product.types'
+
+export interface CartItem {
+  id: number
+  title: string
+  price: number
+  quantity: number
+  thumbnail: string
+  stock: number
+}
+
+export interface CartState {
+  items: CartItem[]
+  isOpen: boolean
+}
+
+export interface CartSummary {
+  totalItems: number
+  totalPrice: number
+  itemCount: number
+}
+
+export interface CartContextValue {
+  cart: CartItem[]
+  isCartOpen: boolean
+  totalPrice: number
+  addToCart: (product: Product, quantity: number) => void
+  removeFromCart: (productId: number) => void
+  clearCart: () => void
+  openCart: () => void
+  closeCart: () => void
+  toggleCart: () => void
+}
+
+export interface CartProviderProps {
+  children: React.ReactNode
+}
+
+export interface IValidationResult {
+  valid: boolean
+  error: string | null
+}
