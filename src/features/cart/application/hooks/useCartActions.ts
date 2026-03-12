@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import {
   addItemToCart,
   removeItemFromCart,
+  validateCartItem,
 } from "@/features/cart/domain/cartUtils";
 import type { ICartItem, IProduct } from "@/features/cart/domain/cartTypes";
 
@@ -29,11 +30,18 @@ export const useCartActions = (
   setCart: React.Dispatch<React.SetStateAction<ICartItem[]>>,
   openCart: () => void,
 ): IUseCartActionsReturn => {
-  /** Agrega producto y abre el carrito */
+  /** Agrega producto y abre el carrito con validación previa */
   const addToCart = useCallback(
     (product: IProduct, quantity: number) => {
+      const validation = validateCartItem(product, quantity);
+
+      if (!validation.valid) {
+        toast.error(validation.error || "Error al agregar el producto");
+        return;
+      }
+
       setCart((prev) => addItemToCart(prev, product, quantity));
-      toast.success("Product added to cart!");
+      toast.success(`${product.title} agregado al carrito!`);
       openCart();
     },
     [setCart, openCart],

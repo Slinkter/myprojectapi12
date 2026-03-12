@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react'
+import { HiOutlineCheck } from 'react-icons/hi2'
 import { cn } from '@/shared/lib/cn'
 
 interface CheckoutStepsProps {
@@ -26,7 +26,7 @@ export function CheckoutSteps({ steps, currentStep, className }: CheckoutStepsPr
               )}
             >
               {isCompleted ? (
-                <Check className="w-5 h-5" strokeWidth={3} />
+                <HiOutlineCheck className="w-5 h-5" />
               ) : (
                 index + 1
               )}

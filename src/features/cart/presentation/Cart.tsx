@@ -6,7 +6,7 @@
  * @architecture Presentation Layer - Cart Feature
  */
 import { useNavigate } from "react-router-dom";
-import { X, Trash2 } from "lucide-react";
+import { HiOutlineXMark, HiOutlineTrash } from "react-icons/hi2";
 import { useCart } from "@/features/cart/application/useCart";
 import { ICartItem } from "@/features/cart/domain/cartTypes";
 import { cn } from "@/lib/utils";
@@ -86,7 +86,7 @@ const Cart = () => {
               className="rounded-full hover:rotate-90"
               aria-label="Cerrar carrito de compras"
             >
-              <X size={20} className="text-slate-500" strokeWidth={2} />
+              <HiOutlineXMark size={24} className="text-slate-500" />
             </Button>
           </div>
 
@@ -94,7 +94,7 @@ const Cart = () => {
             {cart.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-center">
                 <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
-                  <X className="text-slate-400" size={28} strokeWidth={2} />
+                  <HiOutlineXMark className="text-slate-400" size={32} />
                 </div>
                 <p className="text-slate-500 font-medium">
                   Tu carrito está vacío.
@@ -135,7 +135,7 @@ const Cart = () => {
                       className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500 cursor-pointer"
                       aria-label={`Eliminar ${item.title} del carrito`}
                     >
-                      <Trash2 size={18} strokeWidth={2} />
+                      <HiOutlineTrash size={20} />
                     </button>
                   </div>
                 </div>

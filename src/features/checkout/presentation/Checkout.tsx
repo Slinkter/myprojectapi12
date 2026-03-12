@@ -4,7 +4,7 @@
  * Rediseñada para una experiencia de usuario premium, segura y clara.
  * @architecture Capa de Presentación - Feature de Checkout
  */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCheckout } from "@/features/checkout/application/useCheckout";
 import { useCart } from "@/features/cart/application/useCart";
@@ -12,11 +12,15 @@ import PaymentMethodRadio from "@/features/checkout/presentation/components/Paym
 import CardForm from "@/features/checkout/presentation/components/CardForm";
 import { OrderSummary } from "@/features/checkout/presentation/components/OrderSummary";
 import { CheckoutSteps } from "@/features/checkout/presentation/components/CheckoutSteps";
-import { ArrowLeft, ShieldCheck, Lock, Loader2 } from "lucide-react";
+import { IoArrowBack, IoShieldCheckmarkOutline, IoLockClosedOutline, IoSync } from 'react-icons/io5';
 
 import { Button } from "@/components/ui/button";
 
 const Checkout = () => {
+  useEffect(() => {
+    console.log('[Checkout] Component mounted!')
+  }, [])
+  
   const {
     paymentMethod,
     cardInfo,
@@ -63,10 +67,10 @@ const Checkout = () => {
                   to="/"
                   className="text-sm font-semibold text-slate-500 hover:text-amber-600 transition-colors flex items-center gap-2"
                 >
-                  <ArrowLeft className="w-4 h-4" strokeWidth={2} /> Volver a la Tienda
+                  <IoArrowBack className="w-4 h-4" /> Volver a la Tienda
                 </Link>
                 <div className="flex items-center gap-2 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-green-50 dark:bg-green-900/20 rounded-full border border-green-100 dark:border-green-900/30">
-                  <ShieldCheck className="w-3.5 h-3.5" strokeWidth={2} />
+                  <IoShieldCheckmarkOutline className="w-3.5 h-3.5" />
                   Pago Seguro
                 </div>
               </div>
@@ -148,24 +152,24 @@ const Checkout = () => {
               >
                 {isProcessing ? (
                   <span className="flex items-center gap-2">
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <IoSync className="w-5 h-5 animate-spin" />
                     Procesando...
                   </span>
                 ) : paymentMethod === "bitcoin" ? (
                   <span className="flex items-center gap-2">
                     Proceder al Pago Cripto{" "}
-                    <ArrowLeft className="w-5 h-5 rotate-180" strokeWidth={2} />
+                    <IoArrowBack className="w-5 h-5 rotate-180" />
                   </span>
                 ) : (
                   <span className="flex items-center gap-2">
-                    Pagar Ahora <ShieldCheck className="w-5 h-5" strokeWidth={2} />
+                    Pagar Ahora <IoShieldCheckmarkOutline className="w-5 h-5" />
                   </span>
                 )}
               </Button>
 
               <div className="flex flex-col items-center gap-2 mt-8 py-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
                 <p className="text-[11px] text-slate-400 font-medium flex items-center gap-2 uppercase tracking-widest">
-                  <Lock className="w-3.5 h-3.5" strokeWidth={2} />
+                  <IoLockClosedOutline className="w-3.5 h-3.5" />
                   Transacción encriptada SSL de 256 bits
                 </p>
               </div>

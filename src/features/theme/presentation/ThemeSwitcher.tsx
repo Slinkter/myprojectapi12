@@ -5,7 +5,7 @@
  * @architecture Capa de Presentación - Feature de Tema
  */
 import { useTheme } from "@/features/theme/application/ThemeContext";
-import { Sun, Moon } from "lucide-react";
+import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -30,9 +30,9 @@ const ThemeSwitcher = () => {
             aria-label={`Cambiar a modo ${theme === "light" ? "oscuro" : "claro"}`}
         >
             {theme === "light" ? (
-                <Moon className={cn("h-5 w-5")} strokeWidth={2} />
+                <HiOutlineMoon className={cn("h-6 w-6")} />
             ) : (
-                <Sun className={cn("h-5 w-5")} strokeWidth={2} />
+                <HiOutlineSun className={cn("h-6 w-6")} />
             )}
         </Button>
     );

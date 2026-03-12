@@ -31,13 +31,14 @@ const LoadMoreButton = memo(({ onClick, loading }: LoadMoreButtonProps) => {
         <Button
             onClick={onClick}
             disabled={loading}
-            variant="secondary"
+            variant="default"
             size="lg"
+            className="mt-6"
             aria-label={loading ? "Cargando más items..." : "Cargar más items"}
         >
             {loading ? (
                 <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-amber-600 border-t-transparent" />
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
                     <span>Cargando...</span>
                 </>
             ) : (

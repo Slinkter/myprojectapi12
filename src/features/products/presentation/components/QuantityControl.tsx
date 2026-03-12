@@ -4,6 +4,8 @@
  * @architecture Presentation Layer - Componente de Feature
  */
 
+import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi2";
+
 /**
  * @interface IQuantityControlProps
  * @description Props del componente QuantityControl.
@@ -37,7 +39,7 @@ const QuantityControl = ({
         disabled={quantity === 1}
         className="w-11 h-11 min-w-[44px] flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-foreground transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 active:scale-95 disabled:opacity-50"
       >
-        <span className="text-xl font-medium mb-0.5">−</span>
+        <HiOutlineMinus className="w-5 h-5" />
       </button>
       <span className="flex-1 text-center font-bold text-lg text-foreground font-mono">
         {quantity}
@@ -47,7 +49,7 @@ const QuantityControl = ({
         disabled={quantity >= stock}
         className="w-11 h-11 min-w-[44px] flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-foreground transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 active:scale-95 disabled:opacity-50"
       >
-        <span className="text-xl font-medium mb-0.5">+</span>
+        <HiOutlinePlus className="w-5 h-5" />
       </button>
     </div>
   );

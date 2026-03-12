@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { Search, X } from 'lucide-react'
+import { HiOutlineSearch, HiOutlineXMark } from 'react-icons/hi2'
 import { cn } from '@/shared/lib/cn'
 import { Button } from '@/shared/ui/Button'
 
@@ -30,12 +30,11 @@ export function SearchInput({
         className
       )}
     >
-      <Search
+      <HiOutlineSearch
         className={cn(
           'absolute left-4 w-5 h-5 transition-colors',
           isFocused ? 'text-amber-600' : 'text-slate-400'
         )}
-        strokeWidth={2}
       />
       <input
         type="text"
@@ -63,7 +62,7 @@ export function SearchInput({
           className="absolute right-2 h-8 w-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
           aria-label="Limpiar búsqueda"
         >
-          <X className="w-4 h-4" strokeWidth={2} />
+          <HiOutlineXMark className="w-5 h-5" />
         </Button>
       )}
     </div>

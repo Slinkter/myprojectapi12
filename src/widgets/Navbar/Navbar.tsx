@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { cn } from '@/shared/lib/cn'
 import { useCart } from '@/features/cart/application/useCart'
 import ThemeSwitcher from '@/features/theme/presentation/ThemeSwitcher'
-import { ShoppingCart } from 'lucide-react'
+import { HiOutlineShoppingBag } from 'react-icons/hi2'
 import { Button } from '@/shared/ui/Button'
 
 export function Navbar() {
@@ -56,7 +56,7 @@ export function Navbar() {
               className="relative w-11 h-11 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 active:scale-95 text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400"
               aria-label="Abrir carrito de compras"
             >
-              <ShoppingCart className="h-5 w-5" strokeWidth={2} />
+              <HiOutlineShoppingBag className="h-6 w-6" />
               {totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-5 w-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-sm ring-2 ring-(--bg-main) animate-in zoom-in duration-300 pointer-events-none">
                   {totalItems > 9 ? '9+' : totalItems}

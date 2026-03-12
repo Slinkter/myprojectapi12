@@ -9,11 +9,18 @@ import { getProducts } from "@/features/products/infrastructure/productsApi";
 import type { Product } from "@/entities/product/types/product.types";
 import type { IUseProductsResult } from "@/features/products/application/types";
 
-const LIMIT = 20;
+/**
+ * Cantidad de productos por página para la paginación infinita.
+ */
+const PRODUCTS_PER_PAGE = 20;
 
+/**
+ * Hook para obtener y gestionar la lista de productos con scroll infinito.
+ * @returns {IUseProductsResult} Objeto con productos, estados de carga y funciones de paginación.
+ */
 export const useProducts = (): IUseProductsResult => {
   const {
-    isLoading,
+    isLoading: isInitialLoading,
     error,
     data,
     fetchNextPage,
@@ -22,9 +29,9 @@ export const useProducts = (): IUseProductsResult => {
   } = useInfiniteQuery({
     queryKey: ["products"] as const,
     queryFn: async ({ pageParam = 1 }) => {
-      const skip = (pageParam - 1) * LIMIT
-      const response = await getProducts(skip, LIMIT)
-      return response
+      const skip = (pageParam - 1) * PRODUCTS_PER_PAGE;
+      const response = await getProducts(skip, PRODUCTS_PER_PAGE);
+      return response;
     },
     getNextPageParam: (lastPage, allPages) => {
       const totalFetched = allPages.reduce(
@@ -43,7 +50,7 @@ export const useProducts = (): IUseProductsResult => {
     products,
     error: error?.message || null,
     loading: isFetchingNextPage,
-    initialLoading: isLoading,
+    initialLoading: isInitialLoading,
     hasMore: hasNextPage ?? false,
     loadMore: fetchNextPage,
     isLoadingMore: isFetchingNextPage,

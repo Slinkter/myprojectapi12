@@ -1,5 +1,5 @@
 import { useState, useRef, type MouseEvent } from 'react'
-import { ZoomIn, ZoomOut, RotateCcw } from 'lucide-react'
+import { HiOutlineMagnifyingGlassPlus, HiOutlineMagnifyingGlassMinus, HiOutlineArrowPath } from 'react-icons/hi2'
 import { cn } from '@/shared/lib/cn'
 
 interface ImageZoomProps {
@@ -88,7 +88,7 @@ export function ImageZoom({ src, alt, className }: ImageZoomProps) {
             className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors"
             aria-label="Alejar"
           >
-            <ZoomOut className="w-4 h-4" />
+            <HiOutlineMagnifyingGlassMinus className="w-5 h-5" />
           </button>
           <span className="text-white text-sm font-medium min-w-[3rem] text-center">
             {Math.round(zoom * 100)}%
@@ -98,14 +98,14 @@ export function ImageZoom({ src, alt, className }: ImageZoomProps) {
             className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors"
             aria-label="Acercar"
           >
-            <ZoomIn className="w-4 h-4" />
+            <HiOutlineMagnifyingGlassPlus className="w-5 h-5" />
           </button>
           <button
             onClick={resetZoom}
             className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors ml-2"
             aria-label="Restablecer"
           >
-            <RotateCcw className="w-4 h-4" />
+            <HiOutlineArrowPath className="w-5 h-5" />
           </button>
         </div>
       )}

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { X, Trash2 } from 'lucide-react'
+import { IoClose, IoTrashOutline } from 'react-icons/io5'
 import { useCart } from '@/features/cart/application/useCart'
 import type { ICartItem } from '@/features/cart/domain/cartTypes'
 import { cn } from '@/shared/lib/cn'
@@ -11,15 +11,20 @@ export function CartDrawer() {
   const navigate = useNavigate()
   const location = useLocation()
   const cartRef = useRef<HTMLDivElement>(null)
+  const prevLocationRef = useRef(location.pathname)
 
+  // Close drawer on route change - only when actually navigating away
   useEffect(() => {
-    closeCart()
-  }, [location.pathname, closeCart])
+    if (prevLocationRef.current !== location.pathname && isCartOpen) {
+      prevLocationRef.current = location.pathname
+      closeCart()
+    }
+  }, [location.pathname, isCartOpen, closeCart])
 
-  const handleCheckout = () => {
+  const handleCheckout = useCallback(() => {
     closeCart()
     navigate('/checkout')
-  }
+  }, [closeCart, navigate])
 
   useEffect(() => {
     if (!isCartOpen) return
@@ -75,7 +80,7 @@ export function CartDrawer() {
               className="rounded-full hover:rotate-90"
               aria-label="Cerrar carrito de compras"
             >
-              <X size={20} className="text-slate-500" strokeWidth={2} />
+              <IoClose size={20} className="text-slate-500" />
             </Button>
           </div>
 
@@ -83,7 +88,7 @@ export function CartDrawer() {
             {cart.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-center">
                 <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
-                  <X className="text-slate-400" size={28} strokeWidth={2} />
+                  <IoClose className="text-slate-400" size={28} />
                 </div>
                 <p className="text-slate-500 font-medium">
                   Tu carrito está vacío.
@@ -124,7 +129,7 @@ export function CartDrawer() {
                       className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors text-red-500 cursor-pointer"
                       aria-label={`Eliminar ${item.title} del carrito`}
                     >
-                      <Trash2 size={18} strokeWidth={2} />
+                      <IoTrashOutline size={18} />
                     </button>
                   </div>
                 </div>

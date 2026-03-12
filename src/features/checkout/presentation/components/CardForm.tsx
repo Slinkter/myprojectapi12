@@ -10,7 +10,13 @@ import {
   IValidationErrors,
 } from "@/features/checkout/application/types";
 import { cn } from "@/lib/utils";
-import { CreditCard, User, Calendar, Lock, AlertCircle } from "lucide-react";
+import { 
+  HiOutlineCreditCard, 
+  HiOutlineUser, 
+  HiOutlineCalendarDays, 
+  HiOutlineLockClosed, 
+  HiOutlineExclamationCircle 
+} from "react-icons/hi2";
 
 /**
  * @interface ICardFormProps
@@ -71,7 +77,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
             autoComplete="cc-number"
           />
           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-            <CreditCard className="w-5 h-5 transition-colors group-focus-within:text-amber-500" strokeWidth={2} />
+            <HiOutlineCreditCard className="w-5 h-5 transition-colors group-focus-within:text-amber-500" />
           </div>
 
           {/* Card Type Icon Indicator */}
@@ -99,7 +105,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
             id="card-number-error"
             className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-bold"
           >
-            <AlertCircle className="w-3.5 h-3.5" strokeWidth={2} />
+            <HiOutlineExclamationCircle className="w-4 h-4" />
             {errors.number}
           </p>
         )}
@@ -126,7 +132,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
             autoComplete="cc-name"
           />
           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-            <User className="w-5 h-5 transition-colors group-focus-within:text-amber-500" strokeWidth={2} />
+            <HiOutlineUser className="w-5 h-5 transition-colors group-focus-within:text-amber-500" />
           </div>
         </div>
         {errors.name && (
@@ -134,7 +140,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
             id="cardholder-name-error"
             className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-bold"
           >
-            <AlertCircle className="w-3.5 h-3.5" strokeWidth={2} />
+            <HiOutlineExclamationCircle className="w-4 h-4" />
             {errors.name}
           </p>
         )}
@@ -163,7 +169,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
               autoComplete="cc-exp"
             />
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-              <Calendar className="w-5 h-5 transition-colors group-focus-within:text-amber-500" strokeWidth={2} />
+              <HiOutlineCalendarDays className="w-5 h-5 transition-colors group-focus-within:text-amber-500" />
             </div>
           </div>
           {errors.expiry && (
@@ -171,7 +177,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
               id="card-expiry-error"
               className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-bold"
             >
-              <AlertCircle className="w-3.5 h-3.5" strokeWidth={2} />
+              <HiOutlineExclamationCircle className="w-4 h-4" />
               {errors.expiry}
             </p>
           )}
@@ -201,7 +207,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
               autoComplete="cc-csc"
             />
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-              <Lock className="w-5 h-5 transition-colors group-focus-within:text-amber-500" strokeWidth={2} />
+              <HiOutlineLockClosed className="w-5 h-5 transition-colors group-focus-within:text-amber-500" />
             </div>
           </div>
           {errors.cvc && (
@@ -209,7 +215,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
               id="card-cvc-error"
               className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-bold"
             >
-              <AlertCircle className="w-3.5 h-3.5" strokeWidth={2} />
+              <HiOutlineExclamationCircle className="w-4 h-4" />
               {errors.cvc}
             </p>
           )}

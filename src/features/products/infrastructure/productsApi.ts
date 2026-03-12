@@ -12,6 +12,6 @@ export const getProducts = async (
   limit: number,
 ): Promise<ProductsApiResponse> => {
   const endpoint = `/products?limit=${limit}&skip=${skip}`;
-  const rpta = apiClient<ProductsApiResponse>(endpoint);
-  return rpta;
+  const response = apiClient<ProductsApiResponse>(endpoint);
+  return response;
 };

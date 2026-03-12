@@ -1,6 +1,6 @@
 /**
- * @file ButtonMore.tsx
- * @description Botón de paginación "Cargar más" junto al mensaje de fin de lista.
+ * @file LoadMoreSection.tsx
+ * @description Sección de paginación que incluye el botón "Cargar más" y el mensaje de fin de lista.
  * @architecture Presentation Layer - Componente de Feature
  */
 
@@ -8,10 +8,10 @@ import LoadMoreButton from "@/features/products/presentation/components/LoadMore
 import { IProduct } from "@/features/products/application/types";
 
 /**
- * @interface IButtonMoreProps
- * @description Props del componente ButtonMore.
+ * @interface ILoadMoreSectionProps
+ * @description Props del componente LoadMoreSection.
  */
-interface IButtonMoreProps {
+interface ILoadMoreSectionProps {
   /** Lista de productos actualmente cargados */
   products: IProduct[];
   /** Indica si hay más páginas disponibles */
@@ -23,11 +23,11 @@ interface IButtonMoreProps {
 }
 
 /**
- * @component ButtonMore
+ * @component LoadMoreSection
  * @description Renderiza el botón "Cargar más" si hay páginas pendientes,
  * o un mensaje de fin de lista cuando ya no hay más productos.
  */
-const ButtonMore = (props: IButtonMoreProps) => {
+const LoadMoreSection = (props: ILoadMoreSectionProps) => {
   const { products, hasMore, loadMore, loading } = props;
   return (
     <div className="flex flex-col items-center justify-center w-full mt-12 mb-8">
@@ -42,4 +42,4 @@ const ButtonMore = (props: IButtonMoreProps) => {
   );
 };
 
-export default ButtonMore;
+export default LoadMoreSection;

@@ -4,7 +4,8 @@ import Loader from "@/components/common/Loader";
 import { CartDrawer } from "@/widgets/CartDrawer";
 
 const Home = lazy(() => import("@/pages/Home"));
-const Checkout = lazy(() => import("@/features/checkout/presentation/Checkout"));
+// Direct import instead of lazy to debug
+import Checkout from "@/features/checkout/presentation/Checkout";
 const CheckoutSuccess = lazy(() => import("@/features/checkout/presentation/CheckoutSuccess"));
 
 const AppRouter: React.FC = () => {

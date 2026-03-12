@@ -4,7 +4,7 @@
  * Renderiza puramente el icono SVG sin lógica de estado ni badges.
  * @architecture Presentation Layer - Cart Feature
  */
-import { ShoppingCart } from "lucide-react";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
 /**
@@ -23,9 +23,8 @@ interface ICartIconProps {
  */
 const CartIcon = ({ className }: ICartIconProps) => {
     return (
-        <ShoppingCart
+        <HiOutlineShoppingBag
             className={cn("h-5 w-5", className)}
-            strokeWidth={2}
         />
     );
 };

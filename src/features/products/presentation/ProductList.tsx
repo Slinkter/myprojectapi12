@@ -8,7 +8,7 @@
 import { memo } from "react";
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import ButtonMore from "@/features/products/presentation/components/ButtonMore";
+import LoadMoreSection from "@/features/products/presentation/components/LoadMoreSection";
 import { IProductListProps } from "@/features/products/presentation/type";
 
 /**
@@ -50,7 +50,7 @@ const ProductList = memo((props: IProductListProps) => {
   return (
     <>
       <ProductGrid products={products} />
-      <ButtonMore
+      <LoadMoreSection
         products={products}
         hasMore={hasMore}
         loadMore={loadMore}

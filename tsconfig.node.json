@@ -1,15 +1,15 @@
 {
-    "compilerOptions": {
-        "target": "ES2022",
-        "lib": ["ES2023"],
-        "module": "ESNext",
-        "skipLibCheck": true,
-        "moduleResolution": "bundler",
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "composite": true
-    },
-    "include": ["vite.config.js"]
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "isolatedModules": true,
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022"
+  },
+  "include": ["vite.config.js"]
 }

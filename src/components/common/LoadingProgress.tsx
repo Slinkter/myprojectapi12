@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface LoadingProgressProps {
@@ -8,6 +8,20 @@ interface LoadingProgressProps {
 
 export function LoadingProgress({ isLoading, className }: LoadingProgressProps) {
   const [progress, setProgress] = useState(0)
+  const [isVisible, setIsVisible] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    if (isLoading) {
+      timeoutRef.current = setTimeout(() => setIsVisible(true), 100)
+    } else {
+      setIsVisible(false)
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [isLoading])
 
   useEffect(() => {
     if (!isLoading) {
@@ -29,24 +43,26 @@ export function LoadingProgress({ isLoading, className }: LoadingProgressProps) 
 
   return (
     <AnimatePresence>
-      {isLoading && (
+      {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ duration: 0.3 }}
-          className={`fixed top-0 left-0 right-0 z-50 ${className || ''}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className={`fixed top-0 left-0 right-0 z-[9999] pointer-events-none ${className || ''}`}
         >
-          <div className="h-1 w-full bg-slate-200 dark:bg-slate-800">
-            <motion.div
-              className="h-full bg-gradient-to-r from-amber-500 to-amber-600"
-              initial={{ width: '0%' }}
-              animate={{ width: `${Math.min(progress, 100)}%` }}
-              transition={{ duration: 0.2 }}
-            />
-          </div>
-          <div className="bg-amber-600 text-white text-xs font-medium py-1 text-center">
-            Cargando productos...
+          <div className="shadow-lg">
+            <div className="h-1 w-full bg-slate-200 dark:bg-slate-800">
+              <motion.div
+                className="h-full bg-gradient-to-r from-amber-500 to-amber-600"
+                initial={{ width: '0%' }}
+                animate={{ width: `${Math.min(progress, 100)}%` }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+              />
+            </div>
+            <div className="bg-amber-600 dark:bg-amber-700 text-white text-xs font-medium py-1 text-center">
+              Cargando productos...
+            </div>
           </div>
         </motion.div>
       )}

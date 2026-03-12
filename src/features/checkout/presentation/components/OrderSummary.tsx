@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ShoppingCart, Package, Truck, Tag, Check, X } from 'lucide-react'
+import { HiOutlineShoppingBag, HiOutlineCube, HiOutlineTruck, HiOutlineTag, HiOutlineCheck, HiOutlineXMark } from 'react-icons/hi2'
 import type { CartItem } from '@/entities/cart/types/cart.types'
 import { cn } from '@/shared/lib/cn'
 import { Button } from '@/shared/ui/Button'
@@ -74,7 +74,7 @@ export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps
       )}
     >
       <h3 className="font-bold text-lg text-foreground mb-4 flex items-center gap-2">
-        <ShoppingCart className="w-5 h-5 text-amber-600" strokeWidth={2} />
+        <HiOutlineShoppingBag className="w-5 h-5 text-amber-600" />
         Resumen del Pedido
       </h3>
 
@@ -114,7 +114,7 @@ export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps
           </label>
           <div className="flex gap-2">
             <div className="relative flex-1">
-              <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <HiOutlineTag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 id="discount-code"
                 type="text"
@@ -148,7 +148,7 @@ export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps
         <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Check className="w-4 h-4 text-green-600" />
+              <HiOutlineCheck className="w-4 h-4 text-green-600" />
               <span className="text-sm font-medium text-green-700 dark:text-green-400">
                 {appliedDiscount.code} (-{appliedDiscount.type === 'percentage' ? `${appliedDiscount.discount}%` : `$${appliedDiscount.discount}`})
               </span>
@@ -158,7 +158,7 @@ export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps
               className="p-1 hover:bg-green-100 dark:hover:bg-green-900/30 rounded"
               aria-label="Eliminar descuento"
             >
-              <X className="w-4 h-4 text-green-600" />
+              <HiOutlineXMark className="w-4 h-4 text-green-600" />
             </button>
           </div>
         </div>
@@ -167,7 +167,7 @@ export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-2">
         <div className="flex justify-between text-sm">
           <span className="text-slate-500 flex items-center gap-2">
-            <Package className="w-4 h-4" strokeWidth={2} />
+            <HiOutlineCube className="w-4 h-4" />
             Subtotal ({totalItems} productos)
           </span>
           <span className="font-medium">${totalPrice.toFixed(2)}</span>
@@ -182,7 +182,7 @@ export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps
 
         <div className="flex justify-between text-sm">
           <span className="text-slate-500 flex items-center gap-2">
-            <Truck className="w-4 h-4" strokeWidth={2} />
+            <HiOutlineTruck className="w-4 h-4" />
             Envío
           </span>
           <span className={shipping === 0 ? 'text-green-600 font-medium' : ''}>

@@ -4,7 +4,7 @@
  * Muestra detalles técnicos solo en modo desarrollo.
  * @architecture Presentation Layer - Error Handling
  */
-import { TriangleAlert } from "lucide-react";
+import { HiOutlineExclamationTriangle } from "react-icons/hi2";
 import React from "react";
 import clsx from "clsx";
 
@@ -45,11 +45,10 @@ const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
                             "w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center",
                         )}
                     >
-                        <TriangleAlert
+                        <HiOutlineExclamationTriangle
                             className={clsx(
                                 "w-12 h-12 text-red-600 dark:text-red-400",
                             )}
-                            strokeWidth={2}
                         />
                     </div>
                 </div>

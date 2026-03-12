@@ -13,7 +13,7 @@ import { LoadingProgress } from '@/components/common/LoadingProgress'
 import SkeletonGrid from '@/features/products/presentation/SkeletonGrid'
 import ProductList from '@/features/products/presentation/ProductList'
 import ProductDetailModal from '@/features/products/presentation/ProductDetailModal'
-import Homehead from '@/pages/Homehead'
+import HomeHeader from '@/pages/HomeHeader'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 
 export const HomeContent = () => {
@@ -28,7 +28,12 @@ export const HomeContent = () => {
   
   useEffect(() => {
     if (!debouncedSearch) {
-      setFilteredProducts(products)
+      setFilteredProducts(prev => {
+        if (prev !== products && JSON.stringify(prev) !== JSON.stringify(products)) {
+          return products
+        }
+        return prev
+      })
     } else {
       const lowerQuery = debouncedSearch.toLowerCase()
       const filtered = products.filter(
@@ -38,7 +43,12 @@ export const HomeContent = () => {
           p.category?.toLowerCase().includes(lowerQuery) ||
           p.brand?.toLowerCase().includes(lowerQuery)
       )
-      setFilteredProducts(filtered)
+      setFilteredProducts(prev => {
+        if (JSON.stringify(prev) !== JSON.stringify(filtered)) {
+          return filtered
+        }
+        return prev
+      })
     }
   }, [debouncedSearch, products])
 
@@ -50,7 +60,7 @@ export const HomeContent = () => {
     <>
       <LoadingProgress isLoading={isLoading} />
       <div className="container mx-auto px-4 py-8">
-      <Homehead />
+      <HomeHeader />
       
       <div className="mb-8 max-w-xl mx-auto">
         <SearchInput

@@ -5,7 +5,7 @@
  * @architecture Presentation Layer - Componente de UI / Modal
  */
 
-import { X, ShoppingCart } from "lucide-react";
+import { HiOutlineXMark, HiOutlineShoppingBag } from "react-icons/hi2";
 import { useState, useEffect, MouseEvent } from "react";
 import { useCart } from "@/features/cart/application/useCart";
 import { m, AnimatePresence } from "framer-motion";
@@ -79,12 +79,11 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                 variant="outline"
                 size="icon"
                 onClick={onClose}
-                className="rounded-full bg-card/90 backdrop-blur-md border-slate-200 dark:border-slate-800 shadow-sm"
+                className="rounded-full bg-card/90 backdrop-blur-md border-slate-200 dark:border-slate-800 shadow-sm group"
                 aria-label="Cerrar modal"
               >
-                <X
+                <HiOutlineXMark
                   className="w-5 h-5 text-slate-500 group-hover:text-amber-600 transition-colors"
-                  strokeWidth={2}
                 />
               </Button>
             </div>
@@ -163,7 +162,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                       className="flex-1 rounded-full text-base font-bold shadow-amber-500/20"
                     >
                       {stockStatus === "out" ? "Sin Stock" : "Agregar al Carrito"}
-                      <ShoppingCart className="ml-2 w-5 h-5" strokeWidth={2.5} />
+                      <HiOutlineShoppingBag className="ml-2 w-5 h-5" />
                     </Button>
                   </div>
                   

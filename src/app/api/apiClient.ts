@@ -8,7 +8,7 @@ export const apiClient = async <T>(
 ): Promise<T> => {
   // params
   const url = `${BASE_URL}${endpoint}`;
-  const config: RequestInit = {
+  const requestOptions: RequestInit = {
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ export const apiClient = async <T>(
     },
   };
   // exec
-  const response = await fetch(url, config);
+  const response = await fetch(url, requestOptions);
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);

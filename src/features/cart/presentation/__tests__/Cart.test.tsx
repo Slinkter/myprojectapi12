@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@/test/utils";
+import { render, screen } from "@/test/utils";
 import Cart from "../Cart";
 import { CartProvider } from "../../application/CartContext";
 

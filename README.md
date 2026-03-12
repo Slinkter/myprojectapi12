@@ -14,6 +14,7 @@ Una aplicación de comercio electrónico lista para producción que muestra patr
 ## 🏗️ Visualización de Arquitectura (ASCII)
 
 ### 1. Diagrama de Montaje de Componentes
+
 Representa cómo se ensambla la aplicación desde el punto de entrada hasta las vistas.
 
 ```text
@@ -47,6 +48,7 @@ Representa cómo se ensambla la aplicación desde el punto de entrada hasta las 
 ```
 
 ### 2. Diagrama de Capas y Dependencias (FSD + DDD)
+
 Muestra la jerarquía de comunicación entre las capas del sistema.
 
 ```text
@@ -75,6 +77,7 @@ Muestra la jerarquía de comunicación entre las capas del sistema.
 ```
 
 ### 3. Arquitectura Cliente-Servidor
+
 Interacción entre la SPA y la API externa.
 
 ```text
@@ -106,8 +109,8 @@ MEDIA COMPLEJIDAD (Lógica de Carrito)
 [Add Item] -> [Domain Validation (Stock)] -> [Context Merge] -> [Sync Store]
 
 ALTA COMPLEJIDAD (Scroll Infinito & Paginación)
-[Scroll Event] -> [Observer Trigger] -> [React Query Fetch] -> 
-   [API Request (limit/skip)] -> [JSON Response] -> 
+[Scroll Event] -> [Observer Trigger] -> [React Query Fetch] ->
+   [API Request (limit/skip)] -> [JSON Response] ->
    [Algorithm: Page Flattening (flatMap)] -> [Virtual DOM Diff] -> [UI Render]
 ```
 
@@ -200,6 +203,7 @@ pnpm test:coverage # Generar reporte de cobertura
 ## 👨‍💻 Autor
 
 **Luis J Cueva**
+
 - GitHub: [@Slinkter](https://github.com/Slinkter)
 - LinkedIn: [Luis J Cueva](https://linkedin.com/in/luis-cueva)
 
