@@ -19,25 +19,9 @@ import { queryClient } from "@/app/config/queryClient";
 
 // Componentes y Enrutamiento
 import Layout from "@/components/common/Layout";
-import { CartDrawer } from "@/widgets/CartDrawer";
 import AppRouter from "@/app/routing/AppRouter";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 
-/**
- * El componente raíz de la aplicación.
- *
- * @remarks
- * Este componente actúa como el centro de configuración para toda la aplicación.
- * Envuelve la aplicación con todos los proveedores necesarios:
- * - `QueryClientProvider`: Para la gestión del estado del servidor con TanStack Query.
- * - `BrowserRouter`: Para la navegación con React Router (con ruta base).
- * - `ThemeProvider`: Para la gestión global del tema (claro/oscuro).
- * - `CartProvider`: Para la lógica de dominio del carrito de compras.
- *
- * También configura el shell de la UI de nivel superior con un `ErrorBoundary` y el `Layout` principal.
- *
- * @returns El árbol completo de elementos de React para la aplicación.
- */
 const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -49,7 +33,6 @@ const App: React.FC = () => {
                 <Layout>
                   <AppRouter />
                 </Layout>
-                <CartDrawer />
               </ErrorBoundary>
             </CartProvider>
           </ThemeProvider>

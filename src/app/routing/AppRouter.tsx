@@ -1,20 +1,12 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Loader from "@/components/common/Loader";
+import { CartDrawer } from "@/widgets/CartDrawer";
 
-// Componentes cargados de forma diferida (ahora .tsx tras la migración)
 const Home = lazy(() => import("@/pages/Home"));
-const Checkout = lazy(
-  () => import("@/features/checkout/presentation/Checkout"),
-);
-const CheckoutSuccess = lazy(
-  () => import("@/features/checkout/presentation/CheckoutSuccess"),
-);
+const Checkout = lazy(() => import("@/features/checkout/presentation/Checkout"));
+const CheckoutSuccess = lazy(() => import("@/features/checkout/presentation/CheckoutSuccess"));
 
-/**
- * Componente que define la estructura de enrutamiento de la aplicación.
- * Utiliza Suspense para mostrar un indicador de carga mientras se cargan los componentes.
- */
 const AppRouter: React.FC = () => {
   return (
     <Suspense fallback={<Loader />}>
@@ -22,7 +14,9 @@ const AppRouter: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
+        <Route path="*" element={<Home />} />
       </Routes>
+      <CartDrawer />
     </Suspense>
   );
 };
