@@ -11,26 +11,33 @@ import { useCart } from "@/features/cart/application/useCart";
 import { m, AnimatePresence } from "framer-motion";
 import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
 import { IProductDetailModalProps } from "@/features/products/application/types";
-import { getStockStatus } from "@/features/products/domain/stockUtils";
+import { getStockStatus } from "@/shared/lib/stockUtils";
 import QuantityControl from "@/features/products/presentation/components/QuantityControl";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ImageZoom } from "@/components/common/ImageZoom";
 
 const ProductDetailModal = (props: IProductDetailModalProps) => {
   const { product, open, onClose } = props;
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState<number>(1);
+  const [selectedImage, setSelectedImage] = useState<string>('');
 
   useEffect(() => {
     if (!open) return;
     setQuantity(1);
+    if (product?.images && product.images.length > 0) {
+      setSelectedImage(product.images[0]);
+    } else if (product?.thumbnail) {
+      setSelectedImage(product.thumbnail);
+    }
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [open, onClose]);
+  }, [open, onClose, product?.images, product?.thumbnail]);
 
   const increment = () => {
     setQuantity((prev) => (product && prev < product.stock ? prev + 1 : prev));
@@ -171,16 +178,42 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                 </div>
               </div>
 
-              {/* Columna Derecha: Imagen */}
-              <div className="w-full md:w-1/2 bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center p-8 md:p-12 order-1 md:order-2">
-                <div className="relative w-full h-64 md:h-full max-h-[500px] flex items-center justify-center">
+              {/* Columna Derecha: Imagen con Zoom y Galería */}
+              <div className="w-full md:w-1/2 bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center p-8 md:p-12 order-1 md:order-2">
+                <div className="relative w-full h-64 md:h-full max-h-[500px] flex items-center justify-center mb-4">
                   <div className="absolute inset-0 bg-amber-500/10 rounded-full blur-3xl transform scale-75" />
-                  <img
-                    src={product.thumbnail}
-                    alt={product.title}
-                    className="relative z-10 w-full h-full object-contain drop-shadow-2xl transition-opacity duration-300 hover:opacity-80"
-                  />
+                  {selectedImage && (
+                    <ImageZoom
+                      src={selectedImage}
+                      alt={product.title}
+                      className="relative z-10 w-full h-full"
+                    />
+                  )}
                 </div>
+                
+                {/* Galería de miniaturas */}
+                {product.images && product.images.length > 1 && (
+                  <div className="flex gap-2 overflow-x-auto pb-2">
+                    {product.images.map((img, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedImage(img)}
+                        className={cn(
+                          'flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all',
+                          selectedImage === img
+                            ? 'border-amber-500 ring-2 ring-amber-500/30'
+                            : 'border-slate-200 dark:border-slate-700 hover:border-amber-400'
+                        )}
+                      >
+                        <img
+                          src={img}
+                          alt={`${product.title} - imagen ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </m.div>

@@ -1,6 +1,20 @@
-import { ShoppingCart, Package, Truck } from 'lucide-react'
+import { useState } from 'react'
+import { ShoppingCart, Package, Truck, Tag, Check, X } from 'lucide-react'
 import type { CartItem } from '@/entities/cart/types/cart.types'
 import { cn } from '@/shared/lib/cn'
+import { Button } from '@/shared/ui/Button'
+
+interface DiscountCode {
+  code: string
+  discount: number
+  type: 'percentage' | 'fixed'
+}
+
+const VALID_CODES: DiscountCode[] = [
+  { code: 'WELCOME10', discount: 10, type: 'percentage' },
+  { code: 'SAVE5', discount: 5, type: 'fixed' },
+  { code: 'VIP20', discount: 20, type: 'percentage' },
+]
 
 interface OrderSummaryProps {
   items: CartItem[]
@@ -9,9 +23,48 @@ interface OrderSummaryProps {
 }
 
 export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps) {
+  const [discountCode, setDiscountCode] = useState('')
+  const [appliedDiscount, setAppliedDiscount] = useState<DiscountCode | null>(null)
+  const [discountError, setDiscountError] = useState('')
+  const [isApplying, setIsApplying] = useState(false)
+
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
   const shipping = totalPrice >= 50 ? 0 : 9.99
-  const finalTotal = totalPrice + shipping
+  
+  const discountAmount = appliedDiscount 
+    ? appliedDiscount.type === 'percentage'
+      ? (totalPrice * appliedDiscount.discount) / 100
+      : appliedDiscount.discount
+    : 0
+  
+  const discountedSubtotal = totalPrice - discountAmount
+  const finalTotal = discountedSubtotal + shipping
+
+  const handleApplyDiscount = () => {
+    if (!discountCode.trim()) return
+    
+    setIsApplying(true)
+    setDiscountError('')
+    
+    setTimeout(() => {
+      const found = VALID_CODES.find(
+        (c) => c.code.toUpperCase() === discountCode.toUpperCase()
+      )
+      
+      if (found) {
+        setAppliedDiscount(found)
+        setDiscountCode('')
+      } else {
+        setDiscountError('Código de descuento inválido')
+      }
+      setIsApplying(false)
+    }, 500)
+  }
+
+  const handleRemoveDiscount = () => {
+    setAppliedDiscount(null)
+    setDiscountError('')
+  }
 
   return (
     <div
@@ -53,6 +106,64 @@ export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps
         ))}
       </div>
 
+      {/* Código de descuento */}
+      {!appliedDiscount && (
+        <div className="mb-4">
+          <label htmlFor="discount-code" className="block text-xs font-medium text-slate-500 mb-2">
+            Código de descuento
+          </label>
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                id="discount-code"
+                type="text"
+                value={discountCode}
+                onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
+                onKeyDown={(e) => e.key === 'Enter' && handleApplyDiscount()}
+                placeholder="Ingresa tu código"
+                className="w-full h-10 pl-10 pr-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+              />
+            </div>
+            <Button
+              onClick={handleApplyDiscount}
+              disabled={!discountCode.trim() || isApplying}
+              variant="outline"
+              size="sm"
+            >
+              {isApplying ? '...' : 'Aplicar'}
+            </Button>
+          </div>
+          {discountError && (
+            <p className="text-xs text-red-500 mt-1">{discountError}</p>
+          )}
+          <p className="text-xs text-slate-400 mt-2">
+            Prueba: WELCOME10, SAVE5, VIP20
+          </p>
+        </div>
+      )}
+
+      {/* Descuento aplicado */}
+      {appliedDiscount && (
+        <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-green-600" />
+              <span className="text-sm font-medium text-green-700 dark:text-green-400">
+                {appliedDiscount.code} (-{appliedDiscount.type === 'percentage' ? `${appliedDiscount.discount}%` : `$${appliedDiscount.discount}`})
+              </span>
+            </div>
+            <button
+              onClick={handleRemoveDiscount}
+              className="p-1 hover:bg-green-100 dark:hover:bg-green-900/30 rounded"
+              aria-label="Eliminar descuento"
+            >
+              <X className="w-4 h-4 text-green-600" />
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-2">
         <div className="flex justify-between text-sm">
           <span className="text-slate-500 flex items-center gap-2">
@@ -61,6 +172,13 @@ export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps
           </span>
           <span className="font-medium">${totalPrice.toFixed(2)}</span>
         </div>
+
+        {discountAmount > 0 && (
+          <div className="flex justify-between text-sm text-green-600">
+            <span>Descuento</span>
+            <span className="font-medium">-${discountAmount.toFixed(2)}</span>
+          </div>
+        )}
 
         <div className="flex justify-between text-sm">
           <span className="text-slate-500 flex items-center gap-2">
