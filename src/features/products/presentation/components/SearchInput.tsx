@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { HiOutlineSearch, HiOutlineXMark } from 'react-icons/hi2'
+import { HiOutlineMagnifyingGlass, HiOutlineXMark } from 'react-icons/hi2'
 import { cn } from '@/shared/lib/cn'
 import { Button } from '@/shared/ui/Button'
 
@@ -30,7 +30,7 @@ export function SearchInput({
         className
       )}
     >
-      <HiOutlineSearch
+      <HiOutlineMagnifyingGlass
         className={cn(
           'absolute left-4 w-5 h-5 transition-colors',
           isFocused ? 'text-amber-600' : 'text-slate-400'
