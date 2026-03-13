@@ -1,132 +1,244 @@
-# 🎨 Design System & Styling Guide: MyProjectAPI12
+# 🎨 Design System v2 — MyProjectAPI12
+> **Versión:** 2.0 | **Última actualización:** 2026-03-13
 
-This document outlines the visual identity, design philosophy, and technical implementation of the styling system used in **MyProjectAPI12**.
-
----
-
-## 1. 🖼️ Visual Identity & Philosophy
-
-The project follows a **Modern Refined Minimalism** aesthetic with touches of **Soft Glassmorphism**. The goal is to create an interface that feels "premium," airy, and highly functional.
-
-### Core Design Principles:
-
-- **Clarity over Decoration:** Use of generous negative space (whitespace) to reduce cognitive load.
-- **Subtle Depth:** Instead of heavy shadows, we use multi-layered soft shadows and subtle borders to define elevation.
-- **Interaction Delight:** Every interactive element provides tactile feedback through micro-interactions (scaling, color shifts, rotations).
-- **Soft Glassmorphism:** Applied to overlays (Modals and Drawers) using `backdrop-blur` and semi-transparent backgrounds to maintain context while focusing on the active task.
+Este documento es la referencia canónica del sistema de diseño visual del proyecto. Documentado el estado **actual** del código en `src/index.css`.
 
 ---
 
-## 2. 🌈 Color Palette (Design Tokens)
+## 1. Filosofía Visual
 
-The system uses a **Semantic Color System** based on Tailwind CSS v4. Colors are defined as CSS variables to support dynamic theming.
+**Modern Refined Minimalism + Soft Glassmorphism**
 
-### Primary Brand Color: **Amber 600**
-
-Used for primary actions, highlights, and "Add to Cart" flows.
-
-- **Amber-600 (`#d97706`)**: High-energy, trustworthy, and food/lifestyle oriented.
-
-### Neutral Scale: **Slate**
-
-Used for backgrounds, text, and borders to ensure high legibility.
-
-- **Background (`#f8fafc`)**: Clean, slightly cool-toned light gray.
-- **Foreground (`#1a1614`)**: Deep charcoal (almost black) for maximum contrast.
-- **Muted (`#64748b`)**: For secondary text and non-critical information.
-
-### Dark Mode (Automated)
-
-The system uses the `@custom-variant dark` feature in Tailwind 4 to swap tokens:
-
-- **Dark Background (`#0f172a`)**: Deep navy for a high-end feel.
-- **Dark Card (`#1e293b`)**: Slightly lighter than the background to create depth.
+- **Claridad sobre decoración**: Espacio negativo generoso, sin elementos superfluos.
+- **Profundidad sutil**: Sombras multi-capa suaves, no rígidas.
+- **Interacción táctil**: Cada elemento interactivo tiene feedback (scale, color shift).
+- **Glassmorphism**: Aplicado a modales y drawers (`backdrop-blur` + fondo semi-transparente).
 
 ---
 
-## 3. 📝 Typography
+## 2. Paleta de Color Semántica
 
-We use a **Dual-Font System** to balance character with readability.
+> ⚠️ **Regla cardinal**: Nunca usar colores hardcodeados de Tailwind (`bg-slate-900`, `text-amber-600`). Usar **siempre** los tokens semánticos.
 
-| Font Family | Usage         | Characteristic                                              |
-| :---------- | :------------ | :---------------------------------------------------------- |
-| **Raleway** | UI & Headings | Geometric, modern, and highly legible at all sizes.         |
-| **Lora**    | Serif Accents | Elegant, adds a touch of "editorial" feel to the interface. |
-
-- **Body Text:** 16px (1rem) base for accessibility.
-- **Headings:** Bold weights with tight tracking (`tracking-tight`) for a professional look.
-
----
-
-## 4. 🧩 Component Architecture
-
-### A. The "Smart Card" Pattern (`ProductCard.tsx`)
-
-Cards are the heart of our layout. They use a **layered composition**:
-
-1.  **Base:** `rounded-2xl` with a thin `slate-200` border.
-2.  **Hover State:** Transition to `shadow-xl` with a subtle amber glow (`shadow-amber-500/5`) and a slight upward translation.
-3.  **Content:** Image is contained in a soft gray aspect-square container to standardize varying product photo sizes.
-
-### B. The "Glass Modal" Pattern (`ProductDetailModal.tsx`)
-
-Modals use **Soft Glassmorphism** to create focus:
-
-- **Backdrop:** `bg-black/40` with `backdrop-blur-sm` to blur the background content.
-- **Surface:** `bg-card/90` with `backdrop-blur-md` and `rounded-3xl` for a soft, friendly appearance.
-- **Shadow:** `shadow-2xl` to distinguish the modal from the rest of the UI.
-
-### C. The "Standardized Button" System (`button.tsx`)
-
-A unified primitive that handles all actions:
-
-- **Default:** Solid Amber background with a soft lift effect on hover.
-- **Destructive:** Subtle red wash (`bg-red-50`) instead of aggressive solid red, which feels more modern and "clean."
-- **Ghost/Outline:** Minimalist variants for secondary actions like "Close" or "Quantity +/-".
-
----
-
-## 5. 🌊 Motion & Transitions
-
-We use **Framer Motion** for layout transitions and **Tailwind Utility Animations** for micro-interactions.
-
-### Key Animations:
-
-- **Slide-Up:** Used for modals to create a "rising from the bottom" feel.
-- **Staggered Fade-In:** Applied to product grids so items appear sequentially rather than all at once.
-- **Interactive Scale:** `active:scale-95` on all buttons to provide immediate tactile feedback.
-- **Rotation:** `hover:rotate-90` on close icons (X) to indicate "cancel/close" action clearly.
-
----
-
-## 6. 🛠️ Technical Implementation (Tailwind 4)
-
-The project leverages the **CSS-first configuration** of Tailwind CSS v4.
+### Tokens semánticos en `src/index.css`
 
 ```css
-/* src/index.css */
 @theme {
-  --color-primary: #d97706;
-  --font-sans: "Raleway", sans-serif;
-
-  /* Elevation Shadows */
-  --shadow-soft: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
-  --shadow-hover: 0 12px 24px -4px rgba(15, 23, 42, 0.12);
-}
-
-@layer base {
-  body {
-    @apply antialiased selection:bg-amber-100;
-  }
+  /* === LIGHT MODE (DEFAULT) === */
+  --color-background: #ffffff;        /* Fondo de páginas */
+  --color-foreground: #020617;        /* Texto principal */
+  --color-card: #ffffff;              /* Superficie de tarjetas */
+  --color-card-foreground: #020617;
+  --color-muted: #f1f5f9;             /* Fondo de elementos secundarios */
+  --color-muted-foreground: #64748b;  /* Texto secundario, placeholders */
+  --color-border: #e2e8f0;            /* Bordes y separadores */
+  --color-input: #f8fafc;             /* Fondo de inputs */
+  --color-ring: rgba(70,81,214,0.4);  /* Focus ring */
+  
+  /* Brand: Midnight Indigo */
+  --color-primary: #4651d6;
+  --color-primary-foreground: #ffffff;
+  
+  /* Secondary */
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #020617;
+  
+  /* Accent: Champagne Gold */
+  --color-accent: #f8f1e7;
+  --color-accent-foreground: #b5945b;
+  
+  /* Surface (modales y paneles) */
+  --color-surface: #fafafa;
+  --color-surface-foreground: #020617;
+  
+  /* Feedback */
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-success: #10b981;
+  --color-success-foreground: #ffffff;
+  --color-warning: #f59e0b;
+  --color-warning-foreground: #020617;
 }
 ```
 
-### Why this architecture?
+### Dark Mode overrides (clase `.dark`)
 
-1.  **DRY (Don't Repeat Yourself):** Design tokens are defined once in CSS and used via utility classes.
-2.  **Performance:** Zero-runtime CSS with Tailwind v4 is extremely fast.
-3.  **Maintainability:** Changing one CSS variable (`--color-primary`) updates the entire application theme instantly.
+```css
+.dark {
+  --color-background: #020617;
+  --color-foreground: #f8fafc;
+  --color-card: #0a0e23;
+  --color-muted: #1e293b;
+  --color-muted-foreground: #94a3b8;
+  --color-border: #1e293b;
+  --color-primary: #7389f2;          /* Más brillante para contraste en oscuro */
+  --color-primary-foreground: #020617;
+  --color-accent: #2c251a;
+  --color-accent-foreground: #d8cbaa;
+  --color-surface: #0f172a;
+  --color-surface-foreground: #f8fafc;
+}
+```
+
+### Tabla de uso por contexto
+
+| Contexto | Clase correcta |
+|---|---|
+| Fondo de página | `bg-background` |
+| Fondo de tarjeta | `bg-card` |
+| Fondo de input / button ghost | `bg-secondary` |
+| Fondo hover / accent area | `bg-accent` |
+| Texto cuerpo | `text-foreground` |
+| Texto secundario / placeholder | `text-muted-foreground` |
+| Texto de acento (gold) | `text-accent-foreground` |
+| Bordes | `border-border` |
+| Focus ring | `ring-primary/30` |
+| Precio disponible (stock ok) | `text-success` |
+| Stock bajo / advertencia | `text-warning` |
+| Errores / eliminar | `text-destructive` / `bg-destructive` |
 
 ---
 
-_Document created: March 6, 2026_
+## 3. Tipografía
+
+```css
+@theme {
+  --font-sans: "Inter", "Raleway", ui-sans-serif, system-ui;
+  --font-serif: "Playfair Display", "Lora", Georgia, serif;
+}
+```
+
+| Categoría | Font | Uso |
+|---|---|---|
+| Body / UI | `Inter`, `Raleway` | Labels, párrafos, botones |
+| Headings editoriales | `Playfair Display`, `Lora` | Títulos de productos, hero banner |
+
+### Escala tipográfica recomendada
+
+```tsx
+<h1 className="text-5xl md:text-7xl font-serif font-black tracking-tighter">
+<h2 className="text-3xl font-serif font-black">
+<h3 className="text-lg font-serif leading-tight">
+<p  className="text-sm text-muted-foreground leading-relaxed">
+<span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+```
+
+---
+
+## 4. Componentes Base
+
+### Card
+
+```tsx
+// Card.tsx — base siempre es rounded-2xl + border-border
+<Card className="bg-card border-border rounded-2xl shadow-soft" />
+
+// Grid de cards — items-stretch para alturas uniformes
+<div className="grid grid-cols-4 gap-6 items-stretch">
+  <div className="h-full"><ProductCard /></div>
+</div>
+```
+
+### Button (variantes)
+
+```tsx
+// Primary — Indigo sólido con shadow
+<Button>Explorar Ahora</Button>
+
+// Outline — Transparente, borde sutil → pill para CTAs hero y cards
+<Button variant="outline" className="rounded-full">Ver detalles</Button>
+
+// Ghost — Sin border, hover con bg-accent
+<Button variant="ghost">Cancelar</Button>
+
+// Destructive — Fondo rojo translúcido
+<Button variant="destructive">Eliminar</Button>
+```
+
+> ⚠️ **No usar `<div>` como botón**. Usar siempre `<Button>` para accesibilidad (focus, keyboard, disabled).
+
+### SearchInput (Focus Ring Correcto)
+
+El ring de foco debe estar en el **wrapper** con el mismo `border-radius` que el input:
+
+```tsx
+// ❌ Ring rectangular (bug anterior)
+<div className="ring-2 ring-primary/50">  {/* sin border-radius */}
+  <input className="rounded-xl" />
+</div>
+
+// ✅ Ring redondeado (correcto)
+<div className={cn(
+  'rounded-xl border',    // ← border-radius aquí
+  isFocused && 'ring-2 ring-primary/30 border-primary'
+)}>
+  <input className="bg-transparent focus:outline-none" />  {/* transparente */}
+</div>
+```
+
+### Glassmorphism (Modales / Drawers)
+
+```tsx
+// Backdrop
+<div className="fixed inset-0 bg-neutral-950/60 backdrop-blur-md" />
+
+// Panel glass
+<div className="bg-card border border-border rounded-3xl shadow-2xl backdrop-blur-xl" />
+```
+
+---
+
+## 5. Motion & Animaciones
+
+Todas las animaciones se definen en `src/shared/lib/animations.ts` y se consumen via `framer-motion`:
+
+```tsx
+import { staggerContainer, slideUp, MODAL_SLIDE_UP, BACKDROP_FADE } from "@/shared/lib/animations";
+
+// Grid animado
+<m.div variants={staggerContainer} initial="hidden" animate="visible">
+  <m.div variants={slideUp} className="h-full">...</m.div>
+</m.div>
+
+// Modal
+<m.div variants={BACKDROP_FADE} ...>
+  <m.div variants={MODAL_SLIDE_UP} ...>
+```
+
+### Tokens CSS de animación
+
+```css
+--animate-fade-in: fadeIn 0.4s ease-out;
+--animate-fade-in-up: fadeInUp 0.5s ease-out;
+```
+
+---
+
+## 6. Sombras
+
+```css
+shadow-soft     /* Cards en reposo: 0 2px 4px rgba(0,0,0,0.02) */
+shadow-premium  /* Cards en hover / cabeceras */
+shadow-glass    /* Modales / drawers glassmorphism */
+```
+
+---
+
+## 7. Tokens Inexistentes — Lista de Prohibidos
+
+Los siguientes tokens fueron usados incorrectamente en el código y provocaban colores invisibles. **No usar**:
+
+| ❌ Token incorrecto | ✅ Reemplazar por |
+|---|---|
+| `text-foreground-muted` | `text-muted-foreground` |
+| `text-foreground-subtle` | `text-muted-foreground` |
+| `bg-surface` | `bg-card` o `bg-background` |
+| `bg-slate-900` (hardcode) | `bg-background` |
+| `text-slate-500` (hardcode) | `text-muted-foreground` |
+| `border-slate-200` (hardcode) | `border-border` |
+| `text-amber-600` (hardcode) | `text-primary` |
+| `text-green-600` (hardcode) | `text-success` |
+
+---
+
+_Documento reescrito: 2026-03-13 | Reemplaza versión con paleta Amber (obsoleta)_

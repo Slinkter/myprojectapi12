@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { getProducts } from '@/features/products/infrastructure/productsApi'
-import type { Product } from '@/entities/product/types/product.types'
+import type { IProduct } from '@/features/products/application/types'
 
 const LIMIT = 20
 
@@ -10,7 +10,7 @@ interface UseProductSearchResult {
   searchQuery: string
   debouncedSearch: string
   setSearchQuery: (query: string) => void
-  products: Product[]
+  products: IProduct[]
   isLoading: boolean
   isSearching: boolean
   hasMore: boolean
@@ -33,17 +33,16 @@ export function useProductSearch(): UseProductSearchResult {
     queryKey: ['products', 'search', debouncedSearch] as const,
     queryFn: async ({ pageParam = 1 }) => {
       const skip = (pageParam - 1) * LIMIT
-      const response = await getProducts(skip, LIMIT)
-      return response
+      return getProducts(skip, LIMIT)
     },
     getNextPageParam: (lastPage, allPages) => {
-      const totalFetched = allPages.reduce((acc, page) => acc + page.products.length, 0)
+      const totalFetched = allPages.length * LIMIT
       return totalFetched < lastPage.total ? allPages.length + 1 : undefined
     },
     initialPageParam: 1,
   })
 
-  const products: Product[] = data?.pages.flatMap((page) => page.products) ?? []
+  const products: IProduct[] = data?.pages.flatMap((page) => page.products) ?? []
 
   const loadMore = useCallback(() => {
     if (hasNextPage && !isFetching) {

@@ -43,19 +43,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         // Mapeo de estilos base y variantes (Tailwind Puro)
         const baseStyles =
-            "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 disabled:pointer-events-none disabled:opacity-50 active:scale-95 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0";
+            "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 active:scale-95 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0";
 
         const variants = {
             default:
-                "bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200",
-            destructive: 
-                "bg-error text-error-foreground hover:bg-error/90",
+                "bg-primary text-primary-foreground hover:opacity-90 shadow-soft",
+            destructive:
+                "bg-destructive text-destructive-foreground hover:bg-destructive/90",
             outline:
-                "border border-neutral-300 bg-transparent hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800",
+                "border border-border bg-transparent hover:bg-accent hover:text-accent-foreground",
             secondary:
-                "bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700",
-            ghost: "hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400",
-            link: "text-neutral-900 dark:text-neutral-100 underline-offset-4 hover:underline",
+                "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            ghost: "hover:bg-accent hover:text-accent-foreground text-muted-foreground",
+            link: "text-primary underline-offset-4 hover:underline",
         };
 
         const sizes = {

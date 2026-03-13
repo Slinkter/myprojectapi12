@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { CartProvider, useCart } from "@/features/cart/application/CartContext";
-import type { IProduct } from "@/features/cart/domain/cartTypes";
 import toast from "react-hot-toast";
 import type { ReactNode } from "react";
+import { makeProduct } from "@/test/factories/productFactory";
 
 // Mock react-hot-toast
 vi.mock("react-hot-toast", () => ({
@@ -18,13 +18,7 @@ const wrapper = ({ children }: { children: ReactNode }) => (
 );
 
 describe("CartContext", () => {
-  const mockProduct: IProduct = {
-    id: 1,
-    title: "Test Product",
-    price: 100,
-    thumbnail: "test.jpg",
-    stock: 10,
-  };
+  const mockProduct = makeProduct();
 
   it("should start with empty cart", () => {
     const { result } = renderHook(() => useCart(), { wrapper });
@@ -43,7 +37,7 @@ describe("CartContext", () => {
     expect(result.current.cart).toHaveLength(1);
     expect(result.current.cart[0]).toEqual({ ...mockProduct, quantity: 2 });
     expect(result.current.totalPrice).toBe(200);
-    expect(toast.success).toHaveBeenCalledWith("Product added to cart!");
+    expect(toast.success).toHaveBeenCalledWith("Test Product agregado al carrito!");
   });
 
   it("should increase quantity when adding existing product", () => {
@@ -75,22 +69,14 @@ describe("CartContext", () => {
 
     expect(result.current.cart).toHaveLength(0);
     expect(result.current.totalPrice).toBe(0);
-    expect(toast.error).toHaveBeenCalledWith("Product removed from cart.");
+    expect(toast.error).toHaveBeenCalledWith("Producto eliminado del carrito.");
   });
 
   it("should clear entire cart", () => {
     const { result } = renderHook(() => useCart(), { wrapper });
 
-    const product1: IProduct = {
-      ...mockProduct,
-      id: 1,
-      title: "Product 1",
-    };
-    const product2: IProduct = {
-      ...mockProduct,
-      id: 2,
-      title: "Product 2",
-    };
+    const product1 = makeProduct({ id: 1, title: "Product 1" });
+    const product2 = makeProduct({ id: 2, title: "Product 2" });
 
     act(() => {
       result.current.addToCart(product1, 1);
@@ -105,14 +91,14 @@ describe("CartContext", () => {
 
     expect(result.current.cart).toHaveLength(0);
     expect(result.current.totalPrice).toBe(0);
-    expect(toast.success).toHaveBeenCalledWith("The cart has been emptied.");
+    expect(toast.success).toHaveBeenCalledWith("El carrito ha sido vaciado.");
   });
 
   it("should calculate total price correctly", () => {
     const { result } = renderHook(() => useCart(), { wrapper });
 
-    const product1: IProduct = { ...mockProduct, id: 1, price: 50 };
-    const product2: IProduct = { ...mockProduct, id: 2, price: 75 };
+    const product1 = makeProduct({ id: 1, price: 50 });
+    const product2 = makeProduct({ id: 2, price: 75 });
 
     act(() => {
       result.current.addToCart(product1, 2); // 100

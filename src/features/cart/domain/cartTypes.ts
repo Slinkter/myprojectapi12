@@ -1,34 +1,13 @@
 import { ReactNode } from "react";
+import type { IProduct } from "@/features/products/domain/productTypes";
 
-export interface ICartItem {
-    /** Identificador único del producto */
-    id: number;
-    /** Nombre visible del producto */
-    title: string;
-    /** Precio unitario en USD */
-    price: number;
+// Re-exportamos IProduct para que los consumidores del dominio cart
+// puedan importarlo desde un único punto de entrada sin atravesar capas.
+export type { IProduct };
+
+export interface ICartItem extends IProduct {
     /** Número de unidades actualmente en el carrito */
     quantity: number;
-    /** URL de la imagen en miniatura del producto */
-    thumbnail: string;
-    /** Unidades totales disponibles en el almacén */
-    stock: number;
-}
-
-/**
- * Representa un producto base del catálogo.
- */
-export interface IProduct {
-    /** ID único del producto */
-    id: number;
-    /** Nombre del producto */
-    title: string;
-    /** Precio del producto en USD */
-    price: number;
-    /** URL de la imagen del producto */
-    thumbnail: string;
-    /** Nivel de stock actual */
-    stock: number;
 }
 
 /**

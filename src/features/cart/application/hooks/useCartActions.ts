@@ -51,7 +51,7 @@ export const useCartActions = (
   const removeFromCart = useCallback(
     (productId: number) => {
       setCart((prev) => removeItemFromCart(prev, productId));
-      toast.error("Product removed from cart.");
+      toast.error("Producto eliminado del carrito.");
     },
     [setCart],
   );
@@ -59,7 +59,7 @@ export const useCartActions = (
   /** Vacía el carrito */
   const clearCart = useCallback(() => {
     setCart([]);
-    toast.success("The cart has been emptied.");
+    toast.success("El carrito ha sido vaciado.");
   }, [setCart]);
 
   return { addToCart, removeFromCart, clearCart };

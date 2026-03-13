@@ -1,101 +1,113 @@
 /**
  * @file ProductCard.tsx
- * @description Tarjeta de producto individual. Muestra imagen, título, descripción,
- * precio, stock y botón de acción para abrir el modal de detalle.
+ * @description Tarjeta de producto individual. Alineada con el sistema de diseño
+ * semántico del proyecto (bg-card, border-border, text-foreground, text-primary).
+ * Coherente con el estilo "Modern Twelve Collections" del HomeHeader.
  * @architecture Presentation Layer - Componente de Feature
  */
 
-import React from "react";
-import { cn } from "@/shared/lib/cn";
-import { useProductModalContext } from "@/features/products/application/useProductModalContext";
-import { getStockStatus } from "@/shared/lib/stockUtils";
-import type { Product } from "@/entities/product/types/product.types";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/shared/ui/Card";
-import { Button } from "@/shared/ui/Button";
+import React from 'react'
+import { cn } from '@/shared/lib/cn'
+import { useProductModalContext } from '@/features/products/application/useProductModalContext'
+import { getStockStatus } from '@/shared/lib/stockUtils'
+import type { IProduct } from '@/features/products/application/types'
+import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/Card'
+import { Button } from '@/shared/ui/Button'
 
 interface IProductCardProps {
-  product: Product;
+  product: IProduct
 }
 
 const ProductCard = React.memo(({ product }: IProductCardProps) => {
-  const { handleOpenModal } = useProductModalContext();
+  const { handleOpenModal } = useProductModalContext()
+
   if (!product || !product.id) {
-    console.error("ProductCard component received invalid product:", product);
-    return null;
+    console.error('ProductCard received invalid product:', product)
+    return null
   }
-  const stockStatus = getStockStatus(product.stock);
+
+  const stockStatus = getStockStatus(product.stock)
 
   return (
     <Card
-      className="group relative h-full flex flex-col overflow-hidden border-slate-200 dark:border-slate-800 bg-card transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 rounded-2xl cursor-pointer"
+      className="group relative h-full flex flex-col overflow-hidden border-border bg-card transition-all duration-500 hover:shadow-premium hover:-translate-y-1 rounded-2xl cursor-pointer"
       role="article"
       aria-label={`Producto: ${product.title}`}
     >
-      <CardHeader className="p-0">
-        <div className="aspect-square w-full overflow-hidden bg-slate-50 dark:bg-slate-900/50 p-6 flex items-center justify-center">
-          <img
-            className="h-full w-full object-contain transition-opacity duration-300 group-hover:opacity-80"
-            src={product.thumbnail}
-            alt={product.title}
-            loading="lazy"
-          />
+      {/* Badge de Descuento */}
+      {product.discountPercentage && (
+        <div className="absolute top-3 left-3 z-10 bg-accent text-accent-foreground px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase shadow-sm">
+          -{Math.round(product.discountPercentage)}%
         </div>
+      )}
+
+      {/* Imagen */}
+      <CardHeader className="p-0 overflow-hidden bg-muted/30 aspect-[4/5] relative">
+        <img
+          src={product.thumbnail}
+          alt={product.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          loading="lazy"
+        />
+        {/* Overlay sutil al hover */}
+        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
       </CardHeader>
 
-      <CardContent className=" p-5 flex flex-col">
-        <div className="mb-2">
-          <h3 className="font-bold text-base leading-tight text-foreground line-clamp-1 group-hover:text-amber-600 transition-colors">
-            {product.title}
-          </h3>
-          <p className="text-sm text-slate-500 mt-1 line-clamp-2 ">
-            {product.description}
-          </p>
+      {/* Contenido */}
+      <CardContent className="p-5 flex flex-col gap-2 flex-1">
+        {/* Categoría + Rating */}
+        <div className="flex justify-between items-center gap-2">
+          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
+            {product.category}
+          </span>
+          <span className="text-xs font-bold text-accent-foreground">
+            ★ {product.rating}
+          </span>
         </div>
 
-        <div className=" flex items-center justify-between border-t  border-slate-100 dark:border-slate-800  mt-auto pt-4">
-          <div className="flex flex-col">
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
-              Precio
-            </span>
-            <span className="font-bold text-lg text-foreground">
-              ${product.price}
-            </span>
-          </div>
-          <div className="text-right">
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
-              Stock
-            </span>
-            <p
-              className={cn(
-                "text-xs font-bold",
-                stockStatus === "ok" ? "text-green-600" : "text-amber-600",
-              )}
-            >
-              {product.stock} disponibles
-            </p>
-          </div>
-        </div>
+        {/* Título */}
+        <h3 className="font-serif text-lg leading-tight text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
+          {product.title}
+        </h3>
+
+        {/* Descripción */}
+        <p className="text-sm text-muted-foreground line-clamp-2 font-sans leading-relaxed">
+          {product.description}
+        </p>
       </CardContent>
 
-      <CardFooter className="p-5 pt-0">
+      {/* Footer: precio + botón — siempre pegado al fondo gracias al flex-1 del CardContent */}
+      <CardFooter className="px-5 pb-5 pt-4 flex items-end justify-between gap-4 border-t border-border/50">
+        {/* Bloque de precio — alineado a la base inferior */}
+        <div className="flex flex-col gap-0.5 min-w-0">
+          <span className="text-xl font-bold text-foreground leading-none">
+            ${product.price.toFixed(2)}
+          </span>
+          <span
+            className={cn(
+              'text-[10px] uppercase tracking-wider font-bold mt-1',
+              stockStatus === 'ok' ? 'text-success' : 'text-warning'
+            )}
+          >
+            {stockStatus === 'out' ? 'Agotado' : `${product.stock} en stock`}
+          </span>
+        </div>
+
+        {/* Botón — shrink-0 evita que el texto se corte en cards estrechas */}
         <Button
           onClick={() => handleOpenModal(product)}
-          disabled={stockStatus === "out"}
-          className="w-full"
-          variant={stockStatus !== "out" ? "default" : "secondary"}
+          disabled={stockStatus === 'out'}
+          size="sm"
+          variant="outline"
+          className="shrink-0 self-end rounded-full border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 px-5"
         >
-          {stockStatus !== "out" ? "Ver detalles" : "Sin stock"}
+          {stockStatus !== 'out' ? 'Ver detalles' : 'Sin stock'}
         </Button>
       </CardFooter>
     </Card>
-  );
-});
+  )
+})
 
-ProductCard.displayName = "ProductCard";
+ProductCard.displayName = 'ProductCard'
 
-export default ProductCard;
+export default ProductCard

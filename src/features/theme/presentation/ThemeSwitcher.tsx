@@ -24,8 +24,8 @@ const ThemeSwitcher = () => {
             onClick={toggleTheme}
             className={cn(
                 "relative w-11 h-11 rounded-full transition-all duration-200",
-                "hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95",
-                "text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400"
+                "hover:bg-accent active:scale-95",
+                "text-muted-foreground hover:text-primary"
             )}
             aria-label={`Cambiar a modo ${theme === "light" ? "oscuro" : "claro"}`}
         >

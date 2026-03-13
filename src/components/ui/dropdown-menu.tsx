@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import { HiOutlineCheck, HiOutlineChevronRight, HiMiniCircle } from "react-icons/hi2"
+import { HiOutlineCheck, HiOutlineChevronRight } from "react-icons/hi2"
 
 import { cn } from "@/lib/utils"
 
@@ -131,7 +131,7 @@ const DropdownMenuRadioItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <HiMiniCircle className="h-2 w-2 fill-current" />
+        <svg viewBox="0 0 8 8" className="h-2 w-2 fill-current"><circle cx="4" cy="4" r="4"/></svg>
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}

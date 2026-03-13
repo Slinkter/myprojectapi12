@@ -2,12 +2,12 @@ import React from 'react'
 import { cn } from '@/shared/lib/cn'
 import { getStockStatus } from '@/shared/lib/stockUtils'
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
-import type { Product } from '@/entities/product/types/product.types'
+import type { IProduct } from '@/features/products/application/types'
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/Card'
 import { Button } from '@/shared/ui/Button'
 
 interface ProductCardProps {
-  product: Product
+  product: IProduct
 }
 
 const ProductCard = React.memo(({ product }: ProductCardProps) => {
@@ -22,12 +22,12 @@ const ProductCard = React.memo(({ product }: ProductCardProps) => {
 
   return (
     <Card
-      className="group relative h-full flex flex-col overflow-hidden border-slate-200 dark:border-slate-800 bg-card transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 rounded-2xl cursor-pointer"
+      className="group relative h-full flex flex-col overflow-hidden border-border bg-card transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 rounded-2xl cursor-pointer"
       role="article"
       aria-label={`Producto: ${product.title}`}
     >
       <CardHeader className="p-0">
-        <div className="aspect-square w-full overflow-hidden bg-slate-50 dark:bg-slate-900/50 p-6 flex items-center justify-center">
+        <div className="aspect-square w-full overflow-hidden bg-secondary p-6 flex items-center justify-center">
           <img
             className="h-full w-full object-contain transition-opacity duration-300 group-hover:opacity-80"
             src={product.thumbnail}
@@ -39,17 +39,17 @@ const ProductCard = React.memo(({ product }: ProductCardProps) => {
 
       <CardContent className="p-5 flex flex-col">
         <div className="mb-2">
-          <h3 className="font-bold text-base leading-tight text-foreground line-clamp-1 group-hover:text-amber-600 transition-colors">
+          <h3 className="font-bold text-base leading-tight text-foreground line-clamp-1 group-hover:text-primary transition-colors">
             {product.title}
           </h3>
-          <p className="text-sm text-slate-500 mt-1 line-clamp-2">
+          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
             {product.description}
           </p>
         </div>
 
-        <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 mt-auto pt-4">
+        <div className="flex items-center justify-between border-t border-border mt-auto pt-4">
           <div className="flex flex-col">
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
+            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
               Precio
             </span>
             <span className="font-bold text-lg text-foreground">
@@ -57,13 +57,13 @@ const ProductCard = React.memo(({ product }: ProductCardProps) => {
             </span>
           </div>
           <div className="text-right">
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
+            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
               Stock
             </span>
             <p
               className={cn(
                 'text-xs font-bold',
-                stockStatus === 'ok' ? 'text-green-600' : 'text-amber-600'
+                stockStatus === 'ok' ? 'text-success' : 'text-warning'
               )}
             >
               {product.stock} disponibles

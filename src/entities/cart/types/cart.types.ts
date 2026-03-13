@@ -1,4 +1,4 @@
-import type { Product } from '@/entities/product/types/product.types'
+import type { IProduct } from '@/features/products/application/types'
 
 export interface CartItem {
   id: number
@@ -24,7 +24,7 @@ export interface CartContextValue {
   cart: CartItem[]
   isCartOpen: boolean
   totalPrice: number
-  addToCart: (product: Product, quantity: number) => void
+  addToCart: (product: IProduct, quantity: number) => void
   removeFromCart: (productId: number) => void
   clearCart: () => void
   openCart: () => void

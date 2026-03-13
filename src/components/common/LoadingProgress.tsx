@@ -52,15 +52,15 @@ export function LoadingProgress({ isLoading, className }: LoadingProgressProps) 
           className={`fixed top-0 left-0 right-0 z-[9999] pointer-events-none ${className || ''}`}
         >
           <div className="shadow-lg">
-            <div className="h-1 w-full bg-slate-200 dark:bg-slate-800">
+            <div className="h-1 w-full bg-muted">
               <motion.div
-                className="h-full bg-gradient-to-r from-amber-500 to-amber-600"
+                className="h-full bg-primary"
                 initial={{ width: '0%' }}
                 animate={{ width: `${Math.min(progress, 100)}%` }}
                 transition={{ duration: 0.2, ease: 'easeOut' }}
               />
             </div>
-            <div className="bg-amber-600 dark:bg-amber-700 text-white text-xs font-medium py-1 text-center">
+            <div className="bg-primary text-primary-foreground text-xs font-medium py-1 text-center">
               Cargando productos...
             </div>
           </div>

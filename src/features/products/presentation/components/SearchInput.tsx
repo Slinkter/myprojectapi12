@@ -10,6 +10,11 @@ interface SearchInputProps {
   className?: string
 }
 
+/**
+ * Barra de búsqueda con ring de foco correcto:
+ * el wrapper comparte el mismo border-radius que el input para que
+ * el focus-ring se vea redondeado (no rectangular).
+ */
 export function SearchInput({
   value,
   onChange,
@@ -23,17 +28,21 @@ export function SearchInput({
   }, [onChange])
 
   return (
+    /* Wrapper: rounded-xl coincide con el input → ring también queda redondeado */
     <div
       className={cn(
-        'relative flex items-center transition-all duration-200',
-        isFocused && 'ring-2 ring-amber-500/50',
+        'relative flex items-center rounded-xl transition-all duration-200',
+        'border bg-secondary',
+        isFocused
+          ? 'border-primary ring-2 ring-primary/30 shadow-sm'
+          : 'border-border hover:border-primary/40',
         className
       )}
     >
       <HiOutlineMagnifyingGlass
         className={cn(
-          'absolute left-4 w-5 h-5 transition-colors',
-          isFocused ? 'text-amber-600' : 'text-slate-400'
+          'absolute left-4 w-5 h-5 pointer-events-none transition-colors duration-200',
+          isFocused ? 'text-primary' : 'text-muted-foreground'
         )}
       />
       <input
@@ -45,11 +54,10 @@ export function SearchInput({
         placeholder={placeholder}
         className={cn(
           'w-full h-12 pl-12 pr-12 rounded-xl',
-          'bg-slate-50 dark:bg-slate-900/50',
-          'border border-slate-200 dark:border-slate-800',
-          'text-slate-700 dark:text-slate-300',
-          'placeholder:text-slate-400 dark:placeholder:text-slate-500',
-          'focus:outline-none focus:ring-0',
+          'bg-transparent',          /* el fondo viene del wrapper */
+          'text-foreground',
+          'placeholder:text-muted-foreground',
+          'focus:outline-none',       /* quitamos el outline nativo */
           'transition-all duration-200'
         )}
         aria-label="Buscar productos"
@@ -59,10 +67,10 @@ export function SearchInput({
           variant="ghost"
           size="icon"
           onClick={handleClear}
-          className="absolute right-2 h-8 w-8 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+          className="absolute right-2 h-8 w-8 rounded-full hover:bg-accent hover:text-foreground"
           aria-label="Limpiar búsqueda"
         >
-          <HiOutlineXMark className="w-5 h-5" />
+          <HiOutlineXMark className="w-4 h-4" />
         </Button>
       )}
     </div>

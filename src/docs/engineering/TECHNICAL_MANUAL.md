@@ -1,203 +1,246 @@
-# 🛠️ Technical Operations & Development Manual
+# 🛠️ Technical Manual — MyProjectAPI12
+> **Versión:** 2.0.0 | **Última actualización:** 2026-03-13 | **Estado:** ✅ Activo
 
-This document is the definitive guide for technical setup, development standards, testing, deployment, and contribution guidelines for **MyProjectAPI12**.
-
----
-
-## 1. 🚀 Tech Stack Overview
-
-- **Frontend:** React 18.3 + TypeScript 5.9
-- **Build Tool:** Vite 5.4
-- **Styling:** Tailwind CSS v4 (CSS-first)
-- **State Management:** TanStack Query v5 (Server state) + React Context (Client state)
-- **Routing:** React Router v7
-- **Animations:** Framer Motion v12
-- **Icons:** Lucide React
-- **Unit Testing:** Vitest 4.0 + React Testing Library 16
+Este documento es la fuente de verdad técnica para el proyecto. Consolida decisiones de arquitectura, estándares de código, sistema de diseño, testing y despliegue.
 
 ---
 
-## 2. 🏁 Getting Started
+## 1. 🚀 Tech Stack
 
-### Prerequisites:
+| Capa | Tecnología | Versión |
+|---|---|---|
+| UI Framework | React | 18.3 |
+| Language | TypeScript | 5.9 (Strict) |
+| Build Tool | Vite | 5.4 |
+| Styling | Tailwind CSS (CSS-first) | v4.1 |
+| Server State | TanStack Query | v5 |
+| Routing | React Router | v7 |
+| Animations | Framer Motion | v12 |
+| Icons | react-icons/hi2 | latest |
+| Unit Testing | Vitest + React Testing Library | 4.0 / 16 |
+| Component Primitives | Radix UI + Shadcn/ui | latest |
 
-- **Node.js:** v18.0.0+
-- **PNPM:** v8.0.0+
+> **Nota:** Los iconos provienen de `react-icons/hi2` (Heroicons v2). Verificar exportaciones antes de usar: `HiMiniCircle` **no existe** → usar SVG inline o `HiMiniXCircle`.
 
-### Installation & Initialization:
+---
+
+## 2. 🏁 Comenzar el Desarrollo
+
+### Requisitos
+- Node.js ≥ 18.0
+- npm o pnpm ≥ 8.0
+
+### Instalación
 
 ```bash
-# Clone repository
 git clone https://github.com/Slinkter/myprojectapi12.git
 cd myprojectapi12
-
-# Install dependencies
-pnpm install
-
-# Start local development server (HMR enabled)
-pnpm dev
+npm install        # o: pnpm install
+npm run dev        # Servidor local con HMR
 ```
 
-### Build & Production:
+### Variables de Entorno
+
+```env
+VITE_API_BASE_URL=https://dummyjson.com
+```
+
+### Scripts disponibles
 
 ```bash
-# Build the project for production (outputs to `/dist`)
-pnpm build
-
-# Preview the production build locally
-pnpm preview
+npm run dev            # Servidor de desarrollo
+npm run build          # Build de producción → /dist
+npm run preview        # Preview del build
+npm run lint           # ESLint check
+npm run type-check     # tsc --noEmit (0 errores esperados)
+npm run test           # Vitest (watch)
+npm run test -- --run  # Vitest (single run)
+npm run test:coverage  # Cobertura
+npm run deploy         # Build + deploy a GitHub Pages
 ```
-
-### Environment Variables:
-
-The project uses `.env` files (natively supported by Vite).
-
-| Variable            | Description              | Default                 |
-| ------------------- | ------------------------ | ----------------------- |
-| `VITE_API_BASE_URL` | Base URL of the REST API | `https://dummyjson.com` |
 
 ---
 
-## 3. 🧠 Technical Explanations (Algorithms & Concepts)
+## 3. 🏗️ Arquitectura
 
-### Infinite Scroll Pagination (TanStack Query)
+El proyecto sigue una **Feature-Based Clean Architecture** (DDD + FSD Hybrid).
 
-The project implements an efficient infinite scroll algorithm in `src/features/products/application/useProducts.ts`.
+```
+src/
+├── app/              # Configuración global: router, providers, API client
+├── components/
+│   ├── ui/           # Primitivos UI (Button, Input, Card, DropdownMenu...)
+│   └── common/       # Comunes (Navbar, Loader, ErrorBoundary, ImageZoom)
+├── features/         # Módulos por feature
+│   └── {feature}/
+│       ├── domain/        # Tipos puros, utils, lógica de negocio sin React
+│       ├── application/   # Hooks, Context, Providers, use cases
+│       ├── infrastructure/# API clients, data mappers
+│       └── presentation/  # Componentes React
+├── shared/           # Utilidades globales (cn, stockUtils, animations)
+├── pages/            # Páginas (HomeHeader, HomeContent)
+├── widgets/          # Componentes compuestos grandes (Navbar, CartDrawer)
+├── test/             # Infraestructura de testing
+│   └── factories/    # Factories de datos (makeProduct, makeCartItem)
+├── docs/             # Documentación técnica
+└── index.css         # Diseño system (Tailwind @theme)
+```
 
-It utilizes TanStack's `useInfiniteQuery`. The core logic lies in `getNextPageParam`:
+### Capas y Reglas de Dependencia
+
+```
+presentation → application → domain
+                          ↘ infrastructure
+```
+- **domain**: 100% puro. Sin imports de React, sin side effects.
+- **application**: React hooks, Context. No accede a `infrastructure` directamente.
+- **infrastructure**: Fetchs, API mappers. Llamado solo desde `application`.
+- **presentation**: Solo renderiza. Toda lógica en `application`.
+
+---
+
+## 4. 🎨 Sistema de Diseño (Color System v2)
+
+El sistema usa **tokens semánticos CSS** definidos en `src/index.css` vía `@theme`. Todos los colores deben usarse a través de estos tokens — **nunca hardcodear** (ej: `text-slate-500`).
+
+### Tokens disponibles
+
+| Token | Light Mode | Dark Mode | Uso |
+|---|---|---|---|
+| `bg-background` | `#ffffff` | `#020617` | Fondo base de páginas |
+| `bg-card` | `#ffffff` | `#0a0e23` | Superficie de tarjetas |
+| `text-foreground` | `#020617` | `#f8fafc` | Texto principal |
+| `text-muted-foreground` | `#64748b` | `#94a3b8` | Texto secundario |
+| `border-border` | `#e2e8f0` | `#1e293b` | Bordes y separadores |
+| `bg-primary` | `#4651d6` | `#7389f2` | Acento principal (Indigo) |
+| `text-primary-foreground` | `#ffffff` | `#020617` | Texto sobre primary |
+| `bg-accent` | `#f8f1e7` | `#2c251a` | Hover, fondo acento |
+| `text-accent-foreground` | `#b5945b` | `#d8cbaa` | Texto acento (Gold) |
+| `bg-secondary` | `#f1f5f9` | `#1e293b` | Fondos alternativos |
+| `text-success` | `#10b981` | `#10b981` | Stock disponible, éxito |
+| `text-warning` | `#f59e0b` | `#f59e0b` | Stock bajo, advertencia |
+| `bg-destructive` | `#ef4444` | `#ef4444` | Errores, eliminar |
+
+### Regla anti-hardcode
+
+```tsx
+// ❌ MAL — No adapta al tema
+<p className="text-slate-500 bg-white border-slate-200">
+
+// ✅ BIEN — Se adapta a dark/light automáticamente
+<p className="text-muted-foreground bg-card border-border">
+```
+
+### Tokens de shadow
+
+```css
+shadow-soft    /* Elevación sutil, cards en reposo     */
+shadow-premium /* Elevación media, cards en hover      */
+shadow-glass   /* Glassmorphism, modales y drawers     */
+```
+
+### Utilidades CSS adicionales
+
+```css
+.glass-card   /* Glassmorphism: backdrop-blur + bg translúcido */
+.hover-lift   /* -translate-y-1 en hover                      */
+.input-focus  /* Ring redondeado en focus (no rectangular)     */
+.card-surface /* Atajo: bg-card + border-border + rounded-2xl  */
+.text-gradient /* Gradiente de texto desde primary a accent    */
+```
+
+---
+
+## 5. 📐 SearchInput — Bug del Ring Rectangular (Resuelto)
+
+**Causa**: El `ring-2` se aplicaba al wrapper `<div>` sin `border-radius`, mientras `rounded-xl` solo estaba en el `<input>`.
+
+**Solución**: El wrapper lleva `rounded-xl + border + ring`, el input es `bg-transparent`:
+
+```tsx
+<div className={cn(
+  'relative flex items-center rounded-xl border',  // ← border-radius aquí
+  isFocused && 'border-primary ring-2 ring-primary/30'  // ← ring también aquí
+)}>
+  <input className="bg-transparent rounded-xl focus:outline-none" />
+</div>
+```
+
+---
+
+## 6. 📦 Patrones de Componente
+
+### ProductCard Footer (alineación correcta)
+
+El footer de la card usa `items-end` (no `items-center`) para alinear el bloque de 2 líneas (precio + stock) con el botón por la base inferior:
+
+```tsx
+<CardFooter className="px-5 pb-5 pt-4 flex items-end justify-between gap-4 border-t border-border/50">
+  <div className="flex flex-col gap-0.5 min-w-0">
+    <span className="text-xl font-bold leading-none">${price.toFixed(2)}</span>
+    <span className="text-success text-[10px]">{stock} en stock</span>
+  </div>
+  <Button className="shrink-0 self-end rounded-full ...">Ver detalles</Button>
+</CardFooter>
+```
+
+> **Regla**: Para footers con bloques de altura diferente, usar `items-end` + `self-end`.
+
+### ProductGrid (altura uniforme)
+
+Para que el footer de todas las cards quede al mismo nivel horizontal:
+
+```tsx
+<m.div className="grid ... items-stretch">  {/* ← items-stretch */}
+  {products.map(p => (
+    <m.div className="h-full">  {/* ← h-full necesario */}
+      <ProductCard product={p} />
+    </m.div>
+  ))}
+</m.div>
+```
+
+---
+
+## 7. 🧪 Testing
+
+### Infraestructura de Test Factories
+
+Los fixtures de test viven en `src/test/factories/`:
 
 ```typescript
-getNextPageParam: (lastPage, allPages) => {
-  // Calculates how many products are currently in memory
-  const totalFetched = allPages.reduce(
-    (acc, page) => acc + page.products.length,
-    0,
-  );
+import { makeProduct, makeCartItem } from "@/test/factories/productFactory";
 
-  // If fetched is less than the total available on the server, load the next page
-  return totalFetched < lastPage.total ? allPages.length + 1 : undefined;
-};
+// Producto con valores por defecto válidos (incluye `description` requerida)
+const product = makeProduct({ price: 50, stock: 3 });
+
+// CartItem = IProduct + quantity
+const item = makeCartItem({ id: 2, quantity: 3 });
 ```
 
-If this returns a number, TanStack Query uses it as `pageParam` for the next query. We use `.flatMap(page => page.products)` in the view layer to squash the arrays into a single list.
+> **⚠️ Importante**: Siempre usar las factories en lugar de objetos literales. El campo `description` es **requerido** en `IProduct` y los objetos incompletos causarán errores TS2741.
 
-### Global State Management (React Context)
+### Errores corregidos (2026-03-13)
 
-The project strongly avoids Prop Drilling by using the Context Pattern safely. Features like the Shopping Cart or the Product Modal are wrapped in a custom provider (`ProductModalProvider`, `CartProvider`).
-
-Consumer hooks are built defensively:
-
-```typescript
-const context = useContext(ProductModalContext);
-if (context === undefined) {
-  throw new Error("Must be used within ProductModalProvider");
-}
-return context;
-```
+| Error | Causa | Fix |
+|---|---|---|
+| `TS2459: IProduct not exported` | `cartTypes.ts` importaba pero no re-exportaba `IProduct` | Añadido `export type { IProduct }` |
+| `TS2724: HiMiniCircle not found` | `dropdown-menu.tsx` importaba un ícono inexistente | SVG inline circle |
+| `TS2741: description missing` | Fixtures de test incompletos | Refactorizados con `makeProduct` factory |
+| Toast en inglés | `useCartActions` mezclaba idiomas | Corregido a español |
 
 ---
 
-## 4. 📝 Coding & Documenting Standards (JSDoc)
+## 8. 🚢 Despliegue
 
-We employ **Concise JSDoc** statements to optimize IDE IntelliSense.
+GitHub Actions despliega automáticamente a GitHub Pages en cada push a `main`:
 
-**Rules for JSDoc:**
-
-- Do not state the obvious.
-- Be concise (3-5 lines max).
-- Include standard params and return types.
-
-**Component Example:**
-
-```javascript
-/**
- * Product Card displaying the thumbnail, title, price, and actions.
- *
- * @param {Object} props
- * @param {IProduct} props.product - The product data object
- */
-export const ProductCard = ({ product }) => { ... }
+```
+push to main → lint → build → deploy → github-pages
 ```
 
-**Function Example:**
-
-```javascript
-/**
- * Adds a product to the cart. Increments quantity if it already exists.
- *
- * @param {IProduct} product - Product to add
- * @param {number} quantity - Quantity to increment
- */
-export const addToCart = (product, quantity) => { ... }
-```
-
-### Code Style (TypeScript)
-
-- **Functional Components:** Use Arrow Functions.
-- **Hook-First Logic:** Side effects and state belong in custom hooks within the `application` layer.
-- **Type Safety:** Avoid `any`. Use `unknown` and type guards if necessary.
-- **Atomicity:** Keep components < 150 lines. Decompose larger ones. Use composition instead of complex prop drilling.
+**URL Live:** [https://slinkter.github.io/myprojectapi12/](https://slinkter.github.io/myprojectapi12/)
 
 ---
 
-## 5. 🎨 UI & Styling System (Tailwind v4)
-
-We migrated completely to a pure, CSS-first **Tailwind CSS v4** architecture, dropping Material Tailwind, which reduced JS sizes by 74%.
-
-- **CSS Variables First:** `src/styles/variables.css` defines the tokens:
-  ```css
-  :root {
-    --bg-main: #f8fafc;
-    --text-primary: #1a1614;
-  }
-  .dark:root {
-    --bg-main: #0f172a;
-    --text-primary: #f8fafc;
-  }
-  ```
-- **Component Classes:** Shared components are defined using `@layer components` or Tailwind `@apply` to DRY up templates.
-  - **Examples:** `.btn-primary`, `.neumo-card`, `.neumo-input`.
-- **Animations:** Modularized in `animations.css` (e.g., `fadeInUp`, `slideInRight`).
-
----
-
-## 6. 🧪 Testing Strategy
-
-The project employs **Vitest** + **React Testing Library** for an exhaustive testing suite focusing heavily on the domain layer.
-
-- **Unit Tests:** For pure functions in `domain/`.
-- **Integration Tests:** For hooks and providers (e.g., `useCart.tsx`) in `application/`.
-- **Target Coverage:** We aim to keep domain functions 100% covered.
-
-**Commands:**
-
-```bash
-# Run tests
-pnpm test
-
-# Check coverage
-pnpm test:coverage
-
-# Visual UI mode
-pnpm test:ui
-```
-
----
-
-## 7. 🚢 Deployment & CI/CD Guide
-
-The project uses GitHub Actions to seamlessly deploy to GitHub Pages under the `gh-pages` branch on every commit to `main`.
-
-### Simulated Pipeline Flow
-
-1. **Checkout**: Action clones repo.
-2. **Install**: `pnpm install --frozen-lockfile` runs.
-3. **Lint**: `pnpm lint` ensures static code quality. Build fails if errors exist.
-4. **Build**: `pnpm build` outputs to `/dist`.
-5. **Deploy**: The built output in `/dist` is pushed to GitHub Pages.
-
-**Live Artifact:** [https://slinkter.github.io/myprojectapi12/](https://slinkter.github.io/myprojectapi12/)
-
----
-
-_Last updated: 2026-03-06_
+_Documento reescrito: 2026-03-13 | Autor: Gemini Engineering Agent_

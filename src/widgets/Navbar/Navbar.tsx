@@ -26,7 +26,7 @@ export function Navbar() {
       className={cn(
         'sticky top-0 z-50 w-full transition-all duration-300 ease-in-out border-b',
         scrolled
-          ? 'bg-(--bg-main)/80 backdrop-blur-md border-(--border-light) shadow-sm'
+          ? 'bg-background/80 backdrop-blur-md border-border shadow-soft'
           : 'bg-transparent border-transparent'
       )}
       aria-label="Navegación principal"
@@ -38,11 +38,11 @@ export function Navbar() {
           aria-label="Ir a la página de inicio"
         >
           <div className="flex flex-col">
-            <h1 className="text-lg font-bold tracking-tight text-(--text-primary) leading-none">
+            <h1 className="text-lg font-bold tracking-tight text-foreground leading-none">
               My Project API
             </h1>
           </div>
-          <span>12</span>
+          <span className="text-primary font-bold">12</span>
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
@@ -53,12 +53,12 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               onClick={toggleCart}
-              className="relative w-11 h-11 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 active:scale-95 text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400"
+              className="relative w-11 h-11 rounded-full hover:bg-accent transition-all duration-200 active:scale-95 text-muted-foreground hover:text-primary"
               aria-label="Abrir carrito de compras"
             >
               <HiOutlineShoppingBag className="h-6 w-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white shadow-sm ring-2 ring-(--bg-main) animate-in zoom-in duration-300 pointer-events-none">
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 min-w-[1.25rem] items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground shadow-sm ring-2 ring-background animate-in zoom-in duration-300 pointer-events-none">
                   {totalItems > 9 ? '9+' : totalItems}
                 </span>
               )}

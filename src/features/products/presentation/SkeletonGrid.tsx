@@ -17,7 +17,7 @@ import SkeletonCard from "@/features/products/presentation/SkeletonCard";
 const SkeletonGrid: React.FC = () => {
   return (
     <div
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
       aria-hidden="true"
     >
       {Array.from({ length: 8 }).map((_, index) => (

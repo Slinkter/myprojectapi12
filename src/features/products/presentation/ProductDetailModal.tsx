@@ -58,7 +58,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
     <AnimatePresence>
       {open && (
         <m.div
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-4"
+          className="fixed inset-0 bg-neutral-950/60 backdrop-blur-md flex justify-center items-center z-50 p-4"
           onClick={onClose}
           variants={BACKDROP_FADE}
           initial="hidden"
@@ -67,7 +67,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
           role="presentation"
         >
           <m.div
-            className="relative w-full max-w-5xl overflow-hidden max-h-[90vh] flex flex-col shadow-2xl rounded-3xl bg-card border border-slate-200 dark:border-slate-800"
+            className="relative w-full max-w-5xl overflow-hidden max-h-[90vh] flex flex-col shadow-2xl rounded-3xl bg-card border border-border"
             onClick={(e: MouseEvent) => e.stopPropagation()}
             variants={MODAL_SLIDE_UP}
             role="dialog"
@@ -79,11 +79,11 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                 variant="outline"
                 size="icon"
                 onClick={onClose}
-                className="rounded-full bg-card/90 backdrop-blur-md border-slate-200 dark:border-slate-800 shadow-sm group"
+                className="rounded-full bg-card/80 backdrop-blur-md border-border shadow-soft group hover:border-primary/30"
                 aria-label="Cerrar modal"
               >
                 <HiOutlineXMark
-                  className="w-5 h-5 text-slate-500 group-hover:text-amber-600 transition-colors"
+                  className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors"
                 />
               </Button>
             </div>
@@ -91,124 +91,102 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
             <div className="flex flex-col md:flex-row h-full overflow-y-auto md:overflow-hidden">
               {/* Columna Izquierda: Información */}
               <div className="flex-1 p-8 md:p-12 flex flex-col order-2 md:order-1 overflow-y-auto bg-card">
-                <div className="mb-4 flex items-center gap-2">
+                <div className="mb-6 flex items-center gap-3">
                   {product.brand && (
-                    <span className="text-xs font-bold tracking-widest uppercase text-amber-600">
+                    <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary bg-primary/10 px-2 py-1 rounded-full">
                       {product.brand}
                     </span>
                   )}
                   {product.category && (
-                    <>
-                      <span className="text-slate-300">•</span>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                        {product.category}
-                      </span>
-                    </>
+                    <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-accent-foreground bg-accent/20 px-2 py-1 rounded-full">
+                      {product.category}
+                    </span>
                   )}
                 </div>
 
-                <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-6 leading-tight tracking-tight">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black mb-4 text-foreground leading-tight">
                   {product.title}
                 </h2>
-
-                <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-prose">
+                
+                <p className="text-lg text-muted-foreground mb-8 font-sans leading-relaxed">
                   {product.description}
                 </p>
 
-                <div className="flex items-end gap-4 mb-10 border-b border-slate-100 dark:border-slate-800 pb-8">
+                <div className="flex items-center gap-6 mb-10 pb-8 border-b border-border/50">
                   <div className="flex flex-col">
-                    <span className="text-sm font-medium text-slate-500 mb-1">
-                      Precio
-                    </span>
-                    <span className="text-4xl font-bold text-foreground tracking-tight">
-                      ${product.price}
-                    </span>
-                  </div>
-                  {product.discountPercentage && (
-                    <span className="mb-2 text-red-600 text-xs font-bold">
-                      -{product.discountPercentage}%
-                    </span>
-                  )}
-                  <div className="ml-auto mb-2 flex items-center gap-2">
-                    <div
-                      className={cn(
-                        "w-2 h-2 rounded-full",
-                        stockStatus === "out" ? "bg-red-500" : "bg-green-500",
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">Precio</span>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-black text-foreground">${product.price}</span>
+                      {product.discountPercentage && (
+                        <span className="text-accent font-bold">-{product.discountPercentage}%</span>
                       )}
-                    />
-                    <span className="text-sm font-medium text-slate-500">
-                      {stockStatus === "out"
-                        ? "Sin stock"
-                        : `${product.stock} en stock`}
+                    </div>
+                  </div>
+                  <div className="h-10 w-[1px] bg-border" />
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">Disponibilidad</span>
+                    <span className={cn(
+                      "text-sm font-bold",
+                      stockStatus === "ok" ? "text-success" : "text-accent"
+                    )}>
+                      {stockStatus === "out" ? "Agotado" : `${product.stock} en stock`}
                     </span>
                   </div>
                 </div>
 
-                  <div className="mt-auto flex flex-col gap-6">
+                <div className="mt-auto flex flex-col gap-6">
                   <div className="flex flex-col sm:flex-row gap-4">
-                    {/* Control de Cantidad */}
                     <QuantityControl
                       quantity={quantity}
-                      stock={product.stock}
                       onIncrement={increment}
                       onDecrement={decrement}
+                      stock={product.stock}
                     />
 
-                    {/* Botón Añadir */}
                     <Button
                       onClick={handleAddToCart}
                       disabled={stockStatus === "out"}
                       size="lg"
-                      className="flex-1 rounded-full text-base font-bold shadow-amber-500/20"
+                      className="flex-1 h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/25 hover:scale-[1.02] transition-transform flex items-center justify-center gap-3 group"
                     >
-                      {stockStatus === "out" ? "Sin Stock" : "Agregar al Carrito"}
-                      <HiOutlineShoppingBag className="ml-2 w-5 h-5" />
+                      <HiOutlineShoppingBag className="w-6 h-6 group-hover:animate-bounce" />
+                      Añadir al Carrito
                     </Button>
                   </div>
-                  
-                  {/* Botón Continuar Comprando */}
+
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     onClick={onClose}
-                    className="w-full rounded-full"
+                    className="w-full h-12 rounded-xl text-muted-foreground hover:text-foreground"
                   >
                     Continuar Comprando
                   </Button>
                 </div>
               </div>
 
-              {/* Columna Derecha: Imagen con Zoom y Galería */}
-              <div className="w-full md:w-1/2 bg-slate-50 dark:bg-slate-900/50 flex flex-col items-center justify-center p-8 md:p-12 order-1 md:order-2">
-                <div className="relative w-full h-64 md:h-full max-h-[500px] flex items-center justify-center mb-4">
-                  <div className="absolute inset-0 bg-amber-500/10 rounded-full blur-3xl transform scale-75" />
-                  {selectedImage && (
-                    <ImageZoom
-                      src={selectedImage}
-                      alt={product.title}
-                      className="relative z-10 w-full h-full"
-                    />
-                  )}
+              {/* Columna Derecha: Imagen */}
+              <div className="w-full md:w-1/2 order-1 md:order-2 bg-muted/20 relative flex flex-col items-center justify-center p-8 md:p-12">
+                <div className="relative w-full h-64 md:h-full max-h-[500px] flex items-center justify-center mb-8">
+                  <div className="absolute inset-0 bg-primary/5 rounded-full blur-3xl transform scale-75 animate-pulse" />
+                  <ImageZoom
+                    src={selectedImage}
+                    alt={product.title}
+                    className="relative z-10 w-full h-full object-contain"
+                  />
                 </div>
                 
-                {/* Galería de miniaturas */}
                 {product.images && product.images.length > 1 && (
-                  <div className="flex gap-2 overflow-x-auto pb-2">
+                  <div className="flex gap-3 overflow-x-auto pb-2 max-w-full">
                     {product.images.map((img, index) => (
                       <button
                         key={index}
                         onClick={() => setSelectedImage(img)}
                         className={cn(
-                          'flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all',
-                          selectedImage === img
-                            ? 'border-amber-500 ring-2 ring-amber-500/30'
-                            : 'border-slate-200 dark:border-slate-700 hover:border-amber-400'
+                          'flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 bg-background/50',
+                          selectedImage === img ? "border-primary shadow-lg shadow-primary/20 scale-110" : "border-transparent opacity-60 hover:opacity-100"
                         )}
                       >
-                        <img
-                          src={img}
-                          alt={`${product.title} - imagen ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
+                        <img src={img} alt={`${product.title} - ${index}`} className="w-full h-full object-cover" />
                       </button>
                     ))}
                   </div>

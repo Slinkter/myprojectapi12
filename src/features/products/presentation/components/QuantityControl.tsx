@@ -33,11 +33,11 @@ const QuantityControl = ({
   onDecrement,
 }: IQuantityControlProps) => {
   return (
-    <div className="flex items-center justify-between bg-slate-100 dark:bg-slate-800 rounded-full px-1.5 py-1.5 w-full sm:w-auto min-w-[160px]">
+    <div className="flex items-center justify-between bg-secondary rounded-full px-1.5 py-1.5 w-full sm:w-auto min-w-[160px]">
       <button
         onClick={onDecrement}
         disabled={quantity === 1}
-        className="w-11 h-11 min-w-[44px] flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-foreground transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 active:scale-95 disabled:opacity-50"
+        className="w-11 h-11 min-w-[44px] flex items-center justify-center rounded-full bg-background shadow-sm text-foreground transition-colors hover:bg-accent active:scale-95 disabled:opacity-50"
       >
         <HiOutlineMinus className="w-5 h-5" />
       </button>
@@ -47,7 +47,7 @@ const QuantityControl = ({
       <button
         onClick={onIncrement}
         disabled={quantity >= stock}
-        className="w-11 h-11 min-w-[44px] flex items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm text-foreground transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 active:scale-95 disabled:opacity-50"
+        className="w-11 h-11 min-w-[44px] flex items-center justify-center rounded-full bg-background shadow-sm text-foreground transition-colors hover:bg-accent active:scale-95 disabled:opacity-50"
       >
         <HiOutlinePlus className="w-5 h-5" />
       </button>

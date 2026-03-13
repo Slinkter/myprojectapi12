@@ -41,12 +41,12 @@ interface ICardFormProps {
 const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
   // Helper para clases de input
   const inputClasses = (hasError: boolean) => {
-    return `w-full px-4 py-3 rounded-xl border bg-white dark:bg-slate-900 text-foreground placeholder:text-slate-400 transition-all duration-200 outline-none
-        focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500
+    return `w-full px-4 py-3 rounded-xl border bg-background text-foreground placeholder:text-muted-foreground transition-all duration-200 outline-none
+        focus:ring-2 focus:ring-primary/20 focus:border-primary
         ${
           hasError
-            ? "border-red-300 focus:border-red-500 focus:ring-red-500/20 bg-red-50/10"
-            : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+            ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20 bg-destructive/5"
+            : "border-border hover:border-border/80"
         }`;
   };
 
@@ -59,7 +59,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
       <div className="relative group">
         <label
           htmlFor="card-number"
-          className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest"
+          className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-widest"
         >
           Número de Tarjeta
         </label>
@@ -76,8 +76,8 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
             aria-describedby={errors.number ? "card-number-error" : undefined}
             autoComplete="cc-number"
           />
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-            <HiOutlineCreditCard className="w-5 h-5 transition-colors group-focus-within:text-amber-500" />
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+            <HiOutlineCreditCard className="w-5 h-5 transition-colors group-focus-within:text-primary" />
           </div>
 
           {/* Card Type Icon Indicator */}
@@ -103,7 +103,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
         {errors.number && (
           <p
             id="card-number-error"
-            className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-bold"
+            className="text-destructive text-xs mt-1.5 flex items-center gap-1.5 font-bold"
           >
             <HiOutlineExclamationCircle className="w-4 h-4" />
             {errors.number}
@@ -115,7 +115,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
       <div>
         <label
           htmlFor="cardholder-name"
-          className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest"
+          className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-widest"
         >
           Titular de la Tarjeta
         </label>
@@ -131,14 +131,14 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
             aria-describedby={errors.name ? "cardholder-name-error" : undefined}
             autoComplete="cc-name"
           />
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-            <HiOutlineUser className="w-5 h-5 transition-colors group-focus-within:text-amber-500" />
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+            <HiOutlineUser className="w-5 h-5 transition-colors group-focus-within:text-primary" />
           </div>
         </div>
         {errors.name && (
           <p
             id="cardholder-name-error"
-            className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-bold"
+            className="text-destructive text-xs mt-1.5 flex items-center gap-1.5 font-bold"
           >
             <HiOutlineExclamationCircle className="w-4 h-4" />
             {errors.name}
@@ -151,7 +151,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
         <div className="group">
           <label
             htmlFor="card-expiry"
-            className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest"
+            className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-widest"
           >
             Expira
           </label>
@@ -168,14 +168,14 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
               aria-describedby={errors.expiry ? "card-expiry-error" : undefined}
               autoComplete="cc-exp"
             />
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-              <HiOutlineCalendarDays className="w-5 h-5 transition-colors group-focus-within:text-amber-500" />
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+              <HiOutlineCalendarDays className="w-5 h-5 transition-colors group-focus-within:text-primary" />
             </div>
           </div>
           {errors.expiry && (
             <p
               id="card-expiry-error"
-              className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-bold"
+              className="text-destructive text-xs mt-1.5 flex items-center gap-1.5 font-bold"
             >
               <HiOutlineExclamationCircle className="w-4 h-4" />
               {errors.expiry}
@@ -185,10 +185,10 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
         <div className="group">
           <label
             htmlFor="card-cvc"
-            className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest flex items-center justify-between"
+            className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-widest flex items-center justify-between"
           >
             CVC
-            <span className="text-[9px] text-slate-300 font-medium normal-case tracking-normal">
+            <span className="text-[9px] text-muted-foreground/70 font-medium normal-case tracking-normal">
               3-4 dígitos
             </span>
           </label>
@@ -206,14 +206,14 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
               aria-describedby={errors.cvc ? "card-cvc-error" : undefined}
               autoComplete="cc-csc"
             />
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
-              <HiOutlineLockClosed className="w-5 h-5 transition-colors group-focus-within:text-amber-500" />
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+              <HiOutlineLockClosed className="w-5 h-5 transition-colors group-focus-within:text-primary" />
             </div>
           </div>
           {errors.cvc && (
             <p
               id="card-cvc-error"
-              className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-bold"
+              className="text-destructive text-xs mt-1.5 flex items-center gap-1.5 font-bold"
             >
               <HiOutlineExclamationCircle className="w-4 h-4" />
               {errors.cvc}

@@ -16,7 +16,7 @@ interface ILayoutProps {
 
 const Layout = ({ children }: ILayoutProps) => {
   return (
-    <div className={clsx("min-h-dvh bg-(--bg-main)")}>
+    <div className={clsx("min-h-dvh bg-background")}>
       <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
       <main

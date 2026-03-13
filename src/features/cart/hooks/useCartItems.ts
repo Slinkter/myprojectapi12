@@ -1,11 +1,11 @@
 import { useLocalStorage } from '@/shared/hooks/useLocalStorage'
 import type { CartItem } from '@/entities/cart/types/cart.types'
-import type { Product } from '@/entities/product/types/product.types'
+import type { IProduct } from '@/features/products/application/types'
 
 export function useCartItems() {
   const [items, setItems] = useLocalStorage<CartItem[]>('cart-items', [])
 
-  const addItem = (product: Product, quantity = 1) => {
+  const addItem = (product: IProduct, quantity = 1) => {
     setItems(prev => {
       const existing = prev.find(item => item.id === product.id)
       if (existing) {

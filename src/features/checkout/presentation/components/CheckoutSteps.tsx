@@ -20,9 +20,9 @@ export function CheckoutSteps({ steps, currentStep, className }: CheckoutStepsPr
             <div
               className={cn(
                 'flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-all duration-300',
-                isCompleted && 'bg-green-600 text-white',
-                isCurrent && 'bg-amber-600 text-white ring-4 ring-amber-600/20',
-                isPending && 'bg-slate-200 dark:bg-slate-700 text-slate-500'
+                isCompleted && 'bg-success text-success-foreground',
+                isCurrent && 'bg-primary text-primary-foreground ring-4 ring-primary/20',
+                isPending && 'bg-muted text-muted-foreground'
               )}
             >
               {isCompleted ? (
@@ -34,9 +34,9 @@ export function CheckoutSteps({ steps, currentStep, className }: CheckoutStepsPr
             <span
               className={cn(
                 'ml-2 text-sm font-medium hidden sm:inline',
-                isCompleted && 'text-green-600',
-                isCurrent && 'text-amber-600',
-                isPending && 'text-slate-400'
+                isCompleted && 'text-success',
+                isCurrent && 'text-primary',
+                isPending && 'text-muted-foreground'
               )}
             >
               {step}
@@ -45,7 +45,7 @@ export function CheckoutSteps({ steps, currentStep, className }: CheckoutStepsPr
               <div
                 className={cn(
                   'w-8 sm:w-16 h-0.5 mx-2',
-                  isCompleted ? 'bg-green-600' : 'bg-slate-200 dark:bg-slate-700'
+                  isCompleted ? 'bg-success' : 'bg-border'
                 )}
               />
             )}

@@ -58,18 +58,18 @@ const Checkout = () => {
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Columna Izquierda: Formulario */}
         <div className="lg:col-span-2">
-          <div className="bg-card rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+          <div className="bg-card rounded-3xl shadow-2xl border border-border overflow-hidden">
             {/* Cabecera */}
-            <div className="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="p-8 border-b border-border bg-background/50">
               <CheckoutSteps steps={steps} currentStep={1} />
               <div className="flex items-center justify-between mb-6">
                 <Link
                   to="/"
-                  className="text-sm font-semibold text-slate-500 hover:text-amber-600 transition-colors flex items-center gap-2"
+                  className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
                 >
                   <IoArrowBack className="w-4 h-4" /> Volver a la Tienda
                 </Link>
-                <div className="flex items-center gap-2 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-green-50 dark:bg-green-900/20 rounded-full border border-green-100 dark:border-green-900/30">
+                <div className="flex items-center gap-2 text-success text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-success/10 rounded-full border border-success/30">
                   <IoShieldCheckmarkOutline className="w-3.5 h-3.5" />
                   Pago Seguro
                 </div>
@@ -80,7 +80,7 @@ const Checkout = () => {
               >
                 Detalles de Pago
               </h1>
-              <p className="text-slate-500 mt-2 font-medium">
+              <p className="text-muted-foreground mt-2 font-medium">
                 Tu pago será procesado de forma segura y encriptada.
               </p>
             </div>
@@ -88,7 +88,7 @@ const Checkout = () => {
             <div className="p-8">
               {/* Selector de Método de Pago */}
               <div className="mb-8">
-                <label htmlFor="payment-method" className="block text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">
+                <label htmlFor="payment-method" className="block text-xs font-bold text-muted-foreground mb-4 uppercase tracking-widest">
                   Seleccione Método de Pago
                 </label>
                 <fieldset id="payment-method" className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -127,14 +127,14 @@ const Checkout = () => {
                     onChange={handleCardInfoChange}
                   />
                 ) : (
-                  <div className="flex flex-col items-center justify-center h-full py-12 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-500">
-                    <div className="w-20 h-20 bg-amber-100 dark:bg-amber-900/20 rounded-full flex items-center justify-center mb-4 text-4xl text-amber-600 shadow-inner">
+                  <div className="flex flex-col items-center justify-center h-full py-12 bg-background rounded-2xl border-2 border-dashed border-border animate-in fade-in zoom-in-95 duration-500">
+                    <div className="w-20 h-20 bg-warning/20 rounded-full flex items-center justify-center mb-4 text-4xl text-warning shadow-inner">
                       ₿
                     </div>
                     <h3 className="text-xl font-bold text-foreground">
                       Pagar con Bitcoin
                     </h3>
-                    <p className="text-sm text-slate-500 mt-2 text-center max-w-xs px-4">
+                    <p className="text-sm text-muted-foreground mt-2 text-center max-w-xs px-4">
                       Será redirigido a nuestra pasarela de pago cripto segura de
                       **BitPay**.
                     </p>
@@ -167,8 +167,8 @@ const Checkout = () => {
                 )}
               </Button>
 
-              <div className="flex flex-col items-center gap-2 mt-8 py-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
-                <p className="text-[11px] text-slate-400 font-medium flex items-center gap-2 uppercase tracking-widest">
+              <div className="flex flex-col items-center gap-2 mt-8 py-4 bg-background rounded-xl">
+                <p className="text-[11px] text-muted-foreground font-medium flex items-center gap-2 uppercase tracking-widest">
                   <IoLockClosedOutline className="w-3.5 h-3.5" />
                   Transacción encriptada SSL de 256 bits
                 </p>

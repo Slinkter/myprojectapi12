@@ -57,11 +57,11 @@ const PaymentMethodRadio = ({
                 htmlFor={id}
                 className={cn(
                     "flex flex-col items-center justify-center p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 h-full",
-                    "hover:shadow-lg hover:border-amber-300 dark:hover:border-amber-900 group",
+                    "hover:shadow-lg hover:border-primary/50 group",
                     checked
-                        ? "border-amber-500 bg-amber-50/50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 shadow-inner"
-                        : "border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800",
-                    "focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2",
+                        ? "border-primary bg-primary/10 text-primary shadow-inner"
+                        : "border-border bg-card text-muted-foreground hover:bg-accent",
+                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
                 )}
                 role="button"
                 tabIndex={0}
@@ -97,7 +97,7 @@ const PaymentMethodRadio = ({
                 </span>
 
                 {checked && (
-                    <div className="absolute top-3 right-3 text-amber-500 animate-in zoom-in duration-300">
+                    <div className="absolute top-3 right-3 text-primary animate-in zoom-in duration-300">
                         <HiCheckCircle className="w-6 h-6 drop-shadow-sm" />
                     </div>
                 )}

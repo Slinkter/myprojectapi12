@@ -5,13 +5,22 @@
  */
 
 import { apiClient } from "@/app/api/apiClient";
-import type { ProductsApiResponse } from "@/entities/product/types/product.types";
+import type { IProductsApiResponse } from "@/features/products/domain/productTypes";
 
+/**
+ * Obtiene una lista paginada de productos de la API, opcionalmente filtrada por categoría.
+ * 
+ * @param {number} skip - Cantidad de elementos a saltar (offset).
+ * @param {number} limit - Cantidad máxima de elementos a retornar.
+ * @param {string} [category] - Categoría opcional para filtrar los productos.
+ * @returns {Promise<IProductsApiResponse>} Promesa con la respuesta paginada de productos.
+ */
 export const getProducts = async (
   skip: number,
   limit: number,
-): Promise<ProductsApiResponse> => {
-  const endpoint = `/products?limit=${limit}&skip=${skip}`;
-  const response = apiClient<ProductsApiResponse>(endpoint);
-  return response;
+  category?: string,
+): Promise<IProductsApiResponse> => {
+  const baseUrl = category ? `/products/category/${category}` : '/products';
+  const endpoint = `${baseUrl}?limit=${limit}&skip=${skip}`;
+  return apiClient<IProductsApiResponse>(endpoint);
 };

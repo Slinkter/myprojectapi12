@@ -69,7 +69,7 @@ export const HomeContent = () => {
           placeholder="Buscar productos por nombre, descripción o categoría..."
         />
         {searchQuery && (
-          <p className="mt-2 text-sm text-slate-500 text-center">
+          <p className="mt-2 text-sm text-muted-foreground text-center">
             {filteredProducts.length} resultado{filteredProducts.length !== 1 ? 's' : ''} para &quot;{searchQuery}&quot;
           </p>
         )}

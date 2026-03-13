@@ -1,11 +1,11 @@
 import { memo } from 'react'
 import { motion as m } from 'framer-motion'
 import { ProductCard } from '@/widgets/ProductCard'
-import type { Product } from '@/entities/product/types/product.types'
+import type { IProduct } from '@/features/products/application/types'
 import { staggerContainer, slideUp } from '@/shared/lib/animations'
 
 interface ProductGridProps {
-  products: Product[]
+  products: IProduct[]
 }
 
 const ProductGrid = memo(({ products }: ProductGridProps) => {
@@ -16,7 +16,7 @@ const ProductGrid = memo(({ products }: ProductGridProps) => {
       initial="hidden"
       animate="visible"
     >
-      {products.map((product: Product) => (
+      {products.map((product: IProduct) => (
         <m.div key={product.id} variants={slideUp}>
           <ProductCard product={product} />
         </m.div>

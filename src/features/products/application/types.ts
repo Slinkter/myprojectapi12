@@ -5,12 +5,13 @@
  */
 
 import { ReactNode } from "react";
-import type { Product, ProductsApiResponse } from "@/entities/product/types/product.types";
+import type { IProduct, IProductsApiResponse } from "@/features/products/domain/productTypes";
 
-export type { Product, ProductsApiResponse };
+export type { IProduct, IProductsApiResponse };
 
-export type IProduct = Product;
-export type IProductsApiResponse = ProductsApiResponse;
+/** Para compatibilidad mientras se refactorizan otros componentes */
+export type Product = IProduct;
+export type ProductsApiResponse = IProductsApiResponse;
 
 export interface IUseProductModalResult {
   isModalOpen: boolean;
