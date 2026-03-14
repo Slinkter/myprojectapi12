@@ -6,7 +6,10 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProducts } from "@/features/products/infrastructure/productsApi";
-import type { IProduct, IUseProductsResult } from "@/features/products/application/types";
+import type {
+    IProduct,
+    IUseProductsResult,
+} from "@/features/products/application/types";
 
 /**
  * Cantidad de productos por página para la paginación infinita.
@@ -19,36 +22,38 @@ const PRODUCTS_PER_PAGE = 20;
  * @returns {IUseProductsResult} Objeto con productos, estados de carga y funciones de paginación.
  */
 export const useProducts = (category?: string): IUseProductsResult => {
-  const {
-    isLoading: isInitialLoading,
-    error,
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["products", category] as const,
-    queryFn: async ({ pageParam = 1 }) => {
-      const skip = (pageParam - 1) * PRODUCTS_PER_PAGE;
-      return getProducts(skip, PRODUCTS_PER_PAGE, category);
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      const totalFetched = allPages.length * PRODUCTS_PER_PAGE;
-      return totalFetched < lastPage.total ? allPages.length + 1 : undefined;
-    },
-    initialPageParam: 1,
-  });
+    const {
+        isLoading: isInitialLoading,
+        error,
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
+        queryKey: ["products", category] as const,
+        queryFn: async ({ pageParam = 1 }) => {
+            const skip = (pageParam - 1) * PRODUCTS_PER_PAGE;
+            return getProducts(skip, PRODUCTS_PER_PAGE, category);
+        },
+        getNextPageParam: (lastPage, allPages) => {
+            const totalFetched = allPages.length * PRODUCTS_PER_PAGE;
+            return totalFetched < lastPage.total
+                ? allPages.length + 1
+                : undefined;
+        },
+        initialPageParam: 1,
+    });
 
-  const products: IProduct[] =
-    data?.pages.flatMap((page) => page.products) ?? [];
+    const products: IProduct[] =
+        data?.pages.flatMap((page) => page.products) ?? [];
 
-  return {
-    products,
-    error: error?.message || null,
-    loading: isInitialLoading || isFetchingNextPage, // BUG FIX: Incluimos carga inicial
-    initialLoading: isInitialLoading,
-    hasMore: hasNextPage ?? false,
-    loadMore: fetchNextPage,
-    isLoadingMore: isFetchingNextPage,
-  };
+    return {
+        products,
+        error: error?.message || null,
+        loading: isInitialLoading || isFetchingNextPage,
+        initialLoading: isInitialLoading,
+        hasMore: hasNextPage ?? false,
+        loadMore: fetchNextPage,
+        isLoadingMore: isFetchingNextPage,
+    };
 };

@@ -13,11 +13,11 @@ import { ProductModalContext } from "@/features/products/application/ProductModa
  * @throws {Error} Si se usa fuera de un ProductModalProvider.
  */
 export const useProductModalContext = () => {
-  const context = useContext(ProductModalContext);
-  if (context === undefined) {
-    throw new Error(
-      "useProductModalContext debe usarse dentro de un ProductModalProvider",
-    );
-  }
-  return context;
+    const context = useContext(ProductModalContext);
+    if (context === undefined) {
+        throw new Error(
+            "useProductModalContext debe usarse dentro de un ProductModalProvider",
+        );
+    }
+    return context;
 };

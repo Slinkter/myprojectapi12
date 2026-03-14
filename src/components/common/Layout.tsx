@@ -11,22 +11,22 @@ import { Navbar } from "@/widgets/Navbar";
 import clsx from "clsx";
 
 interface ILayoutProps {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 const Layout = ({ children }: ILayoutProps) => {
-  return (
-    <div className={clsx("min-h-dvh bg-background")}>
-      <Toaster position="top-center" reverseOrder={false} />
-      <Navbar />
-      <main
-        className={clsx("container mx-auto px-3 py-6 sm:px-4 sm:py-8")}
-        role="main"
-      >
-        {children}
-      </main>
-    </div>
-  );
+    return (
+        <div className={clsx("min-h-dvh bg-background")}>
+            <Toaster position="top-center" reverseOrder={false} />
+            <Navbar />
+            <main
+                className={clsx("container mx-auto px-3 py-6 sm:px-4 sm:py-8")}
+                role="main"
+            >
+                {children}
+            </main>
+        </div>
+    );
 };
 
 export default Layout;
