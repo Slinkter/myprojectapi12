@@ -17,13 +17,13 @@ import { Button } from "@/components/ui/button";
  * @component
  */
 const ThemeSwitcher = () => {
-    const { theme, toggleTheme } = useTheme();
+    const { theme, toggleDarkMode } = useTheme();
 
     return (
         <Button
             variant="ghost"
             size="icon"
-            onClick={toggleTheme}
+            onClick={toggleDarkMode}
             className={cn(
                 "relative w-11 h-11 rounded-full transition-all duration-200 overflow-hidden",
                 "hover:bg-accent active:scale-95",

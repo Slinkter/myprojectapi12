@@ -75,35 +75,21 @@ export const useCartDrawer = (): IUseCartDrawerReturn => {
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     /**
-     * @function openCart
-     * @description Abre el drawer del carrito estableciendo isCartOpen en true.
-     * @memoized useCallback - Función estable que nunca se recrea
-     * 
-     * @returns {void}
+     * Opens the cart drawer so the user can see their cart items.
+     * @returns void
      */
     const openCart = useCallback(() => setIsCartOpen(true), []);
 
     /**
-     * @function closeCart
-     * @description Cierra el drawer del carrito estableciendo isCartOpen en false.
-     * @memoized useCallback - Función estable que nunca se recrea
-     * 
-     * @returns {void}
+     * Closes the cart drawer, hiding it from the user.
+     * @returns void
      */
     const closeCart = useCallback(() => setIsCartOpen(false), []);
 
     /**
-     * @function toggleCart
-     * @description Alterna el estado del drawer (abierto ↔ cerrado).
-     * Usa functional setState para garantizar la actualización correcta.
-     * @memoized useCallback - Función estable que nunca se recrea
-     * 
-     * @returns {void}
-     * 
-     * @example
-     * // Estado actual: cerrado (false)
-     * toggleCart(); // Ahora: abierto (true)
-     * toggleCart(); // Ahora: cerrado (false)
+     * Toggles the cart drawer open or closed.
+     * If open, closes it. If closed, opens it.
+     * @returns void
      */
     const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), []);
 

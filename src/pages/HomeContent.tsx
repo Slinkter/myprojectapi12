@@ -16,9 +16,9 @@ import ProductDetailModal from "@/features/products/presentation/ProductDetailMo
 import { useDebounce } from "@/shared/hooks/useDebounce";
 
 export const HomeContent = () => {
-    const { products, initialLoading, isLoading, error, loadMore, hasMore } =
+    const { products, initialLoading, isLoading, error, loadMoreProducts, hasMore } =
         useProducts();
-    const { selectedProduct, isModalOpen, handleCloseModal } =
+    const { selectedProduct, isModalOpen, closeProductModal } =
         useProductModalContext();
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -85,14 +85,14 @@ export const HomeContent = () => {
                         isLoading={isLoading}
                         error={error}
                         hasMore={hasMore && !searchQuery}
-                        loadMore={loadMore}
+                        loadMoreProducts={loadMoreProducts}
                     />
                 )}
                 {selectedProduct && (
                     <ProductDetailModal
                         product={selectedProduct}
                         isOpen={isModalOpen}
-                        onClose={handleCloseModal}
+                        onClose={closeProductModal}
                     />
                 )}
             </div>

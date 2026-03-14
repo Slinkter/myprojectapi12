@@ -6,7 +6,7 @@ import { makeProduct } from '@/test/factories/productFactory';
 // Mock del contexto para evitar problemas de providers
 vi.mock('@/features/products/application/useProductModalContext', () => ({
   useProductModalContext: () => ({
-    handleOpenModal: vi.fn(),
+    openProductModal: vi.fn(),
   }),
 }));
 

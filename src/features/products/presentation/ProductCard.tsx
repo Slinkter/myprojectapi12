@@ -21,11 +21,11 @@ interface IProductCardProps {
 }
 
 const ProductCard = React.memo(({ product }: IProductCardProps) => {
-  const { handleOpenModal } = useProductModalContext()
+  const { openProductModal } = useProductModalContext()
 
   const handleClick = useCallback(() => {
-    handleOpenModal(product)
-  }, [handleOpenModal, product])
+    openProductModal(product)
+  }, [openProductModal, product])
 
   if (!product || !product.id) {
     console.error('ProductCard received invalid product:', product)
@@ -105,7 +105,7 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
         <Button
           onClick={(e) => {
             e.stopPropagation()
-            handleOpenModal(product)
+            openProductModal(product)
           }}
           disabled={isOutOfStock}
           size="sm"

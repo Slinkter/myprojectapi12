@@ -30,7 +30,13 @@ export const useCartActions = (
   setCart: React.Dispatch<React.SetStateAction<ICartItem[]>>,
   openCart: () => void,
 ): IUseCartActionsReturn => {
-  /** Agrega producto y abre el carrito con validación previa */
+  /**
+   * Adds a product to the cart with validation.
+   * Opens the cart drawer after successfully adding the product.
+   * @param product - The product object to add to the cart
+   * @param quantity - The quantity of the product to add
+   * @returns void
+   */
   const addToCart = useCallback(
     (product: IProduct, quantity: number) => {
       const validation = validateCartItem(product, quantity);
@@ -47,7 +53,11 @@ export const useCartActions = (
     [setCart, openCart],
   );
 
-  /** Elimina producto del carrito */
+  /**
+   * Removes a product from the cart by its product ID.
+   * @param productId - The unique identifier of the product to remove
+   * @returns void
+   */
   const removeFromCart = useCallback(
     (productId: number) => {
       setCart((prev) => removeItemFromCart(prev, productId));
@@ -56,7 +66,10 @@ export const useCartActions = (
     [setCart],
   );
 
-  /** Vacía el carrito */
+  /**
+   * Clears all items from the cart, emptying it completely.
+   * @returns void
+   */
   const clearCart = useCallback(() => {
     setCart([]);
     toast.success("El carrito ha sido vaciado.");

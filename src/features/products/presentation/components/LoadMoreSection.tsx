@@ -19,7 +19,7 @@ interface ILoadMoreSectionProps {
   /** Indica si se está cargando la siguiente página */
   isLoading: boolean;
   /** Función para cargar la siguiente página */
-  loadMore: () => void;
+  loadMoreProducts: () => void;
 }
 
 /**
@@ -28,10 +28,10 @@ interface ILoadMoreSectionProps {
  * o un mensaje de fin de lista cuando ya no hay más productos.
  */
 const LoadMoreSection = (props: ILoadMoreSectionProps) => {
-  const { products, hasMore, loadMore, isLoading } = props;
+  const { products, hasMore, loadMoreProducts, isLoading } = props;
   return (
     <div className="flex flex-col items-center justify-center w-full mt-12 mb-8">
-      {hasMore && <LoadMoreButton onClick={loadMore} isLoading={isLoading} />}
+      {hasMore && <LoadMoreButton onClick={loadMoreProducts} isLoading={isLoading} />}
 
       {!hasMore && products.length > 0 && (
         <p className="text-center text-slate-500 dark:text-slate-400 mt-8">

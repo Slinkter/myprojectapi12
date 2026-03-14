@@ -137,14 +137,10 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
 };
 
 /**
- * @function useCart
- * @description Hook personalizado para consumir el contexto del carrito.
- * Proporciona acceso al estado del carrito y todas sus acciones.
- * @architecture Capa de Aplicación - Hook Personalizado
- *
- * @returns {CartContextValue} Valor del contexto con estado y acciones del carrito
- *
- * @throws {Error} Si se usa fuera de un CartProvider
+ * Custom hook to access the cart context.
+ * Provides access to cart state and all cart actions.
+ * @returns CartContextValue - Object containing cart state (items, isCartOpen) and actions (addToCart, removeFromCart, clearCart, openCart, closeCart, toggleCart)
+ * @throws {Error} If used outside of a CartProvider
  */
 export const useCart = () => {
   const context = useContext(CartContext);

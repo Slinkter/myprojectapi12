@@ -11,7 +11,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = React.memo(({ product }: ProductCardProps) => {
-  const { handleOpenModal } = useProductModalContext()
+  const { openProductModal } = useProductModalContext()
   
   if (!product || !product.id) {
     console.error('ProductCard component received invalid product:', product)
@@ -74,7 +74,7 @@ const ProductCard = React.memo(({ product }: ProductCardProps) => {
 
       <CardFooter className="p-5 pt-0">
         <Button
-          onClick={() => handleOpenModal(product)}
+          onClick={() => openProductModal(product)}
           disabled={stockStatus === 'out'}
           className="w-full"
           variant={stockStatus !== 'out' ? 'default' : 'secondary'}

@@ -21,7 +21,7 @@ import {
 
 interface IThemeContextType {
     theme: Theme; /** El identificador del tema activo. */
-    toggleTheme: () => void; /** Alterna entre los modos 'light' (claro) y 'dark' (oscuro). */
+    toggleDarkMode: () => void; /** Alterna entre los modos 'light' (claro) y 'dark' (oscuro). */
 }
 interface IThemeProviderProps {
     children: ReactNode; /** Componentes hijos que serán envueltos por el proveedor. */
@@ -40,19 +40,41 @@ export const ThemeProvider = ({
         saveTheme(theme);
     }, [theme]);
 
-    const toggleTheme = useCallback(() => {
+    /**
+     * Switches the theme between light mode and dark mode.
+     * When called, it changes the current theme to the opposite one.
+     * For example: if currently in light mode, it switches to dark mode.
+     */
+    const toggleDarkMode = useCallback(() => {
         setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
     }, []);
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, toggleDarkMode }}>
             {children}
         </ThemeContext.Provider>
     );
 };
 
 /**
- * Hook para consumir el Contexto de Tema.
+ * Custom hook to access the theme context.
+ * This hook lets you read the current theme and switch between light/dark modes
+ * from any component inside the ThemeProvider.
+ * 
+ * @returns An object containing:
+ *   - theme: The current theme value ('light' or 'dark')
+ *   - toggleDarkMode: A function to switch between light and dark mode
+ * 
+ * @throws Will throw an error if used outside of a ThemeProvider
+ * 
+ * @example
+ * const { theme, toggleDarkMode } = useTheme();
+ * 
+ * // To check current theme
+ * console.log(theme); // 'light' or 'dark'
+ * 
+ * // To switch themes
+ * toggleDarkMode();
  */
 export const useTheme = (): IThemeContextType => {
     const context = useContext(ThemeContext);

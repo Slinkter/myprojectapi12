@@ -23,7 +23,7 @@ import { IProductListProps } from "@/features/products/presentation/type";
  * @returns {JSX.Element} La sección de lista de productos con controles.
  */
 const ProductList = memo((props: IProductListProps) => {
-  const { products, isLoading, error, hasMore, loadMore } = props;
+  const { products, isLoading, error, hasMore, loadMoreProducts } = props;
 
   // Renderizado de estado de error
   if (error) {
@@ -33,7 +33,7 @@ const ProductList = memo((props: IProductListProps) => {
         title="Error al cargar los productos"
         action={{
           label: "Reintentar",
-          onClick: loadMore,
+          onClick: loadMoreProducts,
         }}
       />
     );
@@ -47,7 +47,7 @@ const ProductList = memo((props: IProductListProps) => {
         title="No se encontraron productos"
         description="No hay productos disponibles en este momento. Intenta más tarde o explora otras categorías."
         actionLabel="Recargar"
-        onAction={loadMore}
+        onAction={loadMoreProducts}
         className="min-h-[400px]"
       />
     );
@@ -59,7 +59,7 @@ const ProductList = memo((props: IProductListProps) => {
       <LoadMoreSection
         products={products}
         hasMore={hasMore}
-        loadMore={loadMore}
+        loadMoreProducts={loadMoreProducts}
         isLoading={isLoading}
       />
     </>

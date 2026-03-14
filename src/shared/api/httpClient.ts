@@ -48,30 +48,30 @@ async function request<T>(
 }
 
 export const httpClient = {
-  get: <T>(endpoint: string, config?: RequestConfig) =>
+  get: <T>(endpoint: string, config?: IRequestConfig) =>
     request<T>(endpoint, { method: 'GET', ...config }),
 
-  post: <T>(endpoint: string, body: unknown, config?: RequestConfig) =>
+  post: <T>(endpoint: string, body: unknown, config?: IRequestConfig) =>
     request<T>(endpoint, {
       method: 'POST',
       body: JSON.stringify(body),
       ...config,
     }),
 
-  put: <T>(endpoint: string, body: unknown, config?: RequestConfig) =>
+  put: <T>(endpoint: string, body: unknown, config?: IRequestConfig) =>
     request<T>(endpoint, {
       method: 'PUT',
       body: JSON.stringify(body),
       ...config,
     }),
 
-  patch: <T>(endpoint: string, body: unknown, config?: RequestConfig) =>
+  patch: <T>(endpoint: string, body: unknown, config?: IRequestConfig) =>
     request<T>(endpoint, {
       method: 'PATCH',
       body: JSON.stringify(body),
       ...config,
     }),
 
-  delete: <T>(endpoint: string, config?: RequestConfig) =>
+  delete: <T>(endpoint: string, config?: IRequestConfig) =>
     request<T>(endpoint, { method: 'DELETE', ...config }),
 }

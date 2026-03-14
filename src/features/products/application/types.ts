@@ -16,8 +16,8 @@ export type ProductsApiResponse = IProductsApiResponse;
 export interface IUseProductModalResult {
   isModalOpen: boolean;
   selectedProduct: IProduct | null;
-  handleOpenModal: (product: IProduct) => void;
-  handleCloseModal: () => void;
+  openProductModal: (product: IProduct) => void;
+  closeProductModal: () => void;
 }
 
 export interface IProductModalProviderProps {
@@ -30,7 +30,7 @@ export interface IUseProductsResult {
   isLoading: boolean;
   initialLoading: boolean;
   hasMore: boolean;
-  loadMore: () => void;
+  loadMoreProducts: () => void;
   isLoadingMore: boolean;
 }
 

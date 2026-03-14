@@ -15,14 +15,18 @@ import { IProductModalProviderProps } from "@/features/products/application/type
 export const ProductModalProvider = ({
     children,
 }: IProductModalProviderProps) => {
-    const { isModalOpen, selectedProduct, handleOpenModal, handleCloseModal } =
-        useProductModal();
+    const {
+        isModalOpen,
+        selectedProduct,
+        openProductModal,
+        closeProductModal,
+    } = useProductModal();
 
     const value = {
         isModalOpen,
         selectedProduct,
-        handleOpenModal,
-        handleCloseModal,
+        openProductModal,
+        closeProductModal,
     };
 
     return (

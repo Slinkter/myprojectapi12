@@ -53,7 +53,7 @@ export const useProducts = (category?: string): IUseProductsResult => {
         isLoading: isInitialLoading || isFetchingNextPage,
         initialLoading: isInitialLoading,
         hasMore: hasNextPage ?? false,
-        loadMore: fetchNextPage,
+        loadMoreProducts: fetchNextPage,
         isLoadingMore: isFetchingNextPage,
     };
 };

@@ -30,7 +30,7 @@ describe('ThemeContext', () => {
     const { result } = renderHook(() => useTheme(), { wrapper });
 
     act(() => {
-      result.current.toggleTheme();
+      result.current.toggleDarkMode();
     });
 
     expect(result.current.theme).toBe('dark');
@@ -38,7 +38,7 @@ describe('ThemeContext', () => {
     expect(themeStorage.applyThemeToDocument).toHaveBeenCalledWith('dark');
 
     act(() => {
-      result.current.toggleTheme();
+      result.current.toggleDarkMode();
     });
 
     expect(result.current.theme).toBe('light');

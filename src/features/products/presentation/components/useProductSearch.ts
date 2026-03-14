@@ -14,7 +14,7 @@ interface IUseProductSearchResult {
   isLoading: boolean
   isSearching: boolean
   hasMore: boolean
-  loadMore: () => void
+  loadMoreProducts: () => void
   error: string | null
 }
 
@@ -44,7 +44,7 @@ export function useProductSearch(): IUseProductSearchResult {
 
   const products: IProduct[] = data?.pages.flatMap((page) => page.products) ?? []
 
-  const loadMore = useCallback(() => {
+  const loadMoreProducts = useCallback(() => {
     if (hasNextPage && !isFetching) {
       fetchNextPage()
     }
@@ -58,7 +58,7 @@ export function useProductSearch(): IUseProductSearchResult {
     isLoading,
     isSearching: isFetching && searchQuery.length > 0,
     hasMore: hasNextPage ?? false,
-    loadMore,
+    loadMoreProducts,
     error: error?.message || null,
   }
 }

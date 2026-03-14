@@ -27,8 +27,8 @@ const Checkout = () => {
     errors,
     cardType,
     handlePayment,
-    handleCardInfoChange,
-    setPaymentMethod,
+    handlePaymentFieldChange,
+    selectPaymentMethod,
     isPaymentDisabled,
   } = useCheckout();
 
@@ -98,21 +98,21 @@ const Checkout = () => {
                     id="visa"
                     label="Visa"
                     checked={paymentMethod === "visa"}
-                    onChange={() => setPaymentMethod("visa")}
+                    onChange={() => selectPaymentMethod("visa")}
                   />
 
                   <PaymentMethodRadio
                     id="mastercard"
                     label="Mastercard"
                     checked={paymentMethod === "mastercard"}
-                    onChange={() => setPaymentMethod("mastercard")}
+                    onChange={() => selectPaymentMethod("mastercard")}
                   />
 
                   <PaymentMethodRadio
                     id="bitcoin"
                     label="Bitcoin"
                     checked={paymentMethod === "bitcoin"}
-                    onChange={() => setPaymentMethod("bitcoin")}
+                    onChange={() => selectPaymentMethod("bitcoin")}
                   />
                 </fieldset>
               </div>
@@ -124,7 +124,7 @@ const Checkout = () => {
                     cardInfo={cardInfo}
                     errors={errors}
                     cardType={cardType}
-                    onChange={handleCardInfoChange}
+                    onChange={handlePaymentFieldChange}
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full py-12 bg-background rounded-2xl border-2 border-dashed border-border animate-in fade-in zoom-in-95 duration-500">
