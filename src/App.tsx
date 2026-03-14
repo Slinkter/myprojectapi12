@@ -42,24 +42,24 @@ import ErrorBoundary from "@/components/common/ErrorBoundary";
  * @returns Componente React con todos los providers involucrados en orden específico.
  */
 const App: React.FC = () => {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <ThemeProvider>
-                <CartProvider>
-                    <BrowserRouter basename="/myprojectapi12/">
-                        <LazyMotion features={domAnimation}>
-                            <ErrorBoundary>
-                                <Layout>
-                                    <AppRouter />
-                                </Layout>
-                            </ErrorBoundary>
-                        </LazyMotion>
-                    </BrowserRouter>
-                </CartProvider>
-            </ThemeProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-    );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <CartProvider>
+          <BrowserRouter basename="/myprojectapi12/">
+            <LazyMotion features={domAnimation}>
+              <ErrorBoundary>
+                <Layout>
+                  <AppRouter />
+                </Layout>
+              </ErrorBoundary>
+            </LazyMotion>
+          </BrowserRouter>
+        </CartProvider>
+      </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 };
 
 export default App;
