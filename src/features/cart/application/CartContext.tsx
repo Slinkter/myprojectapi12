@@ -62,7 +62,8 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
     try {
       const stored = localStorage.getItem(CART_STORAGE_KEY);
       return stored ? JSON.parse(stored) : [];
-    } catch {
+    } catch (error) {
+      console.error("Error loading cart from localStorage:", error);
       return [];
     }
   });

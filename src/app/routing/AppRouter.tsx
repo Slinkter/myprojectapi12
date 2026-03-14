@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Loader from "@/components/common/Loader";
-import { CartDrawer } from "@/widgets/CartDrawer";
+import Cart from "@/features/cart/presentation/Cart";
 
 const Home = lazy(() => import("@/pages/Home"));
 
@@ -20,7 +20,7 @@ const AppRouter: React.FC = () => {
                 <Route path="/checkout-success" element={<CheckoutSuccess />} />
                 <Route path="*" element={<Home />} />
             </Routes>
-            <CartDrawer />
+            <Cart />
         </Suspense>
     );
 };

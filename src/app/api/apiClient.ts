@@ -57,7 +57,8 @@ export const apiClient = async <T>(
       let errorData;
       try {
         errorData = await response.json();
-      } catch {
+      } catch (error) {
+        console.error("Error parsing response:", error);
         errorData = null;
       }
 
