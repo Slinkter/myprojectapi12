@@ -88,47 +88,47 @@ describe("cartUtils", () => {
     test("valida producto correcto", () => {
       const product = makeProduct({ stock: 10 });
       const result = validateCartItem(product, 5);
-      expect(result.valid).toBe(true);
+      expect(result.isValid).toBe(true);
       expect(result.error).toBeNull();
     });
 
     test("rechaza producto null", () => {
       const result = validateCartItem(null, 1);
-      expect(result.valid).toBe(false);
+      expect(result.isValid).toBe(false);
       expect(result.error).toBe("Producto inválido");
     });
 
     test("rechaza producto undefined", () => {
       const result = validateCartItem(undefined, 1);
-      expect(result.valid).toBe(false);
+      expect(result.isValid).toBe(false);
       expect(result.error).toBe("Producto inválido");
     });
 
     test("rechaza cantidad cero", () => {
       const product = makeProduct({ stock: 10 });
       const result = validateCartItem(product, 0);
-      expect(result.valid).toBe(false);
+      expect(result.isValid).toBe(false);
       expect(result.error).toBe("La cantidad debe ser mayor a 0");
     });
 
     test("rechaza cantidad negativa", () => {
       const product = makeProduct({ stock: 10 });
       const result = validateCartItem(product, -5);
-      expect(result.valid).toBe(false);
+      expect(result.isValid).toBe(false);
       expect(result.error).toBe("La cantidad debe ser mayor a 0");
     });
 
     test("rechaza cantidad mayor al stock", () => {
       const product = makeProduct({ stock: 5 });
       const result = validateCartItem(product, 10);
-      expect(result.valid).toBe(false);
+      expect(result.isValid).toBe(false);
       expect(result.error).toBe("Stock insuficiente");
     });
 
     test("acepta cantidad igual al stock", () => {
       const product = makeProduct({ stock: 5 });
       const result = validateCartItem(product, 5);
-      expect(result.valid).toBe(true);
+      expect(result.isValid).toBe(true);
       expect(result.error).toBeNull();
     });
   });

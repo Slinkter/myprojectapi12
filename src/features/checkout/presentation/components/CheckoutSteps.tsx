@@ -1,13 +1,13 @@
 import { HiOutlineCheck } from 'react-icons/hi2'
 import { cn } from '@/shared/lib/cn'
 
-interface CheckoutStepsProps {
+interface ICheckoutStepsProps {
   steps: string[]
   currentStep: number
   className?: string
 }
 
-export function CheckoutSteps({ steps, currentStep, className }: CheckoutStepsProps) {
+export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsProps) {
   return (
     <div className={cn('flex items-center justify-center gap-2 mb-8', className)}>
       {steps.map((step, index) => {

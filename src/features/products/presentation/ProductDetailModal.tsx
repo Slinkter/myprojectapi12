@@ -18,13 +18,13 @@ import { Button } from "@/components/ui/button";
 import { ImageZoom } from "@/components/common/ImageZoom";
 
 const ProductDetailModal = (props: IProductDetailModalProps) => {
-  const { product, open, onClose } = props;
+  const { product, isOpen, onClose } = props;
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedImage, setSelectedImage] = useState<string>('');
 
   useEffect(() => {
-    if (!open) return;
+    if (!isOpen) return;
     setQuantity(1);
     if (product?.images && product.images.length > 0) {
       setSelectedImage(product.images[0]);
@@ -37,7 +37,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [open, onClose, product?.images, product?.thumbnail]);
+  }, [isOpen, onClose, product?.images, product?.thumbnail]);
 
   const increment = () => {
     setQuantity((prev) => (product && prev < product.stock ? prev + 1 : prev));
@@ -56,7 +56,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
 
   return (
     <AnimatePresence>
-      {open && (
+      {isOpen && (
         <m.div
           className="fixed inset-0 bg-neutral-950/60 backdrop-blur-md flex justify-center items-center z-50 p-4"
           onClick={onClose}

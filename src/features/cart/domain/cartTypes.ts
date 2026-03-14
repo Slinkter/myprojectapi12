@@ -18,9 +18,9 @@ export interface ICartItem extends IProduct {
  */
 export interface IValidationResult {
     /** Indica si la validación fue exitosa */
-    valid: boolean;
+    isValid: boolean;
     /**
-     * Mensaje de error descriptivo si `valid` es false.
+     * Mensaje de error descriptivo si `isValid` es false.
      * @example "Stock insuficiente"
      */
     error: string | null;
@@ -40,11 +40,13 @@ export interface IValidationResult {
  * @property {Function} closeCart - Función para cerrar el drawer del carrito
  * @property {Function} toggleCart - Función para alternar visibilidad del drawer
  * @property {number} totalPrice - Precio total de todos los items en el carrito
+ * @property {number} totalItems - Cantidad total de productos en el carrito
  */
 export interface ICartContextValue {
     cart: ICartItem[];
     isCartOpen: boolean;
     totalPrice: number;
+    totalItems: number;
     addToCart: (product: IProduct, quantity: number) => void;
     removeFromCart: (productId: number) => void;
     clearCart: () => void;

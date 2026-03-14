@@ -9,34 +9,34 @@ import { memo } from "react";
 import { Button } from "@/components/ui/button";
 
 /**
- * @interface LoadMoreButtonProps
+ * @interface ILoadMoreButtonProps
  * @description Propiedades para el componente LoadMoreButton.
  */
-interface LoadMoreButtonProps {
+interface ILoadMoreButtonProps {
     /** Función a ejecutar cuando se hace clic en el botón */
     onClick: () => void;
     /** Indica si la acción está actualmente cargando */
-    loading: boolean;
+    isLoading: boolean;
 }
 
 /**
  * @component LoadMoreButton
  * @description Renderiza un botón con un spinner de carga y atributos de accesibilidad.
  *
- * @param {LoadMoreButtonProps} props - Las propiedades del componente.
+ * @param {ILoadMoreButtonProps} props - Las propiedades del componente.
  * @returns {JSX.Element} El botón de cargar más.
  */
-const LoadMoreButton = memo(({ onClick, loading }: LoadMoreButtonProps) => {
+const LoadMoreButton = memo(({ onClick, isLoading }: ILoadMoreButtonProps) => {
     return (
         <Button
             onClick={onClick}
-            disabled={loading}
+            disabled={isLoading}
             variant="default"
             size="lg"
             className="mt-6"
-            aria-label={loading ? "Cargando más items..." : "Cargar más items"}
+            aria-label={isLoading ? "Cargando más items..." : "Cargar más items"}
         >
-            {loading ? (
+            {isLoading ? (
                 <>
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
                     <span>Cargando...</span>

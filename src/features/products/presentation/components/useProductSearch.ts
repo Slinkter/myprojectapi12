@@ -6,7 +6,7 @@ import type { IProduct } from '@/features/products/application/types'
 
 const LIMIT = 20
 
-interface UseProductSearchResult {
+interface IUseProductSearchResult {
   searchQuery: string
   debouncedSearch: string
   setSearchQuery: (query: string) => void
@@ -18,7 +18,7 @@ interface UseProductSearchResult {
   error: string | null
 }
 
-export function useProductSearch(): UseProductSearchResult {
+export function useProductSearch(): IUseProductSearchResult {
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearch = useDebounce(searchQuery, 350)
 

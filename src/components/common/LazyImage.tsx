@@ -8,7 +8,7 @@
 import { useState, useCallback } from 'react'
 import { cn } from '@/lib/utils'
 
-interface LazyImageProps {
+interface ILazyImageProps {
   src: string
   alt: string
   className?: string
@@ -20,7 +20,7 @@ interface LazyImageProps {
  * @description Imagen con efecto blur-up: muestra un fondo difuminado mientras carga.
  * Optimiza la UX mostrando feedback inmediato.
  */
-export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]' }: LazyImageProps) {
+export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]' }: ILazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isError, setIsError] = useState(false)
 

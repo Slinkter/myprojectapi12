@@ -23,7 +23,7 @@ import { IProductListProps } from "@/features/products/presentation/type";
  * @returns {JSX.Element} La sección de lista de productos con controles.
  */
 const ProductList = memo((props: IProductListProps) => {
-  const { products, loading, error, hasMore, loadMore } = props;
+  const { products, isLoading, error, hasMore, loadMore } = props;
 
   // Renderizado de estado de error
   if (error) {
@@ -40,7 +40,7 @@ const ProductList = memo((props: IProductListProps) => {
   }
 
   // Renderizado de estado vacío
-  if (products.length === 0 && !loading) {
+  if (products.length === 0 && !isLoading) {
     return (
       <EmptyState
         icon={<HiOutlineShoppingBag className="w-10 h-10" />}
@@ -60,7 +60,7 @@ const ProductList = memo((props: IProductListProps) => {
         products={products}
         hasMore={hasMore}
         loadMore={loadMore}
-        loading={loading}
+        isLoading={isLoading}
       />
     </>
   );

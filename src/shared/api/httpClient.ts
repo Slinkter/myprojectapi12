@@ -11,13 +11,13 @@ class HttpError extends Error {
   }
 }
 
-interface RequestConfig extends RequestInit {
+interface IRequestConfig extends RequestInit {
   params?: Record<string, string>
 }
 
 async function request<T>(
   endpoint: string,
-  config: RequestConfig = {}
+  config: IRequestConfig = {}
 ): Promise<T> {
   const { params, headers, ...rest } = config
   const url = new URL(`${BASE_URL}${endpoint}`)

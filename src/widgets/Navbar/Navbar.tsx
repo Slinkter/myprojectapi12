@@ -7,7 +7,7 @@
  * @architecture Presentation Layer - Widget
  */
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/features/cart/application/useCart";
@@ -16,18 +16,13 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
-    const [scrolled, setScrolled] = useState(false);
-    const { toggleCart, cart } = useCart();
-
-    const totalItems = useMemo(
-        () => cart.reduce((acc, item) => acc + item.quantity, 0),
-        [cart],
-    );
+    const [isScrolled, setIsScrolled] = useState(false);
+    const { toggleCart, totalItems } = useCart();
 
     // Optimizar scroll listener
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 10);
+            setIsScrolled(window.scrollY > 10);
         };
 
         window.addEventListener("scroll", handleScroll, { passive: true });
@@ -38,7 +33,7 @@ export function Navbar() {
         <nav
             className={cn(
                 "sticky top-0 z-50 w-full transition-all duration-300 ease-in-out border-b",
-                scrolled
+                isScrolled
                     ? "bg-background/90 backdrop-blur-md border-border shadow-soft"
                     : "bg-transparent border-transparent",
             )}

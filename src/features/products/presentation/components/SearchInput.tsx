@@ -3,7 +3,7 @@ import { HiOutlineMagnifyingGlass, HiOutlineXMark } from "react-icons/hi2";
 import { cn } from "@/shared/lib/cn";
 import { Button } from "@/shared/ui/Button";
 
-interface SearchInputProps {
+interface ISearchInputProps {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
@@ -20,7 +20,7 @@ export function SearchInput({
     onChange,
     placeholder = "Buscar productos...",
     className,
-}: SearchInputProps) {
+}: ISearchInputProps) {
     const [isFocused, setIsFocused] = useState(false);
 
     const handleClear = useCallback(() => {

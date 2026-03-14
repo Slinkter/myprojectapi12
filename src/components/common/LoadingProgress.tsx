@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-interface LoadingProgressProps {
+interface ILoadingProgressProps {
   isLoading: boolean
   className?: string
 }
 
-export function LoadingProgress({ isLoading, className }: LoadingProgressProps) {
+export function LoadingProgress({ isLoading, className }: ILoadingProgressProps) {
   const [progress, setProgress] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)

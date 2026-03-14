@@ -8,7 +8,7 @@
 import { useState, useCallback } from "react";
 
 /**
- * @interface UseCartDrawerReturn
+ * @interface IUseCartDrawerReturn
  * @description Valor de retorno del hook useCartDrawer.
  * Contiene el estado de visibilidad y funciones para controlarlo.
  * 
@@ -17,7 +17,7 @@ import { useState, useCallback } from "react";
  * @property {Function} closeCart - Función para cerrar el drawer
  * @property {Function} toggleCart - Función para alternar el estado del drawer
  */
-interface UseCartDrawerReturn {
+interface IUseCartDrawerReturn {
     isCartOpen: boolean;
     openCart: () => void;
     closeCart: () => void;
@@ -31,7 +31,7 @@ interface UseCartDrawerReturn {
  * Las funciones están optimizadas con useCallback para evitar recreaciones innecesarias.
  * @architecture Application Layer - Custom Hook
  * 
- * @returns {UseCartDrawerReturn} Objeto con estado y funciones de control del drawer
+ * @returns {IUseCartDrawerReturn} Objeto con estado y funciones de control del drawer
  * 
  * @example
  * // Uso en ----> CartProvider
@@ -71,7 +71,7 @@ interface UseCartDrawerReturn {
  *   return <button onClick={handleAddToCart}>Add to Cart</button>;
  * }
  */
-export const useCartDrawer = (): UseCartDrawerReturn => {
+export const useCartDrawer = (): IUseCartDrawerReturn => {
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     /**

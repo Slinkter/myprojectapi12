@@ -114,14 +114,14 @@ quantity: number
 
 ```typescript
 // Hook return type
-interface UseCartDrawerReturn {
+interface IUseCartDrawerReturn {
 isCartOpen: boolean;
 openCart: () => void;
 closeCart: () => void;
 toggleCart: () => void;
 }
 
-export const useCartDrawer = (): UseCartDrawerReturn => {
+export const useCartDrawer = (): IUseCartDrawerReturn => {
 const [isCartOpen, setIsCartOpen] = useState(false);
 
     const openCart = useCallback(() => setIsCartOpen(true), []);

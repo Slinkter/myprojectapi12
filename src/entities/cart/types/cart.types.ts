@@ -37,6 +37,6 @@ export interface CartProviderProps {
 }
 
 export interface IValidationResult {
-  valid: boolean
+  isValid: boolean
   error: string | null
 }

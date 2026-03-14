@@ -155,16 +155,16 @@ export const validateCartItem = (
   quantity: number,
 ): IValidationResult => {
   if (!product || !product.id) {
-    return { valid: false, error: "Producto inválido" };
+    return { isValid: false, error: "Producto inválido" };
   }
 
   if (quantity <= 0) {
-    return { valid: false, error: "La cantidad debe ser mayor a 0" };
+    return { isValid: false, error: "La cantidad debe ser mayor a 0" };
   }
 
   if (product.stock < quantity) {
-    return { valid: false, error: "Stock insuficiente" };
+    return { isValid: false, error: "Stock insuficiente" };
   }
 
-  return { valid: true, error: null };
+  return { isValid: true, error: null };
 };

@@ -27,7 +27,7 @@ export interface IProductModalProviderProps {
 export interface IUseProductsResult {
   products: IProduct[];
   error: string | null;
-  loading: boolean;
+  isLoading: boolean;
   initialLoading: boolean;
   hasMore: boolean;
   loadMore: () => void;
@@ -36,6 +36,6 @@ export interface IUseProductsResult {
 
 export interface IProductDetailModalProps {
   product: IProduct | null;
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
 }

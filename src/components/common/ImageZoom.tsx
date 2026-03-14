@@ -2,13 +2,13 @@ import { useState, useRef, type MouseEvent } from 'react'
 import { HiOutlineMagnifyingGlassPlus, HiOutlineMagnifyingGlassMinus, HiOutlineArrowPath } from 'react-icons/hi2'
 import { cn } from '@/shared/lib/cn'
 
-interface ImageZoomProps {
+interface IImageZoomProps {
   src: string
   alt: string
   className?: string
 }
 
-export function ImageZoom({ src, alt, className }: ImageZoomProps) {
+export function ImageZoom({ src, alt, className }: IImageZoomProps) {
   const [zoom, setZoom] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)

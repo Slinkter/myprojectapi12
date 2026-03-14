@@ -35,7 +35,7 @@ export const useCartActions = (
     (product: IProduct, quantity: number) => {
       const validation = validateCartItem(product, quantity);
 
-      if (!validation.valid) {
+      if (!validation.isValid) {
         toast.error(validation.error || "Error al agregar el producto");
         return;
       }

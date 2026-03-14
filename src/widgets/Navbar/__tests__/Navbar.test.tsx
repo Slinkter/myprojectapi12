@@ -11,6 +11,7 @@ const queryClient = new QueryClient();
 vi.mock('@/features/cart/application/useCart', () => ({
   useCart: () => ({
     toggleCart: vi.fn(),
+    totalItems: 3,
     cart: [
       { id: 1, title: 'Test', price: 10, quantity: 3, stock: 10, thumbnail: 'img.jpg' }
     ],

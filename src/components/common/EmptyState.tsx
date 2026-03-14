@@ -7,7 +7,7 @@
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
-interface EmptyStateProps {
+interface IEmptyStateProps {
   icon?: React.ReactNode
   title: string
   description?: string
@@ -28,7 +28,7 @@ export function EmptyState({
   actionLabel,
   onAction,
   className
-}: EmptyStateProps) {
+}: IEmptyStateProps) {
   return (
     <div className={cn(
       'flex flex-col items-center justify-center py-16 px-4 text-center',

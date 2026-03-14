@@ -50,7 +50,7 @@ export const useProducts = (category?: string): IUseProductsResult => {
     return {
         products,
         error: error?.message || null,
-        loading: isInitialLoading || isFetchingNextPage,
+        isLoading: isInitialLoading || isFetchingNextPage,
         initialLoading: isInitialLoading,
         hasMore: hasNextPage ?? false,
         loadMore: fetchNextPage,

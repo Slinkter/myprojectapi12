@@ -6,7 +6,7 @@
  * @architecture Application Layer - Context y Provider del carrito
  */
 
-import { createContext, useState, useMemo, useContext } from "react";
+import { createContext, useState, useMemo, useContext, useEffect } from "react";
 import { useCartActions } from "@/features/cart/application/hooks/useCartActions";
 import { calculateTotal } from "@/features/cart/domain/cartUtils";
 import { useCartDrawer } from "@/features/cart/application/hooks/useCartDrawer";
@@ -16,6 +16,8 @@ import type {
   ICartProviderProps,
 } from "@/features/cart/domain/cartTypes";
 
+const CART_STORAGE_KEY = "api12-cart-storage";
+
 export const CartContext = createContext<ICartContextValue | undefined>(
   undefined,
 );
@@ -23,7 +25,8 @@ export const CartContext = createContext<ICartContextValue | undefined>(
 /**
  * @component CartProvider
  * @description Proveedor del contexto del carrito de compras.
- * Gestiona el estado del carrito, las acciones (agregar/eliminar/limpiar) y el control del drawer.
+ * Gestiona el estado del carrito con persistencia en localStorage, 
+ * las acciones (agregar/eliminar/limpiar) y el control del drawer.
  * Implementa optimizaciones de performance con useMemo para evitar re-renders innecesarios.
  * @architecture Application Layer - Provider
  *
@@ -55,7 +58,19 @@ export const CartContext = createContext<ICartContextValue | undefined>(
  * }
  */
 export const CartProvider = ({ children }: ICartProviderProps) => {
-  const [cart, setCart] = useState<ICartItem[]>([]);
+  const [cart, setCart] = useState<ICartItem[]>(() => {
+    try {
+      const stored = localStorage.getItem(CART_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Persistir en localStorage cada vez que el carrito cambia
+  useEffect(() => {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  }, [cart]);
 
   // Control del drawer del carrito
   const { isCartOpen, openCart, closeCart, toggleCart } = useCartDrawer();
@@ -75,6 +90,17 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
   const totalPrice = useMemo(() => calculateTotal(cart), [cart]);
 
   /**
+   * @constant totalItems
+   * @description Cantidad total de items en el carrito.
+   * Memoizado para evitar recálculos innecesarios.
+   * @type {number}
+   */
+  const totalItems = useMemo(
+    () => cart.reduce((sum, item) => sum + item.quantity, 0),
+    [cart],
+  );
+
+  /**
    * @constant value
    * @description Valor del contexto memoizado para optimización de performance.
    * Solo se recalcula cuando alguna de sus dependencias cambia.
@@ -91,6 +117,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
       closeCart,
       toggleCart,
       totalPrice,
+      totalItems,
     }),
     [
       cart,
@@ -102,6 +129,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
       closeCart,
       toggleCart,
       totalPrice,
+      totalItems,
     ],
   );
 

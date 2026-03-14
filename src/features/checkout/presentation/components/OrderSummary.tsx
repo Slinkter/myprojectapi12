@@ -4,27 +4,27 @@ import type { CartItem } from '@/entities/cart/types/cart.types'
 import { cn } from '@/shared/lib/cn'
 import { Button } from '@/shared/ui/Button'
 
-interface DiscountCode {
+interface IDiscountCode {
   code: string
   discount: number
   type: 'percentage' | 'fixed'
 }
 
-const VALID_CODES: DiscountCode[] = [
+const VALID_CODES: IDiscountCode[] = [
   { code: 'WELCOME10', discount: 10, type: 'percentage' },
   { code: 'SAVE5', discount: 5, type: 'fixed' },
   { code: 'VIP20', discount: 20, type: 'percentage' },
 ]
 
-interface OrderSummaryProps {
+interface IOrderSummaryProps {
   items: CartItem[]
   totalPrice: number
   className?: string
 }
 
-export function OrderSummary({ items, totalPrice, className }: OrderSummaryProps) {
+export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProps) {
   const [discountCode, setDiscountCode] = useState('')
-  const [appliedDiscount, setAppliedDiscount] = useState<DiscountCode | null>(null)
+  const [appliedDiscount, setAppliedDiscount] = useState<IDiscountCode | null>(null)
   const [discountError, setDiscountError] = useState('')
   const [isApplying, setIsApplying] = useState(false)
 

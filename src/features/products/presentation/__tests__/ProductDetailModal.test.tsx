@@ -26,7 +26,7 @@ describe('ProductDetailModal Component', () => {
 
   const defaultProps = {
     product: mockProduct,
-    open: true,
+    isOpen: true,
     onClose: vi.fn(),
   };
 
@@ -55,10 +55,10 @@ describe('ProductDetailModal Component', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('no renderiza nada si open es false', () => {
+  it('no renderiza nada si isOpen es false', () => {
     const { container } = render(
       <CartProvider>
-        <ProductDetailModal {...defaultProps} open={false} />
+        <ProductDetailModal {...defaultProps} isOpen={false} />
       </CartProvider>
     );
 
