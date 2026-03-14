@@ -12,29 +12,20 @@ export const CartFooter = ({
   onClearCart,
 }: CartFooterProps) => {
   return (
-    <div className="border-t border-border pt-6 mt-6 space-y-4">
-      <div className="flex items-center justify-between px-2">
-        <span className="font-medium text-muted-foreground">
-          Subtotal estimado
-        </span>
-        <span className="font-bold text-xl text-primary">
-          ${totalPrice.toFixed(2)}
-        </span>
+    <div className="border-t border-border p-4 space-y-3">
+      <div className="flex items-center justify-between">
+        <span className="font-medium text-muted-foreground">Total</span>
+        <span className="font-bold text-xl">${totalPrice.toFixed(2)}</span>
       </div>
 
-      <div className="flex flex-col gap-3">
-        <Button
-          onClick={onCheckout}
-          variant="default"
-          size="lg"
-          className="w-full text-base font-bold shadow-primary/20"
-        >
-          Proceder al pago
+      <div className="flex flex-col gap-2">
+        <Button onClick={onCheckout} className="w-full">
+          Proceder al Pago
         </Button>
-        <Button
+        <Button 
+          variant="outline" 
           onClick={onClearCart}
-          variant="destructive"
-          className="w-full font-semibold"
+          className="w-full text-destructive border-destructive/30 hover:bg-destructive/10"
         >
           Vaciar Carrito
         </Button>

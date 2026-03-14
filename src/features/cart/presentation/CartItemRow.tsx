@@ -8,32 +8,30 @@ interface CartItemRowProps {
 
 export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
   return (
-    <div
-      className="flex items-center gap-4 p-4 rounded-2xl border border-border bg-background/50 transition-all hover:border-primary/50"
-    >
+    <div className="flex items-start gap-3 p-3 border border-border rounded-lg">
+      <img
+        src={item.thumbnail}
+        alt={item.title}
+        className="w-14 h-14 object-cover rounded-md bg-muted flex-shrink-0"
+      />
       <div className="flex-1 min-w-0">
-        <h6 className="font-bold text-sm sm:text-base text-foreground truncate">
+        <h6 className="font-medium text-sm text-foreground truncate">
           {item.title}
         </h6>
-        <div className="flex items-center gap-2 mt-1">
-          <span className="text-xs bg-muted px-2 py-0.5 rounded-md text-muted-foreground font-medium">
-            Cant: {item.quantity}
-          </span>
-          <span className="text-xs text-primary font-bold">
-            ${item.price.toFixed(2)} c/u
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center gap-4">
-        <p className="font-bold text-sm sm:text-base text-foreground">
-          ${(item.price * item.quantity).toFixed(2)}
+        <p className="text-xs text-muted-foreground mt-0.5">
+          ${item.price.toFixed(2)} x {item.quantity}
         </p>
+      </div>
+      <div className="flex flex-col items-end gap-1">
+        <span className="font-semibold text-sm">
+          ${(item.price * item.quantity).toFixed(2)}
+        </span>
         <button
           onClick={() => onRemove(item.id)}
-          className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-destructive/10 rounded-full transition-colors text-destructive cursor-pointer"
-          aria-label={`Eliminar ${item.title} del carrito`}
+          className="p-1.5 rounded-full hover:bg-destructive/10 text-destructive transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-destructive"
+          aria-label={`Eliminar ${item.title}`}
         >
-          <HiOutlineTrash size={20} />
+          <HiOutlineTrash className="w-4 h-4" />
         </button>
       </div>
     </div>

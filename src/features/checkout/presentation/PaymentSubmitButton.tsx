@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { IoArrowBack, IoShieldCheckmarkOutline, IoSync } from "react-icons/io5";
+import { IoShieldCheckmarkOutline, IoSync } from "react-icons/io5";
 import type { PaymentMethod } from "./PaymentMethodSelector";
 
 interface PaymentSubmitButtonProps {
@@ -19,23 +19,17 @@ const PaymentSubmitButton = ({
     <Button
       onClick={onClick}
       disabled={isDisabled || isProcessing}
-      className="w-full mt-10 h-14 text-lg font-bold"
-      size="lg"
+      className="w-full h-12"
       aria-label={`Pagar ahora con ${method}`}
     >
       {isProcessing ? (
         <span className="flex items-center gap-2">
-          <IoSync className="w-5 h-5 animate-spin" />
+          <IoSync className="w-4 h-4 animate-spin" />
           Procesando...
-        </span>
-      ) : method === "bitcoin" ? (
-        <span className="flex items-center gap-2">
-          Proceder al Pago Cripto{" "}
-          <IoArrowBack className="w-5 h-5 rotate-180" />
         </span>
       ) : (
         <span className="flex items-center gap-2">
-          Pagar Ahora <IoShieldCheckmarkOutline className="w-5 h-5" />
+          Pagar Ahora <IoShieldCheckmarkOutline className="w-4 h-4" />
         </span>
       )}
     </Button>

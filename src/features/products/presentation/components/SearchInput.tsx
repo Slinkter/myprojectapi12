@@ -10,11 +10,6 @@ interface ISearchInputProps {
     className?: string;
 }
 
-/**
- * Barra de búsqueda con ring de foco correcto:
- * el wrapper comparte el mismo border-radius que el input para que
- * el focus-ring se vea redondeado (no rectangular).
- */
 export function SearchInput({
     value,
     onChange,
@@ -28,13 +23,12 @@ export function SearchInput({
     }, [onChange]);
 
     return (
-        /* Wrapper: rounded-xl coincide con el input → ring también queda redondeado */
         <div
             className={cn(
                 "relative flex items-center rounded-xl transition-all duration-200",
-                "border bg-secondary",
+                "border bg-background",
                 isFocused
-                    ? "border-primary ring-2 ring-primary/30 shadow-sm"
+                    ? "border-primary ring-2 ring-primary/30"
                     : "border-border hover:border-primary/40",
                 className,
             )}
@@ -46,7 +40,7 @@ export function SearchInput({
                 )}
             />
             <input
-                type="text"
+                type="search"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 onFocus={() => setIsFocused(true)}
@@ -54,10 +48,10 @@ export function SearchInput({
                 placeholder={placeholder}
                 className={cn(
                     "w-full h-12 pl-12 pr-12 rounded-xl",
-                    "bg-transparent" /* el fondo viene del wrapper */,
+                    "bg-transparent",
                     "text-foreground",
                     "placeholder:text-muted-foreground",
-                    "focus:outline-none" /* quitamos el outline nativo */,
+                    "focus:outline-none",
                     "transition-all duration-200",
                 )}
                 aria-label="Buscar productos"
@@ -67,7 +61,7 @@ export function SearchInput({
                     variant="ghost"
                     size="icon"
                     onClick={handleClear}
-                    className="absolute right-2 h-8 w-8 rounded-full hover:bg-accent hover:text-foreground"
+                    className="absolute right-2 h-8 w-8 rounded-full hover:bg-muted cursor-pointer focus-visible:ring-2 focus-visible:ring-primary"
                     aria-label="Limpiar búsqueda"
                 >
                     <HiOutlineXMark className="w-4 h-4" />

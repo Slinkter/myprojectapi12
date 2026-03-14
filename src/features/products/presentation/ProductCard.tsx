@@ -1,9 +1,6 @@
 /**
  * @file ProductCard.tsx
- * @description Tarjeta de producto individual con optimizaciones UX/UI.
- * - LazyImage con blur-up effect
- * - Micro-interactions en hover
- * - Optimizado para performance
+ * @description Tarjeta de producto individual con diseño limpio.
  * @architecture Presentation Layer - Componente de Feature
  */
 
@@ -12,7 +9,6 @@ import { cn } from '@/lib/utils'
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { getStockStatus } from '@/shared/lib/stockUtils'
 import type { IProduct } from '@/features/products/application/types'
-import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/Card'
 import { Button } from '@/shared/ui/Button'
 import { LazyImage } from '@/components/common/LazyImage'
 
@@ -36,93 +32,73 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
   const isOutOfStock = stockStatus === 'out'
 
   return (
-    <Card
-      className="group relative h-full flex flex-col overflow-hidden border-border bg-card transition-all duration-500 hover:shadow-premium hover:-translate-y-1 rounded-2xl cursor-pointer"
-      role="article"
+    <article
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-background hover:shadow-lg transition-shadow duration-300 cursor-pointer"
       aria-label={`Producto: ${product.title}`}
       onClick={handleClick}
+      onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+      role="button"
+      tabIndex={0}
     >
-      {/* Badge de Descuento */}
       {product.discountPercentage && (
-        <div className="absolute top-3 left-3 z-10 bg-destructive/90 text-white px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase shadow-lg animate-in fade-in zoom-in duration-300">
+        <div className="absolute top-3 left-3 z-10 bg-destructive text-white px-2.5 py-1 rounded-full text-xs font-bold" aria-label={`Descuento: ${Math.round(product.discountPercentage)}%`}>
           -{Math.round(product.discountPercentage)}%
         </div>
       )}
 
-      {/* Imagen con blur-up effect */}
-      <CardHeader className="p-0 overflow-hidden relative">
+      <div className="relative overflow-hidden bg-muted/30">
         <LazyImage
           src={product.thumbnail}
           alt={product.title}
-          className="rounded-t-2xl"
+          className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        {/* Overlay sutil al hover */}
-        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
-      </CardHeader>
+      </div>
 
-      {/* Contenido */}
-      <CardContent className="p-5 flex flex-col gap-2 flex-1">
-        {/* Categoría + Rating */}
-        <div className="flex justify-between items-center gap-2">
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        <div className="flex justify-between items-center">
+          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
             {product.category}
           </span>
-          <span className="text-xs font-bold text-accent-foreground flex items-center gap-1">
-            <span>★</span>
-            {product.rating?.toFixed(1)}
+          <span className="text-xs font-medium text-amber-500 flex items-center gap-1">
+            ★ {product.rating?.toFixed(1)}
           </span>
         </div>
 
-        {/* Título */}
-        <h3 className="font-serif text-lg leading-tight text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
+        <h3 className="text-base font-semibold text-foreground line-clamp-1">
           {product.title}
         </h3>
 
-        {/* Descripción */}
-        <p className="text-sm text-muted-foreground line-clamp-2 font-sans leading-relaxed">
+        <p className="text-sm text-muted-foreground line-clamp-2">
           {product.description}
         </p>
-      </CardContent>
 
-      {/* Footer: precio + botón */}
-      <CardFooter className="px-5 pb-5 pt-4 flex items-end justify-between gap-4 border-t border-border/50">
-        {/* Bloque de precio */}
-        <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-xl font-bold text-foreground leading-none">
-            ${product.price.toFixed(2)}
-          </span>
-          <span
-            className={cn(
-              'text-[10px] uppercase tracking-wider font-bold mt-1 transition-colors duration-300',
-              stockStatus === 'ok' ? 'text-success' : 'text-warning'
-            )}
-          >
-            {isOutOfStock ? 'Agotado' : `${product.stock} en stock`}
-          </span>
-        </div>
-
-        {/* Botón con micro-interaction */}
-        <Button
-          onClick={(e) => {
-            e.stopPropagation()
-            openProductModal(product)
-          }}
-          disabled={isOutOfStock}
-          size="sm"
-          variant="outline"
-          className="shrink-0 self-end rounded-full border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-105 active:scale-95 px-5"
-        >
-          {isOutOfStock ? (
-            'Sin stock'
-          ) : (
-            <span className="flex items-center gap-1.5">
-              Ver detalles
-              <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+        <div className="mt-auto pt-3 flex items-end justify-between gap-2">
+          <div>
+            <span className="text-xl font-bold text-foreground">
+              ${product.price.toFixed(2)}
             </span>
-          )}
-        </Button>
-      </CardFooter>
-    </Card>
+            <p className={cn(
+              'text-xs font-medium mt-0.5',
+              stockStatus === 'ok' ? 'text-success' : 'text-warning'
+            )}>
+              {isOutOfStock ? 'Agotado' : `${product.stock} disponibles`}
+            </p>
+          </div>
+
+          <Button
+            onClick={(e) => {
+              e.stopPropagation()
+              openProductModal(product)
+            }}
+            disabled={isOutOfStock}
+            size="sm"
+            className="rounded-lg"
+          >
+            {isOutOfStock ? 'Sin stock' : 'Ver más'}
+          </Button>
+        </div>
+      </div>
+    </article>
   )
 })
 

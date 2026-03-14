@@ -1,4 +1,4 @@
-import { HiOutlineShoppingBag, HiOutlineCube, HiOutlineTruck } from 'react-icons/hi2'
+import { HiOutlineShoppingBag } from 'react-icons/hi2'
 import type { CartItem } from '@/entities/cart/types/cart.types'
 import { cn } from '@/shared/lib/cn'
 import { OrderItemRow } from './OrderItemRow'
@@ -10,10 +10,11 @@ import { useDiscountValidation, calculateDiscountAmount } from '@/features/check
 interface IOrderSummaryProps {
   items: CartItem[]
   totalPrice: number
+  onRemove?: (id: number) => void
   className?: string
 }
 
-export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProps) {
+export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderSummaryProps) {
   const {
     code,
     setCode,
@@ -25,7 +26,8 @@ export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProp
   } = useDiscountValidation()
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
-  const shipping = totalPrice >= 50 ? 0 : 9.99
+  const hasItems = totalItems > 0
+  const shipping = hasItems && totalPrice >= 50 ? 0 : hasItems ? 9.99 : 0
   const discountAmount = calculateDiscountAmount(appliedDiscount, totalPrice)
   const discountedSubtotal = totalPrice - discountAmount
   const finalTotal = discountedSubtotal + shipping
@@ -33,18 +35,22 @@ export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProp
   return (
     <div
       className={cn(
-        'bg-card rounded-2xl p-6 border border-border shadow-soft',
+        'bg-background border border-border rounded-2xl p-4',
         className
       )}
     >
-      <h3 className="font-bold text-lg text-foreground mb-4 flex items-center gap-2">
-        <HiOutlineShoppingBag className="w-5 h-5 text-primary" />
+      <h3 className="font-bold text-base text-foreground mb-3 flex items-center gap-2">
+        <HiOutlineShoppingBag className="w-4 h-4 text-primary" />
         Resumen del Pedido
       </h3>
 
-      <div className="space-y-3 mb-6">
+      <div className="space-y-2 mb-4">
         {items.map((item) => (
-          <OrderItemRow key={item.id} item={item} />
+          <OrderItemRow 
+            key={item.id} 
+            item={item} 
+            onRemove={onRemove || (() => {})}
+          />
         ))}
       </div>
 
@@ -65,12 +71,11 @@ export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProp
         />
       )}
 
-      <div className="border-t border-border pt-4 space-y-2">
+      <div className="border-t border-border pt-3 space-y-2">
         <PriceRow
           label={
-            <span className="flex items-center gap-2">
-              <HiOutlineCube className="w-4 h-4" />
-              Subtotal ({totalItems} productos)
+            <span className="text-xs text-muted-foreground">
+              Subtotal ({totalItems})
             </span>
           }
           value={`$${totalPrice.toFixed(2)}`}
@@ -85,15 +90,10 @@ export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProp
         )}
 
         <PriceRow
-          label={
-            <span className="flex items-center gap-2">
-              <HiOutlineTruck className="w-4 h-4" />
-              Envío
-            </span>
-          }
+          label="Envío"
           value={
             shipping === 0 ? (
-              <span className="text-success">GRATIS</span>
+              <span className="text-success font-medium">GRATIS</span>
             ) : (
               `$${shipping.toFixed(2)}`
             )
@@ -101,8 +101,8 @@ export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProp
           variant={shipping === 0 ? 'success' : 'default'}
         />
 
-        {shipping > 0 && (
-          <p className="text-xs text-warning bg-warning/10 p-2 rounded-lg">
+        {hasItems && shipping > 0 && totalPrice < 50 && (
+          <p className="text-xs text-warning bg-warning/10 p-2 rounded">
             ¡Agrega ${(50 - totalPrice).toFixed(2)} más para envío gratis!
           </p>
         )}

@@ -1,7 +1,7 @@
 /**
  * @file Checkout.tsx
  * @description Página principal del proceso de pago.
- * Rediseñada para una experiencia de usuario premium, segura y clara.
+ * Diseño limpio y profesional.
  * @architecture Capa de Presentación - Feature de Checkout
  */
 import { useState, useEffect } from "react";
@@ -31,7 +31,7 @@ const Checkout = () => {
     isPaymentDisabled,
   } = useCheckout();
 
-  const { cart, totalPrice } = useCart();
+  const { cart, totalPrice, removeFromCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePaymentClick = async () => {
@@ -46,27 +46,29 @@ const Checkout = () => {
   const steps = ['Carrito', 'Pago', 'Confirmación']
 
   return (
-    <main
-      className="min-h-[80vh] flex items-start justify-center p-4 py-8"
-      role="main"
-      aria-labelledby="checkout-title"
-    >
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Columna Izquierda: Formulario */}
-        <div className="lg:col-span-2">
-          <div className="bg-card rounded-3xl shadow-2xl border border-border overflow-hidden">
-            {/* Cabecera */}
-            <CheckoutSteps steps={steps} currentStep={1} />
-            <CheckoutHeader />
+    <main className="min-h-screen bg-background p-4 py-6" role="main">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Estados */}
+        <CheckoutSteps steps={steps} currentStep={1} />
 
-            <div className="p-8">
-              {/* Selector de Método de Pago */}
+        {/* Header */}
+        <CheckoutHeader />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Formulario */}
+          <div className="space-y-4">
+            {/* Método de pago */}
+            <div className="bg-background border border-border rounded-xl p-4">
+              <h3 className="text-sm font-medium text-muted-foreground mb-3">Método de pago</h3>
               <PaymentMethodSelector
                 currentMethod={paymentMethod}
                 onMethodChange={selectPaymentMethod}
               />
+            </div>
 
-              {/* Formulario de Tarjeta */}
+            {/* Datos de tarjeta */}
+            <div className="bg-background border border-border rounded-xl p-4">
+              <h3 className="text-sm font-medium text-muted-foreground mb-4">Datos de la tarjeta</h3>
               <PaymentFormContainer
                 paymentMethod={paymentMethod}
                 cardProps={{
@@ -76,24 +78,25 @@ const Checkout = () => {
                   onChange: handlePaymentFieldChange,
                 }}
               />
-
-              {/* Botón de Pago */}
-              <PaymentSubmitButton
-                isDisabled={isPaymentDisabled || cart.length === 0}
-                isProcessing={isProcessing}
-                method={paymentMethod}
-                onClick={handlePaymentClick}
-              />
-
-              <SecurityBadge />
             </div>
-          </div>
-        </div>
 
-        {/* Columna Derecha: Resumen del Pedido */}
-        <div className="lg:col-span-1">
-          <div className="sticky top-24">
-            <OrderSummary items={cart} totalPrice={totalPrice} />
+            <PaymentSubmitButton
+              isDisabled={isPaymentDisabled || cart.length === 0}
+              isProcessing={isProcessing}
+              method={paymentMethod}
+              onClick={handlePaymentClick}
+            />
+
+            <SecurityBadge />
+          </div>
+
+          {/* Resumen del pedido */}
+          <div className="md:sticky md:top-6 h-fit">
+            <OrderSummary 
+              items={cart} 
+              totalPrice={totalPrice}
+              onRemove={removeFromCart}
+            />
           </div>
         </div>
       </div>

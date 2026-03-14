@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, Search, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/features/cart/application/CartContext";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/features/theme/application/ThemeContext";
 
 const navLinks = [
   { href: "/", label: "Inicio" },
@@ -12,32 +13,34 @@ const navLinks = [
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const location = useLocation();
   const { cart } = useCart();
+  const { theme, toggleDarkMode } = useTheme();
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-3 sm:px-4">
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="container mx-auto flex h-14 items-center justify-between px-4">
         <Link
           to="/"
-          className="flex items-center space-x-2 text-xl font-bold text-foreground hover:text-primary transition-colors"
+          className="flex items-center gap-2 text-lg font-semibold text-foreground hover:text-primary transition-colors"
         >
-          <span>API12 Shop</span>
+          API12 Shop
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               to={link.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
+                "px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                "hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary",
                 isActive(link.href)
-                  ? "text-primary"
+                  ? "text-primary bg-primary/10"
                   : "text-muted-foreground"
               )}
             >
@@ -46,13 +49,33 @@ const Navbar = () => {
           ))}
         </nav>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+            className="p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+            aria-label="Buscar"
+          >
+            <Search className="w-5 h-5" />
+          </button>
+
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+            aria-label={theme === "dark" ? "Modo claro" : "Modo oscuro"}
+          >
+            {theme === "dark" ? (
+              <Sun className="w-5 h-5 text-amber-500" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+          </button>
+
           <Link
             to="/checkout"
-            className="relative flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors"
-            aria-label="Carrito de compras"
+            className="relative p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+            aria-label={`Carrito de compras, ${totalItems} artículos`}
           >
-            <ShoppingCart className="h-5 w-5" />
+            <ShoppingCart className="w-5 h-5" />
             {totalItems > 0 && (
               <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-medium text-primary-foreground">
                 {totalItems > 99 ? "99+" : totalItems}
@@ -61,31 +84,49 @@ const Navbar = () => {
           </Link>
 
           <button
-            className="md:hidden p-2 rounded-md hover:bg-accent transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Menú"
+            aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           >
             {isMobileMenuOpen ? (
-              <X className="h-5 w-5" />
+              <X className="w-5 h-5" />
             ) : (
-              <Menu className="h-5 w-5" />
+              <Menu className="w-5 h-5" />
             )}
           </button>
         </div>
       </div>
 
+      {isSearchOpen && (
+        <div className="border-t border-border bg-background p-4">
+          <div className="container mx-auto">
+            <div className="relative max-w-xl mx-auto">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <input
+                type="search"
+                placeholder="Buscar productos..."
+                className="w-full h-10 pl-10 pr-4 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                autoFocus
+                aria-label="Buscar productos"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t">
-          <nav className="container mx-auto px-3 sm:px-4 py-4 flex flex-col space-y-3">
+        <div className="md:hidden border-t border-border bg-background">
+          <nav className="container mx-auto px-4 py-2 flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary py-2",
+                  "px-3 py-2.5 text-sm font-medium rounded-lg transition-colors",
+                  "hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary",
                   isActive(link.href)
-                    ? "text-primary"
+                    ? "text-primary bg-primary/10"
                     : "text-muted-foreground"
                 )}
               >

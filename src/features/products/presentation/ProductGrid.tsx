@@ -1,6 +1,6 @@
 /**
  * @file ProductGrid.tsx
- * @description Componente de presentación que organiza los productos en una cuadrícula con animaciones.
+ * @description Componente de presentación que organiza los productos en una cuadrícula glassmorphism con animaciones.
  * @architecture Presentation Layer - Componente de UI
  */
 
@@ -17,14 +17,17 @@ interface IProductGridProps {
 const ProductGrid = memo(({ products }: IProductGridProps) => {
   return (
     <m.div
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-stretch"
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 xl:gap-8 items-stretch"
       variants={staggerContainer}
       initial="hidden"
       animate="visible"
     >
       {products.map((product: IProduct) => (
-        /* h-full necesario para que la card ocupe toda la altura de la celda del grid */
-        <m.div key={product.id} variants={slideUp} className="h-full">
+        <m.div 
+          key={product.id} 
+          variants={slideUp} 
+          className="h-full"
+        >
           <ProductCard product={product} />
         </m.div>
       ))}

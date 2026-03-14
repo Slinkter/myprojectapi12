@@ -7,18 +7,16 @@ interface CartHeaderProps {
 
 export const CartHeader = ({ onClose }: CartHeaderProps) => {
   return (
-    <div className="flex items-center justify-between mb-8">
-      <h2 className="font-bold text-xl sm:text-2xl text-foreground">
-        Mi Carrito
-      </h2>
+    <div className="flex items-center justify-between p-3 border-b">
+      <h2 className="font-semibold text-lg">Mi Carrito</h2>
       <Button
         variant="ghost"
         size="icon"
         onClick={onClose}
-        className="rounded-full hover:rotate-90"
-        aria-label="Cerrar carrito de compras"
+        className="rounded-full hover:rotate-90 h-10 w-10"
+        aria-label="Cerrar carrito"
       >
-        <HiOutlineXMark size={24} className="text-muted-foreground" />
+        <HiOutlineXMark size={20} />
       </Button>
     </div>
   );

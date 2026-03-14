@@ -1,21 +1,8 @@
-/**
- * @file PaymentMethodRadio.tsx
- * @description Botón de selección de método de pago accesible.
- * Estilo de tarjeta seleccionable con estados visuales claros.
- * @architecture Presentation Layer - Checkout Components
- */
 import { KeyboardEvent } from "react";
 import { cn } from "@/lib/utils";
 import { HiCheckCircle } from "react-icons/hi2";
 import { FaBitcoin } from "react-icons/fa";
 
-/**
- * @interface PaymentMethodRadioProps
- * @property {string} id - ID único para el input y label
- * @property {string} label - Texto a mostrar en el botón
- * @property {boolean} checked - Si este método es el seleccionado
- * @property {function} onChange - Handler al seleccionar este método
- */
 interface IPaymentMethodRadioProps {
     id: string;
     label: string;
@@ -23,12 +10,6 @@ interface IPaymentMethodRadioProps {
     onChange: () => void;
 }
 
-/**
- * Componente de opción de método de pago.
- * Accesible mediante teclado (Enter/Space).
- *
- * @component
- */
 const PaymentMethodRadio = ({
     id,
     label,
@@ -43,12 +24,12 @@ const PaymentMethodRadio = ({
     };
 
     return (
-        <div className="relative">
+        <div className="relative h-full">
             <input
                 id={id}
                 type="radio"
                 name="paymentMethod"
-                className="sr-only" // Usar sr-only para accesibilidad sin romper layout
+                className="sr-only"
                 checked={checked}
                 onChange={onChange}
                 aria-label={`Pagar con ${label}`}
@@ -56,50 +37,33 @@ const PaymentMethodRadio = ({
             <label
                 htmlFor={id}
                 className={cn(
-                    "flex flex-col items-center justify-center p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 h-full",
-                    "hover:shadow-lg hover:border-primary/50 group",
+                    "flex flex-col items-center justify-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 h-24",
                     checked
-                        ? "border-primary bg-primary/10 text-primary shadow-inner"
-                        : "border-border bg-card text-muted-foreground hover:bg-accent",
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50",
                     "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
                 )}
                 role="button"
                 tabIndex={0}
                 onKeyDown={handleKeyDown}
             >
-                {/* Simulated Icon based on label */}
-                <div
-                    className={cn(
-                        "mb-3 text-2xl transition-transform duration-300",
-                        checked
-                            ? "scale-110"
-                            : "scale-100 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100",
-                    )}
-                >
+                <div className="flex items-center justify-center mb-1">
                     {id === "visa" && (
-                        <span className="font-serif italic font-black text-blue-700 dark:text-blue-400 text-xl tracking-tighter">
-                            VISA
-                        </span>
+                        <span className="font-bold text-blue-600 text-sm">VISA</span>
                     )}
                     {id === "mastercard" && (
-                        <div className="flex -space-x-2">
-                            <div className="w-6 h-6 rounded-full bg-red-500/90 shadow-sm border border-white/10"></div>
-                            <div className="w-6 h-6 rounded-full bg-amber-500/90 shadow-sm border border-white/10"></div>
+                        <div className="flex -space-x-1">
+                            <div className="w-4 h-4 rounded-full bg-red-500"></div>
+                            <div className="w-4 h-4 rounded-full bg-orange-500"></div>
                         </div>
                     )}
                     {id === "bitcoin" && (
-                        <FaBitcoin className="text-orange-500 w-7 h-7" />
+                        <FaBitcoin className="text-orange-500 w-5 h-5" />
                     )}
                 </div>
-
-                <span className="text-xs font-bold uppercase tracking-widest">
-                    {label}
-                </span>
-
+                <span className="text-xs font-medium">{label}</span>
                 {checked && (
-                    <div className="absolute top-3 right-3 text-primary animate-in zoom-in duration-300">
-                        <HiCheckCircle className="w-6 h-6 drop-shadow-sm" />
-                    </div>
+                    <HiCheckCircle className="absolute top-2 right-2 w-4 h-4 text-primary" />
                 )}
             </label>
         </div>
