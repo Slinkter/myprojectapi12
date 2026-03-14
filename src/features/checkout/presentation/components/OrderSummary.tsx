@@ -1,20 +1,11 @@
-import { useState } from 'react'
-import { HiOutlineShoppingBag, HiOutlineCube, HiOutlineTruck, HiOutlineTag, HiOutlineCheck, HiOutlineXMark } from 'react-icons/hi2'
+import { HiOutlineShoppingBag, HiOutlineCube, HiOutlineTruck } from 'react-icons/hi2'
 import type { CartItem } from '@/entities/cart/types/cart.types'
 import { cn } from '@/shared/lib/cn'
-import { Button } from '@/shared/ui/Button'
-
-interface IDiscountCode {
-  code: string
-  discount: number
-  type: 'percentage' | 'fixed'
-}
-
-const VALID_CODES: IDiscountCode[] = [
-  { code: 'WELCOME10', discount: 10, type: 'percentage' },
-  { code: 'SAVE5', discount: 5, type: 'fixed' },
-  { code: 'VIP20', discount: 20, type: 'percentage' },
-]
+import { OrderItemRow } from './OrderItemRow'
+import { DiscountInput } from './DiscountInput'
+import { AppliedDiscountBadge } from './AppliedDiscountBadge'
+import { PriceRow } from './PriceRow'
+import { useDiscountValidation, calculateDiscountAmount } from '@/features/checkout/application/useDiscountValidation'
 
 interface IOrderSummaryProps {
   items: CartItem[]
@@ -23,48 +14,21 @@ interface IOrderSummaryProps {
 }
 
 export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProps) {
-  const [discountCode, setDiscountCode] = useState('')
-  const [appliedDiscount, setAppliedDiscount] = useState<IDiscountCode | null>(null)
-  const [discountError, setDiscountError] = useState('')
-  const [isApplying, setIsApplying] = useState(false)
+  const {
+    code,
+    setCode,
+    appliedDiscount,
+    error,
+    isApplying,
+    applyDiscount,
+    removeDiscount,
+  } = useDiscountValidation()
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
   const shipping = totalPrice >= 50 ? 0 : 9.99
-  
-  const discountAmount = appliedDiscount 
-    ? appliedDiscount.type === 'percentage'
-      ? (totalPrice * appliedDiscount.discount) / 100
-      : appliedDiscount.discount
-    : 0
-  
+  const discountAmount = calculateDiscountAmount(appliedDiscount, totalPrice)
   const discountedSubtotal = totalPrice - discountAmount
   const finalTotal = discountedSubtotal + shipping
-
-  const handleApplyDiscount = () => {
-    if (!discountCode.trim()) return
-    
-    setIsApplying(true)
-    setDiscountError('')
-    
-    setTimeout(() => {
-      const found = VALID_CODES.find(
-        (c) => c.code.toUpperCase() === discountCode.toUpperCase()
-      )
-      
-      if (found) {
-        setAppliedDiscount(found)
-        setDiscountCode('')
-      } else {
-        setDiscountError('Código de descuento inválido')
-      }
-      setIsApplying(false)
-    }, 500)
-  }
-
-  const handleRemoveDiscount = () => {
-    setAppliedDiscount(null)
-    setDiscountError('')
-  }
 
   return (
     <div
@@ -80,119 +44,62 @@ export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProp
 
       <div className="space-y-3 mb-6">
         {items.map((item) => (
-          <div
-            key={item.id}
-            className="flex items-center gap-3 p-3 bg-background rounded-xl"
-          >
-            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
-              <img
-                src={item.thumbnail}
-                alt={item.title}
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-medium text-sm text-foreground truncate">
-                {item.title}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Cant: {item.quantity} × ${item.price.toFixed(2)}
-              </p>
-            </div>
-            <p className="font-bold text-sm text-foreground">
-              ${(item.price * item.quantity).toFixed(2)}
-            </p>
-          </div>
+          <OrderItemRow key={item.id} item={item} />
         ))}
       </div>
 
-      {/* Código de descuento */}
       {!appliedDiscount && (
-        <div className="mb-4">
-          <label htmlFor="discount-code" className="block text-xs font-medium text-muted-foreground mb-2">
-            Código de descuento
-          </label>
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <HiOutlineTag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                id="discount-code"
-                type="text"
-                value={discountCode}
-                onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
-                onKeyDown={(e) => e.key === 'Enter' && handleApplyDiscount()}
-                placeholder="Ingresa tu código"
-                className="w-full h-10 pl-10 pr-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-              />
-            </div>
-            <Button
-              onClick={handleApplyDiscount}
-              disabled={!discountCode.trim() || isApplying}
-              variant="outline"
-              size="sm"
-            >
-              {isApplying ? '...' : 'Aplicar'}
-            </Button>
-          </div>
-          {discountError && (
-            <p className="text-xs text-destructive mt-1">{discountError}</p>
-          )}
-          <p className="text-xs text-muted-foreground mt-2">
-            Prueba: WELCOME10, SAVE5, VIP20
-          </p>
-        </div>
+        <DiscountInput
+          code={code}
+          isApplying={isApplying}
+          error={error}
+          onApply={applyDiscount}
+          onChange={setCode}
+        />
       )}
 
-      {/* Descuento aplicado */}
       {appliedDiscount && (
-        <div className="mb-4 p-3 bg-success/10 rounded-lg border border-success/30">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <HiOutlineCheck className="w-4 h-4 text-success" />
-              <span className="text-sm font-medium text-success">
-                {appliedDiscount.code} (-{appliedDiscount.type === 'percentage' ? `${appliedDiscount.discount}%` : `$${appliedDiscount.discount}`})
-              </span>
-            </div>
-            <button
-              onClick={handleRemoveDiscount}
-              className="p-1 hover:bg-success/20 rounded"
-              aria-label="Eliminar descuento"
-            >
-              <HiOutlineXMark className="w-4 h-4 text-success" />
-            </button>
-          </div>
-        </div>
+        <AppliedDiscountBadge
+          discount={appliedDiscount}
+          onRemove={removeDiscount}
+        />
       )}
 
       <div className="border-t border-border pt-4 space-y-2">
-        <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground flex items-center gap-2">
-            <HiOutlineCube className="w-4 h-4" />
-            Subtotal ({totalItems} productos)
-          </span>
-          <span className="font-medium">${totalPrice.toFixed(2)}</span>
-        </div>
+        <PriceRow
+          label={
+            <span className="flex items-center gap-2">
+              <HiOutlineCube className="w-4 h-4" />
+              Subtotal ({totalItems} productos)
+            </span>
+          }
+          value={`$${totalPrice.toFixed(2)}`}
+        />
 
         {discountAmount > 0 && (
-          <div className="flex justify-between text-sm text-success">
-            <span>Descuento</span>
-            <span className="font-medium">-${discountAmount.toFixed(2)}</span>
-          </div>
+          <PriceRow
+            label="Descuento"
+            value={`-$${discountAmount.toFixed(2)}`}
+            variant="success"
+          />
         )}
 
-        <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground flex items-center gap-2">
-            <HiOutlineTruck className="w-4 h-4" />
-            Envío
-          </span>
-          <span className={shipping === 0 ? 'text-success font-medium' : ''}>
-            {shipping === 0 ? (
+        <PriceRow
+          label={
+            <span className="flex items-center gap-2">
+              <HiOutlineTruck className="w-4 h-4" />
+              Envío
+            </span>
+          }
+          value={
+            shipping === 0 ? (
               <span className="text-success">GRATIS</span>
             ) : (
               `$${shipping.toFixed(2)}`
-            )}
-          </span>
-        </div>
+            )
+          }
+          variant={shipping === 0 ? 'success' : 'default'}
+        />
 
         {shipping > 0 && (
           <p className="text-xs text-warning bg-warning/10 p-2 rounded-lg">
@@ -200,12 +107,11 @@ export function OrderSummary({ items, totalPrice, className }: IOrderSummaryProp
           </p>
         )}
 
-        <div className="flex justify-between pt-2 border-t border-border">
-          <span className="font-bold text-foreground">Total</span>
-          <span className="font-bold text-xl text-primary">
-            ${finalTotal.toFixed(2)}
-          </span>
-        </div>
+        <PriceRow
+          label="Total"
+          value={`$${finalTotal.toFixed(2)}`}
+          variant="highlight"
+        />
       </div>
     </div>
   )

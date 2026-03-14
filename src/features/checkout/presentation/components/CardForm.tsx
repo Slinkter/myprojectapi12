@@ -9,14 +9,15 @@ import {
   ICardInfo,
   IValidationErrors,
 } from "@/features/checkout/application/types";
-import { cn } from "@/lib/utils";
 import { 
   HiOutlineCreditCard, 
   HiOutlineUser, 
   HiOutlineCalendarDays, 
-  HiOutlineLockClosed, 
-  HiOutlineExclamationCircle 
+  HiOutlineLockClosed,
+  HiOutlineExclamationCircle
 } from "react-icons/hi2";
+import CardInputField from "./CardInputField";
+import CardTypeIndicator from "./CardTypeIndicator";
 
 /**
  * @interface ICardFormProps
@@ -39,17 +40,6 @@ interface ICardFormProps {
  * @component
  */
 const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
-  // Helper para clases de input
-  const inputClasses = (hasError: boolean) => {
-    return `w-full px-4 py-3 rounded-xl border bg-background text-foreground placeholder:text-muted-foreground transition-all duration-200 outline-none
-        focus:ring-2 focus:ring-primary/20 focus:border-primary
-        ${
-          hasError
-            ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20 bg-destructive/5"
-            : "border-border hover:border-border/80"
-        }`;
-  };
-
   return (
     <form
       className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-500"
@@ -67,7 +57,9 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
           <input
             id="card-number"
             placeholder="0000 0000 0000 0000"
-            className={`${inputClasses(!!errors.number)} font-mono tracking-wider pl-12`}
+            className="w-full px-4 py-3 rounded-xl border bg-background text-foreground placeholder:text-muted-foreground transition-all duration-200 outline-none
+              focus:ring-2 focus:ring-primary/20 focus:border-primary
+              border-border hover:border-border/80 font-mono tracking-wider pl-12"
             name="number"
             value={cardInfo.number}
             onChange={onChange}
@@ -79,26 +71,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
             <HiOutlineCreditCard className="w-5 h-5 transition-colors group-focus-within:text-primary" />
           </div>
-
-          {/* Card Type Icon Indicator */}
-          <div
-            className={cn(
-              "absolute right-4 top-1/2 -translate-y-1/2 transition-opacity duration-300",
-              cardType ? "opacity-100" : "opacity-0",
-            )}
-          >
-            {cardType === "visa" && (
-              <span className="font-serif italic font-black text-blue-700 dark:text-blue-400 text-xl tracking-tighter">
-                VISA
-              </span>
-            )}
-            {cardType === "mastercard" && (
-              <div className="flex -space-x-2">
-                <div className="w-6 h-6 rounded-full bg-red-500/90 shadow-sm border border-white/10"></div>
-                <div className="w-6 h-6 rounded-full bg-amber-500/90 shadow-sm border border-white/10"></div>
-              </div>
-            )}
-          </div>
+          <CardTypeIndicator cardType={cardType} />
         </div>
         {errors.number && (
           <p
@@ -112,76 +85,36 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
       </div>
 
       {/* Cardholder Name */}
-      <div>
-        <label
-          htmlFor="cardholder-name"
-          className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-widest"
-        >
-          Titular de la Tarjeta
-        </label>
-        <div className="relative group">
-          <input
-            id="cardholder-name"
-            placeholder="NOMBRE COMPLETO"
-            className={`${inputClasses(!!errors.name)} pl-12 uppercase`}
-            name="name"
-            value={cardInfo.name}
-            onChange={onChange}
-            aria-invalid={!!errors.name}
-            aria-describedby={errors.name ? "cardholder-name-error" : undefined}
-            autoComplete="cc-name"
-          />
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
-            <HiOutlineUser className="w-5 h-5 transition-colors group-focus-within:text-primary" />
-          </div>
-        </div>
-        {errors.name && (
-          <p
-            id="cardholder-name-error"
-            className="text-destructive text-xs mt-1.5 flex items-center gap-1.5 font-bold"
-          >
-            <HiOutlineExclamationCircle className="w-4 h-4" />
-            {errors.name}
-          </p>
-        )}
-      </div>
+      <CardInputField
+        label="Titular de la Tarjeta"
+        name="name"
+        value={cardInfo.name}
+        error={errors.name}
+        icon={<HiOutlineUser className="w-5 h-5 transition-colors group-focus-within:text-primary" />}
+        inputProps={{
+          placeholder: "NOMBRE COMPLETO",
+          className: "pl-12 uppercase",
+          onChange,
+          autoComplete: "cc-name",
+        }}
+      />
 
       {/* Expiry and CVC */}
       <div className="grid grid-cols-2 gap-5">
-        <div className="group">
-          <label
-            htmlFor="card-expiry"
-            className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-widest"
-          >
-            Expira
-          </label>
-          <div className="relative">
-            <input
-              id="card-expiry"
-              placeholder="MM / YY"
-              className={`${inputClasses(!!errors.expiry)} pl-12 font-mono`}
-              name="expiry"
-              value={cardInfo.expiry}
-              onChange={onChange}
-              maxLength={5}
-              aria-invalid={!!errors.expiry}
-              aria-describedby={errors.expiry ? "card-expiry-error" : undefined}
-              autoComplete="cc-exp"
-            />
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
-              <HiOutlineCalendarDays className="w-5 h-5 transition-colors group-focus-within:text-primary" />
-            </div>
-          </div>
-          {errors.expiry && (
-            <p
-              id="card-expiry-error"
-              className="text-destructive text-xs mt-1.5 flex items-center gap-1.5 font-bold"
-            >
-              <HiOutlineExclamationCircle className="w-4 h-4" />
-              {errors.expiry}
-            </p>
-          )}
-        </div>
+        <CardInputField
+          label="Expira"
+          name="expiry"
+          value={cardInfo.expiry}
+          error={errors.expiry}
+          icon={<HiOutlineCalendarDays className="w-5 h-5 transition-colors group-focus-within:text-primary" />}
+          inputProps={{
+            placeholder: "MM / YY",
+            className: "pl-12 font-mono",
+            onChange,
+            maxLength: 5,
+            autoComplete: "cc-exp",
+          }}
+        />
         <div className="group">
           <label
             htmlFor="card-cvc"
@@ -197,7 +130,9 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
               id="card-cvc"
               placeholder="123"
               type="password"
-              className={`${inputClasses(!!errors.cvc)} pl-12 font-mono`}
+              className="w-full px-4 py-3 rounded-xl border bg-background text-foreground placeholder:text-muted-foreground transition-all duration-200 outline-none
+                focus:ring-2 focus:ring-primary/20 focus:border-primary
+                border-border hover:border-border/80 font-mono pl-12"
               name="cvc"
               value={cardInfo.cvc}
               onChange={onChange}
