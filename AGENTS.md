@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a React 18 + TypeScript + Vite e-commerce application with Tailwind CSS v4, using feature-based architecture.
+This is a React 18 + TypeScript + Vite e-commerce application with Tailwind CSS v4, using feature-based architecture. The project uses pnpm as package manager.
 
 ---
 
@@ -10,30 +10,31 @@ This is a React 18 + TypeScript + Vite e-commerce application with Tailwind CSS 
 
 ### Development
 ```bash
-npm run dev          # Start development server
-npm run preview      # Preview production build
+pnpm dev          # Start development server (http://localhost:5173)
+pnpm preview      # Preview production build
 ```
 
 ### Building
 ```bash
-npm run build        # Build for production (outputs to dist/)
-npm run deploy       # Build and deploy to GitHub Pages
-npm run predeploy    # Runs build before deploy
+pnpm build        # Build for production (outputs to dist/)
+pnpm deploy       # Build and deploy to GitHub Pages
+pnpm predeploy    # Runs build before deploy
 ```
 
 ### Testing
 ```bash
-npm run test              # Run all tests (Vitest)
-npm run test -- --run     # Run tests once (no watch mode)
-npm run test:ui           # Run tests with Vitest UI
-npm run test:coverage      # Run tests with coverage report
-npm run test:run src/components/ui/button.test.tsx  # Run single test file
+pnpm test              # Run all tests in watch mode
+pnpm test -- --run     # Run tests once (no watch mode)
+pnpm test src/path/to/file.test.tsx    # Run single test file
+pnpm test -- fileName  # Run tests matching filename
+pnpm test:ui           # Run tests with Vitest UI
+pnpm test:coverage     # Run tests with coverage report
 ```
 
 ### Linting & Type Checking
 ```bash
-npm run lint             # Run ESLint
-npm run type-check       # Run TypeScript type checking (tsc --noEmit)
+pnpm lint           # Run ESLint (reports unused disable directives)
+pnpm type-check     # Run TypeScript type checking (tsc --noEmit)
 ```
 
 ---
@@ -42,31 +43,35 @@ npm run type-check       # Run TypeScript type checking (tsc --noEmit)
 
 ### TypeScript
 - **Strict mode enabled** in `tsconfig.json`
-- Always define explicit types; avoid `any`
-- Use interfaces for object shapes (prefix with `I`): `interface IProduct { ... }`
-- Use type for unions/aliases: `type StockStatus = 'ok' | 'low' | 'out'`
+- Avoid `any` - use explicit types
+- Use interfaces for object shapes (optional `I` prefix): `interface Product { ... }`
+- Use type for unions/aliases: `type Status = 'ok' | 'low' | 'out'`
 
 ### Naming Conventions
-- **Components**: PascalCase (`ProductCard`, `CartProvider`)
-- **Hooks**: camelCase with `use` prefix (`useCart`, `useProductModal`)
-- **Interfaces**: PascalCase with `I` prefix (`IProduct`, `ICartItem`)
+- **Components**: PascalCase (`ProductCard`, `CartDrawer`)
+- **Hooks**: camelCase with `use` prefix (`useCart`, `useProducts`)
+- **Interfaces**: PascalCase (`Product`, `CartItem`)
 - **Files**: kebab-case (`product-card.tsx`, `cart-context.tsx`)
-- **Constants**: UPPER_SNAKE_CASE for runtime constants, camelCase for compile-time
-- **CSS Classes**: Tailwind utility classes (see below)
+- **Constants**: UPPER_SNAKE_CASE for runtime, camelCase for compile-time
 
 ### Imports
-- Use path aliases: `@/` maps to `./src/`
+- Use path alias `@/` maps to `./src/`
 - Group imports: external → internal → relative
 - Use named exports for utilities
-- Avoid barrel files (index.ts) that re-export everything
 
 ```typescript
 // Good
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/features/cart/application/CartContext";
-import type { IProduct } from "@/features/products/application/types";
+import { cn } from "@/lib/utils";
+import type { Product } from "@/entities/cart/types/cart.types";
 ```
+
+### ESLint Rules (from .eslintrc.cjs)
+- `react-refresh/only-export-components`: warn (allow constant export)
+- `@typescript-eslint/no-unused-vars`: warn (ignore args starting with `_`)
+- `@typescript-eslint/no-explicit-any`: warn
+- `react/prop-types`: off (TypeScript handles this)
 
 ### React Patterns
 - Use `React.memo()` for expensive components
@@ -77,8 +82,8 @@ import type { IProduct } from "@/features/products/application/types";
 - Define component displayName for debugging
 
 ```typescript
-const ProductCard = React.memo(({ product }: IProductCardProps) => {
-  // ... component logic
+const ProductCard = React.memo(({ product }: ProductCardProps) => {
+  return <div className="...">{product.name}</div>;
 });
 ProductCard.displayName = "ProductCard";
 export default ProductCard;
@@ -107,36 +112,13 @@ export const useCart = () => {
 4. JSX return
 5. Export
 
-```typescript
-import React from "react";
-import { cn } from "@/lib/utils";
-import type { IProduct } from "@/features/products/application/types";
-
-interface IProductCardProps {
-  product: IProduct;
-}
-
-const ProductCard = React.memo(({ product }: IProductCardProps) => {
-  return (
-    <div className="...">
-      {/* JSX */}
-    </div>
-  );
-});
-
-ProductCard.displayName = "ProductCard";
-export default ProductCard;
-```
-
 ### Tailwind CSS v4
 - Use utility classes directly in components
-- Use `@/lib/utils` for conditional classes via `cn()` function
+- Use `@/lib/utils` `cn()` function for conditional classes
 - Follow dark mode: `dark:bg-slate-900`
 - Use design tokens: colors (slate, amber, green), spacing, border-radius
 
 ```typescript
-import { cn } from "@/lib/utils";
-
 <div className={cn(
   "base-classes",
   isActive && "active-classes",
@@ -149,29 +131,28 @@ import { cn } from "@/lib/utils";
 ## Architecture
 
 ### Directory Structure
-```text
+```
 src/
-├─ app/                 # App configuration (routing, providers)
-├─ components/
-│  ├─ ui/              # Reusable UI components (Button, Card, Input)
-│  └─ common/          # Common components (Layout, Navbar, ErrorBoundary)
-├─ features/           # Feature-based modules
-│  └─ {feature}/
-│     ├─ application/  # Hooks, Context, Providers, Types
-│     ├─ presentation/ # React components
-│     └─ domain/       # Business logic, utilities
-├─ lib/                # Shared utilities (utils.ts)
-└─ pages/              # Page-level components
+├── app/                 # App configuration (routing, providers)
+├── components/
+│   ├── ui/              # Reusable UI components (Button, Card, Input)
+│   └── common/          # Common components (Layout, Navbar, ErrorBoundary)
+├── features/            # Feature-based modules (cart, products)
+├── shared/              # Shared utilities and API clients
+├── entities/            # Entity types and business logic
+├── widgets/             # Composite widgets
+├── pages/               # Page-level components
+└── lib/                 # Shared utilities (utils.ts)
 ```
 
 ### State Management
 - Use Context API for global state (Cart, Theme)
-- Use TanStack Query for server state
+- Use TanStack Query (`@tanstack/react-query`) for server state
 - Keep contexts focused and split when growing
 
 ### Testing
-- Test files co-located: `Component.tsx` and `Component.test.tsx`
-- Vitest + React Testing Library
+- Test files co-located: `Component.tsx` and `Component.test.tsx` or `__tests__/`
+- Vitest + React Testing Library + jsdom
 - Use `renderHook` for testing custom hooks
 - Mock external dependencies (react-hot-toast, etc.)
 
@@ -203,6 +184,7 @@ Reference: `.agents/skills/vercel-react-best-practices/AGENTS.md`
 | `tsconfig.json` | TypeScript config (strict, paths: @/*) |
 | `.eslintrc.cjs` | ESLint rules |
 | `vite.config.js` | Vite + React + Tailwind config |
+| `vitest.config.js` | Vitest config (jsdom, aliases) |
 | `package.json` | Dependencies and scripts |
 
 ---
@@ -217,15 +199,30 @@ Reference: `.agents/skills/vercel-react-best-practices/AGENTS.md`
 - **React Router DOM** for routing
 - **Radix UI** for accessible components
 - **Framer Motion** for animations
-- **React Icons** (hi2, io5) for icons
+- **React Icons** (lucide-react, react-icons) for icons
+
+---
+
+## Commit Convention
+
+Use Conventional Commits:
+```
+<type>(<scope>): <subject>
+
+Types: feat, fix, docs, style, refactor, test, chore
+```
+
+Examples:
+- `feat(cart): add quantity selector`
+- `fix(checkout): validate email format`
+- `test(cart): add calculateTotal tests`
 
 ---
 
 ## Notes for Agents
 
-1. Always run `npm run lint` and `npm run type-check` before committing
-2. Test changes with `npm run test` or single test file
-3. Use path alias `@/` for imports (not relative paths when possible)
+1. Always run `pnpm lint` and `pnpm type-check` before committing
+2. Test changes with `pnpm test -- --run` or single test file
+3. Use path alias `@/` for imports when possible
 4. Follow the feature-based folder structure
-5. Add JSDoc comments to exported functions and components
-6. Use semantic HTML and accessibility attributes (`aria-label`, `role`)
+5. Use semantic HTML and accessibility attributes (`aria-label`, `role`)

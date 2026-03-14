@@ -27,7 +27,7 @@ The architecture is designed around the **SOLID** and **DRY** principles, ensuri
 **DRY:** Centralizes logic in Custom Hooks to avoid duplication across views.
 
 **Example:**
-\`\`\`typescript
+```typescript
 // src/features/cart/application/useCart.ts
 export const useCart = () => {
 const context = useContext(CartContext);
@@ -36,7 +36,7 @@ throw new Error("useCart must be used within CartProvider");
 }
 return context;
 };
-\`\`\`
+```
 
 ---
 
@@ -54,7 +54,7 @@ return context;
 - Styled with Tailwind CSS
 
 **Example:**
-\`\`\`jsx
+```jsx
 // src/features/cart/presentation/Cart.jsx
 const Cart = () => {
 const { cart, removeFromCart } = useCart();
@@ -66,7 +66,7 @@ return (
 </div>
 );
 };
-\`\`\`
+```
 
 ---
 
@@ -84,7 +84,7 @@ return (
 - Adapters
 
 **Example:**
-\`\`\`javascript
+```javascript
 // src/features/products/infrastructure/productsApi.js
 export const fetchProducts = async (limit = 30, skip = 0) => {
 const response = await fetch(
@@ -92,7 +92,7 @@ const response = await fetch(
 );
 return response.json();
 };
-\`\`\`
+```
 
 ---
 
@@ -100,37 +100,37 @@ return response.json();
 
 Each feature follows this structure:
 
-\`\`\`
+```text
 features/[feature-name]/
-├── application/ # Use cases & state
-│ ├── [Feature]Context.tsx
-│ ├── use[Feature].ts
-│ ├── hooks/
-│ │ ├── use[Feature]Actions.ts
-│ │ └── use[Feature]State.ts
-│ └── **tests**/
-│ └── [Feature]Context.test.jsx
+├─ application/ # Use cases & state
+│  ├─ [Feature]Context.tsx
+│  ├─ use[Feature].ts
+│  ├─ hooks/
+│  │  ├─ use[Feature]Actions.ts
+│  │  └─ use[Feature]State.ts
+│  └─ tests/
+│     └─ [Feature]Context.test.jsx
 │
-├── domain/ # Business logic
-│ ├── [feature]Types.ts
-│ ├── [feature]Utils.ts
-│ └── **tests**/
-│ └── [feature]Utils.test.ts
+├─ domain/ # Business logic
+│  ├─ [feature]Types.ts
+│  ├─ [feature]Utils.ts
+│  └─ tests/
+│     └─ [feature]Utils.test.ts
 │
-├── infrastructure/ # External services
-│ └── [feature]Api.js
+├─ infrastructure/ # External services
+│  └─ [feature]Api.js
 │
-└── presentation/ # UI components
-├── [Feature].jsx
-├── [Feature]Item.jsx
-└── [Feature]List.jsx
-\`\`\`
+└─ presentation/ # UI components
+   ├─ [Feature].jsx
+   ├─ [Feature]Item.jsx
+   └─ [Feature]List.jsx
+```
 
 ---
 
 ## Data Flow
 
-\`\`\`
+```
 User Interaction
 ↓
 Presentation Layer (UI Component)
@@ -142,11 +142,11 @@ Domain Layer (Pure Function)
 Infrastructure Layer (API)
 ↓
 External Service
-\`\`\`
+```
 
 **Example: Adding to Cart**
 
-\`\`\`
+```
 
 1. User clicks "Add to Cart" button
    → Presentation: <ProductCard onClick={handleAddToCart} />
@@ -165,7 +165,7 @@ External Service
 
 6. UI re-renders
    → Presentation: Cart displays updated items
-   \`\`\`
+   ```
 
 ---
 
@@ -176,7 +176,7 @@ External Service
 **Purpose:** Encapsulate reusable logic
 
 **Example:**
-\`\`\`typescript
+```typescript
 // Drawer control hook
 export const useCartDrawer = () => {
 const [isOpen, setIsOpen] = useState(false);
@@ -187,14 +187,14 @@ const toggle = useCallback(() => setIsOpen(prev => !prev), []);
     return { isOpen, open, close, toggle };
 
 };
-\`\`\`
+```
 
 ### 2. Context + Hooks Pattern
 
 **Purpose:** Global state management
 
 **Example:**
-\`\`\`typescript
+```typescript
 // Context definition
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
@@ -211,14 +211,14 @@ const context = useContext(CartContext);
 if (!context) throw new Error("useCart must be used within CartProvider");
 return context;
 };
-\`\`\`
+```
 
 ### 3. Pure Functions Pattern
 
 **Purpose:** Predictable, testable business logic
 
 **Example:**
-\`\`\`typescript
+```typescript
 // Pure function - no side effects
 export const calculateTotal = (cart: CartItem[]): number => {
 return cart.reduce((sum, item) => sum + item.price \* item.quantity, 0);
@@ -232,7 +232,7 @@ const cart = [
 ];
 expect(calculateTotal(cart)).toBe(35);
 });
-\`\`\`
+```
 
 ---
 
@@ -256,14 +256,14 @@ expect(calculateTotal(cart)).toBe(35);
 - Use `@tanstack/react-query`
 - Example: Products, Orders
 
-\`\`\`typescript
+```typescript
 // Server state with React Query
 const { data: products, isLoading } = useQuery({
 queryKey: ['products', limit, skip],
 queryFn: () => fetchProducts(limit, skip),
 staleTime: 5 _ 60 _ 1000, // 5 minutes
 });
-\`\`\`
+```
 
 ---
 
@@ -274,7 +274,7 @@ staleTime: 5 _ 60 _ 1000, // 5 minutes
 **Location:** `src/features/*/domain/*Types.ts`
 
 **Example:**
-\`\`\`typescript
+```typescript
 // Domain types
 export interface CartItem {
 id: number;
@@ -292,15 +292,15 @@ price: number;
 thumbnail: string;
 stock: number;
 }
-\`\`\`
+```
 
 ### Type Safety Benefits
 
 1. **Compile-time errors**
-   \`\`\`typescript
+   ```typescript
    // Error: Argument of type 'string' is not assignable to parameter of type 'number'
    calculateTotal("invalid"); // ❌
-   \`\`\`
+   ```
 
 2. **Better IDE support**
     - Autocomplete
@@ -308,14 +308,14 @@ stock: number;
     - Refactoring tools
 
 3. **Self-documenting code**
-   \`\`\`typescript
+   ```typescript
    // Types document the function signature
    function addItemToCart(
    cart: CartItem[],
    product: Product,
    quantity: number
    ): CartItem[]
-   \`\`\`
+   ```
 
 ## CSS Architecture
 
@@ -379,7 +379,7 @@ const buttonVariants = cva(
 
 ### Test Pyramid
 
-\`\`\`
+```
 /\
  /E2E\ (10%) - Critical user flows
 /\_**\_\
@@ -389,11 +389,11 @@ const buttonVariants = cva(
  / \
  / Unit Tests \ (70%) - Pure functions & hooks
 /******\_\_\_\_******\
-\`\`\`
+```
 
 ### Unit Tests (Domain Layer)
 
-\`\`\`typescript
+```typescript
 // Test pure functions
 describe('calculateTotal', () => {
 test('sums cart items correctly', () => {
@@ -404,18 +404,18 @@ const cart = [
 expect(calculateTotal(cart)).toBe(35);
 });
 });
-\`\`\`
+```
 
 ### Integration Tests (Application Layer)
 
-\`\`\`jsx
+```jsx
 // Test hooks with context
 test('useCart throws error outside provider', () => {
 expect(() => {
 renderHook(() => useCart());
 }).toThrow('useCart must be used within CartProvider');
 });
-\`\`\`
+```
 
 ---
 
@@ -423,15 +423,15 @@ renderHook(() => useCart());
 
 ### Code Splitting
 
-\`\`\`javascript
+```javascript
 // Lazy load routes
 const Home = lazy(() => import('./pages/Home'));
 const Checkout = lazy(() => import('./features/checkout/presentation/Checkout'));
-\`\`\`
+```
 
 ### Memoization
 
-\`\`\`typescript
+```typescript
 // Memoize expensive calculations
 const totalPrice = useMemo(() => calculateTotal(cart), [cart]);
 
@@ -439,11 +439,11 @@ const totalPrice = useMemo(() => calculateTotal(cart), [cart]);
 const addToCart = useCallback((product, quantity) => {
 setCart(prev => addItemToCart(prev, product, quantity));
 }, []);
-\`\`\`
+```
 
 ### React Query Caching
 
-\`\`\`typescript
+```typescript
 const queryClient = new QueryClient({
 defaultOptions: {
 queries: {
@@ -452,7 +452,7 @@ cacheTime: 10 _ 60 _ 1000, // 10 minutes
 },
 },
 });
-\`\`\`
+```
 
 ---
 
@@ -460,15 +460,15 @@ cacheTime: 10 _ 60 _ 1000, // 10 minutes
 
 ### Error Boundary
 
-\`\`\`jsx
+```jsx
 <ErrorBoundary fallback={<ErrorFallback />}>
 <App />
 </ErrorBoundary>
-\`\`\`
+```
 
 ### Hook Error Handling
 
-\`\`\`typescript
+```typescript
 export const useCart = () => {
 const context = useContext(CartContext);
 
@@ -479,7 +479,7 @@ const context = useContext(CartContext);
     return context;
 
 };
-\`\`\`
+```
 
 ---
 
@@ -488,39 +488,39 @@ const context = useContext(CartContext);
 ### 1. Keep Domain Layer Pure
 
 ✅ **Do:**
-\`\`\`typescript
+```typescript
 export const calculateTotal = (cart: CartItem[]): number => {
 return cart.reduce((sum, item) => sum + item.price \* item.quantity, 0);
 };
-\`\`\`
+```
 
 ❌ **Don't:**
-\`\`\`typescript
+```typescript
 export const calculateTotal = () => {
 const cart = useCart(); // ❌ No hooks in domain layer
 return cart.reduce(...);
 };
-\`\`\`
+```
 
 ### 2. Use TypeScript Strictly
 
 ✅ **Do:**
-\`\`\`typescript
+```typescript
 interface CartItem {
 id: number;
 quantity: number;
 }
-\`\`\`
+```
 
 ❌ **Don't:**
-\`\`\`typescript
+```typescript
 const cart: any = []; // ❌ Avoid 'any'
-\`\`\`
+```
 
 ### 3. Test Pure Functions First
 
 ✅ **Do:**
-\`\`\`typescript
+```typescript
 // Easy to test
 test('addItemToCart adds new item', () => {
 const cart = [];
@@ -528,12 +528,12 @@ const product = { id: 1, price: 10 };
 const result = addItemToCart(cart, product, 1);
 expect(result).toHaveLength(1);
 });
-\`\`\`
+```
 
 ### 4. Keep Components Small
 
 ✅ **Do:**
-\`\`\`jsx
+```jsx
 // Small, focused component
 const CartItem = ({ item, onRemove }) => (
 <div>
@@ -541,7 +541,7 @@ const CartItem = ({ item, onRemove }) => (
 <button onClick={() => onRemove(item.id)}>Remove</button>
 </div>
 );
-\`\`\`
+```
 
 ---
 

@@ -1,18 +1,20 @@
 /**
  * @file ProductCard.tsx
- * @description Tarjeta de producto individual. Alineada con el sistema de diseño
- * semántico del proyecto (bg-card, border-border, text-foreground, text-primary).
- * Coherente con el estilo "Modern Twelve Collections" del HomeHeader.
+ * @description Tarjeta de producto individual con optimizaciones UX/UI.
+ * - LazyImage con blur-up effect
+ * - Micro-interactions en hover
+ * - Optimizado para performance
  * @architecture Presentation Layer - Componente de Feature
  */
 
-import React from 'react'
-import { cn } from '@/shared/lib/cn'
+import React, { useCallback } from 'react'
+import { cn } from '@/lib/utils'
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { getStockStatus } from '@/shared/lib/stockUtils'
 import type { IProduct } from '@/features/products/application/types'
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/Card'
 import { Button } from '@/shared/ui/Button'
+import { LazyImage } from '@/components/common/LazyImage'
 
 interface IProductCardProps {
   product: IProduct
@@ -21,33 +23,38 @@ interface IProductCardProps {
 const ProductCard = React.memo(({ product }: IProductCardProps) => {
   const { handleOpenModal } = useProductModalContext()
 
+  const handleClick = useCallback(() => {
+    handleOpenModal(product)
+  }, [handleOpenModal, product])
+
   if (!product || !product.id) {
     console.error('ProductCard received invalid product:', product)
     return null
   }
 
   const stockStatus = getStockStatus(product.stock)
+  const isOutOfStock = stockStatus === 'out'
 
   return (
     <Card
       className="group relative h-full flex flex-col overflow-hidden border-border bg-card transition-all duration-500 hover:shadow-premium hover:-translate-y-1 rounded-2xl cursor-pointer"
       role="article"
       aria-label={`Producto: ${product.title}`}
+      onClick={handleClick}
     >
       {/* Badge de Descuento */}
       {product.discountPercentage && (
-        <div className="absolute top-3 left-3 z-10 bg-accent text-accent-foreground px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase shadow-sm">
+        <div className="absolute top-3 left-3 z-10 bg-destructive/90 text-white px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase shadow-lg animate-in fade-in zoom-in duration-300">
           -{Math.round(product.discountPercentage)}%
         </div>
       )}
 
-      {/* Imagen */}
-      <CardHeader className="p-0 overflow-hidden bg-muted/30 aspect-[4/5] relative">
-        <img
+      {/* Imagen con blur-up effect */}
+      <CardHeader className="p-0 overflow-hidden relative">
+        <LazyImage
           src={product.thumbnail}
           alt={product.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          loading="lazy"
+          className="rounded-t-2xl"
         />
         {/* Overlay sutil al hover */}
         <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
@@ -60,8 +67,9 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
           <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
             {product.category}
           </span>
-          <span className="text-xs font-bold text-accent-foreground">
-            ★ {product.rating}
+          <span className="text-xs font-bold text-accent-foreground flex items-center gap-1">
+            <span>★</span>
+            {product.rating?.toFixed(1)}
           </span>
         </div>
 
@@ -76,32 +84,42 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
         </p>
       </CardContent>
 
-      {/* Footer: precio + botón — siempre pegado al fondo gracias al flex-1 del CardContent */}
+      {/* Footer: precio + botón */}
       <CardFooter className="px-5 pb-5 pt-4 flex items-end justify-between gap-4 border-t border-border/50">
-        {/* Bloque de precio — alineado a la base inferior */}
+        {/* Bloque de precio */}
         <div className="flex flex-col gap-0.5 min-w-0">
           <span className="text-xl font-bold text-foreground leading-none">
             ${product.price.toFixed(2)}
           </span>
           <span
             className={cn(
-              'text-[10px] uppercase tracking-wider font-bold mt-1',
+              'text-[10px] uppercase tracking-wider font-bold mt-1 transition-colors duration-300',
               stockStatus === 'ok' ? 'text-success' : 'text-warning'
             )}
           >
-            {stockStatus === 'out' ? 'Agotado' : `${product.stock} en stock`}
+            {isOutOfStock ? 'Agotado' : `${product.stock} en stock`}
           </span>
         </div>
 
-        {/* Botón — shrink-0 evita que el texto se corte en cards estrechas */}
+        {/* Botón con micro-interaction */}
         <Button
-          onClick={() => handleOpenModal(product)}
-          disabled={stockStatus === 'out'}
+          onClick={(e) => {
+            e.stopPropagation()
+            handleOpenModal(product)
+          }}
+          disabled={isOutOfStock}
           size="sm"
           variant="outline"
-          className="shrink-0 self-end rounded-full border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 px-5"
+          className="shrink-0 self-end rounded-full border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-105 active:scale-95 px-5"
         >
-          {stockStatus !== 'out' ? 'Ver detalles' : 'Sin stock'}
+          {isOutOfStock ? (
+            'Sin stock'
+          ) : (
+            <span className="flex items-center gap-1.5">
+              Ver detalles
+              <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+            </span>
+          )}
         </Button>
       </CardFooter>
     </Card>

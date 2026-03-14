@@ -38,3 +38,21 @@ Object.defineProperty(window, 'matchMedia', {
         dispatchEvent: vi.fn(),
     })),
 });
+
+/**
+ * Mock for `window.localStorage`.
+ *
+ * @remarks
+ * JSDOM does not implement `localStorage` by default. This mock is required
+ * for components that use localStorage (e.g., ThemeProvider).
+ */
+const localStorageMock = {
+    getItem: vi.fn(() => null),
+    setItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+};
+Object.defineProperty(window, 'localStorage', {
+    writable: true,
+    value: localStorageMock,
+});

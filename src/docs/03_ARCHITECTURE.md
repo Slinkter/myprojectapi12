@@ -51,3 +51,40 @@ Se decidió NO seguir Atomic Design estrictamente (Atoms, Molecules, Organisms) 
 *   **API REST:** Consumo de DummyJSON.
 *   **Generic Client:** `apiClient` centralizado que inyecta headers, maneja la `BASE_URL` y captura excepciones HTTP.
 *   **Manejo de Errores:** Se utiliza un patrón de propagación de errores hacia los `ErrorBoundary` de React para fallos catastróficos, y estados de error de TanStack Query para fallos controlados de red.
+
+## 6. Arquitectura de Proveedores (Provider Hierarchy)
+
+### 6.1 Orden de Providers en App.tsx
+El orden de los providers en el componente raíz es crítico para el correcto funcionamiento de la aplicación.
+
+```mermaid
+graph TB
+    A[QueryClientProvider] --> B[ThemeProvider]
+    B --> C[CartProvider]
+    C --> D[BrowserRouter]
+    D --> E[LazyMotion]
+    E --> F[ErrorBoundary]
+    F --> G[Layout]
+    G --> H[AppRouter]
+```
+
+### 6.2 Jerarquía de Proveedores
+
+| Orden | Provider | Dependencia | Función |
+|-------|----------|-------------|---------|
+| 1 | `QueryClientProvider` | Ninguna | Caché de datos, TanStack Query |
+| 2 | `ThemeProvider` | Ninguna | Tema claro/oscuro |
+| 3 | `CartProvider` | ThemeProvider | Estado global del carrito |
+| 4 | `BrowserRouter` | Context Providers | Navegación SPA |
+| 5 | `LazyMotion` | BrowserRouter | Animaciones optimizadas |
+| 6 | `ErrorBoundary` | LazyMotion | Captura errores de render |
+| 7 | `Layout` | ErrorBoundary | Estructura UI (Navbar + Outlet) |
+| 8 | `AppRouter` | Layout | Definición de rutas |
+
+### 6.3 Justificación del Orden
+
+1. **QueryClientProvider primero**: No depende de nada, pero todo depende de él para datos
+2. **ThemeProvider antes de BrowserRouter**: Permite que componentes usen hooks de tema antes de navegar
+3. **CartProvider dentro de ThemeProvider**: El carrito puede necesitar acceder al tema
+4. **BrowserRouter dentro de los contexts**: Los componentes dentro de las rutas pueden usar los contextos
+5. **ReactQueryDevtools al final**: Herramienta de debug, no necesita el router

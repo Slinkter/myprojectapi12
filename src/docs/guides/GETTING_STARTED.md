@@ -14,16 +14,16 @@ Before you begin, ensure you have the following installed:
 
 ### Check Versions
 
-\`\`\`bash
+```bash
 node --version # Should be >= 18
 pnpm --version # Should be >= 8
-\`\`\`
+```
 
 ### Install pnpm (if needed)
 
-\`\`\`bash
+```bash
 npm install -g pnpm
-\`\`\`
+```
 
 ---
 
@@ -31,16 +31,16 @@ npm install -g pnpm
 
 ### 1. Clone the Repository
 
-\`\`\`bash
+```bash
 git clone https://github.com/Slinkter/myprojectapi12.git
 cd myprojectapi12
-\`\`\`
+```
 
 ### 2. Install Dependencies
 
-\`\`\`bash
+```bash
 pnpm install
-\`\`\`
+```
 
 This will install all dependencies including:
 
@@ -54,9 +54,9 @@ This will install all dependencies including:
 
 ### 3. Start Development Server
 
-\`\`\`bash
+```bash
 pnpm dev
-\`\`\`
+```
 
 The app will be available at `http://localhost:5173`
 
@@ -64,37 +64,37 @@ The app will be available at `http://localhost:5173`
 
 ## Project Structure
 
-\`\`\`
+```text
 myprojectapi12/
-├── src/
-│ ├── app/ # App configuration
-│ │ ├── config/ # Environment & clients
-│ │ └── routing/ # Routes
-│ │
-│ ├── features/ # Feature modules
-│ │ ├── cart/ # Shopping cart
-│ │ ├── products/ # Product catalog
-│ │ ├── checkout/ # Checkout flow
-│ │ └── theme/ # Theme management
-│ │
-│ ├── components/ # Shared components
-│ ├── styles/ # CSS modules
-│ ├── pages/ # Page components
-│ └── test/ # Test utilities
+├─ src/
+│  ├─ app/ # App configuration
+│  │  ├─ config/ # Environment & clients
+│  │  └─ routing/ # Routes
+│  │
+│  ├─ features/ # Feature modules
+│  │  ├─ cart/ # Shopping cart
+│  │  ├─ products/ # Product catalog
+│  │  ├─ checkout/ # Checkout flow
+│  │  └─ theme/ # Theme management
+│  │
+│  ├─ components/ # Shared components
+│  ├─ styles/ # CSS modules
+│  ├─ pages/ # Page components
+│  └─ test/ # Test utilities
 │
-├── docs/ # Documentation
-│ ├── guides/ # How-to guides
-│ ├── reports/ # Analysis reports
-│ └── architecture/ # Architecture docs
+├─ docs/ # Documentation
+│  ├─ guides/ # How-to guides
+│  ├─ reports/ # Analysis reports
+│  └─ architecture/ # Architecture docs
 │
-├── public/ # Static assets
-├── dist/ # Build output
+├─ public/ # Static assets
+├─ dist/ # Build output
 │
-├── tsconfig.json # TypeScript config
-├── tailwind.config.js # Tailwind config
-├── vite.config.js # Vite config
-└── package.json # Dependencies
-\`\`\`
+├─ tsconfig.json # TypeScript config
+├─ tailwind.config.js # Tailwind config
+├─ vite.config.js # Vite config
+└─ package.json # Dependencies
+```
 
 ---
 
@@ -102,7 +102,7 @@ myprojectapi12/
 
 ### Development
 
-\`\`\`bash
+```bash
 
 # Start dev server (hot reload)
 
@@ -115,11 +115,11 @@ pnpm build
 # Preview production build
 
 pnpm preview
-\`\`\`
+```
 
 ### Code Quality
 
-\`\`\`bash
+```bash
 
 # Run ESLint
 
@@ -128,11 +128,11 @@ pnpm lint
 # Run TypeScript type-check
 
 pnpm type-check
-\`\`\`
+```
 
 ### Testing
 
-\`\`\`bash
+```bash
 
 # Run tests once
 
@@ -149,16 +149,16 @@ pnpm test:ui
 # Generate coverage report
 
 pnpm test:coverage
-\`\`\`
+```
 
 ### Deployment
 
-\`\`\`bash
+```bash
 
 # Deploy to GitHub Pages
 
 pnpm deploy
-\`\`\`
+```
 
 ---
 
@@ -166,29 +166,29 @@ pnpm deploy
 
 ### 1. Create a Feature Branch
 
-\`\`\`bash
+```bash
 git checkout -b feature/my-new-feature
-\`\`\`
+```
 
 ### 2. Make Your Changes
 
 Follow the project structure:
 
-\`\`\`
+```text
 src/features/my-feature/
-├── application/
-│ ├── MyFeatureContext.tsx
-│ └── useMyFeature.ts
-├── domain/
-│ ├── myFeatureTypes.ts
-│ └── myFeatureUtils.ts
-└── presentation/
-└── MyFeature.jsx
-\`\`\`
+├─ application/
+│  ├─ MyFeatureContext.tsx
+│  └─ useMyFeature.ts
+├─ domain/
+│  ├─ myFeatureTypes.ts
+│  └─ myFeatureUtils.ts
+└─ presentation/
+   └─ MyFeature.jsx
+```
 
 ### 3. Write Tests
 
-\`\`\`typescript
+```typescript
 // src/features/my-feature/domain/**tests**/myFeatureUtils.test.ts
 import { describe, test, expect } from 'vitest';
 import { myFunction } from '../myFeatureUtils';
@@ -198,11 +198,11 @@ test('does something', () => {
 expect(myFunction()).toBe(expected);
 });
 });
-\`\`\`
+```
 
 ### 4. Run Quality Checks
 
-\`\`\`bash
+```bash
 
 # Type-check
 
@@ -219,14 +219,14 @@ pnpm test -- --run
 # Build
 
 pnpm build
-\`\`\`
+```
 
 ### 5. Commit Your Changes
 
-\`\`\`bash
+```bash
 git add .
 git commit -m "feat: add my new feature"
-\`\`\`
+```
 
 **Commit Convention:**
 
@@ -240,9 +240,9 @@ git commit -m "feat: add my new feature"
 
 ### 6. Push and Create PR
 
-\`\`\`bash
+```bash
 git push origin feature/my-new-feature
-\`\`\`
+```
 
 Then create a Pull Request on GitHub.
 
@@ -253,21 +253,21 @@ Then create a Pull Request on GitHub.
 ### Adding a New Feature
 
 1. **Create feature folder:**
-   \`\`\`bash
+   ```bash
    mkdir -p src/features/my-feature/{application,domain,presentation}
-   \`\`\`
+   ```
 
 2. **Create domain layer (TypeScript):**
-   \`\`\`typescript
+   ```typescript
    // src/features/my-feature/domain/myFeatureTypes.ts
    export interface MyData {
    id: number;
    name: string;
    }
-   \`\`\`
+   ```
 
 3. **Create business logic:**
-   \`\`\`typescript
+   ```typescript
    // src/features/my-feature/domain/myFeatureUtils.ts
    import type { MyData } from './myFeatureTypes';
 
@@ -275,27 +275,27 @@ Then create a Pull Request on GitHub.
     // Pure function logic
     return data;
     };
-    \`\`\`
+    ```
 
 4. **Create context/hooks:**
-   \`\`\`typescript
+   ```typescript
    // src/features/my-feature/application/MyFeatureContext.tsx
    import { createContext } from 'react';
 
     export const MyFeatureContext = createContext(undefined);
-    \`\`\`
+    ```
 
 5. **Create UI components:**
-   \`\`\`jsx
+   ```jsx
    // src/features/my-feature/presentation/MyFeature.jsx
    export const MyFeature = () => {
    return <div>My Feature</div>;
    };
-   \`\`\`
+   ```
 
 ### Adding a New Component
 
-\`\`\`jsx
+```jsx
 // src/components/common/MyComponent.jsx
 export const MyComponent = ({ children }) => {
 return (
@@ -304,7 +304,7 @@ return (
 </div>
 );
 };
-\`\`\`
+```
 
 ### Adding New Styles
 
@@ -316,17 +316,17 @@ return (
     - Component → `src/styles/components.css`
 
 2. **Add styles:**
-   \`\`\`css
+   ```css
    /_ src/styles/components.css _/
    .my-component {
    @apply bg-white rounded-lg;
    box-shadow: var(--shadow-soft);
    }
-   \`\`\`
+   ```
 
 ### Adding a New Route
 
-\`\`\`javascript
+```javascript
 // src/app/routing/AppRouter.jsx
 import { lazy } from 'react';
 
@@ -339,7 +339,7 @@ path: '/my-page',
 element: <MyPage />,
 },
 ];
-\`\`\`
+```
 
 ---
 
@@ -347,16 +347,16 @@ element: <MyPage />,
 
 Create a `.env` file in the root:
 
-\`\`\`env
+```env
 VITE_API_URL=https://dummyjson.com
 VITE_APP_NAME=MyProjectAPI12
-\`\`\`
+```
 
 Access in code:
 
-\`\`\`javascript
+```javascript
 const apiUrl = import.meta.env.VITE_API_URL;
-\`\`\`
+```
 
 ---
 
@@ -364,7 +364,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 ### Port Already in Use
 
-\`\`\`bash
+```bash
 
 # Kill process on port 5173
 
@@ -373,21 +373,21 @@ lsof -ti:5173 | xargs kill -9
 # Or use a different port
 
 pnpm dev -- --port 3000
-\`\`\`
+```
 
 ### Module Not Found
 
-\`\`\`bash
+```bash
 
 # Clear node_modules and reinstall
 
 rm -rf node_modules pnpm-lock.yaml
 pnpm install
-\`\`\`
+```
 
 ### Build Errors
 
-\`\`\`bash
+```bash
 
 # Clear Vite cache
 
@@ -396,11 +396,11 @@ rm -rf node_modules/.vite
 # Rebuild
 
 pnpm build
-\`\`\`
+```
 
 ### TypeScript Errors
 
-\`\`\`bash
+```bash
 
 # Run type-check to see all errors
 
@@ -409,7 +409,7 @@ pnpm type-check
 # Check specific file
 
 pnpm tsc --noEmit src/path/to/file.ts
-\`\`\`
+```
 
 ---
 
@@ -425,7 +425,7 @@ pnpm tsc --noEmit src/path/to/file.ts
 - TypeScript Vue Plugin (Volar)
 
 **Settings:**
-\`\`\`json
+```json
 {
 "editor.formatOnSave": true,
 "editor.codeActionsOnSave": {
@@ -433,7 +433,7 @@ pnpm tsc --noEmit src/path/to/file.ts
 },
 "typescript.tsdk": "node_modules/typescript/lib"
 }
-\`\`\`
+```
 
 ---
 

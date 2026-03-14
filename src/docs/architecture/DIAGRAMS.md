@@ -120,32 +120,32 @@ classDiagram
 Visión de arquitectura hexagonal / por capas.
 
 ```mermaid
-componentDiagram
-    package "Presentation Layer" {
-        [Pages (Home, Checkout)] <<Component>>
-        [UI Components (Button, Card)] <<Component>>
-    }
+graph TB
+    subgraph Presentation
+        P1[Pages<br/>Home, Checkout]
+        P2[UI Components<br/>Button, Card]
+    end
 
-    package "Application Layer" {
-        [Contexts (Cart, Theme)] <<Service>>
-        [Hooks (useProducts, useCart)] <<Logic>>
-    }
+    subgraph Application
+        A1[Contexts<br/>Cart, Theme]
+        A2[Hooks<br/>useProducts, useCart]
+    end
 
-    package "Domain Layer" {
-        [Entities (Product, CartItem)] <<Entity>>
-        [Validation Logic] <<Utility>>
-    }
+    subgraph Domain
+        D1[Entities<br/>Product, CartItem]
+        D2[Validation Logic]
+    end
 
-    package "Infrastructure Layer" {
-        [ApiClient (Axios/Fetch)] <<Interface>>
-        [QueryClient (TanStack)] <<Cache>>
-    }
+    subgraph Infrastructure
+        I1[ApiClient<br/>Fetch]
+        I2[QueryClient<br/>TanStack]
+    end
 
-    [Pages] --> [Hooks]
-    [Hooks] --> [Contexts]
-    [Hooks] --> [ApiClient]
-    [Contexts] --> [Entities]
-    [ApiClient] --> [External API (DummyJSON)]
+    P1 --> A2
+    A2 --> A1
+    A2 --> I1
+    A1 --> D1
+    I1 -->|REST| E[External API<br/>DummyJSON]
 ```
 
 ---
@@ -186,10 +186,10 @@ stateDiagram-v2
 Cómo React maneja las actualizaciones en el DOM.
 
 ```mermaid
-flowchart LR
-    State[Cambio de Estado/Prop] --> Reconciliation{Virtual DOM Diffing}
-    Reconciliation --> |Sin Cambios| NoRender[Evita Re-render]
-    Reconciliation --> |Cambios Detectados| Commit[Fase de Commit]
+graph LR
+    State[Cambio de Estado/Prop] -->|Detecta| Reconciliation{Virtual DOM Diffing}
+    Reconciliation -->|Sin Cambios| NoRender[Evita Re-render]
+    Reconciliation -->|Cambios Detectados| Commit[Fase de Commit]
     
     subgraph Render_Phase
         Commit --> UpdateDOM[Actualiza el DOM Real]
@@ -205,19 +205,19 @@ flowchart LR
 Infraestructura física de la solución.
 
 ```mermaid
-deploymentDiagram
-    node "Cliente (Browser)" {
-        artifact "React App (JS/HTML/CSS)"
-    }
-
-    node "GitHub Pages (CDN)" {
-        [Build Artifacts]
-    }
-
-    node "DummyJSON API" {
-        [Product Service]
-    }
-
-    [Cliente] -- "HTTPS" --> [GitHub Pages] : Descarga App
-    [Cliente] -- "REST/JSON" --> [DummyJSON API] : Consume Datos
+graph LR
+    subgraph Cliente
+        A[Browser<br/>React App]
+    end
+    
+    subgraph CDN
+        B[GitHub Pages<br/>Build Artifacts]
+    end
+    
+    subgraph API
+        C[DummyJSON<br/>Product Service]
+    end
+    
+    A -->|HTTPS| B
+    A -->|REST/JSON| C
 ```

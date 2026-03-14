@@ -181,20 +181,20 @@
 
 ### Estructura Propuesta
 
-```
+```text
 features/cart/
-├── application/
-│   ├── CartContext.jsx          (solo Context y Provider)
-│   ├── useCart.js               (hook para consumir context)
-│   └── hooks/
-│       ├── useCartActions.js    (addToCart, removeFromCart, etc.)
-│       ├── useCartState.js      (cart, totalPrice)
-│       └── useCartDrawer.js     (isOpen, toggle, etc.)
-├── domain/
-│   ├── cartTypes.js             (TypeDefs movidos aquí)
-│   └── cartUtils.js             (funciones puras)
-└── presentation/
-    └── Cart.jsx
+├─ application/
+│  ├─ CartContext.jsx          (solo Context y Provider)
+│  ├─ useCart.js               (hook para consumir context)
+│  └─ hooks/
+│     ├─ useCartActions.js    (addToCart, removeFromCart, etc.)
+│     ├─ useCartState.js      (cart, totalPrice)
+│     └─ useCartDrawer.js     (isOpen, toggle, etc.)
+├─ domain/
+│  ├─ cartTypes.js             (TypeDefs movidos aquí)
+│  └─ cartUtils.js             (funciones puras)
+└─ presentation/
+   └─ Cart.jsx
 ```
 
 ### Tareas

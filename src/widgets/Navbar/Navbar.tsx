@@ -1,17 +1,30 @@
-import { useEffect, useState } from 'react'
+/**
+ * @file Navbar.tsx
+ * @description Barra de navegación principal con optimizaciones de rendimiento.
+ * - Scroll detection con useMemo
+ * - Micro-interactions en hover
+ * - Animaciones suaves
+ * @architecture Presentation Layer - Widget
+ */
+
+import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { cn } from '@/shared/lib/cn'
+import { cn } from '@/lib/utils'
 import { useCart } from '@/features/cart/application/useCart'
 import ThemeSwitcher from '@/features/theme/presentation/ThemeSwitcher'
 import { HiOutlineShoppingBag } from 'react-icons/hi2'
-import { Button } from '@/shared/ui/Button'
+import { Button } from '@/components/ui/button'
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const { toggleCart, cart } = useCart()
 
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0)
+  const totalItems = useMemo(() => 
+    cart.reduce((acc, item) => acc + item.quantity, 0), 
+    [cart]
+  )
 
+  // Optimizar scroll listener
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10)
@@ -26,12 +39,13 @@ export function Navbar() {
       className={cn(
         'sticky top-0 z-50 w-full transition-all duration-300 ease-in-out border-b',
         scrolled
-          ? 'bg-background/80 backdrop-blur-md border-border shadow-soft'
+          ? 'bg-background/90 backdrop-blur-md border-border shadow-soft'
           : 'bg-transparent border-transparent'
       )}
       aria-label="Navegación principal"
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+        {/* Logo */}
         <Link
           to="/"
           className="group flex items-center gap-2.5 transition-opacity hover:opacity-80"
@@ -45,9 +59,11 @@ export function Navbar() {
           <span className="text-primary font-bold">12</span>
         </Link>
 
+        {/* Acciones */}
         <div className="flex items-center gap-2 sm:gap-4">
           <ThemeSwitcher />
 
+          {/* Cart Button */}
           <div className="relative">
             <Button
               variant="ghost"
@@ -57,12 +73,19 @@ export function Navbar() {
               aria-label="Abrir carrito de compras"
             >
               <HiOutlineShoppingBag className="h-6 w-6" />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 min-w-[1.25rem] items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground shadow-sm ring-2 ring-background animate-in zoom-in duration-300 pointer-events-none">
-                  {totalItems > 9 ? '9+' : totalItems}
-                </span>
-              )}
             </Button>
+
+            {/* Badge del carrito */}
+            {totalItems > 0 && (
+              <span 
+                className={cn(
+                  "absolute -top-1 -right-1 flex items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-sm ring-2 ring-background font-bold text-[10px] min-w-[1.25rem] h-5 px-1",
+                  "animate-in zoom-in fade-in duration-300"
+                )}
+              >
+                {totalItems > 9 ? '9+' : totalItems}
+              </span>
+            )}
           </div>
         </div>
       </div>

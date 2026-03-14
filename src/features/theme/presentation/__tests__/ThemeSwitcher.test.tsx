@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import ThemeSwitcher from '../ThemeSwitcher';
 import { ThemeProvider } from '@/features/theme/application/ThemeContext';
 

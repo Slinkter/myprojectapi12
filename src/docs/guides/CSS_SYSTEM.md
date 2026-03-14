@@ -13,16 +13,16 @@ MyProjectAPI12 uses a **modular CSS architecture** built on Tailwind CSS with cu
 
 ## File Structure
 
-\`\`\`
+```text
 src/
-├── index.css # Main entry (imports only)
-└── styles/
-├── variables.css # Design tokens
-├── animations.css # Keyframes
-├── buttons.css # Button system
-├── cards.css # Card system
-└── components.css # Specific components
-\`\`\`
+├─ index.css # Main entry (imports only)
+└─ styles/
+   ├─ variables.css # Design tokens
+   ├─ animations.css # Keyframes
+   ├─ buttons.css # Button system
+   ├─ cards.css # Card system
+   └─ components.css # Specific components
+```
 
 ---
 
@@ -32,7 +32,7 @@ src/
 
 **Location:** `src/styles/variables.css`
 
-\`\`\`css
+```css
 :root {
 /_ Light Mode _/
 --bg-main: #f8fafc;
@@ -60,11 +60,11 @@ src/
     --border-light: #334155;
 
 }
-\`\`\`
+```
 
 ### Shadows
 
-\`\`\`css
+```css
 :root {
 --shadow-soft:
 0 4px 12px -2px rgba(15, 23, 42, 0.08),
@@ -75,7 +75,7 @@ src/
         0 4px 12px -2px rgba(15, 23, 42, 0.06);
 
 }
-\`\`\`
+```
 
 ---
 
@@ -83,7 +83,7 @@ src/
 
 ### Base Button
 
-\`\`\`css
+```css
 .btn-base {
 @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-300 border;
 box-shadow: var(--shadow-soft);
@@ -93,13 +93,13 @@ box-shadow: var(--shadow-soft);
 @apply transform scale-95;
 transition: transform 0.1s ease;
 }
-\`\`\`
+```
 
 ### Button Variants
 
 #### Primary Button (CTAs)
 
-\`\`\`css
+```css
 .btn-primary {
 @apply btn-base bg-gradient-to-r from-amber-600 to-orange-600 text-white border-transparent shadow-lg;
 }
@@ -109,18 +109,18 @@ transition: transform 0.1s ease;
 box-shadow: 0 8px 20px -4px rgba(217, 119, 6, 0.4);
 transform: translateY(-2px);
 }
-\`\`\`
+```
 
 **Usage:**
-\`\`\`jsx
+```jsx
 <button className="btn-primary">
 Add to Cart
 </button>
-\`\`\`
+```
 
 #### Secondary Button
 
-\`\`\`css
+```css
 .btn-secondary {
 @apply btn-base border-transparent;
 background-color: var(--bg-card);
@@ -134,20 +134,20 @@ color: var(--text-accent);
 box-shadow: var(--shadow-hover);
 transform: translateY(-2px);
 }
-\`\`\`
+```
 
 **Usage:**
-\`\`\`jsx
+```jsx
 <button className="btn-secondary">
 Clear Cart
 </button>
-\`\`\`
+```
 
 ### Specific Button Classes
 
 All specific buttons extend the base variants:
 
-\`\`\`css
+```css
 /_ Primary actions _/
 .cart-checkout-button,
 .product-add-to-cart-button,
@@ -160,7 +160,7 @@ All specific buttons extend the base variants:
 .error-fallback-home-button {
 @apply btn-secondary;
 }
-\`\`\`
+```
 
 ---
 
@@ -168,7 +168,7 @@ All specific buttons extend the base variants:
 
 ### Base Card
 
-\`\`\`css
+```css
 .card-base {
 @apply bg-white rounded-2xl border border-slate-200;
 box-shadow:
@@ -185,20 +185,20 @@ box-shadow:
 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 transform: translateY(-4px) scale(1.01);
 }
-\`\`\`
+```
 
 **Usage:**
-\`\`\`jsx
+```jsx
 
 <div className="card-base">
     <h3>Card Title</h3>
     <p>Card content</p>
 </div>
-\`\`\`
+```
 
 ### Product Card (Special Variant)
 
-\`\`\`css
+```css
 .product-card {
 @apply flex flex-col h-full bg-[var(--bg-card)] rounded-2xl overflow-hidden border border-[var(--border-light)];
 box-shadow: var(--shadow-soft);
@@ -220,17 +220,17 @@ transition: transform 0.4s ease;
 .product-card:hover .product-card\_\_image {
 transform: scale(1.05);
 }
-\`\`\`
+```
 
 ### Staggered Animations
 
-\`\`\`css
+```css
 .product-card:nth-child(1) { animation-delay: 0.05s; }
 .product-card:nth-child(2) { animation-delay: 0.1s; }
 .product-card:nth-child(3) { animation-delay: 0.15s; }
 .product-card:nth-child(4) { animation-delay: 0.2s; }
 /_ ... up to 8 _/
-\`\`\`
+```
 
 ---
 
@@ -242,7 +242,7 @@ transform: scale(1.05);
 
 #### fadeIn
 
-\`\`\`css
+```css
 @keyframes fadeIn {
 from {
 opacity: 0;
@@ -253,18 +253,18 @@ opacity: 1;
 transform: translateY(0);
 }
 }
-\`\`\`
+```
 
 **Usage:**
-\`\`\`css
+```css
 #root {
 animation: fadeIn 0.4s ease-out;
 }
-\`\`\`
+```
 
 #### slideUp
 
-\`\`\`css
+```css
 @keyframes slideUp {
 from {
 opacity: 0;
@@ -275,18 +275,18 @@ opacity: 1;
 transform: translateY(0);
 }
 }
-\`\`\`
+```
 
 **Usage:**
-\`\`\`css
+```css
 .card-base {
 animation: slideUp 0.5s ease-out;
 }
-\`\`\`
+```
 
 #### fadeInUp (Product Cards)
 
-\`\`\`css
+```css
 @keyframes fadeInUp {
 from {
 opacity: 0;
@@ -297,11 +297,11 @@ opacity: 1;
 transform: translateY(0);
 }
 }
-\`\`\`
+```
 
 #### slideInRight (Cart Drawer)
 
-\`\`\`css
+```css
 @keyframes slideInRight {
 from {
 transform: translateX(100%);
@@ -312,18 +312,18 @@ transform: translateX(0);
 opacity: 1;
 }
 }
-\`\`\`
+```
 
 **Usage:**
-\`\`\`css
+```css
 .cart-drawer {
 animation: slideInRight 0.3s ease-out;
 }
-\`\`\`
+```
 
 #### pulse (Load More Button)
 
-\`\`\`css
+```css
 @keyframes pulse {
 0%, 100% {
 box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
@@ -332,14 +332,14 @@ box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
 box-shadow: 0 8px 24px rgba(217, 119, 6, 0.5);
 }
 }
-\`\`\`
+```
 
 **Usage:**
-\`\`\`css
+```css
 .page-home\_\_load-more-button {
 animation: pulse 2s ease-in-out infinite;
 }
-\`\`\`
+```
 
 ---
 
@@ -347,7 +347,7 @@ animation: pulse 2s ease-in-out infinite;
 
 ### Form Inputs
 
-\`\`\`css
+```css
 .neumo-input,
 .checkout-form-input {
 @apply w-full rounded-xl bg-[var(--bg-input)] p-3.5 text-[var(--text-primary)] border border-transparent transition-all outline-none;
@@ -358,11 +358,11 @@ animation: pulse 2s ease-in-out infinite;
 @apply border-amber-500 bg-[var(--bg-card)] ring-2 ring-amber-500/20;
 box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
 }
-\`\`\`
+```
 
 ### Cart Drawer
 
-\`\`\`css
+```css
 .cart-drawer {
 @apply bg-[var(--bg-card)] shadow-2xl border-l border-[var(--border-light)];
 animation: slideInRight 0.3s ease-out;
@@ -381,7 +381,7 @@ animation: fadeIn 0.3s ease-out;
 @apply font-bold;
 color: var(--text-accent);
 }
-\`\`\`
+```
 
 ---
 
@@ -391,7 +391,7 @@ color: var(--text-accent);
 
 All CSS variables automatically switch based on the `.dark` class:
 
-\`\`\`css
+```css
 /_ Light mode (default) _/
 :root {
 --bg-main: #f8fafc;
@@ -401,11 +401,11 @@ All CSS variables automatically switch based on the `.dark` class:
 .dark:root {
 --bg-main: #0f172a;
 }
-\`\`\`
+```
 
 ### Component Dark Mode
 
-\`\`\`css
+```css
 .card-base {
 @apply bg-white;
 }
@@ -413,7 +413,7 @@ All CSS variables automatically switch based on the `.dark` class:
 .dark .card-base {
 @apply bg-slate-800 border-slate-700;
 }
-\`\`\`
+```
 
 ---
 
@@ -423,7 +423,7 @@ All CSS variables automatically switch based on the `.dark` class:
 
 **File:** `tailwind.config.js`
 
-\`\`\`javascript
+```javascript
 export default {
 darkMode: 'class',
 content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
@@ -440,17 +440,17 @@ amber: {
 },
 },
 };
-\`\`\`
+```
 
 ### Using Tailwind with Custom CSS
 
-\`\`\`css
+```css
 /_ Combine Tailwind utilities with custom properties _/
 .btn-primary {
 @apply px-5 py-2.5 rounded-xl; /_ Tailwind _/
 background: var(--gradient-primary); /_ Custom _/
 }
-\`\`\`
+```
 
 ---
 
@@ -459,57 +459,57 @@ background: var(--gradient-primary); /_ Custom _/
 ### 1. Use Design Tokens
 
 ✅ **Do:**
-\`\`\`css
+```css
 .my-component {
 background-color: var(--bg-card);
 color: var(--text-primary);
 }
-\`\`\`
+```
 
 ❌ **Don't:**
-\`\`\`css
+```css
 .my-component {
 background-color: #ffffff; /_ Hard-coded _/
 color: #1a1614;
 }
-\`\`\`
+```
 
 ### 2. Extend Base Classes
 
 ✅ **Do:**
-\`\`\`css
+```css
 .my-button {
 @apply btn-base; /_ Extend base _/
 /_ Add specific styles _/
 }
-\`\`\`
+```
 
 ❌ **Don't:**
-\`\`\`css
+```css
 .my-button {
 /_ Duplicate all base styles _/
 @apply px-5 py-2.5 rounded-xl...;
 }
-\`\`\`
+```
 
 ### 3. Use Semantic Class Names
 
 ✅ **Do:**
-\`\`\`css
+```css
 .cart-checkout-button { }
 .product-add-to-cart-button { }
-\`\`\`
+```
 
 ❌ **Don't:**
-\`\`\`css
+```css
 .btn-1 { }
 .btn-2 { }
-\`\`\`
+```
 
 ### 4. Keep Animations Subtle
 
 ✅ **Do:**
-\`\`\`css
+```css
 .card {
 transition: transform 0.3s ease;
 }
@@ -517,14 +517,14 @@ transition: transform 0.3s ease;
 .card:hover {
 transform: translateY(-4px); /_ Subtle _/
 }
-\`\`\`
+```
 
 ❌ **Don't:**
-\`\`\`css
+```css
 .card:hover {
 transform: scale(2) rotate(360deg); /_ Too much _/
 }
-\`\`\`
+```
 
 ---
 
@@ -540,15 +540,15 @@ transform: scale(2) rotate(360deg); /_ Too much _/
 
 ### 2. Follow Naming Convention
 
-\`\`\`css
+```css
 /_ Pattern: [component]\_\_[element]--[modifier] _/
 .cart-drawer**item--selected { }
 .product-card**image--loading { }
-\`\`\`
+```
 
 ### 3. Use BEM-like Structure
 
-\`\`\`css
+```css
 /_ Block _/
 .cart-drawer { }
 
@@ -559,7 +559,7 @@ transform: scale(2) rotate(360deg); /_ Too much _/
 /_ Modifier _/
 .cart-drawer--open { }
 .cart-drawer\_\_item--selected { }
-\`\`\`
+```
 
 ---
 
@@ -567,12 +567,12 @@ transform: scale(2) rotate(360deg); /_ Too much _/
 
 ### 1. Use CSS Variables for Dynamic Values
 
-\`\`\`css
+```css
 /_ Instead of inline styles _/
 .dynamic-bg {
 background-color: var(--dynamic-color);
 }
-\`\`\`
+```
 
 ### 2. Leverage Tailwind's Purge
 
@@ -580,7 +580,7 @@ Tailwind automatically removes unused CSS in production.
 
 ### 3. Minimize Animation Complexity
 
-\`\`\`css
+```css
 /_ Prefer transform and opacity (GPU-accelerated) _/
 .animated {
 transform: translateY(-4px);
@@ -591,7 +591,7 @@ opacity: 0.9;
 .slow {
 height: 100px; /_ Causes reflow _/
 }
-\`\`\`
+```
 
 ---
 
@@ -599,29 +599,29 @@ height: 100px; /_ Causes reflow _/
 
 ### 1. Check Dark Mode
 
-\`\`\`javascript
+```javascript
 // Toggle dark mode in console
 document.documentElement.classList.toggle('dark');
-\`\`\`
+```
 
 ### 2. Inspect CSS Variables
 
-\`\`\`javascript
+```javascript
 // Get computed CSS variable
 getComputedStyle(document.documentElement)
 .getPropertyValue('--bg-main');
-\`\`\`
+```
 
 ### 3. View All Animations
 
-\`\`\`css
+```css
 /_ Slow down all animations for debugging _/
 
 - {
   animation-duration: 3s !important;
   transition-duration: 3s !important;
   }
-  \`\`\`
+  ```
 
 ---
 

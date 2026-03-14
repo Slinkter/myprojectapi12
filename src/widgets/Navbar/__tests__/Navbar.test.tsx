@@ -1,8 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { Navbar } from '../Navbar';
 import { BrowserRouter } from 'react-router-dom';
-import { CartProvider } from '@/features/cart/application/CartContext';
 import { ThemeProvider } from '@/features/theme/application/ThemeContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 

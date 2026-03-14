@@ -12,7 +12,7 @@
     *   *Estrategia:* Uso de variables CSS para el sistema de diseño (tokens) y utilidades de Tailwind para el layout.
 *   **UI Kit:** **Shadcn/UI**.
     *   *Justificación:* Basado en Radix UI para accesibilidad y Tailwind CSS para personalización total. Proporciona componentes de alta calidad sin dependencias de estilo pesadas.
-*   **Iconografía:** `lucide-react`.
+*   **Iconografía:** `react-icons` (hi2 - Heroicons v2, io5 - Ionicons v5).
 *   **Animaciones:** `framer-motion 12`.
 
 ## Gestión de Estado

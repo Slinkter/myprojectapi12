@@ -1,8 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { ProductCard } from '../ProductCard';
 import { makeProduct } from '@/test/factories/productFactory';
-import { ProductModalProvider } from '@/features/products/application/ProductModalProvider';
 
 // Mock del contexto para evitar problemas de providers
 vi.mock('@/features/products/application/useProductModalContext', () => ({

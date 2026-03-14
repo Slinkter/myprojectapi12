@@ -26,16 +26,16 @@ Improve accessibility to meet WCAG 2.1 AA standards, ensuring the application is
 - ✅ Added `aria-disabled="true"` to disabled buttons
 
 **Before:**
-\`\`\`jsx
+```jsx
 
 <div className="product-card">
   <img src={product.thumbnail} alt={product.title} />
   <button onClick={handleAddToCart}>Add to Cart</button>
 </div>
-\`\`\`
+```
 
 **After:**
-\`\`\`jsx
+```jsx
 
 <article 
   className="product-card"
@@ -53,7 +53,7 @@ Improve accessibility to meet WCAG 2.1 AA standards, ensuring the application is
     Add to Cart
   </button>
 </article>
-\`\`\`
+```
 
 ---
 
@@ -92,7 +92,7 @@ Improve accessibility to meet WCAG 2.1 AA standards, ensuring the application is
 - ✅ Added descriptive `aria-label` to "Pay Now" button
 
 **Form Accessibility:**
-\`\`\`jsx
+```jsx
 <label htmlFor="card-number" className="sr-only">
 Card Number
 </label>
@@ -108,7 +108,7 @@ autoComplete="cc-number"
     {errors.number}
   </p>
 )}
-\`\`\`
+```
 
 ---
 
@@ -134,14 +134,14 @@ autoComplete="cc-number"
 - ✅ All interactive elements are keyboard accessible
 
 **Focus States:**
-\`\`\`css
+```css
 /_ Visible focus indicator _/
 .btn:focus {
 outline: none;
 ring: 2px solid #d97706;
 ring-offset: 2px;
 }
-\`\`\`
+```
 
 ---
 
@@ -151,7 +151,7 @@ ring-offset: 2px;
 
 Created utility class for screen-reader-only content:
 
-\`\`\`css
+```css
 .sr-only {
 position: absolute;
 width: 1px;
@@ -163,7 +163,7 @@ clip: rect(0, 0, 0, 0);
 white-space: nowrap;
 border-width: 0;
 }
-\`\`\`
+```
 
 **Usage:**
 
@@ -258,7 +258,7 @@ border-width: 0;
 
 #### Screen Reader Testing
 
-\`\`\`bash
+```bash
 
 # macOS VoiceOver
 
@@ -271,11 +271,11 @@ Cmd + F5
 3. Open cart drawer
 4. Proceed to checkout
 5. Fill form and submit
-   \`\`\`
+   ```
 
 #### Keyboard Navigation Testing
 
-\`\`\`bash
+```bash
 
 # Test with keyboard only:
 
@@ -284,7 +284,7 @@ Cmd + F5
 3. Test Enter/Space on buttons
 4. Test Escape to close modals
 5. Verify no keyboard traps
-   \`\`\`
+   ```
 
 ---
 
@@ -292,7 +292,7 @@ Cmd + F5
 
 #### Lighthouse Audit
 
-\`\`\`bash
+```bash
 
 # Run Lighthouse in Chrome DevTools
 
@@ -308,11 +308,11 @@ npx lighthouse http://localhost:5173 --view
 
 # - SEO: > 90
 
-\`\`\`
+```
 
 #### axe DevTools
 
-\`\`\`bash
+```bash
 
 # Install axe DevTools extension
 
@@ -320,7 +320,7 @@ npx lighthouse http://localhost:5173 --view
 
 # Fix any issues found
 
-\`\`\`
+```
 
 ---
 
@@ -376,7 +376,7 @@ npx lighthouse http://localhost:5173 --view
 
 ### Accessible Product Card
 
-\`\`\`jsx
+```jsx
 
 <article 
   className="product-card"
@@ -406,11 +406,11 @@ npx lighthouse http://localhost:5173 --view
     Add to Cart
   </button>
 </article>
-\`\`\`
+```
 
 ### Accessible Form
 
-\`\`\`jsx
+```jsx
 
 <form aria-label="Credit card information">
   <label htmlFor="card-number" className="sr-only">
@@ -429,11 +429,11 @@ npx lighthouse http://localhost:5173 --view
     </p>
   )}
 </form>
-\`\`\`
+```
 
 ### Accessible Modal
 
-\`\`\`jsx
+```jsx
 
 <div
   role="dialog"
@@ -450,7 +450,7 @@ npx lighthouse http://localhost:5173 --view
     ×
   </button>
 </div>
-\`\`\`
+```
 
 ---
 

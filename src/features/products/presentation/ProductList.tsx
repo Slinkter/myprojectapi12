@@ -6,8 +6,10 @@
  */
 
 import { memo } from "react";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import ErrorMessage from "@/components/common/ErrorMessage";
+import EmptyState from "@/components/common/EmptyState";
 import LoadMoreSection from "@/features/products/presentation/components/LoadMoreSection";
 import { IProductListProps } from "@/features/products/presentation/type";
 
@@ -21,7 +23,6 @@ import { IProductListProps } from "@/features/products/presentation/type";
  * @returns {JSX.Element} La sección de lista de productos con controles.
  */
 const ProductList = memo((props: IProductListProps) => {
-  /* variables props */
   const { products, loading, error, hasMore, loadMore } = props;
 
   // Renderizado de estado de error
@@ -41,9 +42,14 @@ const ProductList = memo((props: IProductListProps) => {
   // Renderizado de estado vacío
   if (products.length === 0 && !loading) {
     return (
-      <p className="text-center text-slate-500 py-10">
-        No se encontraron productos.
-      </p>
+      <EmptyState
+        icon={<HiOutlineShoppingBag className="w-10 h-10" />}
+        title="No se encontraron productos"
+        description="No hay productos disponibles en este momento. Intenta más tarde o explora otras categorías."
+        actionLabel="Recargar"
+        onAction={loadMore}
+        className="min-h-[400px]"
+      />
     );
   }
 

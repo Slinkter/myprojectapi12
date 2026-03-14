@@ -65,25 +65,25 @@ npm run deploy         # Build + deploy a GitHub Pages
 
 El proyecto sigue una **Feature-Based Clean Architecture** (DDD + FSD Hybrid).
 
-```
+```text
 src/
-├── app/              # Configuración global: router, providers, API client
-├── components/
-│   ├── ui/           # Primitivos UI (Button, Input, Card, DropdownMenu...)
-│   └── common/       # Comunes (Navbar, Loader, ErrorBoundary, ImageZoom)
-├── features/         # Módulos por feature
-│   └── {feature}/
-│       ├── domain/        # Tipos puros, utils, lógica de negocio sin React
-│       ├── application/   # Hooks, Context, Providers, use cases
-│       ├── infrastructure/# API clients, data mappers
-│       └── presentation/  # Componentes React
-├── shared/           # Utilidades globales (cn, stockUtils, animations)
-├── pages/            # Páginas (HomeHeader, HomeContent)
-├── widgets/          # Componentes compuestos grandes (Navbar, CartDrawer)
-├── test/             # Infraestructura de testing
-│   └── factories/    # Factories de datos (makeProduct, makeCartItem)
-├── docs/             # Documentación técnica
-└── index.css         # Diseño system (Tailwind @theme)
+├─ app/               # Configuración global: router, providers, API client
+├─ components/
+│  ├─ ui/             # Primitivos UI (Button, Input, Card, DropdownMenu...)
+│  └─ common/        # Comunes (Navbar, Loader, ErrorBoundary, ImageZoom)
+├─ features/         # Módulos por feature
+│  └─ {feature}/
+│     ├─ domain/     # Tipos puros, utils, lógica de negocio sin React
+│     ├─ application/# Hooks, Context, Providers, use cases
+│     ├─ infrastructure/ # API clients, data mappers
+│     └─ presentation/  # Componentes React
+├─ shared/           # Utilidades globales (cn, stockUtils, animations)
+├─ pages/            # Páginas (HomeHeader, HomeContent)
+├─ widgets/          # Componentes compuestos grandes (Navbar, CartDrawer)
+├─ test/             # Infraestructura de testing
+│  └─ factories/     # Factories de datos (makeProduct, makeCartItem)
+├─ docs/             # Documentación técnica
+└─ index.css         # Diseño system (Tailwind @theme)
 ```
 
 ### Capas y Reglas de Dependencia

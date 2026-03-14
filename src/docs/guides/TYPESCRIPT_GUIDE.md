@@ -15,7 +15,7 @@ MyProjectAPI12 uses **TypeScript** in strict mode for type safety, better develo
 
 ### tsconfig.json
 
-\`\`\`json
+```json
 {
 "compilerOptions": {
 "target": "ES2020",
@@ -49,7 +49,7 @@ MyProjectAPI12 uses **TypeScript** in strict mode for type safety, better develo
 "include": ["src"],
 "exclude": ["node_modules", "dist"]
 }
-\`\`\`
+```
 
 ### Key Settings
 
@@ -66,7 +66,7 @@ MyProjectAPI12 uses **TypeScript** in strict mode for type safety, better develo
 
 **Location:** `src/features/*/domain/*Types.ts`
 
-\`\`\`typescript
+```typescript
 // src/features/cart/domain/cartTypes.ts
 
 export interface CartItem {
@@ -90,11 +90,11 @@ export interface ValidationResult {
 valid: boolean;
 error: string | null;
 }
-\`\`\`
+```
 
 ### Function Types
 
-\`\`\`typescript
+```typescript
 // Pure function with explicit types
 export const calculateTotal = (cart: CartItem[]): number => {
 return cart.reduce((sum, item) => sum + item.price \* item.quantity, 0);
@@ -108,11 +108,11 @@ quantity: number
 ): CartItem[] => {
 // Implementation
 };
-\`\`\`
+```
 
 ### Hook Types
 
-\`\`\`typescript
+```typescript
 // Hook return type
 interface UseCartDrawerReturn {
 isCartOpen: boolean;
@@ -131,11 +131,11 @@ const [isCartOpen, setIsCartOpen] = useState(false);
     return { isCartOpen, openCart, closeCart, toggleCart };
 
 };
-\`\`\`
+```
 
 ### Context Types
 
-\`\`\`typescript
+```typescript
 // Context value type
 interface CartContextValue {
 cart: CartItem[];
@@ -162,7 +162,7 @@ children: ReactNode;
 export const CartProvider = ({ children }: CartProviderProps) => {
 // Implementation
 };
-\`\`\`
+```
 
 ---
 
@@ -171,7 +171,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 ### 1. Strict Null Checks
 
 ✅ **Do:**
-\`\`\`typescript
+```typescript
 export const validateCartItem = (
 product: Product | null | undefined,
 quantity: number
@@ -184,18 +184,18 @@ return { valid: false, error: "Invalid product" };
     return { valid: true, error: null };
 
 };
-\`\`\`
+```
 
 ❌ **Don't:**
-\`\`\`typescript
+```typescript
 export const validateCartItem = (product: any, quantity: any) => {
 // No type safety
 };
-\`\`\`
+```
 
 ### 2. Type Guards
 
-\`\`\`typescript
+```typescript
 // Type guard function
 function isCartItem(item: unknown): item is CartItem {
 return (
@@ -211,11 +211,11 @@ if (isCartItem(data)) {
 // TypeScript knows data is CartItem here
 console.log(data.quantity);
 }
-\`\`\`
+```
 
 ### 3. Discriminated Unions
 
-\`\`\`typescript
+```typescript
 type LoadingState =
 | { status: 'idle' }
 | { status: 'loading' }
@@ -234,11 +234,11 @@ case 'error':
 return state.error; // TypeScript knows error exists
 }
 }
-\`\`\`
+```
 
 ### 4. Generic Types
 
-\`\`\`typescript
+```typescript
 // Generic hook
 function useLocalStorage<T>(key: string, initialValue: T) {
 const [value, setValue] = useState<T>(() => {
@@ -252,7 +252,7 @@ return item ? JSON.parse(item) : initialValue;
 
 // Usage with type inference
 const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
-\`\`\`
+```
 
 ---
 
@@ -260,7 +260,7 @@ const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
 
 ### Component Props
 
-\`\`\`typescript
+```typescript
 // Props interface
 interface ButtonProps {
 children: ReactNode;
@@ -285,11 +285,11 @@ className={\`btn-\${variant}\`} >
 </button>
 );
 };
-\`\`\`
+```
 
 ### Event Handlers
 
-\`\`\`typescript
+```typescript
 // Form event
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 e.preventDefault();
@@ -305,11 +305,11 @@ setValue(e.target.value);
 const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 console.log(e.currentTarget);
 };
-\`\`\`
+```
 
 ### Ref Types
 
-\`\`\`typescript
+```typescript
 // Ref to DOM element
 const inputRef = useRef<HTMLInputElement>(null);
 
@@ -320,7 +320,7 @@ const modalRef = useRef<ModalHandle>(null);
 useEffect(() => {
 inputRef.current?.focus();
 }, []);
-\`\`\`
+```
 
 ---
 
@@ -328,32 +328,32 @@ inputRef.current?.focus();
 
 ### 1. Optional Chaining
 
-\`\`\`typescript
+```typescript
 // Safe property access
 const price = product?.price ?? 0;
 const name = user?.profile?.name ?? 'Guest';
-\`\`\`
+```
 
 ### 2. Non-Null Assertion (use sparingly)
 
-\`\`\`typescript
+```typescript
 // When you're 100% sure value exists
 const element = document.getElementById('root')!;
-\`\`\`
+```
 
 ### 3. Type Assertions
 
-\`\`\`typescript
+```typescript
 // When you know more than TypeScript
 const data = response as Product[];
 
 // Or using angle bracket syntax
 const data = <Product[]>response;
-\`\`\`
+```
 
 ### 4. Const Assertions
 
-\`\`\`typescript
+```typescript
 // Make object readonly and literal types
 const config = {
 apiUrl: 'https://api.example.com',
@@ -361,7 +361,7 @@ timeout: 5000,
 } as const;
 
 // config.apiUrl is type 'https://api.example.com', not string
-\`\`\`
+```
 
 ---
 
@@ -371,7 +371,7 @@ timeout: 5000,
 
 Migrate pure functions first:
 
-\`\`\`typescript
+```typescript
 // Before: cartUtils.js
 export const calculateTotal = (cart) => {
 return cart.reduce((sum, item) => sum + item.price \* item.quantity, 0);
@@ -381,13 +381,13 @@ return cart.reduce((sum, item) => sum + item.price \* item.quantity, 0);
 export const calculateTotal = (cart: CartItem[]): number => {
 return cart.reduce((sum, item) => sum + item.price \* item.quantity, 0);
 };
-\`\`\`
+```
 
 ### Phase 2: Application Layer (✅ Complete)
 
 Migrate hooks and contexts:
 
-\`\`\`typescript
+```typescript
 // Before: CartContext.jsx
 export const CartContext = createContext();
 
@@ -395,13 +395,13 @@ export const CartContext = createContext();
 export const CartContext = createContext<CartContextValue | undefined>(
 undefined
 );
-\`\`\`
+```
 
 ### Phase 3: Presentation Layer (In Progress)
 
 Migrate components:
 
-\`\`\`typescript
+```typescript
 // Before: Cart.jsx
 const Cart = () => {
 const { cart } = useCart();
@@ -413,7 +413,7 @@ const Cart: React.FC = () => {
 const { cart } = useCart();
 // ...
 };
-\`\`\`
+```
 
 ---
 
@@ -421,7 +421,7 @@ const { cart } = useCart();
 
 ### Run Type-Check
 
-\`\`\`bash
+```bash
 
 # Check all files
 
@@ -434,17 +434,17 @@ pnpm tsc --noEmit src/path/to/file.ts
 # Watch mode
 
 pnpm tsc --noEmit --watch
-\`\`\`
+```
 
 ### CI/CD Integration
 
-\`\`\`yaml
+```yaml
 
 # .github/workflows/ci.yml
 
 - name: Type-check
   run: pnpm type-check
-  \`\`\`
+  ```
 
 ---
 
@@ -453,42 +453,42 @@ pnpm tsc --noEmit --watch
 ### 1. Prefer Interfaces Over Types
 
 ✅ **Do:**
-\`\`\`typescript
+```typescript
 interface User {
 id: number;
 name: string;
 }
-\`\`\`
+```
 
 ❌ **Don't (unless you need union/intersection):**
-\`\`\`typescript
+```typescript
 type User = {
 id: number;
 name: string;
 };
-\`\`\`
+```
 
 ### 2. Avoid `any`
 
 ✅ **Do:**
-\`\`\`typescript
+```typescript
 function processData(data: unknown) {
 if (typeof data === 'string') {
 return data.toUpperCase();
 }
 }
-\`\`\`
+```
 
 ❌ **Don't:**
-\`\`\`typescript
+```typescript
 function processData(data: any) {
 return data.toUpperCase(); // No type safety
 }
-\`\`\`
+```
 
 ### 3. Use Readonly When Appropriate
 
-\`\`\`typescript
+```typescript
 interface Config {
 readonly apiUrl: string;
 readonly timeout: number;
@@ -498,15 +498,15 @@ readonly timeout: number;
 function sum(numbers: readonly number[]): number {
 return numbers.reduce((a, b) => a + b, 0);
 }
-\`\`\`
+```
 
 ### 4. Leverage Type Inference
 
 ✅ **Do:**
-\`\`\`typescript
+```typescript
 const cart = []; // TypeScript infers never[]
 const cart: CartItem[] = []; // Better
-\`\`\`
+```
 
 ---
 
@@ -516,17 +516,17 @@ const cart: CartItem[] = []; // Better
 
 #### 1. "Cannot find module"
 
-\`\`\`typescript
+```typescript
 // Error
 import { CartItem } from './cartTypes';
 
 // Fix: Add .ts extension or configure paths
 import { CartItem } from './cartTypes.ts';
-\`\`\`
+```
 
 #### 2. "Type 'undefined' is not assignable"
 
-\`\`\`typescript
+```typescript
 // Error
 const context = useContext(CartContext); // CartContextValue | undefined
 
@@ -536,11 +536,11 @@ if (!context) {
 throw new Error("Must be used within provider");
 }
 // Now context is CartContextValue
-\`\`\`
+```
 
 #### 3. "Property does not exist on type"
 
-\`\`\`typescript
+```typescript
 // Error
 const name = product.name; // Property 'name' does not exist
 
@@ -548,7 +548,7 @@ const name = product.name; // Property 'name' does not exist
 interface Product {
 title: string; // It's 'title', not 'name'
 }
-\`\`\`
+```
 
 ---
 

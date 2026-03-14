@@ -118,7 +118,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-black text-foreground">${product.price}</span>
                       {product.discountPercentage && (
-                        <span className="text-accent font-bold">-{product.discountPercentage}%</span>
+                        <span className="text-destructive font-bold">-{Math.round(product.discountPercentage)}%</span>
                       )}
                     </div>
                   </div>

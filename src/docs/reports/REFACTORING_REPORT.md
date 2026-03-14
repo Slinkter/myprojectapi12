@@ -176,42 +176,42 @@ Successfully completed a comprehensive refactoring of the MyProjectAPI12 e-comme
 
 ### Before
 
-\`\`\`
+```text
 src/
-├── index.css (734 lines - everything mixed)
-└── features/cart/
-├── CartContext.jsx (189 lines - all logic)
-└── Cart.jsx
-\`\`\`
+├─ index.css (734 lines - everything mixed)
+└─ features/cart/
+   ├─ CartContext.jsx (189 lines - all logic)
+   └─ Cart.jsx
+```
 
 ### After
 
-\`\`\`
+```text
 src/
-├── index.css (16 lines - imports only)
-├── styles/ (6 modular files)
-│ ├── variables.css
-│ ├── animations.css
-│ ├── buttons.css
-│ ├── cards.css
-│ └── components.css
+├─ index.css (16 lines - imports only)
+├─ styles/ (6 modular files)
+│  ├─ variables.css
+│  ├─ animations.css
+│  ├─ buttons.css
+│  ├─ cards.css
+│  └─ components.css
 │
-└── features/cart/
-├── application/
-│ ├── CartContext.tsx (76 lines)
-│ ├── useCart.ts
-│ └── hooks/
-│ ├── useCartDrawer.ts
-│ └── useCartActions.ts
-├── domain/
-│ ├── cartTypes.ts
-│ ├── cartUtils.ts
-│ └── **tests**/
-│ └── cartUtils.test.ts (16 tests)
-└── presentation/
-├── Cart.jsx
-└── CartIcon.jsx
-\`\`\`
+└─ features/cart/
+   ├─ application/
+   │  ├─ CartContext.tsx (76 lines)
+   │  ├─ useCart.ts
+   │  └─ hooks/
+   │     ├─ useCartDrawer.ts
+   │     └─ useCartActions.ts
+   ├─ domain/
+   │  ├─ cartTypes.ts
+   │  ├─ cartUtils.ts
+   │  └─ tests/
+   │     └─ cartUtils.test.ts (16 tests)
+   └─ presentation/
+      ├─ Cart.jsx
+      └─ CartIcon.jsx
+```
 
 ---
 
@@ -274,7 +274,7 @@ src/
 
 ### Coverage
 
-\`\`\`
+```
 Test Files: 2 passed (2)
 Tests: 23 passed (23)
 Duration: 1.76s
@@ -284,7 +284,7 @@ Coverage:
 - Domain Layer: 100%
 - Application Layer: 100%
 - Overall: ~40%
-  \`\`\`
+  ```
 
 ---
 
