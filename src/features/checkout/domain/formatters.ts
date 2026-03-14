@@ -22,11 +22,11 @@ export const formatCardNumber = (value: string): string => {
  * @returns {string} Fecha formateada (MM/YY).
  */
 export const formatExpiryDate = (value: string): string => {
-    return value
-        .replace(/\D/g, "")
-        .replace(/^(\d{2})$/, "$1/")
-        .replace(/^(\d{2})\/(\d{2}).*$/, "$1/$2")
-        .substring(0, 5);
+    const clearValue = value.replace(/\D/g, "");
+    if (clearValue.length >= 2) {
+        return `${clearValue.slice(0, 2)}/${clearValue.slice(2, 4)}`;
+    }
+    return clearValue;
 };
 
 /**

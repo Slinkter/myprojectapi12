@@ -34,9 +34,9 @@ describe("Cart Component Integration", () => {
     expect(screen.getByText(/Tu carrito está vacío/i)).toBeInTheDocument();
   });
 
-  it("should show total price as $0 initially", () => {
+  it("should not show total price section when cart is empty", () => {
     renderCart();
-    const totals = screen.getAllByText(/\$0/);
-    expect(totals.length).toBeGreaterThan(0);
+    const totals = screen.queryAllByText(/\$0/);
+    expect(totals.length).toBe(0);
   });
 });
