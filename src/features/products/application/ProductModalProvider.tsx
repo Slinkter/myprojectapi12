@@ -13,21 +13,25 @@ import { IProductModalProviderProps } from "@/features/products/application/type
  * @description Proveedor que envuelve la aplicación para dar acceso al estado del modal.
  */
 export const ProductModalProvider = ({
-  children,
+    children,
 }: IProductModalProviderProps) => {
-  const { isModalOpen, selectedProduct, openProductModal, closeProductModal } =
-    useProductModal();
+    const {
+        isModalOpen,
+        selectedProduct,
+        openProductModal,
+        closeProductModal,
+    } = useProductModal();
 
-  const value = {
-    isModalOpen,
-    selectedProduct,
-    openProductModal,
-    closeProductModal,
-  };
+    const value = {
+        isModalOpen,
+        selectedProduct,
+        openProductModal,
+        closeProductModal,
+    };
 
-  return (
-    <ProductModalContext.Provider value={value}>
-      {children}
-    </ProductModalContext.Provider>
-  );
+    return (
+        <ProductModalContext.Provider value={value}>
+            {children}
+        </ProductModalContext.Provider>
+    );
 };

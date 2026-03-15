@@ -5,37 +5,36 @@
  */
 
 import { ReactNode } from "react";
-import type { IProduct, IProductsApiResponse } from "@/features/products/domain/productTypes";
-
+import type { IProduct } from "@/features/products/domain/productTypes";
+import type { IProductsApiResponse } from "@/features/products/domain/productTypes";
 export type { IProduct, IProductsApiResponse };
 
-/** Para compatibilidad mientras se refactorizan otros componentes */
 export type Product = IProduct;
 export type ProductsApiResponse = IProductsApiResponse;
 
 export interface IUseProductModalResult {
-  isModalOpen: boolean;
-  selectedProduct: IProduct | null;
-  openProductModal: (product: IProduct) => void;
-  closeProductModal: () => void;
+    isModalOpen: boolean;
+    selectedProduct: IProduct | null;
+    openProductModal: (product: IProduct) => void;
+    closeProductModal: () => void;
 }
 
 export interface IProductModalProviderProps {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 export interface IUseProductsResult {
-  products: IProduct[];
-  error: string | null;
-  isLoading: boolean;
-  initialLoading: boolean;
-  hasMore: boolean;
-  loadMoreProducts: () => void;
-  isLoadingMore: boolean;
+    products: IProduct[];
+    error: string | null;
+    isLoading: boolean;
+    initialLoading: boolean;
+    hasMore: boolean;
+    loadMoreProducts: () => void;
+    isLoadingMore: boolean;
 }
 
 export interface IProductDetailModalProps {
-  product: IProduct | null;
-  isOpen: boolean;
-  onClose: () => void;
+    product: IProduct | null;
+    isOpen: boolean;
+    onClose: () => void;
 }

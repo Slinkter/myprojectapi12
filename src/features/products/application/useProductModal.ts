@@ -1,8 +1,6 @@
 import { useState, useCallback } from "react";
-import {
-    IProduct,
-    IUseProductModalResult,
-} from "@/features/products/application/types";
+import { IProduct } from "@/features/products/application/types";
+import { IUseProductModalResult } from "@/features/products/application/types";
 
 /**
  * Custom hook for managing product modal state.
@@ -10,6 +8,7 @@ import {
  * @returns An object containing modal state (isOpen, selectedProduct) and control functions (openProductModal, closeProductModal)
  */
 export const useProductModal = (): IUseProductModalResult => {
+    /*  */
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(
         null,
@@ -30,8 +29,8 @@ export const useProductModal = (): IUseProductModalResult => {
      * Resets both modal state and selected product to their default values.
      */
     const closeProductModal = useCallback(() => {
-        setIsModalOpen(false);
         setSelectedProduct(null);
+        setIsModalOpen(false);
     }, []);
 
     return {
