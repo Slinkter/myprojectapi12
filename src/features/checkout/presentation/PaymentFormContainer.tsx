@@ -3,6 +3,7 @@ import { FaBitcoin } from "react-icons/fa";
 import CardForm from "@/features/checkout/presentation/components/CardForm";
 import type { PaymentMethod } from "./PaymentMethodSelector";
 import type { ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface CardFormProps {
   cardInfo: ICardInfo;
@@ -17,6 +18,7 @@ interface PaymentFormContainerProps {
 }
 
 const PaymentFormContainer = ({ paymentMethod, cardProps }: PaymentFormContainerProps) => {
+  useLogLifecycle("PaymentFormContainer");
   const showCardForm = paymentMethod === "visa" || paymentMethod === "mastercard";
 
   if (!showCardForm) {

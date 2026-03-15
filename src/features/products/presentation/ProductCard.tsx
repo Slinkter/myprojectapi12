@@ -5,6 +5,7 @@
  */
 
 import React, { useCallback } from 'react'
+import { useLogLifecycle } from "@/shared/hooks";
 import { cn } from '@/lib/utils'
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { getStockStatus } from '@/shared/lib/stockUtils'
@@ -17,6 +18,7 @@ interface IProductCardProps {
 }
 
 const ProductCard = React.memo(({ product }: IProductCardProps) => {
+  useLogLifecycle("ProductCard");
   const { openProductModal } = useProductModalContext()
 
   const handleClick = useCallback(() => {

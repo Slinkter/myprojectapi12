@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { IoArrowBack, IoShieldCheckmarkOutline } from "react-icons/io5";
+import { useLogLifecycle } from "@/shared/hooks";
 
 const CheckoutHeader = () => {
+  useLogLifecycle("CheckoutHeader");
   return (
     <div className="p-6 border-b border-border">
       <div className="flex items-center justify-between mb-4">

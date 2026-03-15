@@ -6,12 +6,14 @@
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/common/Navbar";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface ILayoutProps {
     children: ReactNode;
 }
 
 const Layout = ({ children }: ILayoutProps) => {
+    useLogLifecycle("Layout");
     return (
         <div className="min-h-screen bg-background">
             <Toaster position="top-center" reverseOrder={false} />

@@ -1,11 +1,13 @@
 import { HiOutlineXMark } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface CartHeaderProps {
   onClose: () => void;
 }
 
 export const CartHeader = ({ onClose }: CartHeaderProps) => {
+  useLogLifecycle("CartHeader");
   return (
     <div className="flex items-center justify-between p-3 border-b">
       <h2 className="font-semibold text-lg">Mi Carrito</h2>

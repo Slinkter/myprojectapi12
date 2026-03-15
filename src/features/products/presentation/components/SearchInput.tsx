@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useLogLifecycle } from "@/shared/hooks";
 import { HiOutlineMagnifyingGlass, HiOutlineXMark } from "react-icons/hi2";
 import { cn } from "@/shared/lib/cn";
 import { Button } from "@/shared/ui/Button";
@@ -16,6 +17,7 @@ export function SearchInput({
     placeholder = "Buscar productos...",
     className,
 }: ISearchInputProps) {
+    useLogLifecycle("SearchInput");
     const [isFocused, setIsFocused] = useState(false);
 
     const handleClear = useCallback(() => {

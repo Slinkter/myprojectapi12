@@ -181,12 +181,12 @@ Visita `http://localhost:5173`
 
 ---
 
-## 📚 Documentación Detallada
+## 📚 Documentación del Proyecto
 
-- **[Manual Técnico Profesional](./src/docs/engineering/TECHNICAL_MANUAL.md)** - Guía exhaustiva técnica.
-- **[Análisis y Explicación del Proyecto](./src/docs/engineering/SYSTEM_BEHAVIOR.md)** - Algoritmos y flujos.
-- **[Arquitectura DDD y Capas](./src/docs/architecture/ARCHITECTURE.md)** - Diseño moderno del sistema.
-- **[Diagramas UML (Ascii/Mermaid)](./src/docs/architecture/DIAGRAMS.md)** - Secuencias y estructura.
+- **[Onboarding](./docs/getting-started/ONBOARDING.md)** - Cómo empezar.
+- **[Arquitectura (Junior Friendly)](./docs/architecture/ARCHITECTURE_FOR_JUNIORS.md)** - Explicación de FSD.
+- **[Guía: Agregar Funcionalidad](./docs/guides/GUIDE_ADD_FEATURE.md)** - Paso a paso para nuevas features.
+- **[Troubleshooting](./docs/guides/TROUBLESHOOTING.md)** - Solución de problemas comunes.
 
 ---
 

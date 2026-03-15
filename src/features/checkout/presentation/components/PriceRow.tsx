@@ -1,3 +1,5 @@
+import { useLogLifecycle } from "@/shared/hooks";
+
 interface PriceRowProps {
   label: React.ReactNode
   value: React.ReactNode
@@ -5,6 +7,7 @@ interface PriceRowProps {
 }
 
 export function PriceRow({ label, value, variant = 'default' }: PriceRowProps) {
+  useLogLifecycle("PriceRow");
   const variantClasses = {
     default: '',
     success: 'text-success',

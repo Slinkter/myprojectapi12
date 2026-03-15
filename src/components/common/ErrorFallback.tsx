@@ -7,6 +7,7 @@
 import { HiOutlineExclamationTriangle } from "react-icons/hi2";
 import React from "react";
 import clsx from "clsx";
+import { useLogLifecycle } from "@/shared/hooks";
 
 /**
  * @interface ErrorFallbackProps
@@ -26,6 +27,7 @@ interface IErrorFallbackProps {
  * @component
  */
 const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
+    useLogLifecycle("ErrorFallback");
     const isDev = import.meta.env.DEV;
 
     return (

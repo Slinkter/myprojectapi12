@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { cn } from "@/lib/utils";
 import { HiExclamationCircle } from "react-icons/hi2";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface IErrorMessageProps {
   message: string;
@@ -26,6 +27,7 @@ const ErrorMessage = memo(
     action,
     className = "",
   }: IErrorMessageProps) => {
+    useLogLifecycle("ErrorMessage");
     return (
       <div
         className={cn(

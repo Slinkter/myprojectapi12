@@ -6,6 +6,7 @@
  */
 
 import { memo } from "react";
+import { useLogLifecycle } from "@/shared/hooks";
 import { Button } from "@/components/ui/button";
 
 /**
@@ -27,6 +28,7 @@ interface ILoadMoreButtonProps {
  * @returns {JSX.Element} El botón de cargar más.
  */
 const LoadMoreButton = memo(({ onClick, isLoading }: ILoadMoreButtonProps) => {
+    useLogLifecycle("LoadMoreButton");
     return (
         <Button
             onClick={onClick}

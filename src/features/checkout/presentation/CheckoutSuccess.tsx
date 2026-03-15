@@ -6,8 +6,10 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { useLogLifecycle } from "@/shared/hooks";
 
 const CheckoutSuccess: React.FC = () => {
+  useLogLifecycle("CheckoutSuccess");
   return (
     <div className="min-h-[70vh] flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-background border border-border rounded-2xl p-8 text-center">

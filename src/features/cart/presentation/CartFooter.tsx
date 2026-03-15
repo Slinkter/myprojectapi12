@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface CartFooterProps {
   totalPrice: number;
@@ -11,6 +12,7 @@ export const CartFooter = ({
   onCheckout,
   onClearCart,
 }: CartFooterProps) => {
+  useLogLifecycle("CartFooter");
   return (
     <div className="border-t border-border p-4 space-y-3">
       <div className="flex items-center justify-between">

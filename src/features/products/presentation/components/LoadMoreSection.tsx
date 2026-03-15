@@ -6,6 +6,7 @@
 
 import LoadMoreButton from "@/features/products/presentation/components/LoadMoreButton";
 import { IProduct } from "@/features/products/application/types";
+import { useLogLifecycle } from "@/shared/hooks";
 
 /**
  * @interface ILoadMoreSectionProps
@@ -28,6 +29,7 @@ interface ILoadMoreSectionProps {
  * o un mensaje de fin de lista cuando ya no hay más productos.
  */
 const LoadMoreSection = (props: ILoadMoreSectionProps) => {
+  useLogLifecycle("LoadMoreSection");
   const { products, hasMore, loadMoreProducts, isLoading } = props;
   return (
     <div className="flex flex-col items-center justify-center w-full mt-12 mb-8">

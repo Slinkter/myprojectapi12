@@ -1,4 +1,5 @@
 import { HiOutlineCheck } from 'react-icons/hi2'
+import { useLogLifecycle } from "@/shared/hooks";
 import { cn } from '@/shared/lib/cn'
 
 interface ICheckoutStepsProps {
@@ -8,6 +9,7 @@ interface ICheckoutStepsProps {
 }
 
 export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsProps) {
+  useLogLifecycle("CheckoutSteps");
   return (
     <div className={cn('flex items-center justify-center gap-2 mb-8', className)}>
       {steps.map((step, index) => {

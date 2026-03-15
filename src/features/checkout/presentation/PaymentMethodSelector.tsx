@@ -1,4 +1,5 @@
 import PaymentMethodRadio from "@/features/checkout/presentation/components/PaymentMethodRadio";
+import { useLogLifecycle } from "@/shared/hooks";
 
 export type PaymentMethod = "visa" | "mastercard" | "bitcoin";
 
@@ -11,6 +12,7 @@ const PaymentMethodSelector = ({
   currentMethod,
   onMethodChange,
 }: PaymentMethodSelectorProps) => {
+  useLogLifecycle("PaymentMethodSelector");
   return (
     <div className="grid grid-cols-3 gap-3">
       <PaymentMethodRadio

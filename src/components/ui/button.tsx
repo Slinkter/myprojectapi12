@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
+import { useLogLifecycle } from "@/shared/hooks";
 
 /**
  * Propiedades para el componente Button.
@@ -39,6 +40,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         },
         ref,
     ) => {
+        useLogLifecycle("Button");
         const Comp = asChild ? Slot : "button";
 
         // Mapeo de estilos base y variantes (Tailwind Puro)

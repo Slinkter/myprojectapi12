@@ -5,6 +5,7 @@
  */
 
 import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi2";
+import { useLogLifecycle } from "@/shared/hooks";
 
 /**
  * @interface IQuantityControlProps
@@ -32,6 +33,7 @@ const QuantityControl = ({
   onIncrement,
   onDecrement,
 }: IQuantityControlProps) => {
+  useLogLifecycle("QuantityControl");
   return (
     <div className="flex items-center justify-between bg-secondary rounded-full px-1.5 py-1.5 w-full sm:w-auto min-w-[160px]">
       <button

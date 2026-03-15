@@ -1,11 +1,13 @@
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface CartEmptyStateProps {
   onContinue: () => void;
 }
 
 export const CartEmptyState = ({ onContinue }: CartEmptyStateProps) => {
+  useLogLifecycle("CartEmptyState");
   return (
     <div className="flex flex-col items-center justify-center h-64 text-center">
       <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mb-4">

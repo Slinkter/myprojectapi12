@@ -5,6 +5,7 @@
  */
 
 import React from "react";
+import { useLogLifecycle } from "@/shared/hooks";
 import SkeletonCard from "@/features/products/presentation/SkeletonCard";
 
 /**
@@ -15,6 +16,7 @@ import SkeletonCard from "@/features/products/presentation/SkeletonCard";
  * @returns {JSX.Element} El contenedor de la cuadrícula con esqueletos.
  */
 const SkeletonGrid: React.FC = () => {
+    useLogLifecycle("SkeletonGrid");
     return (
         <div
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"

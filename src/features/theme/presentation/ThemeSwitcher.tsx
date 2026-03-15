@@ -9,6 +9,7 @@ import { useTheme } from "@/features/theme/application/ThemeContext";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useLogLifecycle } from "@/shared/hooks";
 
 /**
  * Componente de botón toggle para el tema.
@@ -17,6 +18,7 @@ import { Button } from "@/components/ui/button";
  * @component
  */
 const ThemeSwitcher = () => {
+    useLogLifecycle("ThemeSwitcher");
     const { theme, toggleDarkMode } = useTheme();
 
     return (

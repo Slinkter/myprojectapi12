@@ -13,9 +13,10 @@ import { LoadingProgress } from "@/components/common/LoadingProgress";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
 import ProductList from "@/features/products/presentation/ProductList";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
-import { useDebounce } from "@/shared/hooks/useDebounce";
+import { useDebounce, useLogLifecycle } from "@/shared/hooks";
 
 export const HomeContent = () => {
+    useLogLifecycle("HomeContent");
     const { products, initialLoading, isLoading, error, loadMoreProducts, hasMore } =
         useProducts();
     const { selectedProduct, isModalOpen, closeProductModal } =

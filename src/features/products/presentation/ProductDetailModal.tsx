@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect, MouseEvent } from "react";
+import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/useCart";
 import { m, AnimatePresence } from "framer-motion";
 import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
@@ -14,6 +15,7 @@ import { HiOutlineXMark, HiOutlineShoppingBag, HiOutlinePlus, HiOutlineMinus } f
 import { Button } from "@/components/ui/button";
 
 const ProductDetailModal = (props: IProductDetailModalProps) => {
+  useLogLifecycle("ProductDetailModal");
   const { product, isOpen, onClose } = props;
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState<number>(1);

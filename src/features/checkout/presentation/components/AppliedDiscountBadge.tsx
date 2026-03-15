@@ -1,4 +1,5 @@
 import { HiOutlineCheck, HiOutlineXMark } from 'react-icons/hi2'
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface IDiscountCode {
   code: string
@@ -12,6 +13,7 @@ interface AppliedDiscountBadgeProps {
 }
 
 export function AppliedDiscountBadge({ discount, onRemove }: AppliedDiscountBadgeProps) {
+  useLogLifecycle("AppliedDiscountBadge");
   return (
     <div className="mb-4 p-3 bg-success/10 rounded-lg border border-success/30">
       <div className="flex items-center justify-between">

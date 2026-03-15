@@ -5,6 +5,7 @@ import {
 } from "@/features/checkout/application/types";
 import { HiOutlineExclamationCircle, HiOutlineCreditCard, HiOutlineUser } from "react-icons/hi2";
 import CardTypeIndicator from "./CardTypeIndicator";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface ICardFormProps {
   cardInfo: ICardInfo;
@@ -14,6 +15,7 @@ interface ICardFormProps {
 }
 
 const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
+  useLogLifecycle("CardForm");
   return (
     <form className="space-y-4" aria-label="Información de tarjeta">
       {/* Card Number */}

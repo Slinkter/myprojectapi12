@@ -7,6 +7,7 @@
 import { useProductModal } from "@/features/products/application/useProductModal";
 import { ProductModalContext } from "@/features/products/application/ProductModalContext";
 import { IProductModalProviderProps } from "@/features/products/application/types";
+import { useLogLifecycle } from "@/shared/hooks";
 
 /**
  * @component ProductModalProvider
@@ -15,6 +16,7 @@ import { IProductModalProviderProps } from "@/features/products/application/type
 export const ProductModalProvider = ({
     children,
 }: IProductModalProviderProps) => {
+    useLogLifecycle("ProductModalProvider");
     const {
         isModalOpen,
         selectedProduct,

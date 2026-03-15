@@ -12,6 +12,7 @@ import ErrorMessage from "@/components/common/ErrorMessage";
 import EmptyState from "@/components/common/EmptyState";
 import LoadMoreSection from "@/features/products/presentation/components/LoadMoreSection";
 import { IProductListProps } from "@/features/products/presentation/type";
+import { useLogLifecycle } from "@/shared/hooks";
 
 /**
  * @component ProductList
@@ -23,6 +24,7 @@ import { IProductListProps } from "@/features/products/presentation/type";
  * @returns {JSX.Element} La sección de lista de productos con controles.
  */
 const ProductList = memo((props: IProductListProps) => {
+  useLogLifecycle("ProductList");
   const { products, isLoading, error, hasMore, loadMoreProducts } = props;
 
   // Renderizado de estado de error

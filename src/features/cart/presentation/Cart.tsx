@@ -11,8 +11,10 @@ import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
 import { HiOutlineXMark, HiOutlineShoppingBag, HiOutlineTrash } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
+import { useLogLifecycle } from "@/shared/hooks";
 
 const Cart = () => {
+  useLogLifecycle("Cart");
   const { cart, removeFromCart, clearCart, isCartOpen, closeCart, totalPrice } = useCart();
   const navigate = useNavigate();
   const cartRef = useRef<HTMLDivElement>(null);

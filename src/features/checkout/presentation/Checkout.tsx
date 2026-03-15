@@ -5,6 +5,7 @@
  * @architecture Capa de Presentación - Feature de Checkout
  */
 import { useState, useEffect } from "react";
+import { useLogLifecycle } from "@/shared/hooks";
 import { useCheckout } from "@/features/checkout/application/useCheckout";
 import { useCart } from "@/features/cart/application/useCart";
 import { CheckoutSteps } from "@/features/checkout/presentation/components/CheckoutSteps";
@@ -16,6 +17,7 @@ import SecurityBadge from "@/features/checkout/presentation/SecurityBadge";
 import { OrderSummary } from "@/features/checkout/presentation/components/OrderSummary";
 
 const Checkout = () => {
+  useLogLifecycle("Checkout");
   useEffect(() => {
     console.log('[Checkout] Component mounted!')
   }, [])

@@ -1,4 +1,5 @@
 import { HiOutlineShoppingBag } from 'react-icons/hi2'
+import { useLogLifecycle } from "@/shared/hooks";
 import type { CartItem } from '@/entities/cart/types/cart.types'
 import { cn } from '@/shared/lib/cn'
 import { OrderItemRow } from './OrderItemRow'
@@ -15,6 +16,7 @@ interface IOrderSummaryProps {
 }
 
 export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderSummaryProps) {
+  useLogLifecycle("OrderSummary");
   const {
     code,
     setCode,

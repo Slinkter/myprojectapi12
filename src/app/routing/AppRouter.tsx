@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Loader from "@/components/common/Loader";
 import Cart from "@/features/cart/presentation/Cart";
+import { useLogLifecycle } from "@/shared/hooks";
 
 const Home = lazy(() => import("@/pages/Home"));
 
@@ -14,6 +15,7 @@ const CheckoutSuccess = lazy(
 );
 
 const AppRouter: React.FC = () => {
+  useLogLifecycle("AppRouter");
   return (
     <Suspense fallback={<Loader />}>
       <Routes>

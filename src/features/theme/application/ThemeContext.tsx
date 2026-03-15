@@ -18,6 +18,7 @@ import {
     applyThemeToDocument,
     Theme,
 } from "@/features/theme/infrastructure/themeStorage";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface IThemeContextType {
     theme: Theme; /** El identificador del tema activo. */
@@ -32,6 +33,7 @@ const ThemeContext = createContext<IThemeContextType | undefined>(undefined);
 export const ThemeProvider = ({
     children,
 }: IThemeProviderProps): JSX.Element => {
+    useLogLifecycle("ThemeContext");
     const [theme, setTheme] = useState<Theme>(getStoredTheme);
 
     // Efecto para aplicar cambios al DOM y persistir en localStorage

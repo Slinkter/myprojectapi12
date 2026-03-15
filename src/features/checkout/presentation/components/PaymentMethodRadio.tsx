@@ -1,4 +1,5 @@
 import { KeyboardEvent } from "react";
+import { useLogLifecycle } from "@/shared/hooks";
 import { cn } from "@/lib/utils";
 import { HiCheckCircle } from "react-icons/hi2";
 import { FaBitcoin } from "react-icons/fa";
@@ -16,6 +17,7 @@ const PaymentMethodRadio = ({
     checked,
     onChange,
 }: IPaymentMethodRadioProps) => {
+    useLogLifecycle("PaymentMethodRadio");
     const handleKeyDown = (e: KeyboardEvent<HTMLLabelElement>) => {
         if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();

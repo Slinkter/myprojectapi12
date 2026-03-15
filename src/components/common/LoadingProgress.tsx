@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface ILoadingProgressProps {
   isLoading: boolean
@@ -7,6 +8,7 @@ interface ILoadingProgressProps {
 }
 
 export function LoadingProgress({ isLoading, className }: ILoadingProgressProps) {
+  useLogLifecycle("LoadingProgress");
   const [progress, setProgress] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)

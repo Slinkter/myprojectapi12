@@ -1,5 +1,6 @@
 import type { CartItem } from '@/entities/cart/types/cart.types'
 import { HiOutlineTrash } from 'react-icons/hi2'
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface OrderItemRowProps {
   item: CartItem
@@ -7,6 +8,7 @@ interface OrderItemRowProps {
 }
 
 export function OrderItemRow({ item, onRemove }: OrderItemRowProps) {
+  useLogLifecycle("OrderItemRow");
   return (
     <div className="flex items-center gap-2 p-2 border border-border rounded-lg">
       <div className="w-10 h-10 bg-muted rounded-md flex items-center justify-center overflow-hidden flex-shrink-0">

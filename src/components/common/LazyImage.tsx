@@ -6,6 +6,7 @@
  */
 
 import { useState, useCallback } from 'react'
+import { useLogLifecycle } from "@/shared/hooks";
 import { cn } from '@/lib/utils'
 
 interface ILazyImageProps {
@@ -21,6 +22,7 @@ interface ILazyImageProps {
  * Optimiza la UX mostrando feedback inmediato.
  */
 export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]' }: ILazyImageProps) {
+  useLogLifecycle("LazyImage");
   const [isLoaded, setIsLoaded] = useState(false)
   const [isError, setIsError] = useState(false)
 

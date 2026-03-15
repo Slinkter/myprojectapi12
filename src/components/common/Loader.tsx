@@ -6,6 +6,7 @@
  */
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useLogLifecycle } from "@/shared/hooks";
 
 /**
  * @component Loader
@@ -14,6 +15,7 @@ import { cn } from "@/lib/utils";
  * @returns {JSX.Element} El spinner de carga.
  */
 const Loader: React.FC = () => {
+    useLogLifecycle("Loader");
     return (
         <div className={cn(
             "fixed inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50"

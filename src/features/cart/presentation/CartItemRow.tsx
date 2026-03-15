@@ -1,5 +1,6 @@
 import { HiOutlineTrash } from "react-icons/hi2";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface CartItemRowProps {
   item: ICartItem;
@@ -7,6 +8,7 @@ interface CartItemRowProps {
 }
 
 export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
+  useLogLifecycle("CartItemRow");
   return (
     <div className="flex items-start gap-3 p-3 border border-border rounded-lg">
       <img
