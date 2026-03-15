@@ -1,4 +1,4 @@
-# 🛍️ MyProjectAPI12
+# 🛍️ My Project API 12
 
 > SPA de comercio electrónico moderna construida con React, TypeScript y Tailwind CSS v4.
 
