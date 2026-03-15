@@ -1,6 +1,5 @@
 import { StockStatus } from "@/shared/lib/stockUtils";
 import { cn } from "@/lib/utils";
-import { useLogLifecycle } from "@/shared/hooks";
 
 interface ProductStockInfoProps {
   stock: number;
