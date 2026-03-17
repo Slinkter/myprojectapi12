@@ -36,7 +36,7 @@ export class ApiError extends Error {
  * @example
  * const products = await apiClient<IProductsApiResponse>('/products');
  */
-export const apiClient = async <T>(
+const apiClient = async <T>(
     endpoint: string,
     options: RequestInit = {},
 ): Promise<T> => {
@@ -88,3 +88,5 @@ export const apiClient = async <T>(
         );
     }
 };
+
+export default apiClient;

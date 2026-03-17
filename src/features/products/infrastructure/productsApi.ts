@@ -4,7 +4,7 @@
  * @architecture Infrastructure Layer - Fetching de productos
  */
 
-import { apiClient } from "@/app/api/apiClient";
+import apiClient from "@/app/api/apiClient";
 import type { IProductsApiResponse } from "@/features/products/domain/productTypes";
 
 /**
