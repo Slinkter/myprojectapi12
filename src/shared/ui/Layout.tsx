@@ -5,7 +5,7 @@
  */
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/common/Navbar";
+import Navbar from "@/shared/ui/Navbar";
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface ILayoutProps {

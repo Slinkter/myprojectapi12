@@ -5,7 +5,7 @@
  * @architecture Infrastructure Layer - Error Handling
  */
 import React, { Component, ReactNode } from "react";
-import ErrorFallback from "@/components/common/ErrorFallback";
+import ErrorFallback from "@/shared/ui/ErrorFallback";
 
 /**
  * @interface ErrorBoundaryProps

@@ -1,5 +1,5 @@
 import { ProductModalProvider } from "@/features/products/application/ProductModalProvider";
-import FeatureErrorBoundary from "@/components/common/FeatureErrorBoundary";
+import FeatureErrorBoundary from "@/shared/ui/FeatureErrorBoundary";
 import { HomeContent } from "@/pages/HomeContent";
 import { useLogLifecycle } from "@/shared/hooks";
 

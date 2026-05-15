@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 import { IoShieldCheckmarkOutline, IoSync } from "react-icons/io5";
 import type { PaymentMethod } from "./PaymentMethodSelector";
 import { useLogLifecycle } from "@/shared/hooks";

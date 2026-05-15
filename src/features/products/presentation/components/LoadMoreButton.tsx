@@ -7,7 +7,7 @@
 
 import { memo } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 
 /**
  * @interface ILoadMoreButtonProps

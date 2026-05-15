@@ -1,7 +1,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/shared/ui/button";
 
 /**
  * @file Button component tests.

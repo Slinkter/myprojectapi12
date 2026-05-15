@@ -8,7 +8,7 @@
 import { useTheme } from "@/features/theme/application/ThemeContext";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**

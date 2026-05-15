@@ -5,7 +5,7 @@
  * @architecture Presentation Layer - Common Components
  */
 import { Component, ReactNode, ErrorInfo } from "react";
-import ErrorMessage from "@/components/common/ErrorMessage";
+import ErrorMessage from "@/shared/ui/ErrorMessage";
 
 interface IProps {
     children: ReactNode;

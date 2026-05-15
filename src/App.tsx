@@ -31,9 +31,9 @@ import { CartProvider } from "@/features/cart/application/CartContext";
 import { queryClient } from "@/app/config/queryClient";
 
 // Componentes y Enrutamiento
-import Layout from "@/components/common/Layout";
+import Layout from "@/shared/ui/Layout";
 import AppRouter from "@/app/routing/AppRouter";
-import ErrorBoundary from "@/components/common/ErrorBoundary";
+import ErrorBoundary from "@/shared/ui/ErrorBoundary";
 
 /**
  * Componente raíz de la aplicación.

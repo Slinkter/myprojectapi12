@@ -1,4 +1,4 @@
-import type { CartItem } from '@/entities/cart/types/cart.types'
+import type { CartItem } from '@/features/cart/domain/cartTypes';
 import { HiOutlineTrash } from 'react-icons/hi2'
 import { useLogLifecycle } from "@/shared/hooks";
 

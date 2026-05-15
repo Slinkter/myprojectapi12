@@ -1,5 +1,5 @@
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 import QuantityControl from "@/features/products/presentation/components/QuantityControl";
 import { StockStatus } from "@/shared/lib/stockUtils";
 

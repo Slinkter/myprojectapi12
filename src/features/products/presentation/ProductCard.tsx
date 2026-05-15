@@ -11,7 +11,7 @@ import { useProductModalContext } from '@/features/products/application/useProdu
 import { getStockStatus } from '@/shared/lib/stockUtils'
 import type { IProduct } from '@/features/products/application/types'
 import { Button } from '@/shared/ui/Button'
-import { LazyImage } from '@/components/common/LazyImage'
+import { LazyImage } from '@/shared/ui/LazyImage';
 
 interface IProductCardProps {
   product: IProduct

@@ -39,7 +39,7 @@ describe('ProductDetailModal Component', () => {
 
     expect(screen.getByText('Reloj Premium')).toBeInTheDocument();
     expect(screen.getByText('Un reloj de lujo')).toBeInTheDocument();
-    expect(screen.getByText('$500')).toBeInTheDocument();
+    expect(screen.getByText('$500.00')).toBeInTheDocument();
   });
 
   it('llama a onClose al hacer clic en el botón de cierre', () => {

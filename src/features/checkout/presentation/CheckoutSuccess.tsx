@@ -5,7 +5,7 @@
  */
 import { Link } from "react-router-dom";
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const CheckoutSuccess: React.FC = () => {

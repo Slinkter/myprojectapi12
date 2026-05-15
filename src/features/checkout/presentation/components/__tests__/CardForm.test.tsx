@@ -13,9 +13,9 @@ describe('CardForm Component', () => {
   it('se renderiza con todos los campos vacíos', () => {
     render(<CardForm {...defaultProps} />);
     
-    expect(screen.getByLabelText(/Número de Tarjeta/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Titular de la Tarjeta/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Expira/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Número de tarjeta/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Nombre del titular/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Vencimiento/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/CVC/i)).toBeInTheDocument();
   });
 
@@ -34,7 +34,7 @@ describe('CardForm Component', () => {
     const handleChange = vi.fn();
     render(<CardForm {...defaultProps} onChange={handleChange} />);
     
-    const input = screen.getByLabelText(/Titular de la Tarjeta/i);
+    const input = screen.getByLabelText(/Nombre del titular/i);
     fireEvent.change(input, { target: { value: 'LUIS CUEVA' } });
     
     expect(handleChange).toHaveBeenCalled();

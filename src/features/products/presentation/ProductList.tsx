@@ -8,8 +8,8 @@
 import { memo } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import ProductGrid from "@/features/products/presentation/ProductGrid";
-import ErrorMessage from "@/components/common/ErrorMessage";
-import EmptyState from "@/components/common/EmptyState";
+import ErrorMessage from "@/shared/ui/ErrorMessage";
+import EmptyState from "@/shared/ui/EmptyState";
 import LoadMoreSection from "@/features/products/presentation/components/LoadMoreSection";
 import { IProductListProps } from "@/features/products/presentation/type";
 import { useLogLifecycle } from "@/shared/hooks";

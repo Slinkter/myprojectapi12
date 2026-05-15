@@ -12,7 +12,7 @@ import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
 import { IProductDetailModalProps } from "@/features/products/application/types";
 import { getStockStatus } from "@/shared/lib/stockUtils";
 import { HiOutlineXMark, HiOutlineShoppingBag, HiOutlinePlus, HiOutlineMinus } from "react-icons/hi2";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 
 const ProductDetailModal = (props: IProductDetailModalProps) => {
   useLogLifecycle("ProductDetailModal");

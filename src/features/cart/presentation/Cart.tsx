@@ -10,7 +10,7 @@ import { ICartItem } from "@/features/cart/domain/cartTypes";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
 import { HiOutlineXMark, HiOutlineShoppingBag, HiOutlineTrash } from "react-icons/hi2";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const Cart = () => {

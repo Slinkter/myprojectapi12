@@ -1,5 +1,5 @@
 import { HiOutlineXMark } from "react-icons/hi2";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 
 interface ModalCloseButtonProps {
   onClose: () => void;
