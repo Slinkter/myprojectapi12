@@ -7,7 +7,7 @@
 import { memo } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
 import ProductCard from "@/features/products/presentation/ProductCard";
-import { motion as m } from "framer-motion";
+import { m } from "framer-motion";
 import type { IProduct } from "@/features/products/application/types";
 import { staggerContainer, slideUp } from "@/shared/lib/animations";
 
