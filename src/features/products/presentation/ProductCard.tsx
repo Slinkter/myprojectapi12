@@ -4,7 +4,7 @@
  * @architecture Presentation Layer - Componente de Feature
  */
 
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useLogLifecycle } from "@/shared/hooks";
 import { cn } from '@/shared/lib/cn'
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
@@ -21,10 +21,6 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
   useLogLifecycle("ProductCard");
   const { openProductModal } = useProductModalContext()
 
-  const handleClick = useCallback(() => {
-    openProductModal(product)
-  }, [openProductModal, product])
-
   if (!product || !product.id) {
     console.error('ProductCard received invalid product:', product)
     return null
@@ -35,12 +31,8 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
 
   return (
     <article
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-background hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-background hover:shadow-lg transition-shadow duration-300 cursor-pointer focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
       aria-label={`Producto: ${product.title}`}
-      onClick={handleClick}
-      onKeyDown={(e) => e.key === 'Enter' && handleClick()}
-      role="button"
-      tabIndex={0}
     >
       {product.discountPercentage && (
         <div className="absolute top-3 left-3 z-10 bg-destructive text-white px-2.5 py-1 rounded-full text-xs font-bold" aria-label={`Descuento: ${Math.round(product.discountPercentage)}%`}>
@@ -88,13 +80,12 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
           </div>
 
           <Button
-            onClick={(e) => {
-              e.stopPropagation()
+            onClick={() => {
               openProductModal(product)
             }}
             disabled={isOutOfStock}
             size="sm"
-            className="rounded-lg"
+            className="rounded-lg after:absolute after:inset-0 after:content-['']"
           >
             {isOutOfStock ? 'Sin stock' : 'Ver más'}
           </Button>

@@ -1,6 +1,4 @@
-import { KeyboardEvent } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
-import { cn } from "@/shared/lib/cn";
 import { HiCheckCircle } from "react-icons/hi2";
 import { FaBitcoin } from "react-icons/fa";
 
@@ -18,12 +16,6 @@ const PaymentMethodRadio = ({
     onChange,
 }: IPaymentMethodRadioProps) => {
     useLogLifecycle("PaymentMethodRadio");
-    const handleKeyDown = (e: KeyboardEvent<HTMLLabelElement>) => {
-        if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onChange();
-        }
-    };
 
     return (
         <div className="relative h-full">
@@ -31,23 +23,14 @@ const PaymentMethodRadio = ({
                 id={id}
                 type="radio"
                 name="paymentMethod"
-                className="sr-only"
+                className="sr-only peer"
                 checked={checked}
                 onChange={onChange}
                 aria-label={`Pagar con ${label}`}
             />
             <label
                 htmlFor={id}
-                className={cn(
-                    "flex flex-col items-center justify-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 h-24",
-                    checked
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50",
-                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-                )}
-                role="button"
-                tabIndex={0}
-                onKeyDown={handleKeyDown}
+                className="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-border bg-background cursor-pointer transition-all duration-200 h-24 hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 focus:outline-none"
             >
                 <div className="flex items-center justify-center mb-1">
                     {id === "visa" && (
