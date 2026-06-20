@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -11,25 +11,22 @@ export function LoadingProgress({ isLoading, className }: ILoadingProgressProps)
   useLogLifecycle("LoadingProgress");
   const [progress, setProgress] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  
-  const prevIsLoadingRef = useRef(isLoading)
-
-  // Sincronizar estado de forma inline durante el renderizado cuando cambia el prop isLoading a false
-  if (isLoading !== prevIsLoadingRef.current) {
-    prevIsLoadingRef.current = isLoading
-    if (!isLoading) {
-      setProgress(0)
-      setIsVisible(false)
-    }
-  }
-
   useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+
     if (isLoading) {
-      timeoutRef.current = setTimeout(() => setIsVisible(true), 100)
+      timeoutId = setTimeout(() => {
+        setIsVisible(true)
+      }, 100)
+    } else {
+      setIsVisible(false)
+      setProgress(0)
     }
+
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
     }
   }, [isLoading])
 
