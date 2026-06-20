@@ -6,16 +6,17 @@ interface PriceRowProps {
   variant?: 'default' | 'success' | 'highlight'
 }
 
+const VARIANT_CLASSES = {
+  default: '',
+  success: 'text-success',
+  highlight: 'pt-2 border-t border-border font-bold text-lg text-foreground',
+}
+
 export function PriceRow({ label, value, variant = 'default' }: PriceRowProps) {
   useLogLifecycle("PriceRow");
-  const variantClasses = {
-    default: '',
-    success: 'text-success',
-    highlight: 'pt-2 border-t border-border font-bold text-lg text-foreground',
-  }
 
   return (
-    <div className={`flex justify-between text-sm ${variantClasses[variant]}`}>
+    <div className={`flex justify-between text-sm ${VARIANT_CLASSES[variant]}`}>
       <span className="text-muted-foreground">
         {label}
       </span>

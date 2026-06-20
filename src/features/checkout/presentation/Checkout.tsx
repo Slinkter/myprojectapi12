@@ -16,6 +16,8 @@ import PaymentSubmitButton from "@/features/checkout/presentation/PaymentSubmitB
 import SecurityBadge from "@/features/checkout/presentation/SecurityBadge";
 import { OrderSummary } from "@/features/checkout/presentation/components/OrderSummary";
 
+const STEPS = ['Carrito', 'Pago', 'Confirmación'];
+
 const Checkout = () => {
   useLogLifecycle("Checkout");
   useEffect(() => {
@@ -45,13 +47,11 @@ const Checkout = () => {
     }
   }
 
-  const steps = ['Carrito', 'Pago', 'Confirmación']
-
   return (
-    <main className="min-h-screen bg-background p-4 py-6" role="main">
+    <main className="min-h-screen bg-background p-4 py-6">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Estados */}
-        <CheckoutSteps steps={steps} currentStep={1} />
+        <CheckoutSteps steps={STEPS} currentStep={1} />
 
         {/* Header */}
         <CheckoutHeader />

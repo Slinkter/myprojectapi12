@@ -38,7 +38,7 @@ const AddToCartActions = ({
           size="lg"
           className="flex-1 h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/25 hover:scale-[1.02] transition-transform flex items-center justify-center gap-3 group"
         >
-          <HiOutlineShoppingBag className="w-6 h-6 group-hover:animate-bounce" />
+          <HiOutlineShoppingBag className="w-6 h-6 group-hover:-translate-y-0.5 transition-transform duration-300" />
           Añadir al Carrito
         </Button>
       </div>
