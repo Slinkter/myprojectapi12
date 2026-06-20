@@ -62,7 +62,7 @@ export const HomeContent = () => {
 
     return (
         <>
-            <LoadingProgress isLoading={isLoading} />
+            <LoadingProgress isLoading={initialLoading} />
             <div className="container mx-auto px-4 py-8">
                 <div className="mb-8 max-w-xl mx-auto">
                     <SearchInput
