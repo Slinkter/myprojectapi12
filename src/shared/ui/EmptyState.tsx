@@ -4,7 +4,7 @@
  * @architecture Presentation Layer - UI Component
  */
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/lib/cn'
 import { useLogLifecycle } from "@/shared/hooks";
 import { Button } from "@/shared/ui/Button";
 
@@ -62,3 +62,4 @@ export function EmptyState({
 }
 
 export default EmptyState
+

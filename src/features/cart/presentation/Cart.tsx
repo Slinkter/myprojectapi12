@@ -7,7 +7,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/features/cart/application/useCart";
 import { ICartItem } from "@/features/cart/domain/cartTypes";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 import { useEffect, useRef } from "react";
 import { HiOutlineXMark, HiOutlineShoppingBag, HiOutlineTrash } from "react-icons/hi2";
 import { Button } from "@/shared/ui/Button";
@@ -165,3 +165,4 @@ const Cart = () => {
 };
 
 export default Cart;
+

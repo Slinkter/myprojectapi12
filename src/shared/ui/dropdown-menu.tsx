@@ -4,7 +4,7 @@ import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { HiOutlineCheck, HiOutlineChevronRight } from "react-icons/hi2"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/shared/lib/cn"
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -199,3 +199,4 @@ export {
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
 }
+

@@ -1,6 +1,6 @@
 import { KeyboardEvent } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 import { HiCheckCircle } from "react-icons/hi2";
 import { FaBitcoin } from "react-icons/fa";
 
@@ -73,3 +73,4 @@ const PaymentMethodRadio = ({
 };
 
 export default PaymentMethodRadio;
+

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const Label = React.forwardRef<
@@ -23,3 +23,4 @@ const Label = React.forwardRef<
 Label.displayName = LabelPrimitive.Root.displayName;
 
 export { Label };
+

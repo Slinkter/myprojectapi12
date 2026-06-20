@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 
 interface CardTypeIndicatorProps {
   cardType: string;
@@ -28,3 +28,4 @@ const CardTypeIndicator = ({ cardType }: CardTypeIndicatorProps) => {
 };
 
 export default CardTypeIndicator;
+

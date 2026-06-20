@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X, Search, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/features/cart/application/CartContext";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 import { useTheme } from "@/features/theme/application/ThemeContext";
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -149,3 +149,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

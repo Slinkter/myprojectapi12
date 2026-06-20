@@ -5,7 +5,7 @@
  * @architecture Presentation Layer - Common Components
  */
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**
@@ -29,3 +29,4 @@ const Loader: React.FC = () => {
 };
 
 export default Loader;
+

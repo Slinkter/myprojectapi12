@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 import { HiExclamationCircle } from "react-icons/hi2";
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -72,3 +72,4 @@ const ErrorMessage = memo(
 ErrorMessage.displayName = "ErrorMessage";
 
 export default ErrorMessage;
+

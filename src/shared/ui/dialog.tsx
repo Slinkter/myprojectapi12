@@ -2,7 +2,7 @@ import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { HiOutlineXMark } from "react-icons/hi2"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/shared/lib/cn"
 
 const Dialog = DialogPrimitive.Root
 
@@ -118,3 +118,4 @@ export {
   DialogTitle,
   DialogDescription,
 }
+

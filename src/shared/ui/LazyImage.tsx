@@ -7,7 +7,7 @@
 
 import { useState, useCallback } from 'react'
 import { useLogLifecycle } from "@/shared/hooks";
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/lib/cn'
 
 interface ILazyImageProps {
   src: string
@@ -72,3 +72,4 @@ export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]' }:
     </div>
   )
 }
+

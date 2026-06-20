@@ -1,5 +1,5 @@
 import { ImageZoom } from "@/shared/ui/ImageZoom";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 
 interface ProductImageGalleryProps {
   images?: string[];
@@ -44,3 +44,4 @@ const ProductImageGallery = ({ images, thumbnail, selectedImage, onSelect, title
 };
 
 export default ProductImageGallery;
+

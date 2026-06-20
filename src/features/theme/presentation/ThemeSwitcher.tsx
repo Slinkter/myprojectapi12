@@ -7,7 +7,7 @@
 
 import { useTheme } from "@/features/theme/application/ThemeContext";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi2";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -61,3 +61,4 @@ const ThemeSwitcher = () => {
 };
 
 export default ThemeSwitcher;
+

@@ -6,7 +6,7 @@
 
 import React, { useCallback } from 'react'
 import { useLogLifecycle } from "@/shared/hooks";
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/lib/cn'
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { getStockStatus } from '@/shared/lib/stockUtils'
 import type { IProduct } from '@/features/products/application/types'
@@ -107,3 +107,4 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
 ProductCard.displayName = 'ProductCard'
 
 export default ProductCard
+
