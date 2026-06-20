@@ -23,8 +23,11 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { LazyMotion, domAnimation } from "framer-motion";
 
+import { Theme as RadixTheme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
+
 // Proveedores de Contexto
-import { ThemeProvider } from "@/features/theme/application/ThemeContext";
+import { ThemeProvider, useTheme } from "@/features/theme/application/ThemeContext";
 import { CartProvider } from "@/features/cart/application/CartContext";
 
 // Configuración
@@ -34,6 +37,32 @@ import { queryClient } from "@/app/config/queryClient";
 import Layout from "@/shared/ui/Layout";
 import AppRouter from "@/app/routing/AppRouter";
 import ErrorBoundary from "@/shared/ui/ErrorBoundary";
+
+/**
+ * Componente interno para acceder a useTheme y configurar Radix Themes.
+ */
+const AppContent: React.FC = () => {
+  const { theme } = useTheme();
+  return (
+    <RadixTheme
+      appearance={theme}
+      accentColor="purple"
+      grayColor="olive"
+      panelBackground="solid"
+      radius="full"
+    >
+      <BrowserRouter basename="/myprojectapi12/">
+        <LazyMotion features={domAnimation}>
+          <ErrorBoundary>
+            <Layout>
+              <AppRouter />
+            </Layout>
+          </ErrorBoundary>
+        </LazyMotion>
+      </BrowserRouter>
+    </RadixTheme>
+  );
+};
 
 /**
  * Componente raíz de la aplicación.
@@ -46,15 +75,7 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <CartProvider>
-          <BrowserRouter basename="/myprojectapi12/">
-            <LazyMotion features={domAnimation}>
-              <ErrorBoundary>
-                <Layout>
-                  <AppRouter />
-                </Layout>
-              </ErrorBoundary>
-            </LazyMotion>
-          </BrowserRouter>
+          <AppContent />
         </CartProvider>
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />

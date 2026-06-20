@@ -1,5 +1,6 @@
 import { Button } from "@/shared/ui/Button";
-import { IoShieldCheckmarkOutline, IoSync } from "react-icons/io5";
+import { Spinner, Flex, Text } from "@radix-ui/themes";
+import { LockClosedIcon } from "@radix-ui/react-icons";
 import type { PaymentMethod } from "./PaymentMethodSelector";
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -21,18 +22,19 @@ const PaymentSubmitButton = ({
     <Button
       onClick={onClick}
       disabled={isDisabled || isProcessing}
-      className="w-full h-12"
+      style={{ width: "100%", height: 48 }}
       aria-label={`Pagar ahora con ${method}`}
     >
       {isProcessing ? (
-        <span className="flex items-center gap-2">
-          <IoSync className="w-4 h-4 animate-spin" />
-          Procesando...
-        </span>
+        <Flex align="center" gap="2">
+          <Spinner size="1" />
+          <Text>Procesando...</Text>
+        </Flex>
       ) : (
-        <span className="flex items-center gap-2">
-          Pagar Ahora <IoShieldCheckmarkOutline className="w-4 h-4" />
-        </span>
+        <Flex align="center" gap="2">
+          <Text>Pagar Ahora</Text>
+          <LockClosedIcon />
+        </Flex>
       )}
     </Button>
   );

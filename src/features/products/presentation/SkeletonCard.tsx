@@ -1,38 +1,32 @@
-/**
- * @file SkeletonCard.tsx
- * @description Componente de carga (placeholder) para productos.
- * @architecture Presentation Layer - UI Skeleton
- */
-
 import React from "react";
+import { Card, Flex, Skeleton } from "@radix-ui/themes";
 
 const SkeletonCard: React.FC = () => {
   return (
-    <div className="w-full h-full flex flex-col rounded-2xl border border-border bg-background overflow-hidden">
-      <div className="relative h-56 bg-muted overflow-hidden">
-        <div className="absolute inset-0 skeleton-shimmer" />
-      </div>
+    <Card size="2" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      {/* Image Skeleton */}
+      <Skeleton style={{ height: "224px", width: "100%", borderRadius: "var(--radius-3)" }} />
 
-      <div className="p-4 flex flex-col gap-2">
-        <div className="h-3 bg-muted rounded w-20">
-          <div className="absolute inset-0 skeleton-shimmer" />
-        </div>
+      <Flex direction="column" gap="2" p="4" style={{ flexGrow: 1 }}>
+        {/* Category Skeleton */}
+        <Skeleton style={{ height: "12px", width: "80px" }} />
 
-        <div className="h-5 bg-muted rounded w-3/4">
-          <div className="absolute inset-0 skeleton-shimmer" />
-        </div>
+        {/* Title Skeleton */}
+        <Skeleton style={{ height: "20px", width: "75%" }} />
 
-        <div className="space-y-2 flex-grow">
-          <div className="h-4 bg-muted rounded w-full" />
-          <div className="h-4 bg-muted rounded w-5/6" />
-        </div>
+        {/* Description Skeletons */}
+        <Flex direction="column" gap="1" style={{ flexGrow: 1 }}>
+          <Skeleton style={{ height: "16px", width: "100%" }} />
+          <Skeleton style={{ height: "16px", width: "85%" }} />
+        </Flex>
 
-        <div className="mt-auto flex items-center justify-between pt-3 border-t border-border">
-          <div className="h-6 bg-muted rounded w-24" />
-          <div className="h-9 bg-muted rounded-full w-24" />
-        </div>
-      </div>
-    </div>
+        {/* Footer Skeleton */}
+        <Flex justify="between" align="center" pt="3" style={{ borderTop: "1px solid var(--gray-5)" }}>
+          <Skeleton style={{ height: "24px", width: "96px" }} />
+          <Skeleton style={{ height: "36px", width: "96px", borderRadius: "var(--radius-3)" }} />
+        </Flex>
+      </Flex>
+    </Card>
   );
 };
 

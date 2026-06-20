@@ -1,52 +1,55 @@
 import * as React from 'react'
-import { cn } from '@/shared/lib/cn'
+import { Card as RadixCard, Box, Heading, Text, Flex } from "@radix-ui/themes";
+import { useLogLifecycle } from "@/shared/hooks";
 
 const Card = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      'rounded-2xl glass text-card-foreground transition-all duration-300 hover:shadow-lg',
-      className
-    )}
-    {...props}
-  />
-))
+  React.ComponentPropsWithoutRef<typeof RadixCard>
+>((props, ref) => {
+  useLogLifecycle("Card");
+  return (
+    <RadixCard
+      ref={ref}
+      {...props}
+    />
+  )
+})
 Card.displayName = 'Card'
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
+  React.ComponentPropsWithoutRef<typeof Box>
+>((props, ref) => (
+  <Box
     ref={ref}
-    className={cn('flex flex-col space-y-1.5 p-6', className)}
+    p="4"
     {...props}
   />
 ))
 CardHeader.displayName = 'CardHeader'
 
 const CardTitle = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
+  HTMLHeadingElement,
+  React.ComponentPropsWithoutRef<typeof Heading>
+>((props, ref) => (
+  <Heading
     ref={ref}
-    className={cn('font-semibold leading-none tracking-tight', className)}
+    size="4"
+    weight="bold"
     {...props}
   />
 ))
 CardTitle.displayName = 'CardTitle'
 
 const CardDescription = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
+  HTMLParagraphElement,
+  React.ComponentPropsWithoutRef<typeof Text>
+>((props, ref) => (
+  <Text
     ref={ref}
-    className={cn('text-sm text-muted-foreground', className)}
+    size="2"
+    color="gray"
+    as="p"
     {...props}
   />
 ))
@@ -54,19 +57,22 @@ CardDescription.displayName = 'CardDescription'
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+  React.ComponentPropsWithoutRef<typeof Box>
+>((props, ref) => (
+  <Box ref={ref} p="4" pt="0" {...props} />
 ))
 CardContent.displayName = 'CardContent'
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
+  React.ComponentPropsWithoutRef<typeof Flex>
+>((props, ref) => (
+  <Flex
     ref={ref}
-    className={cn('flex items-center p-6 pt-0', className)}
+    p="4"
+    pt="0"
+    align="center"
+    gap="2"
     {...props}
   />
 ))

@@ -1,59 +1,69 @@
-import { HiOutlineCheck } from 'react-icons/hi2'
+import { CheckIcon } from '@radix-ui/react-icons'
+import { Flex, Box, Text } from '@radix-ui/themes'
 import { useLogLifecycle } from "@/shared/hooks";
-import { cn } from '@/shared/lib/cn'
 
 interface ICheckoutStepsProps {
   steps: string[]
   currentStep: number
-  className?: string
+  style?: React.CSSProperties
 }
 
-export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsProps) {
+export function CheckoutSteps({ steps, currentStep, style }: ICheckoutStepsProps) {
   useLogLifecycle("CheckoutSteps");
   return (
-    <div className={cn('flex items-center justify-center gap-2 mb-8', className)}>
+    <Flex align="center" justify="center" gap="2" mb="4" style={style}>
       {steps.map((step, index) => {
         const isCompleted = index < currentStep
         const isCurrent = index === currentStep
-        const isPending = index > currentStep
 
         return (
-          <div key={index} className="flex items-center">
-            <div
-              className={cn(
-                'flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-all duration-300',
-                isCompleted && 'bg-success text-success-foreground',
-                isCurrent && 'bg-primary text-primary-foreground ring-4 ring-primary/20',
-                isPending && 'bg-muted text-muted-foreground'
-              )}
+          <Flex key={index} align="center">
+            <Flex
+              align="center"
+              justify="center"
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "9999px",
+                fontWeight: "bold",
+                fontSize: "var(--font-size-2)",
+                transition: "all 0.3s",
+                backgroundColor: isCompleted ? "var(--green-9)" : isCurrent ? "var(--purple-9)" : "var(--gray-3)",
+                color: isCompleted || isCurrent ? "white" : "var(--gray-8)",
+                boxShadow: isCurrent ? "0 0 0 4px var(--purple-3)" : undefined,
+              }}
             >
               {isCompleted ? (
-                <HiOutlineCheck className="w-5 h-5" />
+                <CheckIcon width="18" height="18" />
               ) : (
                 index + 1
               )}
-            </div>
-            <span
-              className={cn(
-                'ml-2 text-sm font-medium hidden sm:inline',
-                isCompleted && 'text-success',
-                isCurrent && 'text-primary',
-                isPending && 'text-muted-foreground'
-              )}
-            >
-              {step}
-            </span>
+            </Flex>
+            <Box display={{ initial: "none", sm: "inline" }} asChild>
+              <Text
+                size="2"
+                weight="medium"
+                style={{
+                  marginLeft: "var(--space-2)",
+                  color: isCompleted ? "var(--green-9)" : isCurrent ? "var(--purple-9)" : "var(--gray-8)",
+                }}
+              >
+                {step}
+              </Text>
+            </Box>
             {index < steps.length - 1 && (
-              <div
-                className={cn(
-                  'w-8 sm:w-16 h-0.5 mx-2',
-                  isCompleted ? 'bg-success' : 'bg-border'
-                )}
+              <Box
+                style={{
+                  width: 48,
+                  height: 2,
+                  margin: "0 var(--space-2)",
+                  backgroundColor: isCompleted ? "var(--green-9)" : "var(--gray-5)",
+                }}
               />
             )}
-          </div>
+          </Flex>
         )
       })}
-    </div>
+    </Flex>
   )
 }

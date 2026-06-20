@@ -8,6 +8,7 @@ import { memo } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
 import ProductCard from "@/features/products/presentation/ProductCard";
 import { m } from "framer-motion";
+import { Grid } from "@radix-ui/themes";
 import type { IProduct } from "@/features/products/application/types";
 import { staggerContainer, slideUp } from "@/shared/lib/animations";
 
@@ -18,22 +19,28 @@ interface IProductGridProps {
 const ProductGrid = memo(({ products }: IProductGridProps) => {
   useLogLifecycle("ProductGrid");
   return (
-    <m.div
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 xl:gap-8 items-stretch"
-      variants={staggerContainer}
-      initial="hidden"
-      animate="visible"
+    <Grid
+      columns={{ initial: "1", sm: "2", md: "3", lg: "4" }}
+      gap="6"
+      align="stretch"
+      asChild
     >
-      {products.map((product: IProduct) => (
-        <m.div 
-          key={product.id} 
-          variants={slideUp} 
-          className="h-full"
-        >
-          <ProductCard product={product} />
-        </m.div>
-      ))}
-    </m.div>
+      <m.div
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        {products.map((product: IProduct) => (
+          <m.div 
+            key={product.id} 
+            variants={slideUp} 
+            style={{ height: "100%" }}
+          >
+            <ProductCard product={product} />
+          </m.div>
+        ))}
+      </m.div>
+    </Grid>
   );
 });
 

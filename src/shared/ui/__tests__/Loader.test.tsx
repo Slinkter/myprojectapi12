@@ -11,6 +11,6 @@ describe('Loader Component', () => {
   it('tiene el contenedor overlay visible', () => {
     const { container } = render(<Loader />);
     const overlay = container.firstChild;
-    expect(overlay).toHaveClass('fixed', 'inset-0');
+    expect(overlay).toHaveClass('rt-r-position-fixed', 'rt-r-inset-0');
   });
 });

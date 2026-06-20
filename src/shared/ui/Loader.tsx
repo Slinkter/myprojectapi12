@@ -5,7 +5,7 @@
  * @architecture Presentation Layer - Common Components
  */
 import React from "react";
-import { cn } from "@/shared/lib/cn";
+import { Flex, Spinner, Text } from "@radix-ui/themes";
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**
@@ -17,14 +17,22 @@ import { useLogLifecycle } from "@/shared/hooks";
 const Loader: React.FC = () => {
     useLogLifecycle("Loader");
     return (
-        <div className={cn(
-            "fixed inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50"
-        )}>
-            <div className="flex flex-col items-center gap-3">
-                <div className={cn("animate-spin rounded-full h-12 w-12 border-b-2 border-primary")}></div>
-                <span className="text-sm text-muted-foreground">Cargando...</span>
-            </div>
-        </div>
+        <Flex
+            position="fixed"
+            inset="0"
+            align="center"
+            justify="center"
+            style={{
+                backgroundColor: "var(--black-a8)",
+                backdropFilter: "blur(4px)",
+                zIndex: 50,
+            }}
+        >
+            <Flex direction="column" align="center" gap="3">
+                <Spinner size="3" />
+                <Text size="2" color="gray">Cargando...</Text>
+            </Flex>
+        </Flex>
     );
 };
 

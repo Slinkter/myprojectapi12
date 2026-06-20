@@ -3,6 +3,7 @@
  * @description Layout principal de la aplicación.
  * @architecture Presentation Layer - Layout
  */
+import { Box, Container } from "@radix-ui/themes";
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/shared/ui/Navbar";
@@ -15,13 +16,15 @@ interface ILayoutProps {
 const Layout = ({ children }: ILayoutProps) => {
     useLogLifecycle("Layout");
     return (
-        <div className="min-h-screen bg-background">
+        <Box minHeight="100vh">
             <Toaster position="top-center" reverseOrder={false} />
             <Navbar />
-            <main className="container mx-auto px-4 py-6">
-                {children}
-            </main>
-        </div>
+            <Container size="3" px="4" py="6">
+                <main>
+                    {children}
+                </main>
+            </Container>
+        </Box>
     );
 };
 

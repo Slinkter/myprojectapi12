@@ -1,13 +1,14 @@
-import { IoLockClosedOutline } from "react-icons/io5";
+import { LockClosedIcon } from "@radix-ui/react-icons";
+import { Flex, Text } from "@radix-ui/themes";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const SecurityBadge = () => {
   useLogLifecycle("SecurityBadge");
   return (
-    <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
-      <IoLockClosedOutline className="w-3.5 h-3.5" />
-      <span>Transacción segura encriptada</span>
-    </div>
+    <Flex align="center" justify="center" gap="1" style={{ color: "var(--gray-11)" }}>
+      <LockClosedIcon width="14" height="14" />
+      <Text size="1">Transacción segura encriptada</Text>
+    </Flex>
   );
 };
 

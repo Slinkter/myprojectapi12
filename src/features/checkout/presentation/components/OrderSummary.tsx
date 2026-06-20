@@ -1,7 +1,7 @@
-import { HiOutlineShoppingBag } from 'react-icons/hi2'
+import { BackpackIcon } from '@radix-ui/react-icons'
+import { Card, Heading, Flex, Text } from '@radix-ui/themes'
 import { useLogLifecycle } from "@/shared/hooks";
 import type { ICartItem } from '@/features/cart/domain/cartTypes';
-import { cn } from '@/shared/lib/cn'
 import { OrderItemRow } from './OrderItemRow'
 import { DiscountInput } from './DiscountInput'
 import { AppliedDiscountBadge } from './AppliedDiscountBadge'
@@ -12,10 +12,10 @@ interface IOrderSummaryProps {
   items: ICartItem[]
   totalPrice: number
   onRemove?: (id: number) => void
-  className?: string
+  style?: React.CSSProperties
 }
 
-export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderSummaryProps) {
+export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSummaryProps) {
   useLogLifecycle("OrderSummary");
   const {
     code,
@@ -35,18 +35,13 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
   const finalTotal = discountedSubtotal + shipping
 
   return (
-    <div
-      className={cn(
-        'bg-background border border-border rounded-2xl p-4',
-        className
-      )}
-    >
-      <h3 className="font-bold text-base text-foreground mb-3 flex items-center gap-2">
-        <HiOutlineShoppingBag className="w-4 h-4 text-primary" />
+    <Card size="2" style={style}>
+      <Heading size="3" mb="3" style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+        <BackpackIcon />
         Resumen del Pedido
-      </h3>
+      </Heading>
 
-      <div className="space-y-2 mb-4">
+      <Flex direction="column" gap="2" mb="4">
         {items.map((item) => (
           <OrderItemRow 
             key={item.id} 
@@ -54,7 +49,7 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
             onRemove={onRemove || (() => {})}
           />
         ))}
-      </div>
+      </Flex>
 
       {!appliedDiscount && (
         <DiscountInput
@@ -73,12 +68,12 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
         />
       )}
 
-      <div className="border-t border-border pt-3 space-y-2">
+      <Flex direction="column" gap="2" pt="3" style={{ borderTop: "1px solid var(--gray-5)" }}>
         <PriceRow
           label={
-            <span className="text-xs text-muted-foreground">
+            <Text size="1" color="gray">
               Subtotal ({totalItems})
-            </span>
+            </Text>
           }
           value={`$${totalPrice.toFixed(2)}`}
         />
@@ -95,7 +90,7 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
           label="Envío"
           value={
             shipping === 0 ? (
-              <span className="text-success font-medium">GRATIS</span>
+              <Text color="green" weight="medium">GRATIS</Text>
             ) : (
               `$${shipping.toFixed(2)}`
             )
@@ -104,9 +99,9 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
         />
 
         {hasItems && shipping > 0 && totalPrice < 50 && (
-          <p className="text-xs text-warning bg-warning/10 p-2 rounded">
+          <Text size="1" color="amber" style={{ backgroundColor: "var(--amber-2)", padding: "var(--space-2)", borderRadius: "var(--radius-2)", display: "block" }}>
             ¡Agrega ${(50 - totalPrice).toFixed(2)} más para envío gratis!
-          </p>
+          </Text>
         )}
 
         <PriceRow
@@ -114,7 +109,7 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
           value={`$${finalTotal.toFixed(2)}`}
           variant="highlight"
         />
-      </div>
-    </div>
+      </Flex>
+    </Card>
   )
 }

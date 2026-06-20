@@ -6,7 +6,7 @@
  */
 
 import { memo } from "react";
-import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { ArchiveIcon } from "@radix-ui/react-icons";
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import ErrorMessage from "@/shared/ui/ErrorMessage";
 import EmptyState from "@/shared/ui/EmptyState";
@@ -45,12 +45,12 @@ const ProductList = memo((props: IProductListProps) => {
   if (products.length === 0 && !isLoading) {
     return (
       <EmptyState
-        icon={<HiOutlineShoppingBag className="w-10 h-10" />}
+        icon={<ArchiveIcon style={{ width: 40, height: 40 }} />}
         title="No se encontraron productos"
         description="No hay productos disponibles en este momento. Intenta más tarde o explora otras categorías."
         actionLabel="Recargar"
         onAction={loadMoreProducts}
-        className="min-h-[400px]"
+        style={{ minHeight: "400px" }}
       />
     );
   }

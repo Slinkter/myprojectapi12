@@ -5,8 +5,8 @@
  */
 
 import React from 'react'
+import { Card as RadixCard, Flex, Box, Text, Heading, Inset } from "@radix-ui/themes";
 import { useLogLifecycle } from "@/shared/hooks";
-import { cn } from '@/shared/lib/cn'
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { getStockStatus } from '@/shared/lib/stockUtils'
 import type { IProduct } from '@/features/products/application/types'
@@ -30,68 +30,104 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
   const isOutOfStock = stockStatus === 'out'
 
   return (
-    <article
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-background hover:shadow-lg transition-shadow duration-300 cursor-pointer focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
-      aria-label={`Producto: ${product.title}`}
-    >
-      {product.discountPercentage && (
-        <div className="absolute top-3 left-3 z-10 bg-destructive text-white px-2.5 py-1 rounded-full text-xs font-bold" aria-label={`Descuento: ${Math.round(product.discountPercentage)}%`}>
-          -{Math.round(product.discountPercentage)}%
-        </div>
-      )}
-
-      <div className="relative overflow-hidden bg-muted/30">
-        <LazyImage
-          src={product.thumbnail}
-          alt={product.title}
-          className="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-      </div>
-
-      <div className="p-4 flex flex-col gap-2 flex-1">
-        <div className="flex justify-between items-center">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
-            {product.category}
-          </span>
-          <span className="text-xs font-medium text-amber-500 flex items-center gap-1">
-            ★ {product.rating?.toFixed(1)}
-          </span>
-        </div>
-
-        <h3 className="text-base font-semibold text-foreground line-clamp-1">
-          {product.title}
-        </h3>
-
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {product.description}
-        </p>
-
-        <div className="mt-auto pt-3 flex items-end justify-between gap-2">
-          <div>
-            <span className="text-xl font-bold text-foreground">
-              ${product.price.toFixed(2)}
-            </span>
-            <p className={cn(
-              'text-xs font-medium mt-0.5',
-              stockStatus === 'ok' ? 'text-success' : 'text-warning'
-            )}>
-              {isOutOfStock ? 'Agotado' : `${product.stock} disponibles`}
-            </p>
-          </div>
-
-          <Button
-            onClick={() => {
-              openProductModal(product)
+    <RadixCard size="2" asChild style={{ height: "100%" }}>
+      <article
+        aria-label={`Producto: ${product.title}`}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          position: "relative",
+          overflow: "hidden",
+          cursor: "pointer",
+        }}
+      >
+        {product.discountPercentage && (
+          <Box
+            position="absolute"
+            top="3"
+            left="3"
+            style={{
+              zIndex: 10,
+              backgroundColor: "var(--red-9)",
+              color: "white",
+              padding: "4px 8px",
+              borderRadius: "9999px",
+              fontSize: "var(--font-size-1)",
+              fontWeight: "bold",
             }}
-            disabled={isOutOfStock}
-            size="sm"
-            className="rounded-lg after:absolute after:inset-0 after:content-['']"
+            aria-label={`Descuento: ${Math.round(product.discountPercentage)}%`}
           >
-            {isOutOfStock ? 'Sin stock' : 'Ver más'}
-          </Button>
-        </div>
-      </div>
-    </article>
+            -{Math.round(product.discountPercentage)}%
+          </Box>
+        )}
+
+        <Inset clip="border-box" side="top" pb="current">
+          <Box style={{ position: "relative", overflow: "hidden", backgroundColor: "var(--gray-3)" }}>
+            <LazyImage
+              src={product.thumbnail}
+              alt={product.title}
+              style={{
+                width: "100%",
+                aspectRatio: "1/1",
+                objectFit: "cover",
+              }}
+            />
+          </Box>
+        </Inset>
+
+        <Flex direction="column" gap="2" p="4" style={{ flexGrow: 1 }}>
+          <Flex justify="between" align="center">
+            <Text size="1" weight="medium" color="gray" style={{ textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              {product.category}
+            </Text>
+            <Text size="1" weight="medium" style={{ color: "var(--amber-9)" }}>
+              ★ {product.rating?.toFixed(1)}
+            </Text>
+          </Flex>
+
+          <Heading size="3" as="h3" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {product.title}
+          </Heading>
+
+          <Text size="2" color="gray" style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}>
+            {product.description}
+          </Text>
+
+          <Flex mt="auto" pt="3" align="end" justify="between" gap="2">
+            <Box>
+              <Text size="5" weight="bold">
+                ${product.price.toFixed(2)}
+              </Text>
+              <Text
+                as="div"
+                size="1"
+                weight="medium"
+                color={stockStatus === 'ok' ? 'green' : 'amber'}
+                style={{ marginTop: "2px" }}
+              >
+                {isOutOfStock ? 'Agotado' : `${product.stock} disponibles`}
+              </Text>
+            </Box>
+
+            <Button
+              onClick={() => {
+                openProductModal(product)
+              }}
+              disabled={isOutOfStock}
+              size="sm"
+              style={{ borderRadius: "var(--radius-3)" }}
+            >
+              {isOutOfStock ? 'Sin stock' : 'Ver más'}
+            </Button>
+          </Flex>
+        </Flex>
+      </article>
+    </RadixCard>
   )
 })
 

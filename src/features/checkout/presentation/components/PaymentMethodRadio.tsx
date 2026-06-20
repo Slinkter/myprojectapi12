@@ -1,6 +1,7 @@
-import { useLogLifecycle } from "@/shared/hooks";
-import { HiCheckCircle } from "react-icons/hi2";
+import { Card, Flex, Text, Box } from "@radix-ui/themes";
+import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { FaBitcoin } from "react-icons/fa";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface IPaymentMethodRadioProps {
     id: string;
@@ -18,40 +19,53 @@ const PaymentMethodRadio = ({
     useLogLifecycle("PaymentMethodRadio");
 
     return (
-        <div className="relative h-full">
-            <input
-                id={id}
-                type="radio"
-                name="paymentMethod"
-                className="sr-only peer"
-                checked={checked}
-                onChange={onChange}
-                aria-label={`Pagar con ${label}`}
-            />
-            <label
-                htmlFor={id}
-                className="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-border bg-background cursor-pointer transition-all duration-200 h-24 hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/5 peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 focus:outline-none"
-            >
-                <div className="flex items-center justify-center mb-1">
+        <Card
+            onClick={onChange}
+            style={{
+                cursor: "pointer",
+                border: checked ? "2px solid var(--purple-9)" : "2px solid var(--gray-5)",
+                backgroundColor: checked ? "var(--purple-2)" : "var(--color-background)",
+                position: "relative",
+                height: 96,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.2s",
+            }}
+            role="radio"
+            aria-checked={checked}
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === " " || e.key === "Enter") {
+                    e.preventDefault();
+                    onChange();
+                }
+            }}
+        >
+            <Flex direction="column" align="center" justify="center" gap="1">
+                <Box>
                     {id === "visa" && (
-                        <span className="font-bold text-blue-600 text-sm">VISA</span>
+                        <Text weight="bold" style={{ color: "var(--blue-9)" }} size="2">VISA</Text>
                     )}
                     {id === "mastercard" && (
-                        <div className="flex -space-x-1">
-                            <div className="w-4 h-4 rounded-full bg-red-500"></div>
-                            <div className="w-4 h-4 rounded-full bg-orange-500"></div>
-                        </div>
+                        <Flex gap="0" style={{ position: "relative" }}>
+                            <Box style={{ width: 16, height: 16, borderRadius: "9999px", backgroundColor: "var(--red-9)" }} />
+                            <Box style={{ width: 16, height: 16, borderRadius: "9999px", backgroundColor: "var(--orange-9)", marginLeft: -6 }} />
+                        </Flex>
                     )}
                     {id === "bitcoin" && (
-                        <FaBitcoin className="text-orange-500 w-5 h-5" />
+                        <FaBitcoin style={{ color: "var(--orange-9)", width: 20, height: 20 }} />
                     )}
-                </div>
-                <span className="text-xs font-medium">{label}</span>
-                {checked && (
-                    <HiCheckCircle className="absolute top-2 right-2 w-4 h-4 text-primary" />
-                )}
-            </label>
-        </div>
+                </Box>
+                <Text size="1" weight="medium">{label}</Text>
+            </Flex>
+            {checked && (
+                <Box position="absolute" top="2" right="2" style={{ color: "var(--purple-9)" }}>
+                    <CheckCircledIcon width="16" height="16" />
+                </Box>
+            )}
+        </Card>
     );
 };
 

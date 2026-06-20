@@ -1,3 +1,4 @@
+import { Flex, Text } from "@radix-ui/themes";
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface PriceRowProps {
@@ -6,23 +7,29 @@ interface PriceRowProps {
   variant?: 'default' | 'success' | 'highlight'
 }
 
-const VARIANT_CLASSES = {
-  default: '',
-  success: 'text-success',
-  highlight: 'pt-2 border-t border-border font-bold text-lg text-foreground',
-}
-
 export function PriceRow({ label, value, variant = 'default' }: PriceRowProps) {
   useLogLifecycle("PriceRow");
 
+  const isSuccess = variant === 'success';
+  const isHighlight = variant === 'highlight';
+
   return (
-    <div className={`flex justify-between text-sm ${VARIANT_CLASSES[variant]}`}>
-      <span className="text-muted-foreground">
+    <Flex
+      justify="between"
+      pt={isHighlight ? "2" : undefined}
+      style={{
+        fontSize: isHighlight ? "var(--font-size-4)" : "var(--font-size-2)",
+        fontWeight: isHighlight ? "bold" : undefined,
+        borderTop: isHighlight ? "1px solid var(--gray-5)" : undefined,
+        color: isSuccess ? "var(--green-9)" : undefined,
+      }}
+    >
+      <Text color={isSuccess ? "green" : "gray"}>
         {label}
-      </span>
-      <span className={variant === 'success' ? 'font-medium text-success' : variant === 'highlight' ? 'font-bold text-lg' : 'font-medium'}>
+      </Text>
+      <Text weight={isHighlight ? "bold" : "medium"} color={isSuccess ? "green" : undefined}>
         {value}
-      </span>
-    </div>
-  )
+      </Text>
+    </Flex>
+  );
 }

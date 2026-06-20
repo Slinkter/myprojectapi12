@@ -1,10 +1,4 @@
-/**
- * @file EmptyState.tsx
- * @description Componente reutilizable para estados vacíos con iconos y diseño mejorado.
- * @architecture Presentation Layer - UI Component
- */
-
-import { cn } from '@/shared/lib/cn'
+import { Flex, Heading, Text } from "@radix-ui/themes";
 import { useLogLifecycle } from "@/shared/hooks";
 import { Button } from "@/shared/ui/Button";
 
@@ -14,42 +8,52 @@ interface IEmptyStateProps {
   description?: string
   actionLabel?: string
   onAction?: () => void
-  className?: string
+  style?: React.CSSProperties
 }
 
-/**
- * @component EmptyState
- * @description Muestra un estado vacío con icono, título, descripción y acción opcional.
- * Mejora la UX con feedback visual claro.
- */
 export function EmptyState({
   icon,
   title,
   description,
   actionLabel,
   onAction,
-  className
+  style
 }: IEmptyStateProps) {
   useLogLifecycle("EmptyState");
   return (
-    <div className={cn(
-      'flex flex-col items-center justify-center py-16 px-4 text-center',
-      className
-    )}>
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      py="8"
+      px="4"
+      style={{ textAlign: "center", minHeight: "400px", ...style }}
+    >
       {icon && (
-        <div className="w-20 h-20 rounded-full bg-muted/50 flex items-center justify-center mb-6 text-muted-foreground">
+        <Flex
+          align="center"
+          justify="center"
+          style={{
+            width: "80px",
+            height: "80px",
+            borderRadius: "9999px",
+            backgroundColor: "var(--gray-3)",
+            color: "var(--gray-11)",
+            marginBottom: "var(--space-4)",
+          }}
+        >
           {icon}
-        </div>
+        </Flex>
       )}
       
-      <h3 className="text-lg font-semibold text-foreground mb-2">
+      <Heading size="4" weight="bold" style={{ marginBottom: "var(--space-2)" }}>
         {title}
-      </h3>
+      </Heading>
       
       {description && (
-        <p className="text-sm text-muted-foreground max-w-sm mb-6">
+        <Text size="2" color="gray" style={{ maxWidth: "320px", marginBottom: "var(--space-4)" }}>
           {description}
-        </p>
+        </Text>
       )}
       
       {actionLabel && onAction && (
@@ -57,7 +61,7 @@ export function EmptyState({
           {actionLabel}
         </Button>
       )}
-    </div>
+    </Flex>
   )
 }
 

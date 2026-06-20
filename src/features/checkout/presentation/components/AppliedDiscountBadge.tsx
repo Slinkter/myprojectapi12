@@ -1,4 +1,5 @@
-import { HiOutlineCheck, HiOutlineXMark } from 'react-icons/hi2'
+import { CheckIcon, Cross1Icon } from '@radix-ui/react-icons'
+import { Card, Flex, Text, IconButton } from '@radix-ui/themes'
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface IDiscountCode {
@@ -15,22 +16,32 @@ interface AppliedDiscountBadgeProps {
 export function AppliedDiscountBadge({ discount, onRemove }: AppliedDiscountBadgeProps) {
   useLogLifecycle("AppliedDiscountBadge");
   return (
-    <div className="mb-4 p-3 bg-success/10 rounded-lg border border-success/30">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <HiOutlineCheck className="w-4 h-4 text-success" />
-          <span className="text-sm font-medium text-success">
+    <Card
+      size="1"
+      style={{
+        backgroundColor: "var(--green-2)",
+        borderColor: "var(--green-6)",
+        marginBottom: "var(--space-3)",
+      }}
+    >
+      <Flex align="center" justify="between">
+        <Flex align="center" gap="2" style={{ color: "var(--green-9)" }}>
+          <CheckIcon width="16" height="16" />
+          <Text size="2" weight="medium">
             {discount.code} (-{discount.type === 'percentage' ? `${discount.discount}%` : `$${discount.discount}`})
-          </span>
-        </div>
-        <button
+          </Text>
+        </Flex>
+        <IconButton
+          size="1"
+          variant="ghost"
+          color="green"
           onClick={onRemove}
-          className="p-1 hover:bg-success/20 rounded"
+          style={{ cursor: "pointer" }}
           aria-label="Eliminar descuento"
         >
-          <HiOutlineXMark className="w-4 h-4 text-success" />
-        </button>
-      </div>
-    </div>
+          <Cross1Icon width="14" height="14" />
+        </IconButton>
+      </Flex>
+    </Card>
   )
 }

@@ -14,6 +14,8 @@ import ProductList from "@/features/products/presentation/ProductList";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
 import { useDebounce, useLogLifecycle } from "@/shared/hooks";
 
+import { Container, Box, Text } from "@radix-ui/themes";
+
 export const HomeContent = () => {
     useLogLifecycle("HomeContent");
     const { products, initialLoading, isLoading, error, loadMoreProducts, hasMore } =
@@ -60,22 +62,22 @@ export const HomeContent = () => {
     }, []);
 
     return (
-        <>
-            <div className="container mx-auto px-4 py-8">
-                <div className="mb-8 max-w-xl mx-auto">
+        <Container size="4">
+            <Box py="6" px="4">
+                <Box mb="6" style={{ maxWidth: 576, marginLeft: "auto", marginRight: "auto" }}>
                     <SearchInput
                         value={searchQuery}
                         onChange={handleSearchChange}
                         placeholder="Buscar productos por nombre, descripción o categoría..."
                     />
                     {searchQuery && (
-                        <p className="mt-2 text-sm text-muted-foreground text-center">
+                        <Text size="2" color="gray" align="center" mt="2" as="p">
                             {filteredProducts.length} resultado
                             {filteredProducts.length !== 1 ? "s" : ""} para
                             &quot;{searchQuery}&quot;
-                        </p>
+                        </Text>
                     )}
-                </div>
+                </Box>
 
                 {initialLoading && <SkeletonGrid />}
                 {!initialLoading && (
@@ -94,7 +96,7 @@ export const HomeContent = () => {
                         onClose={closeProductModal}
                     />
                 )}
-            </div>
-        </>
+            </Box>
+        </Container>
     );
 };

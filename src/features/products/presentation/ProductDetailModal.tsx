@@ -1,17 +1,10 @@
-/**
- * @file ProductDetailModal.tsx
- * @description Modal de detalles de producto con diseño limpio y profesional.
- * @architecture Presentation Layer - Componente de UI / Modal
- */
-
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/useCart";
-import { m, AnimatePresence } from "framer-motion";
-import { MODAL_SLIDE_UP, BACKDROP_FADE } from "@/constants/animations";
 import { IProductDetailModalProps } from "@/features/products/application/types";
 import { getStockStatus } from "@/shared/lib/stockUtils";
-import { HiOutlineXMark, HiOutlineShoppingBag, HiOutlinePlus, HiOutlineMinus } from "react-icons/hi2";
+import { Dialog, Flex, Box, Grid, Text, Heading, Badge, IconButton } from "@radix-ui/themes";
+import { Cross1Icon, BackpackIcon, PlusIcon, MinusIcon } from "@radix-ui/react-icons";
 import { Button } from "@/shared/ui/Button";
 
 const ProductDetailModal = (props: IProductDetailModalProps) => {
@@ -29,13 +22,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
     } else if (product?.thumbnail) {
       setSelectedImage(product.thumbnail);
     }
-
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen, onClose, product?.images, product?.thumbnail]);
+  }, [isOpen, product?.images, product?.thumbnail]);
 
   const increment = () => {
     setQuantity((prev) => (product && prev < product.stock ? prev + 1 : prev));
@@ -57,186 +44,186 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
   const isOutOfStock = stockStatus === 'out';
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <m.div
-          className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4"
-          onClick={onClose}
-          variants={BACKDROP_FADE}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          role="presentation"
-        >
-          <m.div
-            className="relative w-full max-w-4xl bg-background rounded-2xl shadow-xl overflow-hidden max-h-[90vh] flex flex-col"
-            onClick={(e: MouseEvent) => e.stopPropagation()}
-            variants={MODAL_SLIDE_UP}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="modal-title"
-          >
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="absolute top-3 right-3 z-10 p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-primary"
-              aria-label="Cerrar modal"
-            >
-              <HiOutlineXMark className="w-5 h-5" />
-            </button>
+    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <Dialog.Content size="4" style={{ maxWidth: 850, position: "relative" }}>
+        {/* Close Button */}
+        <Box style={{ position: "absolute", top: 12, right: 12, zIndex: 10 }}>
+          <Dialog.Close>
+            <IconButton variant="ghost" color="gray" size="2" style={{ cursor: "pointer" }} aria-label="Cerrar modal">
+              <Cross1Icon width="18" height="18" />
+            </IconButton>
+          </Dialog.Close>
+        </Box>
 
-            <div className="flex flex-col md:flex-row overflow-hidden">
-              {/* Image Section */}
-              <div className="w-full md:w-1/2 bg-muted/30 p-6 flex flex-col items-center justify-center">
-                <div className="w-full max-w-xs">
-                  <img
-                    src={selectedImage}
-                    alt={product.title}
-                    className="w-full h-auto rounded-lg"
-                  />
-                </div>
-                
-                {displayImages.length > 1 && (
-                  <div className="flex gap-2 mt-4">
-                    {displayImages.map((img, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setSelectedImage(img)}
-                        className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-primary ${
-                          selectedImage === img 
-                            ? "border-primary" 
-                            : "border-transparent opacity-60 hover:opacity-100"
-                        }`}
-                        aria-label={`Ver imagen ${index + 1}`}
-                      >
-                        <img src={img} alt="" className="w-full h-full object-cover" />
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Content Section */}
-              <div className="w-full md:w-1/2 p-6 overflow-y-auto">
-                {/* Badges */}
-                <div className="flex flex-wrap gap-2 mb-3">
-                  {product.brand && (
-                    <span className="text-xs font-medium uppercase tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full">
-                      {product.brand}
-                    </span>
-                  )}
-                  {product.discountPercentage && (
-                    <span className="text-xs font-bold text-white bg-destructive px-2.5 py-1 rounded-full">
-                      -{Math.round(product.discountPercentage)}%
-                    </span>
-                  )}
-                </div>
-
-                {/* Title */}
-                <h2 
-                  id="modal-title"
-                  className="text-2xl font-bold text-foreground mb-2"
-                >
-                  {product.title}
-                </h2>
-
-                {/* Rating */}
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="flex items-center">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <span 
-                        key={i} 
-                        className={`text-sm ${i < Math.round(product.rating || 0) ? 'text-amber-400' : 'text-muted'}`}
-                      >
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <span className="text-sm text-muted-foreground">
-                    {product.rating?.toFixed(1)}
-                  </span>
-                </div>
-
-                {/* Description */}
-                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                  {product.description}
-                </p>
-
-                {/* Price */}
-                <div className="flex items-baseline gap-3 mb-4">
-                  <span className="text-2xl font-bold text-foreground">
-                    ${product.price.toFixed(2)}
-                  </span>
-                  {product.discountPercentage && (
-                    <span className="text-base text-muted-foreground line-through">
-                      ${(product.price / (1 - product.discountPercentage / 100)).toFixed(2)}
-                    </span>
-                  )}
-                </div>
-
-                {/* Stock */}
-                <div className="mb-4">
-                  <span className={`text-sm font-medium ${
-                    isOutOfStock ? 'text-destructive' : 
-                    stockStatus === 'low' ? 'text-warning' : 'text-success'
-                  }`}>
-                    {isOutOfStock ? 'Agotado' : 
-                     stockStatus === 'low' ? `Solo quedan ${product.stock} unidades` : 
-                     `${product.stock} unidades disponibles`}
-                  </span>
-                </div>
-
-                {/* Quantity & Add to Cart */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium">Cantidad:</span>
-                    <div className="flex items-center border border-border rounded-lg">
-                      <button
-                        onClick={decrement}
-                        disabled={quantity <= 1}
-                        className="px-3 py-2 hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus-visible:ring-2 focus-visible:ring-primary"
-                        aria-label="Disminuir cantidad"
-                      >
-                        <HiOutlineMinus className="w-4 h-4" />
-                      </button>
-                      <span className="px-4 py-2 font-medium min-w-[3rem] text-center border-x border-border">
-                        {quantity}
-                      </span>
-                      <button
-                        onClick={increment}
-                        disabled={quantity >= product.stock}
-                        className="px-3 py-2 hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus-visible:ring-2 focus-visible:ring-primary"
-                        aria-label="Aumentar cantidad"
-                      >
-                        <HiOutlinePlus className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <Button
-                    onClick={handleAddToCart}
-                    disabled={isOutOfStock}
-                    size="lg"
-                    className="w-full h-11"
+        <Grid columns={{ initial: "1", md: "2" }} gap="6">
+          {/* Image Section */}
+          <Flex direction="column" align="center" justify="center" p="4" style={{ backgroundColor: "var(--gray-2)", borderRadius: "var(--radius-3)" }}>
+            <Box style={{ width: "100%", maxWidth: "320px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <img
+                src={selectedImage}
+                alt={product.title}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: "300px",
+                  objectFit: "contain",
+                  borderRadius: "var(--radius-3)",
+                }}
+              />
+            </Box>
+            
+            {displayImages.length > 1 && (
+              <Flex gap="2" mt="4" wrap="wrap" justify="center">
+                {displayImages.map((img, index) => (
+                  <IconButton
+                    key={index}
+                    onClick={() => setSelectedImage(img)}
+                    variant="outline"
+                    style={{
+                      width: 56,
+                      height: 56,
+                      padding: 0,
+                      overflow: "hidden",
+                      border: selectedImage === img ? "2px solid var(--purple-9)" : "1px solid var(--gray-5)",
+                      opacity: selectedImage === img ? 1 : 0.6,
+                      cursor: "pointer",
+                    }}
+                    aria-label={`Ver imagen ${index + 1}`}
                   >
-                    <HiOutlineShoppingBag className="w-5 h-5 mr-2" />
-                    {isOutOfStock ? 'Sin Stock' : 'Añadir al Carrito'}
-                  </Button>
+                    <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </IconButton>
+                ))}
+              </Flex>
+            )}
+          </Flex>
 
-                  <Button
+          {/* Content Section */}
+          <Flex direction="column" gap="4">
+            {/* Badges */}
+            <Flex gap="2">
+              {product.brand && (
+                <Badge color="purple" size="2" style={{ textTransform: "uppercase" }}>
+                  {product.brand}
+                </Badge>
+              )}
+              {product.discountPercentage && (
+                <Badge color="red" size="2">
+                  -{Math.round(product.discountPercentage)}%
+                </Badge>
+              )}
+            </Flex>
+
+            {/* Title */}
+            <Heading size="6" as="h2">
+              {product.title}
+            </Heading>
+
+            {/* Rating */}
+            <Flex align="center" gap="2">
+              <Flex align="center" gap="0">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Text
+                    key={i}
+                    size="3"
+                    style={{
+                      color: i < Math.round(product.rating || 0) ? "var(--amber-9)" : "var(--gray-6)",
+                    }}
+                  >
+                    ★
+                  </Text>
+                ))}
+              </Flex>
+              <Text size="2" color="gray">
+                {product.rating?.toFixed(1)}
+              </Text>
+            </Flex>
+
+            {/* Description */}
+            <Text size="2" color="gray" style={{ lineHeight: "1.6" }}>
+              {product.description}
+            </Text>
+
+            {/* Price */}
+            <Flex align="baseline" gap="3">
+              <Text size="6" weight="bold">
+                ${product.price.toFixed(2)}
+              </Text>
+              {product.discountPercentage && (
+                <Text size="3" color="gray" style={{ textDecoration: "line-through" }}>
+                  ${(product.price / (1 - product.discountPercentage / 100)).toFixed(2)}
+                </Text>
+              )}
+            </Flex>
+
+            {/* Stock */}
+            <Box>
+              <Text
+                size="2"
+                weight="medium"
+                color={
+                  isOutOfStock ? "red" :
+                  stockStatus === "low" ? "amber" : "green"
+                }
+              >
+                {isOutOfStock ? 'Agotado' : 
+                 stockStatus === 'low' ? `Solo quedan ${product.stock} unidades` : 
+                 `${product.stock} unidades disponibles`}
+              </Text>
+            </Box>
+
+            {/* Quantity & Add to Cart */}
+            <Flex direction="column" gap="3" mt="auto">
+              <Flex align="center" gap="3">
+                <Text size="2" weight="medium">Cantidad:</Text>
+                <Flex align="center" style={{ border: "1px solid var(--gray-6)", borderRadius: "var(--radius-3)" }}>
+                  <IconButton
+                    onClick={decrement}
+                    disabled={quantity <= 1}
                     variant="ghost"
-                    onClick={onClose}
-                    className="w-full"
+                    color="gray"
+                    style={{ cursor: "pointer" }}
+                    aria-label="Disminuir cantidad"
                   >
-                    Continuar Comprando
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </m.div>
-        </m.div>
-      )}
-    </AnimatePresence>
+                    <MinusIcon />
+                  </IconButton>
+                  <Text weight="medium" style={{ minWidth: 40, textAlign: "center", paddingLeft: "var(--space-3)", paddingRight: "var(--space-3)" }}>
+                    {quantity}
+                  </Text>
+                  <IconButton
+                    onClick={increment}
+                    disabled={quantity >= product.stock}
+                    variant="ghost"
+                    color="gray"
+                    style={{ cursor: "pointer" }}
+                    aria-label="Aumentar cantidad"
+                  >
+                    <PlusIcon />
+                  </IconButton>
+                </Flex>
+              </Flex>
+
+              <Button
+                onClick={handleAddToCart}
+                disabled={isOutOfStock}
+                size="lg"
+                style={{ width: "100%" }}
+              >
+                <BackpackIcon style={{ marginRight: 8 }} />
+                {isOutOfStock ? 'Sin Stock' : 'Añadir al Carrito'}
+              </Button>
+
+              <Button
+                variant="ghost"
+                onClick={onClose}
+                style={{ width: "100%" }}
+              >
+                Continuar Comprando
+              </Button>
+            </Flex>
+          </Flex>
+        </Grid>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 };
 

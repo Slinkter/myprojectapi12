@@ -1,7 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@/test/utils";
 import Cart from "../Cart";
-import { CartProvider } from "../../application/CartContext";
+import { useCart } from "@/features/cart/application/useCart";
 
 // Mock de toast
 vi.mock("react-hot-toast", () => ({
@@ -11,31 +11,50 @@ vi.mock("react-hot-toast", () => ({
   },
 }));
 
+// Mock de useCart
+vi.mock("@/features/cart/application/useCart", () => ({
+  useCart: vi.fn(),
+}));
+
 describe("Cart Component Integration", () => {
-  const renderCart = () => {
-    return render(
-      <CartProvider>
-        <Cart />
-      </CartProvider>,
-    );
+  const defaultUseCartValue = {
+    cart: [],
+    addToCart: vi.fn(),
+    removeFromCart: vi.fn(),
+    clearCart: vi.fn(),
+    isCartOpen: false,
+    openCart: vi.fn(),
+    closeCart: vi.fn(),
+    toggleCart: vi.fn(),
+    totalPrice: 0,
+    totalItems: 0,
   };
 
+  beforeEach(() => {
+    vi.mocked(useCart).mockReturnValue(defaultUseCartValue);
+  });
+
   it("should be hidden by default (off-canvas)", () => {
-    renderCart();
-    const drawer = screen.getByRole("dialog", { hidden: true });
-    // En el sistema actual, el drawer usa clases de translate para ocultarse
-    expect(drawer).toHaveClass("translate-x-full");
+    render(<Cart />);
+    const drawer = screen.queryByRole("dialog");
+    expect(drawer).not.toBeInTheDocument();
   });
 
   it("should display empty cart message when no items", () => {
-    renderCart();
-    // Abrir el carrito primero para que sea visible en el DOM (aunque el test use hidden: true)
-    // Pero el mensaje de "vacío" debería estar ahí
+    vi.mocked(useCart).mockReturnValue({
+      ...defaultUseCartValue,
+      isCartOpen: true,
+    });
+    render(<Cart />);
     expect(screen.getByText(/Tu carrito está vacío/i)).toBeInTheDocument();
   });
 
   it("should not show total price section when cart is empty", () => {
-    renderCart();
+    vi.mocked(useCart).mockReturnValue({
+      ...defaultUseCartValue,
+      isCartOpen: true,
+    });
+    render(<Cart />);
     const totals = screen.queryAllByText(/\$0/);
     expect(totals.length).toBe(0);
   });

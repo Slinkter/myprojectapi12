@@ -1,33 +1,37 @@
 import { Link } from "react-router-dom";
-import { IoArrowBack, IoShieldCheckmarkOutline } from "react-icons/io5";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import { Flex, Heading, Text, Badge, Box } from "@radix-ui/themes";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const CheckoutHeader = () => {
   useLogLifecycle("CheckoutHeader");
   return (
-    <div className="p-6 border-b border-border">
-      <div className="flex items-center justify-between mb-4">
+    <Box p="4" style={{ borderBottom: "1px solid var(--gray-5)" }}>
+      <Flex align="center" justify="between" mb="3">
         <Link
           to="/"
-          className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-1)",
+            fontSize: "var(--font-size-2)",
+            color: "var(--gray-11)",
+            textDecoration: "none",
+          }}
         >
-          <IoArrowBack className="w-4 h-4" /> Volver
+          <ArrowLeftIcon /> Volver
         </Link>
-        <div className="flex items-center gap-1.5 text-success text-xs font-medium px-2.5 py-1 bg-success/10 rounded-full">
-          <IoShieldCheckmarkOutline className="w-3.5 h-3.5" />
+        <Badge color="green" size="2">
           Pago Seguro
-        </div>
-      </div>
-      <h1
-        id="checkout-title"
-        className="text-2xl font-bold text-foreground"
-      >
+        </Badge>
+      </Flex>
+      <Heading size="6" as="h1" id="checkout-title">
         Checkout
-      </h1>
-      <p className="text-sm text-muted-foreground mt-1">
+      </Heading>
+      <Text size="2" color="gray" mt="1" as="p">
         Completa los datos para realizar tu pago
-      </p>
-    </div>
+      </Text>
+    </Box>
   );
 };
 

@@ -1,151 +1,194 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X, Search, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/features/cart/application/CartContext";
-import { cn } from "@/shared/lib/cn";
 import { useTheme } from "@/features/theme/application/ThemeContext";
 import { useLogLifecycle } from "@/shared/hooks";
+import {
+  Box,
+  Flex,
+  Container,
+  Heading,
+  IconButton,
+  Badge,
+  TextField,
+  Button as RadixButton,
+} from "@radix-ui/themes";
+import {
+  MagnifyingGlassIcon,
+  HamburgerMenuIcon,
+  Cross1Icon,
+  SunIcon,
+  MoonIcon,
+  BackpackIcon,
+} from "@radix-ui/react-icons";
 
 const navLinks = [
-    { href: "/", label: "Inicio" },
-    { href: "/products", label: "Productos" },
-    { href: "/checkout", label: "Checkout" },
+  { href: "/", label: "Inicio" },
+  { href: "/products", label: "Productos" },
+  { href: "/checkout", label: "Checkout" },
 ];
 
 const Navbar = () => {
-    useLogLifecycle("Navbar");
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const location = useLocation();
-    const { cart } = useCart();
-    const { theme, toggleDarkMode } = useTheme();
+  useLogLifecycle("Navbar");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const location = useLocation();
+  const { cart } = useCart();
+  const { theme, toggleDarkMode } = useTheme();
 
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const isActive = (path: string) => location.pathname === path;
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const isActive = (path: string) => location.pathname === path;
 
-    return (
-        <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm border-b border-border">
-            <div className="container mx-auto flex h-14 items-center justify-between px-4">
-                <Link
-                    to="/"
-                    className="flex items-center gap-2 text-lg font-semibold text-foreground hover:text-primary transition-colors"
+  return (
+    <Box
+      asChild
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        borderBottom: "1px solid var(--gray-4)",
+        backgroundColor: "var(--color-background)",
+      }}
+    >
+      <header>
+        <Container size="3" px="4">
+          <Flex justify="between" align="center" height="56px">
+            {/* Logo */}
+            <Heading size="4" weight="bold">
+              <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+                API-12
+              </Link>
+            </Heading>
+
+            {/* Desktop Navigation */}
+            <Flex gap="2" display={{ initial: "none", md: "flex" }} align="center">
+              {navLinks.map(({ href, label }) => (
+                <RadixButton
+                  key={href}
+                  variant={isActive(href) ? "soft" : "ghost"}
+                  color="purple"
+                  asChild
                 >
-                    API-12
+                  <Link to={href}>{label}</Link>
+                </RadixButton>
+              ))}
+            </Flex>
+
+            {/* Actions */}
+            <Flex gap="2" align="center">
+              {/* Search Toggle */}
+              <IconButton
+                variant="ghost"
+                color="gray"
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                aria-label="Buscar"
+                size="3"
+              >
+                <MagnifyingGlassIcon width="20" height="20" />
+              </IconButton>
+
+              {/* Theme Toggle */}
+              <IconButton
+                variant="ghost"
+                color="gray"
+                onClick={toggleDarkMode}
+                aria-label={theme === "dark" ? "Modo claro" : "Modo oscuro"}
+                size="3"
+              >
+                {theme === "dark" ? (
+                  <SunIcon width="20" height="20" style={{ color: "var(--amber-9)" }} />
+                ) : (
+                  <MoonIcon width="20" height="20" />
+                )}
+              </IconButton>
+
+              {/* Cart Link */}
+              <IconButton
+                variant="ghost"
+                color="gray"
+                asChild
+                size="3"
+              >
+                <Link to="/checkout" style={{ position: "relative" }}>
+                  <BackpackIcon width="20" height="20" />
+                  {totalItems > 0 && (
+                    <Badge
+                      color="purple"
+                      variant="solid"
+                      radius="full"
+                      style={{
+                        position: "absolute",
+                        top: "-5px",
+                        right: "-5px",
+                      }}
+                    >
+                      {totalItems > 99 ? "99+" : totalItems}
+                    </Badge>
+                  )}
                 </Link>
+              </IconButton>
 
-                <nav className="hidden md:flex items-center gap-1">
-                    {navLinks.map(({ href, label }) => (
-                        <Link
-                            key={href}
-                            to={href}
-                            className={cn(
-                                "px-3 py-2 text-sm font-medium rounded-lg transition-colors",
-                                "hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary",
-                                isActive(href)
-                                    ? "text-primary bg-primary/10"
-                                    : "text-muted-foreground",
-                            )}
-                        >
-                            {label}
-                        </Link>
-                    ))}
-                </nav>
+              {/* Mobile Menu Toggle */}
+              <Box display={{ initial: "block", md: "none" }} asChild>
+                <IconButton
+                  variant="ghost"
+                  color="gray"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                  size="3"
+                >
+                  {isMobileMenuOpen ? (
+                    <Cross1Icon width="20" height="20" />
+                  ) : (
+                    <HamburgerMenuIcon width="20" height="20" />
+                  )}
+                </IconButton>
+              </Box>
+            </Flex>
+          </Flex>
+        </Container>
 
-                <div className="flex items-center gap-1">
-                    <button
-                        type="button"
-                        onClick={() => setIsSearchOpen(!isSearchOpen)}
-                        className="p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
-                        aria-label="Buscar"
-                    >
-                        <Search className="w-5 h-5" />
-                    </button>
+        {/* Search Input Area */}
+        {isSearchOpen && (
+          <Box p="4" style={{ borderTop: "1px solid var(--gray-4)" }}>
+            <Container size="3">
+              <Box style={{ maxWidth: "600px" }} mx="auto">
+                <TextField.Root placeholder="Buscar productos..." size="3" aria-label="Buscar productos">
+                  <TextField.Slot>
+                    <MagnifyingGlassIcon height="16" width="16" />
+                  </TextField.Slot>
+                </TextField.Root>
+              </Box>
+            </Container>
+          </Box>
+        )}
 
-                    <button
-                        type="button"
-                        onClick={toggleDarkMode}
-                        className="p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
-                        aria-label={
-                            theme === "dark" ? "Modo claro" : "Modo oscuro"
-                        }
-                    >
-                        {theme === "dark" ? (
-                            <Sun className="w-5 h-5 text-amber-500" />
-                        ) : (
-                            <Moon className="w-5 h-5" />
-                        )}
-                    </button>
-
-                    <Link
-                        to="/checkout"
-                        className="relative p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
-                        aria-label={`Carrito de compras, ${totalItems} artículos`}
-                    >
-                        <ShoppingCart className="w-5 h-5" />
-                        {totalItems > 0 && (
-                            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-medium text-primary-foreground">
-                                {totalItems > 99 ? "99+" : totalItems}
-                            </span>
-                        )}
-                    </Link>
-
-                    <button
-                        type="button"
-                        className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        aria-label={
-                            isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"
-                        }
-                    >
-                        {isMobileMenuOpen ? (
-                            <X className="w-5 h-5" />
-                        ) : (
-                            <Menu className="w-5 h-5" />
-                        )}
-                    </button>
-                </div>
-            </div>
-
-            {isSearchOpen && (
-                <div className="border-t border-border bg-background p-4">
-                    <div className="container mx-auto">
-                        <div className="relative max-w-xl mx-auto">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                            <input
-                                type="search"
-                                placeholder="Buscar productos..."
-                                className="w-full h-10 pl-10 pr-4 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                                aria-label="Buscar productos"
-                            />
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {isMobileMenuOpen && (
-                <div className="md:hidden border-t border-border bg-background">
-                    <nav className="container mx-auto px-4 py-2 flex flex-col gap-1">
-                        {navLinks.map(({ href, label }) => (
-                            <Link
-                                key={href}
-                                to={href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className={cn(
-                                    "px-3 py-2.5 text-sm font-medium rounded-lg transition-colors",
-                                    "hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary",
-                                    isActive(href)
-                                        ? "text-primary bg-primary/10"
-                                        : "text-muted-foreground",
-                                )}
-                            >
-                                {label}
-                            </Link>
-                        ))}
-                    </nav>
-                </div>
-            )}
-        </header>
-    );
+        {/* Mobile Menu Panel */}
+        {isMobileMenuOpen && (
+          <Box
+            p="3"
+            display={{ md: "none" }}
+            style={{ borderTop: "1px solid var(--gray-4)", backgroundColor: "var(--color-background)" }}
+          >
+            <Flex direction="column" gap="1">
+              {navLinks.map(({ href, label }) => (
+                <RadixButton
+                  key={href}
+                  variant={isActive(href) ? "soft" : "ghost"}
+                  color="purple"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  asChild
+                  style={{ justifyContent: "flex-start" }}
+                >
+                  <Link to={href}>{label}</Link>
+                </RadixButton>
+              ))}
+            </Flex>
+          </Box>
+        )}
+      </header>
+    </Box>
+  );
 };
 
 export default Navbar;

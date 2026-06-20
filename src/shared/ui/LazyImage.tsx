@@ -14,6 +14,7 @@ interface ILazyImageProps {
   alt: string
   className?: string
   aspectRatio?: string
+  style?: React.CSSProperties
 }
 
 /**
@@ -21,7 +22,7 @@ interface ILazyImageProps {
  * @description Imagen con efecto blur-up: muestra un fondo difuminado mientras carga.
  * Optimiza la UX mostrando feedback inmediato.
  */
-export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]' }: ILazyImageProps) {
+export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]', style }: ILazyImageProps) {
   useLogLifecycle("LazyImage");
   const [isLoaded, setIsLoaded] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -36,7 +37,7 @@ export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]' }:
   }, [])
 
   return (
-    <div className={cn('relative overflow-hidden bg-muted/30', aspectRatio, className)}>
+    <div className={cn('relative overflow-hidden bg-muted/30', aspectRatio, className)} style={style}>
       {/* Placeholder con blur */}
       <div 
         className={cn(

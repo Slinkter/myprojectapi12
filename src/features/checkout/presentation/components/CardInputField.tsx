@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
-import { cn } from "@/shared/lib/cn";
-import { HiOutlineExclamationCircle } from "react-icons/hi2";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Box, Text, TextField, Flex } from "@radix-ui/themes";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface CardInputFieldProps {
   label: string;
@@ -8,18 +9,9 @@ interface CardInputFieldProps {
   value: string;
   error?: string;
   icon: ReactNode;
+  rightSlot?: ReactNode;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
-
-const inputClasses = (hasError: boolean) => {
-  return `w-full px-4 py-3 rounded-xl border bg-background text-foreground placeholder:text-muted-foreground transition-all duration-200 outline-none
-      focus:ring-2 focus:ring-primary/20 focus:border-primary
-      ${
-        hasError
-          ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20 bg-destructive/5"
-          : "border-border hover:border-border/80"
-      }`;
-};
 
 const CardInputField = ({
   label,
@@ -27,40 +19,55 @@ const CardInputField = ({
   value,
   error,
   icon,
+  rightSlot,
   inputProps,
 }: CardInputFieldProps) => {
+  useLogLifecycle("CardInputField");
   const inputId = `card-${name}`;
   const errorId = `${inputId}-error`;
 
   return (
-    <div>
-      <label
+    <Box>
+      <Text
+        as="label"
         htmlFor={inputId}
-        className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-widest"
+        size="1"
+        weight="bold"
+        color="gray"
+        style={{ display: "block", marginBottom: "var(--space-1)", textTransform: "uppercase", letterSpacing: "0.1em" }}
       >
         {label}
-      </label>
-      <div className="relative group">
-        <input
-          id={inputId}
-          className={cn(inputClasses(!!error), inputProps?.className || "")}
-          name={name}
-          value={value}
-          aria-invalid={!!error}
-          aria-describedby={error ? errorId : undefined}
-          {...inputProps}
-        />
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+      </Text>
+      
+      <TextField.Root
+        id={inputId}
+        name={name}
+        value={value}
+        color={error ? "red" : undefined}
+        aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
+        {...(inputProps as any)}
+        size="3"
+      >
+        <TextField.Slot>
           {icon}
-        </div>
-      </div>
+        </TextField.Slot>
+        {rightSlot && (
+          <TextField.Slot side="right">
+            {rightSlot}
+          </TextField.Slot>
+        )}
+      </TextField.Root>
+
       {error && (
-        <p id={errorId} className="text-destructive text-xs mt-1.5 flex items-center gap-1.5 font-bold">
-          <HiOutlineExclamationCircle className="w-4 h-4" />
-          {error}
-        </p>
+        <Flex id={errorId} gap="1" align="center" mt="1" style={{ color: "var(--red-9)" }}>
+          <ExclamationTriangleIcon width="14" height="14" />
+          <Text size="1" weight="bold">
+            {error}
+          </Text>
+        </Flex>
       )}
-    </div>
+    </Box>
   );
 };
 

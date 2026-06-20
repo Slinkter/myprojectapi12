@@ -1,74 +1,53 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
-import { HiOutlineMagnifyingGlass, HiOutlineXMark } from "react-icons/hi2";
-import { cn } from "@/shared/lib/cn";
-import { Button } from "@/shared/ui/Button";
+import { TextField, IconButton } from "@radix-ui/themes";
+import { MagnifyingGlassIcon, Cross1Icon } from "@radix-ui/react-icons";
 
 interface ISearchInputProps {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
-    className?: string;
+    style?: React.CSSProperties;
 }
 
 export function SearchInput({
     value,
     onChange,
     placeholder = "Buscar productos...",
-    className,
+    style,
 }: ISearchInputProps) {
     useLogLifecycle("SearchInput");
-    const [isFocused, setIsFocused] = useState(false);
 
     const handleClear = useCallback(() => {
         onChange("");
     }, [onChange]);
 
     return (
-        <div
-            className={cn(
-                "relative flex items-center rounded-xl transition-all duration-200",
-                "border bg-background",
-                isFocused
-                    ? "border-primary ring-2 ring-primary/30"
-                    : "border-border hover:border-primary/40",
-                className,
-            )}
+        <TextField.Root
+            size="3"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            style={style}
+            aria-label="Buscar productos"
         >
-            <HiOutlineMagnifyingGlass
-                className={cn(
-                    "absolute left-4 w-5 h-5 pointer-events-none transition-colors duration-200",
-                    isFocused ? "text-primary" : "text-muted-foreground",
-                )}
-            />
-            <input
-                type="search"
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                placeholder={placeholder}
-                className={cn(
-                    "w-full h-12 pl-12 pr-12 rounded-xl",
-                    "bg-transparent",
-                    "text-foreground",
-                    "placeholder:text-muted-foreground",
-                    "focus:outline-none",
-                    "transition-all duration-200",
-                )}
-                aria-label="Buscar productos"
-            />
+            <TextField.Slot>
+                <MagnifyingGlassIcon height="16" width="16" />
+            </TextField.Slot>
             {value && (
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleClear}
-                    className="absolute right-2 h-8 w-8 rounded-full hover:bg-muted cursor-pointer focus-visible:ring-2 focus-visible:ring-primary"
-                    aria-label="Limpiar búsqueda"
-                >
-                    <HiOutlineXMark className="w-4 h-4" />
-                </Button>
+                <TextField.Slot side="right">
+                    <IconButton
+                        size="1"
+                        variant="ghost"
+                        color="gray"
+                        onClick={handleClear}
+                        style={{ cursor: "pointer" }}
+                        aria-label="Limpiar búsqueda"
+                    >
+                        <Cross1Icon height="16" width="16" />
+                    </IconButton>
+                </TextField.Slot>
             )}
-        </div>
+        </TextField.Root>
     );
 }

@@ -1,4 +1,5 @@
-import { HiOutlineTrash } from "react-icons/hi2";
+import { Flex, Box, Text, IconButton } from "@radix-ui/themes";
+import { TrashIcon } from "@radix-ui/react-icons";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -10,32 +11,50 @@ interface CartItemRowProps {
 export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
   useLogLifecycle("CartItemRow");
   return (
-    <div className="flex items-start gap-3 p-3 border border-border rounded-lg">
+    <Flex
+      align="start"
+      gap="3"
+      p="3"
+      style={{
+        border: "1px solid var(--gray-5)",
+        borderRadius: "var(--radius-3)",
+      }}
+    >
       <img
         src={item.thumbnail}
         alt={item.title}
-        className="w-14 h-14 object-cover rounded-md bg-muted flex-shrink-0"
+        style={{
+          width: 56,
+          height: 56,
+          objectFit: "cover",
+          borderRadius: "var(--radius-2)",
+          backgroundColor: "var(--gray-3)",
+          flexShrink: 0,
+        }}
       />
-      <div className="flex-1 min-w-0">
-        <h6 className="font-medium text-sm text-foreground truncate">
+      <Box style={{ flexGrow: 1, minWidth: 0 }}>
+        <Text size="2" weight="medium" as="p" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {item.title}
-        </h6>
-        <p className="text-xs text-muted-foreground mt-0.5">
+        </Text>
+        <Text size="1" color="gray" mt="1" as="p">
           ${item.price.toFixed(2)} x {item.quantity}
-        </p>
-      </div>
-      <div className="flex flex-col items-end gap-1">
-        <span className="font-semibold text-sm">
+        </Text>
+      </Box>
+      <Flex direction="column" align="end" gap="1">
+        <Text size="2" weight="bold">
           ${(item.price * item.quantity).toFixed(2)}
-        </span>
-        <button
+        </Text>
+        <IconButton
+          size="1"
+          variant="ghost"
+          color="red"
           onClick={() => onRemove(item.id)}
-          className="p-1.5 rounded-full hover:bg-destructive/10 text-destructive transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-destructive"
+          style={{ cursor: "pointer" }}
           aria-label={`Eliminar ${item.title}`}
         >
-          <HiOutlineTrash className="w-4 h-4" />
-        </button>
-      </div>
-    </div>
+          <TrashIcon width="16" height="16" />
+        </IconButton>
+      </Flex>
+    </Flex>
   );
 };
