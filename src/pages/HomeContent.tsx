@@ -9,7 +9,6 @@ import { useState, useCallback, useEffect } from "react";
 import { useProducts } from "@/features/products/application/useProducts";
 import { useProductModalContext } from "@/features/products/application/useProductModalContext";
 import { SearchInput } from "@/features/products/presentation/components/SearchInput";
-import { LoadingProgress } from "@/shared/ui/LoadingProgress";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
 import ProductList from "@/features/products/presentation/ProductList";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
@@ -62,7 +61,6 @@ export const HomeContent = () => {
 
     return (
         <>
-            <LoadingProgress isLoading={initialLoading} />
             <div className="container mx-auto px-4 py-8">
                 <div className="mb-8 max-w-xl mx-auto">
                     <SearchInput
