@@ -18,7 +18,7 @@ const Layout = ({ children }: ILayoutProps) => {
         <div className="min-h-screen bg-background">
             <Toaster position="top-center" reverseOrder={false} />
             <Navbar />
-            <main className="container mx-auto px-4 py-6" role="main">
+            <main className="container mx-auto px-4 py-6">
                 {children}
             </main>
         </div>

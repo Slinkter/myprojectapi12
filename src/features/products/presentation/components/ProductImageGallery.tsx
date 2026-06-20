@@ -1,4 +1,4 @@
-import { ImageZoom } from "@/components/common/ImageZoom";
+import { ImageZoom } from "@/shared/ui/ImageZoom";
 import { cn } from "@/lib/utils";
 
 interface ProductImageGalleryProps {

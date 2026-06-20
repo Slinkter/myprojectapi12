@@ -53,6 +53,7 @@ const Navbar = () => {
 
                 <div className="flex items-center gap-1">
                     <button
+                        type="button"
                         onClick={() => setIsSearchOpen(!isSearchOpen)}
                         className="p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
                         aria-label="Buscar"
@@ -61,6 +62,7 @@ const Navbar = () => {
                     </button>
 
                     <button
+                        type="button"
                         onClick={toggleDarkMode}
                         className="p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
                         aria-label={
@@ -88,6 +90,7 @@ const Navbar = () => {
                     </Link>
 
                     <button
+                        type="button"
                         className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label={
@@ -112,7 +115,6 @@ const Navbar = () => {
                                 type="search"
                                 placeholder="Buscar productos..."
                                 className="w-full h-10 pl-10 pr-4 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                                autoFocus
                                 aria-label="Buscar productos"
                             />
                         </div>

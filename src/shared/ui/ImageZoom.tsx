@@ -61,8 +61,11 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
   return (
     <div className={cn('relative group', className)} ref={containerRef}>
       <div
+        role="button"
+        tabIndex={0}
+        aria-label="Zoom de imagen. Presiona Enter o Espacio para ampliar, o arrastra con el ratón cuando esté ampliado."
         className={cn(
-          'overflow-hidden cursor-zoom-in rounded-xl',
+          'overflow-hidden cursor-zoom-in rounded-xl focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none',
           zoom > 1 && 'cursor-grab',
           isDragging && 'cursor-grabbing'
         )}
@@ -70,6 +73,16 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            if (zoom > 1) {
+              resetZoom()
+            } else {
+              zoomIn()
+            }
+          }
+        }}
       >
         <img
           src={src}
@@ -86,8 +99,9 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
       {zoom > 1 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full">
           <button
+            type="button"
             onClick={zoomOut}
-            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors"
+            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Alejar"
           >
             <HiOutlineMagnifyingGlassMinus className="w-5 h-5" />
@@ -96,15 +110,17 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
             {Math.round(zoom * 100)}%
           </span>
           <button
+            type="button"
             onClick={zoomIn}
-            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors"
+            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Acercar"
           >
             <HiOutlineMagnifyingGlassPlus className="w-5 h-5" />
           </button>
           <button
+            type="button"
             onClick={resetZoom}
-            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors ml-2"
+            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Restablecer"
           >
             <HiOutlineArrowPath className="w-5 h-5" />

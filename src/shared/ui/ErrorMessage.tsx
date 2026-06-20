@@ -53,6 +53,7 @@ const ErrorMessage = memo(
             </p>
             {action && (
               <button
+                type="button"
                 onClick={action.onClick}
                 className={cn(
                   "mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors",

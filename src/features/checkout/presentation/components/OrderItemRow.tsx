@@ -1,9 +1,9 @@
-import type { CartItem } from '@/features/cart/domain/cartTypes';
+import type { ICartItem } from '@/features/cart/domain/cartTypes';
 import { HiOutlineTrash } from 'react-icons/hi2'
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface OrderItemRowProps {
-  item: CartItem
+  item: ICartItem
   onRemove: (id: number) => void
 }
 

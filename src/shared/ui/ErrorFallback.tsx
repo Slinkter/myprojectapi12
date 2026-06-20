@@ -126,6 +126,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
 
                 <div className={clsx("flex gap-4 justify-center")}>
                     <button
+                        type="button"
                         onClick={onReset}
                         className={clsx(
                             "error-fallback-try-again-button px-6 py-3",
@@ -134,6 +135,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
                         Reintentar
                     </button>
                     <button
+                        type="button"
                         onClick={() =>
                             (window.location.href = "/myprojectapi12/")
                         }

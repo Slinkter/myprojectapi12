@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface ILoadingProgressProps {
@@ -12,13 +12,21 @@ export function LoadingProgress({ isLoading, className }: ILoadingProgressProps)
   const [progress, setProgress] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  
+  const prevIsLoadingRef = useRef(isLoading)
+
+  // Sincronizar estado de forma inline durante el renderizado cuando cambia el prop isLoading a false
+  if (isLoading !== prevIsLoadingRef.current) {
+    prevIsLoadingRef.current = isLoading
+    if (!isLoading) {
+      setProgress(0)
+      setIsVisible(false)
+    }
+  }
 
   useEffect(() => {
     if (isLoading) {
       timeoutRef.current = setTimeout(() => setIsVisible(true), 100)
-    } else {
-      setIsVisible(false)
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -26,10 +34,7 @@ export function LoadingProgress({ isLoading, className }: ILoadingProgressProps)
   }, [isLoading])
 
   useEffect(() => {
-    if (!isLoading) {
-      setProgress(0)
-      return
-    }
+    if (!isLoading) return
 
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -46,7 +51,7 @@ export function LoadingProgress({ isLoading, className }: ILoadingProgressProps)
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -55,7 +60,7 @@ export function LoadingProgress({ isLoading, className }: ILoadingProgressProps)
         >
           <div className="shadow-lg">
             <div className="h-1 w-full bg-muted">
-              <motion.div
+              <m.div
                 className="h-full bg-primary"
                 initial={{ width: '0%' }}
                 animate={{ width: `${Math.min(progress, 100)}%` }}
@@ -66,7 +71,7 @@ export function LoadingProgress({ isLoading, className }: ILoadingProgressProps)
               Cargando productos...
             </div>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

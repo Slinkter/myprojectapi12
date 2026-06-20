@@ -1,6 +1,6 @@
 import { HiOutlineShoppingBag } from 'react-icons/hi2'
 import { useLogLifecycle } from "@/shared/hooks";
-import type { CartItem } from '@/features/cart/domain/cartTypes';
+import type { ICartItem } from '@/features/cart/domain/cartTypes';
 import { cn } from '@/shared/lib/cn'
 import { OrderItemRow } from './OrderItemRow'
 import { DiscountInput } from './DiscountInput'
@@ -9,7 +9,7 @@ import { PriceRow } from './PriceRow'
 import { useDiscountValidation, calculateDiscountAmount } from '@/features/checkout/application/useDiscountValidation'
 
 interface IOrderSummaryProps {
-  items: CartItem[]
+  items: ICartItem[]
   totalPrice: number
   onRemove?: (id: number) => void
   className?: string
