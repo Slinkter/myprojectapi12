@@ -70,8 +70,8 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center justify-center rounded-full text-sm font-medium h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-pointer border-none bg-transparent"
-            aria-label="Cerrar modal"
+            className="inline-flex items-center justify-center rounded-full text-sm font-medium h-10 w-10 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-pointer border-none bg-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30"
+            aria-label="Cerrar modal de producto"
           >
             <X size={18} />
           </button>
@@ -95,12 +95,13 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                     key={img}
                     type="button"
                     onClick={() => setSelectedImage(img)}
-                    className={`w-14 h-14 p-0 overflow-hidden rounded-md cursor-pointer border-2 ${
+                    className={`w-14 h-14 p-0 overflow-hidden rounded-lg cursor-pointer border-2 transition-all ${
                       selectedImage === img
-                        ? "border-purple-500 opacity-100"
-                        : "border-slate-200 dark:border-slate-700 opacity-60"
+                        ? "border-emerald-500 opacity-100 ring-2 ring-emerald-500/20"
+                        : "border-slate-200 dark:border-slate-700 opacity-60 hover:opacity-80"
                     } bg-transparent`}
-                    aria-label={`Ver imagen ${index + 1}`}
+                    aria-label={`Ver imagen ${index + 1} de ${displayImages.length}`}
+                    aria-pressed={selectedImage === img}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" />
                   </button>
@@ -132,17 +133,16 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
 
             {/* Rating */}
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-0">
+              <div className="flex items-center gap-0.5" aria-label={`Valoración: ${product.rating?.toFixed(1)} de 5 estrellas`}>
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <span
+                  <svg
                     key={i}
-                    className="text-lg"
-                    style={{
-                      color: i < Math.round(product.rating || 0) ? "#f59e0b" : "#94a3b8",
-                    }}
+                    className={`w-4 h-4 fill-current ${i < Math.round(product.rating || 0) ? 'text-amber-500' : 'text-slate-300 dark:text-slate-600'}`}
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    ★
-                  </span>
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                  </svg>
                 ))}
               </div>
               <span className="text-sm text-slate-500 dark:text-slate-400">
@@ -182,7 +182,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
             {/* Quantity & Add to Cart */}
             <div className="flex flex-col gap-3 mt-auto">
               <div className="flex items-center gap-3">
-                <p className="text-sm font-semibold text-slate-700 dark:text-slate-350">Cantidad:</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Cantidad:</p>
                 <QuantityControl
                   quantity={quantity}
                   stock={product.stock}

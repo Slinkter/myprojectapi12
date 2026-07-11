@@ -145,7 +145,7 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
                 transition={{ duration: 0.25, delay: 0.02, ease: "easeOut" }}
                 onClick={handleAddToCart}
                 aria-label={`Añadir ${product.title} al carrito`}
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border-none bg-primary text-white text-xs font-bold cursor-pointer hover:bg-primary-hover active:scale-95 transition-all shadow-lg shadow-primary/20 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border-none bg-primary text-white text-xs font-bold cursor-pointer hover:bg-primary-hover active:scale-95 transition-all shadow-lg shadow-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:ring-offset-1"
               >
                 <Plus size={14} />
                 Añadir
@@ -160,7 +160,7 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
                 transition={{ duration: 0.25, delay: 0.06, ease: "easeOut" }}
                 onClick={(e) => { e.stopPropagation(); openProductModal(product) }}
                 aria-label={`Vista rápida de ${product.title}`}
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border border-slate-700 bg-slate-900/85 hover:bg-slate-900 text-white text-xs font-bold cursor-pointer backdrop-blur active:scale-95 transition-all shadow-lg focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border border-slate-700 bg-slate-900/85 hover:bg-slate-900 text-white text-xs font-bold cursor-pointer backdrop-blur active:scale-95 transition-all shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
               >
                 <Eye size={14} />
                 Ver
@@ -223,12 +223,12 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
                 : stockStatus === 'ok'
                   ? 'text-emerald-600 dark:text-emerald-500'
                   : 'text-amber-600 dark:text-amber-500'
-            }`}>
+            }`} aria-live="polite">
               {isOutOfStock
-                ? '✕ Sin stock'
+                ? 'Sin stock'
                 : stockStatus === 'ok'
-                  ? `✓ ${product.stock} disponibles`
-                  : `⚠ Solo ${product.stock} restantes`}
+                  ? `${product.stock} disponibles`
+                  : `Solo ${product.stock} restantes`}
             </span>
           </div>
 
@@ -243,10 +243,10 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
               scale: isHovered ? 1.02 : 1,
             }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
-            className={`inline-flex items-center justify-center px-4 h-8.5 rounded-full text-xs font-bold border-none transition-colors shrink-0 ${
+            className={`inline-flex items-center justify-center px-4 h-9 rounded-full text-xs font-bold border-none transition-colors shrink-0 ${
               isOutOfStock
                 ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-600 cursor-not-allowed'
-                : 'bg-primary/8 text-primary hover:bg-primary/18 dark:bg-primary/15 dark:text-emerald-450 dark:hover:bg-primary/25 cursor-pointer'
+                : 'bg-primary/8 text-primary hover:bg-primary/18 dark:bg-primary/15 dark:text-emerald-400 dark:hover:bg-primary/25 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30'
             }`}
           >
             {isOutOfStock ? 'Agotado' : 'Detalles'}

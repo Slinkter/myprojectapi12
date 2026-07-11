@@ -49,7 +49,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950/20 py-4">
+    <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950/20 py-4">
       <div className="mx-auto max-w-5xl px-4">
         <div className="flex flex-col gap-5">
           {/* Estados */}
@@ -66,6 +66,7 @@ const Checkout = () => {
                 handlePaymentClick();
               }}
               className="flex flex-col gap-4"
+              aria-label="Formulario de pago"
             >
               {/* Método de pago */}
               <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4">
@@ -100,7 +101,7 @@ const Checkout = () => {
             </form>
 
             {/* Resumen del pedido */}
-            <div className="sticky top-4 h-fit">
+            <div className="sticky top-20 h-fit">
               <OrderSummary 
                 items={cart} 
                 totalPrice={totalPrice}
@@ -110,7 +111,7 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
