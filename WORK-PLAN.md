@@ -10,12 +10,12 @@
 
 ```
 FASE 0 ████████████████████ 100%  Setup ✅
-FASE 1 ░░░░░░░░░░░░░░░░░░░░   0%  JSDoc (8 agentes paralelos)
+FASE 1 ████████████████████ 100%  JSDoc ✅ (94 files, 1287 insertions)
 FASE 2 ░░░░░░░░░░░░░░░░░░░░   0%  Documentación Técnica
 FASE 3 ░░░░░░░░░░░░░░░░░░░░   0%  Guía de Estudio
 FASE 4 ░░░░░░░░░░░░░░░░░░░░   0%  Verificación
 
-TOTAL  ░░░░░░░░░░░░░░░░░░░░   5%
+TOTAL  ████░░░░░░░░░░░░░░░░  25%
 ```
 
 ---
@@ -26,6 +26,21 @@ TOTAL  ░░░░░░░░░░░░░░░░░░░░   5%
 - [x] Verificar que `docs/` está vacío — 0 archivos
 - [x] Crear estructura de directorios para docs
 - [x] Commit: `chore(docs): initialize docs workspace and install skills` (`f488abd`)
+
+**Progreso:** `████████████████████ 100% ✅`
+
+---
+
+## Fase 1: JSDoc ✅
+
+- [x] **A1 — Core Lib:** 16 files (shared/lib, hooks, api, constants, app/config)
+- [x] **A2 — UI Primitives:** 11 files (dialog, dropdown-menu, button, card, input, label, scroll-area, sheet)
+- [x] **A3 — UI Shared:** 10 files (Navbar, Layout, Loader, ErrorBoundary, ErrorFallback, ErrorMessage, EmptyState, LazyImage, ImageZoom, FeatureErrorBoundary)
+- [x] **A4 — Products:** 27 files (domain, infrastructure, application, presentation, components)
+- [x] **A5 — Cart:** 12 files (domain, application, hooks, presentation)
+- [x] **A6 — Checkout:** 23 files (domain, application, presentation, components)
+- [x] **A7 — Theme & App:** 9 files (ThemeContext, themeStorage, ThemeSwitcher, AppRouter, Home, HomeContent, App, main, vite-env)
+- [x] Commit: `docs(jsdoc): add JSDoc annotations to all 108 source files` (`41a0eca`)
 
 **Progreso:** `████████████████████ 100% ✅`
 
