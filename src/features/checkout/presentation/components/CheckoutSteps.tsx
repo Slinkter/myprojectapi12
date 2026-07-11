@@ -11,26 +11,40 @@ interface ICheckoutStepsProps {
 export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsProps) {
   useLogLifecycle("CheckoutSteps");
   return (
-    <div className={cn("flex items-center justify-center gap-2 mb-4", className)}>
+    <nav aria-label="Pasos del proceso de pago" className={cn("flex items-center justify-center gap-2 mb-4", className)}>
       {steps.map((step, index) => {
         const isCompleted = index < currentStep;
         const isCurrent = index === currentStep;
 
         return (
           <div key={step} className="flex items-center">
+            {/* 44px touch target wrapper around the 32px visual circle */}
             <div
-              className={cn(
-                "flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-all duration-300",
-                isCompleted && "bg-emerald-600 text-white",
-                isCurrent && "bg-emerald-600 text-white ring-4 ring-emerald-500/20 dark:ring-emerald-500/30",
-                !isCompleted && !isCurrent && "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-              )}
+              className="flex items-center justify-center min-w-[44px] min-h-[44px]"
+              aria-current={isCurrent ? "step" : undefined}
+              aria-label={
+                isCompleted
+                  ? `${step}: completado`
+                  : isCurrent
+                  ? `${step}: paso actual`
+                  : `${step}: pendiente`
+              }
             >
-              {isCompleted ? (
-                <Check className="h-4 w-4" />
-              ) : (
-                index + 1
-              )}
+              <div
+                className={cn(
+                  "flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-all duration-300",
+                  isCompleted && "bg-emerald-600 text-white",
+                  isCurrent && "bg-emerald-600 text-white ring-4 ring-emerald-500/20 dark:ring-emerald-500/30",
+                  !isCompleted && !isCurrent && "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
+                )}
+                aria-hidden="true"
+              >
+                {isCompleted ? (
+                  <Check className="h-4 w-4" />
+                ) : (
+                  index + 1
+                )}
+              </div>
             </div>
             <span
               className={cn(
@@ -39,6 +53,7 @@ export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsP
                 isCurrent && "text-slate-900 dark:text-slate-100 font-bold",
                 !isCompleted && !isCurrent && "text-slate-400 dark:text-slate-500"
               )}
+              aria-hidden="true"
             >
               {step}
             </span>
@@ -46,13 +61,14 @@ export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsP
               <div
                 className={cn(
                   "mx-2 w-12 h-0.5 transition-colors",
-                  isCompleted ? "bg-emerald-600 dark:bg-emerald-500" : "bg-slate-200 dark:bg-slate-850"
+                  isCompleted ? "bg-emerald-600 dark:bg-emerald-500" : "bg-slate-200 dark:bg-slate-800"
                 )}
+                aria-hidden="true"
               />
             )}
           </div>
         );
       })}
-    </div>
+    </nav>
   );
 }

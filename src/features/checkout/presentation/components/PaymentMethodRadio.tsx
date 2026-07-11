@@ -22,13 +22,14 @@ const PaymentMethodRadio = ({
         <div
             onClick={onChange}
             className={cn(
-                "cursor-pointer relative h-24 flex flex-col items-center justify-center transition-all duration-200 rounded-xl border-2 focus:outline-none focus:ring-2 focus:ring-emerald-500/20",
+                "cursor-pointer relative h-24 flex flex-col items-center justify-center transition-all duration-200 rounded-xl border-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30",
                 checked
                     ? "border-emerald-600 dark:border-emerald-500 bg-emerald-50/10 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400"
                     : "border-slate-200 dark:border-slate-800 bg-card text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900"
             )}
             role="radio"
             aria-checked={checked}
+            aria-label={label}
             tabIndex={0}
             onKeyDown={(e) => {
                 if (e.key === " " || e.key === "Enter") {
@@ -38,7 +39,7 @@ const PaymentMethodRadio = ({
             }}
         >
             <div className="flex flex-col items-center justify-center gap-1">
-                <div>
+                <div aria-hidden="true">
                     {id === "visa" && (
                         <span className="font-extrabold text-blue-600 dark:text-blue-400 text-sm tracking-wider">VISA</span>
                     )}
@@ -55,7 +56,7 @@ const PaymentMethodRadio = ({
                 <span className="text-xs font-semibold">{label}</span>
             </div>
             {checked && (
-                <div className="absolute top-2 right-2 text-emerald-600 dark:text-emerald-400">
+                <div aria-hidden="true" className="absolute top-2 right-2 text-emerald-600 dark:text-emerald-400">
                     <CheckCircle className="h-4 w-4" />
                 </div>
             )}
