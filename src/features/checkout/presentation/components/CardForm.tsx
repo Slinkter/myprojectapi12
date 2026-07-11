@@ -1,7 +1,6 @@
 import { ChangeEvent } from "react";
 import { ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
-import { Grid, Flex } from "@radix-ui/themes";
-import { PersonIcon, CalendarIcon, LockClosedIcon } from "@radix-ui/react-icons";
+import { User, Calendar, Lock } from "lucide-react";
 import { HiOutlineCreditCard } from "react-icons/hi2";
 import CardInputField from "./CardInputField";
 import CardTypeIndicator from "./CardTypeIndicator";
@@ -17,7 +16,7 @@ interface ICardFormProps {
 const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
   useLogLifecycle("CardForm");
   return (
-    <Flex direction="column" gap="4">
+    <div className="flex flex-col gap-4">
       {/* Card Number */}
       <CardInputField
         label="Número de tarjeta"
@@ -30,7 +29,6 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
           placeholder: "1234 5678 9012 3456",
           maxLength: 19,
           onChange,
-          style: { fontFamily: "var(--font-mono)" },
         }}
       />
 
@@ -40,7 +38,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
         name="name"
         value={cardInfo.name}
         error={errors.name}
-        icon={<PersonIcon />}
+        icon={<User className="h-4 w-4" />}
         inputProps={{
           placeholder: "Juan Pérez",
           onChange,
@@ -48,18 +46,17 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
       />
 
       {/* Expiry and CVC */}
-      <Grid columns="2" gap="3">
+      <div className="grid grid-cols-2 gap-3">
         <CardInputField
           label="Vencimiento"
           name="expiry"
           value={cardInfo.expiry}
           error={errors.expiry}
-          icon={<CalendarIcon />}
+          icon={<Calendar className="h-4 w-4" />}
           inputProps={{
             placeholder: "MM/YY",
             maxLength: 5,
             onChange,
-            style: { fontFamily: "var(--font-mono)" },
           }}
         />
 
@@ -68,17 +65,16 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
           name="cvc"
           value={cardInfo.cvc}
           error={errors.cvc}
-          icon={<LockClosedIcon />}
+          icon={<Lock className="h-4 w-4" />}
           inputProps={{
             placeholder: "123",
             type: "password",
             maxLength: 4,
             onChange,
-            style: { fontFamily: "var(--font-mono)" },
           }}
         />
-      </Grid>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

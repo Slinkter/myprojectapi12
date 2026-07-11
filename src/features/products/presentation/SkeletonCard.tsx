@@ -1,32 +1,31 @@
 import React from "react";
-import { Card, Flex, Skeleton } from "@radix-ui/themes";
 
 const SkeletonCard: React.FC = () => {
   return (
-    <Card size="2" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm h-full flex flex-col">
       {/* Image Skeleton */}
-      <Skeleton style={{ height: "224px", width: "100%", borderRadius: "var(--radius-3)" }} />
+      <div className="animate-pulse rounded-t-xl bg-slate-200 dark:bg-slate-800 h-56 w-full" />
 
-      <Flex direction="column" gap="2" p="4" style={{ flexGrow: 1 }}>
+      <div className="flex flex-col gap-2 p-4 grow">
         {/* Category Skeleton */}
-        <Skeleton style={{ height: "12px", width: "80px" }} />
+        <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-3 w-20" />
 
         {/* Title Skeleton */}
-        <Skeleton style={{ height: "20px", width: "75%" }} />
+        <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-5 w-3/4" />
 
         {/* Description Skeletons */}
-        <Flex direction="column" gap="1" style={{ flexGrow: 1 }}>
-          <Skeleton style={{ height: "16px", width: "100%" }} />
-          <Skeleton style={{ height: "16px", width: "85%" }} />
-        </Flex>
+        <div className="flex flex-col gap-1 grow">
+          <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-4 w-full" />
+          <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-4 w-[85%]" />
+        </div>
 
         {/* Footer Skeleton */}
-        <Flex justify="between" align="center" pt="3" style={{ borderTop: "1px solid var(--gray-5)" }}>
-          <Skeleton style={{ height: "24px", width: "96px" }} />
-          <Skeleton style={{ height: "36px", width: "96px", borderRadius: "var(--radius-3)" }} />
-        </Flex>
-      </Flex>
-    </Card>
+        <div className="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-6 w-24" />
+          <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-9 w-24 rounded-lg" />
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { Box, Text, TextField, Flex } from "@radix-ui/themes";
+import { AlertTriangle } from "lucide-react";
+import { cn } from "@/shared/lib/cn";
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface CardInputFieldProps {
@@ -27,49 +27,49 @@ const CardInputField = ({
   const errorId = `${inputId}-error`;
 
   return (
-    <Box>
-      <Text
-        as="label"
+    <div>
+      <label
         htmlFor={inputId}
-        size="1"
-        weight="bold"
-        color="gray"
-        style={{ display: "block", marginBottom: "var(--space-1)", textTransform: "uppercase", letterSpacing: "0.1em" }}
+        className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1"
       >
         {label}
-      </Text>
+      </label>
       
-      <TextField.Root
-        id={inputId}
-        name={name}
-        value={value}
-        color={error ? "red" : undefined}
-        aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
-        {...(inputProps as any)}
-        size="3"
-      >
-        <TextField.Slot>
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground pointer-events-none">
           {icon}
-        </TextField.Slot>
+        </div>
+        <input
+          id={inputId}
+          name={name}
+          value={value}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          className={cn(
+            "flex h-10 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-background px-3 py-2 text-sm pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all",
+            error && "border-red-500 focus:ring-red-500/20 focus:border-red-500",
+            (name === "number" || name === "expiry" || name === "cvc") && "font-mono tracking-wider",
+            inputProps?.className
+          )}
+          {...inputProps}
+        />
         {rightSlot && (
-          <TextField.Slot side="right">
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
             {rightSlot}
-          </TextField.Slot>
+          </div>
         )}
-      </TextField.Root>
+      </div>
 
       {error && (
-        <Flex id={errorId} gap="1" align="center" mt="1" style={{ color: "var(--red-9)" }}>
-          <ExclamationTriangleIcon width="14" height="14" />
-          <Text size="1" weight="bold">
+        <div id={errorId} className="flex gap-1 items-center mt-1 text-red-600">
+          <AlertTriangle className="h-3.5 w-3.5" />
+          <span className="text-xs font-bold">
             {error}
-          </Text>
-        </Flex>
+          </span>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
 
 export default CardInputField;
-

@@ -6,7 +6,7 @@
  */
 
 import { memo } from "react";
-import { ArchiveIcon } from "@radix-ui/react-icons";
+import { Archive } from "lucide-react";
 import ProductGrid from "@/features/products/presentation/ProductGrid";
 import ErrorMessage from "@/shared/ui/ErrorMessage";
 import EmptyState from "@/shared/ui/EmptyState";
@@ -45,7 +45,7 @@ const ProductList = memo((props: IProductListProps) => {
   if (products.length === 0 && !isLoading) {
     return (
       <EmptyState
-        icon={<ArchiveIcon style={{ width: 40, height: 40 }} />}
+        icon={<Archive size={40} />}
         title="No se encontraron productos"
         description="No hay productos disponibles en este momento. Intenta más tarde o explora otras categorías."
         actionLabel="Recargar"

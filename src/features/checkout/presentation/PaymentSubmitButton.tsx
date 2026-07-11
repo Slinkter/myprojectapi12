@@ -1,6 +1,5 @@
 import { Button } from "@/shared/ui/Button";
-import { Spinner, Flex, Text } from "@radix-ui/themes";
-import { LockClosedIcon } from "@radix-ui/react-icons";
+import { Loader2, Lock } from "lucide-react";
 import type { PaymentMethod } from "./PaymentMethodSelector";
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -8,33 +7,31 @@ interface PaymentSubmitButtonProps {
   isDisabled: boolean;
   isProcessing: boolean;
   method: PaymentMethod;
-  onClick: () => void;
 }
 
 const PaymentSubmitButton = ({
   isDisabled,
   isProcessing,
   method,
-  onClick,
 }: PaymentSubmitButtonProps) => {
   useLogLifecycle("PaymentSubmitButton");
   return (
     <Button
-      onClick={onClick}
+      type="submit"
       disabled={isDisabled || isProcessing}
-      style={{ width: "100%", height: 48 }}
+      className="w-full h-12"
       aria-label={`Pagar ahora con ${method}`}
     >
       {isProcessing ? (
-        <Flex align="center" gap="2">
-          <Spinner size="1" />
-          <Text>Procesando...</Text>
-        </Flex>
+        <span className="flex items-center gap-2">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          <span>Procesando...</span>
+        </span>
       ) : (
-        <Flex align="center" gap="2">
-          <Text>Pagar Ahora</Text>
-          <LockClosedIcon />
-        </Flex>
+        <span className="flex items-center gap-2">
+          <span>Pagar Ahora</span>
+          <Lock className="h-4 w-4" />
+        </span>
       )}
     </Button>
   );

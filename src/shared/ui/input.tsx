@@ -1,14 +1,16 @@
 import * as React from "react";
-import { TextField } from "@radix-ui/themes";
-import { useLogLifecycle } from "@/shared/hooks";
+import { cn } from "@/shared/lib/cn";
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentPropsWithoutRef<typeof TextField.Root>>(
-  (props, ref) => {
-    useLogLifecycle("Input");
+const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+  ({ className, type, ...props }, ref) => {
     return (
-      <TextField.Root
+      <input
+        type={type}
+        className={cn(
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )}
         ref={ref}
-        size="3"
         {...props}
       />
     );
@@ -17,4 +19,3 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentPropsWithoutRef<
 Input.displayName = "Input";
 
 export { Input };
-

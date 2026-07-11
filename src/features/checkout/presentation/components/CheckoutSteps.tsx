@@ -1,69 +1,58 @@
-import { CheckIcon } from '@radix-ui/react-icons'
-import { Flex, Box, Text } from '@radix-ui/themes'
+import { Check } from 'lucide-react';
 import { useLogLifecycle } from "@/shared/hooks";
+import { cn } from "@/shared/lib/cn";
 
 interface ICheckoutStepsProps {
-  steps: string[]
-  currentStep: number
-  style?: React.CSSProperties
+  steps: string[];
+  currentStep: number;
+  className?: string;
 }
 
-export function CheckoutSteps({ steps, currentStep, style }: ICheckoutStepsProps) {
+export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsProps) {
   useLogLifecycle("CheckoutSteps");
   return (
-    <Flex align="center" justify="center" gap="2" mb="4" style={style}>
+    <div className={cn("flex items-center justify-center gap-2 mb-4", className)}>
       {steps.map((step, index) => {
-        const isCompleted = index < currentStep
-        const isCurrent = index === currentStep
+        const isCompleted = index < currentStep;
+        const isCurrent = index === currentStep;
 
         return (
-          <Flex key={index} align="center">
-            <Flex
-              align="center"
-              justify="center"
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: "9999px",
-                fontWeight: "bold",
-                fontSize: "var(--font-size-2)",
-                transition: "all 0.3s",
-                backgroundColor: isCompleted ? "var(--green-9)" : isCurrent ? "var(--purple-9)" : "var(--gray-3)",
-                color: isCompleted || isCurrent ? "white" : "var(--gray-8)",
-                boxShadow: isCurrent ? "0 0 0 4px var(--purple-3)" : undefined,
-              }}
+          <div key={index} className="flex items-center">
+            <div
+              className={cn(
+                "flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-all duration-300",
+                isCompleted && "bg-emerald-600 text-white",
+                isCurrent && "bg-emerald-600 text-white ring-4 ring-emerald-500/20 dark:ring-emerald-500/30",
+                !isCompleted && !isCurrent && "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
+              )}
             >
               {isCompleted ? (
-                <CheckIcon width="18" height="18" />
+                <Check className="h-4 w-4" />
               ) : (
                 index + 1
               )}
-            </Flex>
-            <Box display={{ initial: "none", sm: "inline" }} asChild>
-              <Text
-                size="2"
-                weight="medium"
-                style={{
-                  marginLeft: "var(--space-2)",
-                  color: isCompleted ? "var(--green-9)" : isCurrent ? "var(--purple-9)" : "var(--gray-8)",
-                }}
-              >
-                {step}
-              </Text>
-            </Box>
+            </div>
+            <span
+              className={cn(
+                "ml-2 hidden sm:inline text-sm font-semibold transition-colors",
+                isCompleted && "text-emerald-600 dark:text-emerald-400",
+                isCurrent && "text-slate-900 dark:text-slate-100 font-bold",
+                !isCompleted && !isCurrent && "text-slate-400 dark:text-slate-500"
+              )}
+            >
+              {step}
+            </span>
             {index < steps.length - 1 && (
-              <Box
-                style={{
-                  width: 48,
-                  height: 2,
-                  margin: "0 var(--space-2)",
-                  backgroundColor: isCompleted ? "var(--green-9)" : "var(--gray-5)",
-                }}
+              <div
+                className={cn(
+                  "mx-2 w-12 h-0.5 transition-colors",
+                  isCompleted ? "bg-emerald-600 dark:bg-emerald-500" : "bg-slate-200 dark:bg-slate-850"
+                )}
               />
             )}
-          </Flex>
-        )
+          </div>
+        );
       })}
-    </Flex>
-  )
+    </div>
+  );
 }

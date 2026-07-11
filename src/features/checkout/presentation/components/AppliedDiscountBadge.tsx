@@ -1,5 +1,4 @@
-import { CheckIcon, Cross1Icon } from '@radix-ui/react-icons'
-import { Card, Flex, Text, IconButton } from '@radix-ui/themes'
+import { Check, X } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface IDiscountCode {
@@ -16,32 +15,24 @@ interface AppliedDiscountBadgeProps {
 export function AppliedDiscountBadge({ discount, onRemove }: AppliedDiscountBadgeProps) {
   useLogLifecycle("AppliedDiscountBadge");
   return (
-    <Card
-      size="1"
-      style={{
-        backgroundColor: "var(--green-2)",
-        borderColor: "var(--green-6)",
-        marginBottom: "var(--space-3)",
-      }}
+    <div
+      className="rounded-lg border bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/50 mb-3 p-3"
     >
-      <Flex align="center" justify="between">
-        <Flex align="center" gap="2" style={{ color: "var(--green-9)" }}>
-          <CheckIcon width="16" height="16" />
-          <Text size="2" weight="medium">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+          <Check className="h-4 w-4" />
+          <span className="text-sm font-semibold">
             {discount.code} (-{discount.type === 'percentage' ? `${discount.discount}%` : `$${discount.discount}`})
-          </Text>
-        </Flex>
-        <IconButton
-          size="1"
-          variant="ghost"
-          color="green"
+          </span>
+        </div>
+        <button
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 w-8 hover:bg-accent hover:text-accent-foreground cursor-pointer"
           onClick={onRemove}
-          style={{ cursor: "pointer" }}
           aria-label="Eliminar descuento"
         >
-          <Cross1Icon width="14" height="14" />
-        </IconButton>
-      </Flex>
-    </Card>
+          <X className="h-3.5 w-3.5" />
+        </button>
+      </div>
+    </div>
   )
 }

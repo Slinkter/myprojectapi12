@@ -36,7 +36,7 @@ describe('Button Component', () => {
         const buttonElement = screen.getByRole('button', { name: /delete/i });
         
         // Assert: Verify that the button has the specific class for the destructive variant.
-        expect(buttonElement).toHaveClass('rt-variant-soft');
+        expect(buttonElement).toHaveClass('bg-red-600');
     });
 
     /**

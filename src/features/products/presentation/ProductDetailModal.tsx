@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/useCart";
 import { IProductDetailModalProps } from "@/features/products/application/types";
 import { getStockStatus } from "@/shared/lib/stockUtils";
-import { Dialog, Flex, Box, Grid, Text, Heading, Badge, IconButton } from "@radix-ui/themes";
-import { Cross1Icon, BackpackIcon, PlusIcon, MinusIcon } from "@radix-ui/react-icons";
+import { X, ShoppingBag, Plus, Minus } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
 
 const ProductDetailModal = (props: IProductDetailModalProps) => {
@@ -22,6 +22,11 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
     } else if (product?.thumbnail) {
       setSelectedImage(product.thumbnail);
     }
+
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen, product?.images, product?.thumbnail]);
 
   const increment = () => {
@@ -43,187 +48,179 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
   const displayImages = product.images && product.images.length > 0 ? product.images : [product.thumbnail];
   const isOutOfStock = stockStatus === 'out';
 
-  return (
-    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <Dialog.Content size="4" style={{ maxWidth: 850, position: "relative" }}>
-        {/* Close Button */}
-        <Box style={{ position: "absolute", top: 12, right: 12, zIndex: 10 }}>
-          <Dialog.Close>
-            <IconButton variant="ghost" color="gray" size="2" style={{ cursor: "pointer" }} aria-label="Cerrar modal">
-              <Cross1Icon width="18" height="18" />
-            </IconButton>
-          </Dialog.Close>
-        </Box>
+  if (!isOpen) return null;
 
-        <Grid columns={{ initial: "1", md: "2" }} gap="6">
+  return createPortal(
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+      {/* Backdrop overlay listener */}
+      <div className="fixed inset-0 -z-10" onClick={onClose} />
+      <div className="w-full max-w-[850px] bg-white dark:bg-slate-950 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 relative my-8">
+        {/* Close Button */}
+        <div className="absolute top-3 right-3 z-10">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-pointer border-none bg-transparent"
+            aria-label="Cerrar modal"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Image Section */}
-          <Flex direction="column" align="center" justify="center" p="4" style={{ backgroundColor: "var(--gray-2)", borderRadius: "var(--radius-3)" }}>
-            <Box style={{ width: "100%", maxWidth: "320px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div className="flex flex-col items-center justify-center p-4 bg-slate-50 dark:bg-slate-900 rounded-xl">
+            <div className="w-full max-w-[320px] flex justify-center items-center">
               <img
                 src={selectedImage}
                 alt={product.title}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "300px",
-                  objectFit: "contain",
-                  borderRadius: "var(--radius-3)",
-                }}
+                className="w-full h-auto max-h-[300px] object-contain rounded-xl"
               />
-            </Box>
+            </div>
             
             {displayImages.length > 1 && (
-              <Flex gap="2" mt="4" wrap="wrap" justify="center">
+              <div className="flex gap-2 mt-4 flex-wrap justify-center">
                 {displayImages.map((img, index) => (
-                  <IconButton
+                  <button
                     key={index}
+                    type="button"
                     onClick={() => setSelectedImage(img)}
-                    variant="outline"
-                    style={{
-                      width: 56,
-                      height: 56,
-                      padding: 0,
-                      overflow: "hidden",
-                      border: selectedImage === img ? "2px solid var(--purple-9)" : "1px solid var(--gray-5)",
-                      opacity: selectedImage === img ? 1 : 0.6,
-                      cursor: "pointer",
-                    }}
+                    className={`w-14 h-14 p-0 overflow-hidden rounded-md cursor-pointer border-2 ${
+                      selectedImage === img
+                        ? "border-purple-500 opacity-100"
+                        : "border-slate-200 dark:border-slate-700 opacity-60"
+                    } bg-transparent`}
                     aria-label={`Ver imagen ${index + 1}`}
                   >
-                    <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  </IconButton>
+                    <img src={img} alt="" className="w-full h-full object-cover" />
+                  </button>
                 ))}
-              </Flex>
+              </div>
             )}
-          </Flex>
+          </div>
 
           {/* Content Section */}
-          <Flex direction="column" gap="4">
+          <div className="flex flex-col gap-4">
             {/* Badges */}
-            <Flex gap="2">
+            <div className="flex gap-2">
               {product.brand && (
-                <Badge color="purple" size="2" style={{ textTransform: "uppercase" }}>
+                <span className="inline-flex items-center rounded-full border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-950 px-2.5 py-0.5 text-xs font-semibold text-purple-700 dark:text-purple-300 uppercase">
                   {product.brand}
-                </Badge>
+                </span>
               )}
               {product.discountPercentage && (
-                <Badge color="red" size="2">
+                <span className="inline-flex items-center rounded-full border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950 px-2.5 py-0.5 text-xs font-semibold text-red-600 dark:text-red-400">
                   -{Math.round(product.discountPercentage)}%
-                </Badge>
+                </span>
               )}
-            </Flex>
+            </div>
 
             {/* Title */}
-            <Heading size="6" as="h2">
+            <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
               {product.title}
-            </Heading>
+            </h2>
 
             {/* Rating */}
-            <Flex align="center" gap="2">
-              <Flex align="center" gap="0">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-0">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Text
+                  <span
                     key={i}
-                    size="3"
+                    className="text-lg"
                     style={{
-                      color: i < Math.round(product.rating || 0) ? "var(--amber-9)" : "var(--gray-6)",
+                      color: i < Math.round(product.rating || 0) ? "#f59e0b" : "#94a3b8",
                     }}
                   >
                     ★
-                  </Text>
+                  </span>
                 ))}
-              </Flex>
-              <Text size="2" color="gray">
+              </div>
+              <span className="text-sm text-slate-500 dark:text-slate-400">
                 {product.rating?.toFixed(1)}
-              </Text>
-            </Flex>
+              </span>
+            </div>
 
             {/* Description */}
-            <Text size="2" color="gray" style={{ lineHeight: "1.6" }}>
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
               {product.description}
-            </Text>
+            </p>
 
             {/* Price */}
-            <Flex align="baseline" gap="3">
-              <Text size="6" weight="bold">
+            <div className="flex items-baseline gap-3">
+              <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
                 ${product.price.toFixed(2)}
-              </Text>
+              </p>
               {product.discountPercentage && (
-                <Text size="3" color="gray" style={{ textDecoration: "line-through" }}>
+                <p className="text-base text-slate-400 dark:text-slate-500 line-through">
                   ${(product.price / (1 - product.discountPercentage / 100)).toFixed(2)}
-                </Text>
+                </p>
               )}
-            </Flex>
+            </div>
 
             {/* Stock */}
-            <Box>
-              <Text
-                size="2"
-                weight="medium"
-                color={
-                  isOutOfStock ? "red" :
-                  stockStatus === "low" ? "amber" : "green"
-                }
-              >
+            <div>
+              <p className={`text-sm font-medium ${
+                isOutOfStock ? "text-red-500" :
+                stockStatus === "low" ? "text-amber-500" : "text-green-600"
+              }`}>
                 {isOutOfStock ? 'Agotado' : 
                  stockStatus === 'low' ? `Solo quedan ${product.stock} unidades` : 
                  `${product.stock} unidades disponibles`}
-              </Text>
-            </Box>
+              </p>
+            </div>
 
             {/* Quantity & Add to Cart */}
-            <Flex direction="column" gap="3" mt="auto">
-              <Flex align="center" gap="3">
-                <Text size="2" weight="medium">Cantidad:</Text>
-                <Flex align="center" style={{ border: "1px solid var(--gray-6)", borderRadius: "var(--radius-3)" }}>
-                  <IconButton
+            <div className="flex flex-col gap-3 mt-auto">
+              <div className="flex items-center gap-3">
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Cantidad:</p>
+                <div className="flex items-center border border-slate-300 dark:border-slate-600 rounded-lg">
+                  <button
+                    type="button"
                     onClick={decrement}
                     disabled={quantity <= 1}
-                    variant="ghost"
-                    color="gray"
-                    style={{ cursor: "pointer" }}
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium h-9 w-9 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-50 cursor-pointer border-none bg-transparent"
                     aria-label="Disminuir cantidad"
                   >
-                    <MinusIcon />
-                  </IconButton>
-                  <Text weight="medium" style={{ minWidth: 40, textAlign: "center", paddingLeft: "var(--space-3)", paddingRight: "var(--space-3)" }}>
+                    <Minus size={16} />
+                  </button>
+                  <span className="font-medium text-sm min-w-[40px] text-center px-3 text-slate-800 dark:text-slate-200">
                     {quantity}
-                  </Text>
-                  <IconButton
+                  </span>
+                  <button
+                    type="button"
                     onClick={increment}
                     disabled={quantity >= product.stock}
-                    variant="ghost"
-                    color="gray"
-                    style={{ cursor: "pointer" }}
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium h-9 w-9 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-50 cursor-pointer border-none bg-transparent"
                     aria-label="Aumentar cantidad"
                   >
-                    <PlusIcon />
-                  </IconButton>
-                </Flex>
-              </Flex>
+                    <Plus size={16} />
+                  </button>
+                </div>
+              </div>
 
               <Button
                 onClick={handleAddToCart}
                 disabled={isOutOfStock}
                 size="lg"
-                style={{ width: "100%" }}
+                className="w-full"
               >
-                <BackpackIcon style={{ marginRight: 8 }} />
+                <ShoppingBag className="mr-2" size={18} />
                 {isOutOfStock ? 'Sin Stock' : 'Añadir al Carrito'}
               </Button>
 
               <Button
                 variant="ghost"
                 onClick={onClose}
-                style={{ width: "100%" }}
+                className="w-full"
               >
                 Continuar Comprando
               </Button>
-            </Flex>
-          </Flex>
-        </Grid>
-      </Dialog.Content>
-    </Dialog.Root>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body
   );
 };
 

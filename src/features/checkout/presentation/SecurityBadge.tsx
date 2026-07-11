@@ -1,14 +1,13 @@
-import { LockClosedIcon } from "@radix-ui/react-icons";
-import { Flex, Text } from "@radix-ui/themes";
+import { Lock } from "lucide-react";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const SecurityBadge = () => {
   useLogLifecycle("SecurityBadge");
   return (
-    <Flex align="center" justify="center" gap="1" style={{ color: "var(--gray-11)" }}>
-      <LockClosedIcon width="14" height="14" />
-      <Text size="1">Transacción segura encriptada</Text>
-    </Flex>
+    <div className="flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400">
+      <Lock className="h-3.5 w-3.5" />
+      <span className="text-xs font-medium">Transacción segura encriptada</span>
+    </div>
   );
 };
 

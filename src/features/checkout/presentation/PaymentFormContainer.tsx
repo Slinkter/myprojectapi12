@@ -1,6 +1,5 @@
 import type { ChangeEvent } from "react";
 import { FaBitcoin } from "react-icons/fa";
-import { Flex, Heading, Text } from "@radix-ui/themes";
 import CardForm from "@/features/checkout/presentation/components/CardForm";
 import type { PaymentMethod } from "./PaymentMethodSelector";
 import type { ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
@@ -24,23 +23,15 @@ const PaymentFormContainer = ({ paymentMethod, cardProps }: PaymentFormContainer
 
   if (!showCardForm) {
     return (
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        py="6"
-        style={{
-          backgroundColor: "var(--gray-2)",
-          borderRadius: "var(--radius-3)",
-          textAlign: "center",
-        }}
+      <div
+        className="flex flex-col items-center justify-center py-6 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-850 rounded-xl text-center"
       >
-        <FaBitcoin style={{ width: 40, height: 40, color: "var(--orange-9)", marginBottom: "var(--space-3)" }} />
-        <Heading size="3" weight="medium">Pagar con Bitcoin</Heading>
-        <Text size="2" color="gray" mt="1" as="p">
+        <FaBitcoin className="w-10 h-10 text-amber-500 mb-3 animate-pulse" />
+        <h3 className="text-base font-semibold text-slate-800 dark:text-slate-200">Pagar con Bitcoin</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
           Serás redirigido a BitPay
-        </Text>
-      </Flex>
+        </p>
+      </div>
     );
   }
 

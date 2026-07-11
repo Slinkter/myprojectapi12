@@ -1,288 +1,60 @@
-/* ============================================
-   BASE STYLES
-   ============================================ */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #059669;
+  --color-primary-hover: #047857;
+  --color-accent: #d97706;
+  --color-background-light: #f4f6f8;
+  --color-background-dark: #0b0c15;
+
+  /* Custom semantic mappings to support components cleanly */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
-html {
-  scroll-behavior: smooth;
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #059669;
 }
 
-body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.dark {
+  --background: #0b0c15;
+  --foreground: #f8fafc;
+  --card: #0f172a;
+  --card-foreground: #f8fafc;
+  --popover: #0f172a;
+  --popover-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: #059669;
 }
 
-::selection {
-  background-color: oklch(0.48 0.22 264 / 0.2);
-  color: oklch(0.48 0.22 264);
+html, body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  letter-spacing: -0.025em;
-}
 
-/* Focus visible styles for accessibility */
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-/* ============================================
-   KEYFRAMES
-   ============================================ */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes glassFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* ============================================
-   COMPONENTS
-   ============================================ */
-
-/* Skeleton shimmer */
-.skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    oklch(0.96 0.01 265) 0%,
-    oklch(0.90 0.02 265) 50%,
-    oklch(0.96 0.01 265) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
-.dark .skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    oklch(0.22 0.02 265) 0%,
-    oklch(0.18 0.02 265) 50%,
-    oklch(0.22 0.02 265) 100%
-  );
-  background-size: 200% 100%;
-}
-
-/* Glass base */
-.glass {
-  background: oklch(1 0 0 / 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid oklch(1 0 0 / 0.2);
-  box-shadow: 0 8px 32px oklch(0.12 0.05 265 / 0.1);
-}
-
-.dark .glass {
-  background: oklch(0.08 0.01 265 / 0.6);
-  border: 1px solid oklch(1 0 0 / 0.1);
-  box-shadow: 0 8px 32px oklch(0 0 0 / 0.4);
-}
-
-/* Glass card */
-.glass-card {
-  background: oklch(1 0 0 / 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid oklch(1 0 0 / 0.2);
-  border-radius: 1rem;
-  box-shadow: 0 8px 32px oklch(0.12 0.05 265 / 0.1);
-}
-
-.dark .glass-card {
-  background: oklch(0.1 0.01 265 / 0.6);
-  border: 1px solid oklch(1 0 0 / 0.1);
-  box-shadow: 0 8px 32px oklch(0 0 0 / 0.4);
-}
-
-/* Glass button */
-.glass-button {
-  background: oklch(1 0 0 / 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid oklch(1 0 0 / 0.2);
-  border-radius: 0.75rem;
-  box-shadow: 0 8px 32px oklch(0.12 0.05 265 / 0.1);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.dark .glass-button {
-  background: oklch(0.1 0.01 265 / 0.6);
-  border: 1px solid oklch(1 0 0 / 0.1);
-  box-shadow: 0 8px 32px oklch(0 0 0 / 0.4);
-}
-
-.glass-button:hover {
-  background: oklch(1 0 0 / 0.25);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px oklch(0.12 0.05 265 / 0.1), 0 0 20px oklch(0.48 0.22 264 / 0.2);
-}
-
-.dark .glass-button:hover {
-  background: oklch(0.15 0.01 265 / 0.6);
-}
-
-.glass-button:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-.glass-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Glass input */
-.glass-input {
-  background: oklch(1 0 0 / 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid oklch(1 0 0 / 0.2);
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
-}
-
-.dark .glass-input {
-  background: oklch(0.1 0.01 265 / 0.6);
-  border: 1px solid oklch(1 0 0 / 0.1);
-}
-
-.glass-input:focus {
-  background: oklch(1 0 0 / 0.2);
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px oklch(0.48 0.22 264 / 0.2);
-  outline: none;
-}
-
-.dark .glass-input:focus {
-  background: oklch(0.15 0.01 265 / 0.6);
-}
-
-/* Glass modal */
-.glass-modal {
-  background: oklch(1 0 0 / 0.2);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid oklch(1 0 0 / 0.2);
-  border-radius: 1.5rem;
-  box-shadow: 0 8px 32px oklch(0.12 0.05 265 / 0.15);
-  animation: glassFadeIn 0.3s ease-out;
-}
-
-.dark .glass-modal {
-  background: oklch(0.12 0.01 265 / 0.7);
-  border: 1px solid oklch(1 0 0 / 0.1);
-}
-
-/* Glass navbar */
-.glass-navbar {
-  background: oklch(1 0 0 / 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid oklch(1 0 0 / 0.2);
-}
-
-.dark .glass-navbar {
-  background: oklch(0.1 0.01 265 / 0.8);
-  border-bottom: 1px solid oklch(1 0 0 / 0.1);
-}
-
-/* Glass badge */
-.glass-badge {
-  background: oklch(1 0 0 / 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid oklch(1 0 0 / 0.2);
-  border-radius: 9999px;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.dark .glass-badge {
-  background: oklch(0.1 0.01 265 / 0.5);
-  border: 1px solid oklch(1 0 0 / 0.1);
-}
-
-/* Glass overlay */
-.glass-overlay {
-  background: oklch(0 0 0 / 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* Glass hover lift */
-.glass-hover-lift {
-  background: oklch(1 0 0 / 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid oklch(1 0 0 / 0.2);
-  border-radius: 1rem;
-  box-shadow: 0 8px 32px oklch(0.12 0.05 265 / 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dark .glass-hover-lift {
-  background: oklch(0.1 0.01 265 / 0.5);
-  border: 1px solid oklch(1 0 0 / 0.1);
-  box-shadow: 0 8px 32px oklch(0 0 0 / 0.3);
-}
-
-.glass-hover-lift:hover {
-  background: oklch(1 0 0 / 0.2);
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 32px oklch(0.12 0.05 265 / 0.1), 0 0 40px oklch(0.48 0.22 264 / 0.15);
-}
-
-.dark .glass-hover-lift:hover {
-  background: oklch(0.15 0.01 265 / 0.5);
-  box-shadow: 0 8px 32px oklch(0 0 0 / 0.3), 0 0 30px oklch(0.7 0.22 255 / 0.15);
-}
-
-.glass-hover-lift:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-/* ============================================
-   UTILITIES
-   ============================================ */
-.text-balance {
-  text-wrap: balance;
-}
-
-.text-gradient {
-  background: linear-gradient(to right, var(--color-primary), var(--color-primary-600), var(--color-accent-foreground));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}

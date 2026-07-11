@@ -1,11 +1,15 @@
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/features/cart/application/useCart";
 import { ICartItem } from "@/features/cart/domain/cartTypes";
-import { Dialog, Flex, Box, Text, Heading, IconButton } from "@radix-ui/themes";
-import { Cross1Icon, BackpackIcon } from "@radix-ui/react-icons";
-import { Button } from "@/shared/ui/Button";
+import { X, ShoppingBag, Trash2 } from "lucide-react";
 import { useLogLifecycle } from "@/shared/hooks";
 import { CartItemRow } from "./CartItemRow";
+
+/** Formatea precio con Intl.NumberFormat */
+const formatPrice = (price: number): string =>
+  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price);
 
 const Cart = () => {
   useLogLifecycle("Cart");
@@ -19,64 +23,83 @@ const Cart = () => {
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  return (
-    <Dialog.Root open={isCartOpen} onOpenChange={(open) => !open && closeCart()}>
-      <Dialog.Content
-        style={{
-          position: "fixed",
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: "100%",
-          maxWidth: "380px",
-          height: "100vh",
-          margin: 0,
-          borderRadius: 0,
-          display: "flex",
-          flexDirection: "column",
-          padding: 0,
-          boxSizing: "border-box",
-        }}
-      >
-        <Flex direction="column" height="100%">
-          {/* Header */}
-          <Flex align="center" justify="between" px="4" py="3" style={{ borderBottom: "1px solid var(--gray-5)" }}>
-            <Flex align="center" gap="2">
-              <Heading size="4" as="h2">Mi Carrito</Heading>
-              <Text size="2" color="gray">({totalItems})</Text>
-            </Flex>
-            <Dialog.Close>
-              <IconButton variant="ghost" color="gray" size="2" style={{ cursor: "pointer" }} aria-label="Cerrar carrito">
-                <Cross1Icon width="16" height="16" />
-              </IconButton>
-            </Dialog.Close>
-          </Flex>
+  useEffect(() => {
+    if (!isCartOpen) return;
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeCart();
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [isCartOpen, closeCart]);
 
-          {/* Items */}
-          <Box style={{ flexGrow: 1, overflowY: "auto" }} p="4">
+  if (!isCartOpen) return null;
+
+  return createPortal(
+    <>
+      <div className="fixed inset-0 z-40 bg-black/50" onClick={closeCart} />
+      <div
+        aria-label="Carrito de compras"
+        className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[360px] h-screen rounded-l-2xl flex flex-col shadow-2xl glass-panel border-l border-white/20 dark:border-white/10 bg-white dark:bg-slate-950"
+      >
+        <div className="flex flex-col h-full">
+
+          {/* MD3 Drawer Header */}
+          <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200/50 dark:border-slate-800/50 shrink-0">
+            <div className="flex items-center gap-2.5">
+              {/* MD3 Leading Icon */}
+              <div className="w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
+                <ShoppingBag className="text-primary" size={16} />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-slate-800 dark:text-slate-100 leading-snug">
+                  Mi Carrito
+                </h2>
+                {totalItems > 0 && (
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    {totalItems} {totalItems === 1 ? "artículo" : "artículos"}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={closeCart}
+              aria-label="Cerrar carrito"
+              className="p-2 rounded-full cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors border-none bg-transparent flex items-center justify-center focus-visible:outline-2 focus-visible:outline-primary"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* MD3 Drawer Content — Scrollable */}
+          <div className="grow overflow-y-auto p-4">
             {cart.length === 0 ? (
-              <Flex direction="column" align="center" justify="center" height="100%" p="4" style={{ textAlign: "center", minHeight: "300px" }}>
-                <Flex
-                  align="center"
-                  justify="center"
-                  style={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: "9999px",
-                    backgroundColor: "var(--gray-3)",
-                    marginBottom: "var(--space-4)",
-                    color: "var(--gray-11)",
-                  }}
+              /* Empty State */
+              <div className="flex flex-col items-center justify-center min-h-[320px] gap-4 text-center">
+                <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center">
+                  <ShoppingBag size={36} className="text-slate-400 dark:text-slate-500" />
+                </div>
+                <div>
+                  <p className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                    Tu carrito está vacío
+                  </p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-normal">
+                    Agrega productos para comenzar tu compra
+                  </p>
+                </div>
+                {/* MD3 Outlined Button */}
+                <button
+                  type="button"
+                  onClick={closeCart}
+                  className="px-6 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-transparent text-primary hover:bg-primary/5 transition-colors cursor-pointer text-sm font-semibold tracking-wide"
                 >
-                  <BackpackIcon width="32" height="32" />
-                </Flex>
-                <Text color="gray" mb="4" as="p">Tu carrito está vacío</Text>
-                <Button variant="outline" onClick={closeCart}>
                   Continuar Comprando
-                </Button>
-              </Flex>
+                </button>
+              </div>
             ) : (
-              <Flex direction="column" gap="3">
+              <div className="flex flex-col gap-2">
                 {cart.map((item: ICartItem) => (
                   <CartItemRow
                     key={item.id}
@@ -84,45 +107,59 @@ const Cart = () => {
                     onRemove={removeFromCart}
                   />
                 ))}
-              </Flex>
+              </div>
             )}
-          </Box>
+          </div>
 
-          {/* Footer */}
+          {/* MD3 Drawer Footer — Summary & Actions */}
           {cart.length > 0 && (
-            <Flex direction="column" gap="3" p="4" style={{ borderTop: "1px solid var(--gray-5)" }}>
-              <Flex align="center" justify="between">
-                <Text color="gray">Subtotal</Text>
-                <Text weight="medium">${totalPrice.toFixed(2)}</Text>
-              </Flex>
-              
-              <Flex align="center" justify="between" style={{ fontSize: "var(--font-size-4)", fontWeight: "bold" }}>
-                <Text>Total</Text>
-                <Text>${totalPrice.toFixed(2)}</Text>
-              </Flex>
+            <div className="p-4 border-t border-slate-200/50 dark:border-slate-800/50 shrink-0 bg-slate-50/50 dark:bg-slate-900/30">
+              {/* Price Summary */}
+              <div className="flex flex-col gap-1 mb-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-slate-500 dark:text-slate-400">
+                    Subtotal ({totalItems} items)
+                  </span>
+                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                    {formatPrice(totalPrice)}
+                  </span>
+                </div>
+                <div className="border-t border-slate-200/50 dark:border-slate-800/50 my-2" />
+                <div className="flex items-center justify-between">
+                  <span className="text-base font-bold text-slate-800 dark:text-slate-200">
+                    Total
+                  </span>
+                  <span className="text-xl font-extrabold text-primary">
+                    {formatPrice(totalPrice)}
+                  </span>
+                </div>
+              </div>
 
-              <Button
+              {/* MD3 Filled Button — Primary CTA */}
+              <button
+                type="button"
                 onClick={handleCheckout}
-                style={{ width: "100%" }}
+                className="w-full py-3 px-6 rounded-full border-none bg-primary hover:bg-primary-hover text-white text-sm font-bold cursor-pointer transition-all shadow-[0_4px_12px_rgba(5,150,105,0.2)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 mb-2"
               >
                 Proceder al Pago
-              </Button>
-              
-              <Button
-                variant="outline"
+              </button>
+
+              {/* MD3 Text Button — Secondary action */}
+              <button
+                type="button"
                 onClick={clearCart}
-                color="red"
-                style={{ width: "100%" }}
+                className="w-full py-2.5 px-6 rounded-full border-none bg-transparent hover:bg-red-500/10 text-red-600 dark:text-red-400 text-sm font-semibold cursor-pointer transition-colors flex items-center justify-center gap-1.5 focus-visible:outline-2 focus-visible:outline-red-500 focus-visible:outline-offset-2"
               >
+                <Trash2 size={14} />
                 Vaciar Carrito
-              </Button>
-            </Flex>
+              </button>
+            </div>
           )}
-        </Flex>
-      </Dialog.Content>
-    </Dialog.Root>
+        </div>
+      </div>
+    </>,
+    document.body
   );
 };
 
 export default Cart;
-

@@ -4,10 +4,21 @@ import Layout from '../Layout';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@/features/theme/application/ThemeContext';
 import { CartProvider } from '@/features/cart/application/CartContext';
-
 // Mock de react-hot-toast (usado en Layout)
 vi.mock('react-hot-toast', () => ({
   Toaster: () => <div data-testid="toaster" />
+}));
+
+// Mock de useCategories (usado en Navbar dentro de Layout)
+vi.mock('@/features/products/application/useCategories', () => ({
+  useCategories: () => ({
+    data: [
+      { slug: 'beauty', name: 'Beauty', url: '' },
+      { slug: 'smartphones', name: 'Smartphones', url: '' }
+    ],
+    isLoading: false,
+    error: null,
+  })
 }));
 
 describe('Layout Component', () => {

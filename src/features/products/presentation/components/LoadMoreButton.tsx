@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
 import { Button } from "@/shared/ui/Button";
-import { Spinner } from "@radix-ui/themes";
+import { Loader2 } from "lucide-react";
 
 interface ILoadMoreButtonProps {
     onClick: () => void;
@@ -16,12 +16,12 @@ const LoadMoreButton = memo(({ onClick, isLoading }: ILoadMoreButtonProps) => {
             disabled={isLoading}
             variant="default"
             size="lg"
-            style={{ marginTop: "var(--space-4)" }}
+            className="mt-4"
             aria-label={isLoading ? "Cargando más items..." : "Cargar más items"}
         >
             {isLoading ? (
                 <>
-                    <Spinner size="1" />
+                    <Loader2 size={16} className="animate-spin mr-2" />
                     <span>Cargando...</span>
                 </>
             ) : (

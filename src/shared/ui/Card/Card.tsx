@@ -1,28 +1,25 @@
 import * as React from 'react'
-import { Card as RadixCard, Box, Heading, Text, Flex } from "@radix-ui/themes";
-import { useLogLifecycle } from "@/shared/hooks";
+import { cn } from "@/shared/lib/cn";
 
 const Card = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof RadixCard>
->((props, ref) => {
-  useLogLifecycle("Card");
-  return (
-    <RadixCard
-      ref={ref}
-      {...props}
-    />
-  )
-})
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm", className)}
+    {...props}
+  />
+))
 Card.displayName = 'Card'
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof Box>
->((props, ref) => (
-  <Box
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
     ref={ref}
-    p="4"
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
     {...props}
   />
 ))
@@ -30,12 +27,11 @@ CardHeader.displayName = 'CardHeader'
 
 const CardTitle = React.forwardRef<
   HTMLHeadingElement,
-  React.ComponentPropsWithoutRef<typeof Heading>
->((props, ref) => (
-  <Heading
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h3
     ref={ref}
-    size="4"
-    weight="bold"
+    className={cn("text-2xl font-semibold leading-none tracking-tight", className)}
     {...props}
   />
 ))
@@ -43,13 +39,11 @@ CardTitle.displayName = 'CardTitle'
 
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
-  React.ComponentPropsWithoutRef<typeof Text>
->((props, ref) => (
-  <Text
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
     ref={ref}
-    size="2"
-    color="gray"
-    as="p"
+    className={cn("text-sm text-muted-foreground", className)}
     {...props}
   />
 ))
@@ -57,22 +51,19 @@ CardDescription.displayName = 'CardDescription'
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof Box>
->((props, ref) => (
-  <Box ref={ref} p="4" pt="0" {...props} />
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
 ))
 CardContent.displayName = 'CardContent'
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof Flex>
->((props, ref) => (
-  <Flex
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
     ref={ref}
-    p="4"
-    pt="0"
-    align="center"
-    gap="2"
+    className={cn("flex items-center p-6 pt-0", className)}
     {...props}
   />
 ))

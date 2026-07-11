@@ -1,4 +1,3 @@
-import { Grid } from "@radix-ui/themes";
 import PaymentMethodRadio from "@/features/checkout/presentation/components/PaymentMethodRadio";
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -15,7 +14,7 @@ const PaymentMethodSelector = ({
 }: PaymentMethodSelectorProps) => {
   useLogLifecycle("PaymentMethodSelector");
   return (
-    <Grid columns="3" gap="3">
+    <div className="grid grid-cols-3 gap-3">
       <PaymentMethodRadio
         id="visa"
         label="Visa"
@@ -36,7 +35,7 @@ const PaymentMethodSelector = ({
         checked={currentMethod === "bitcoin"}
         onChange={() => onMethodChange("bitcoin")}
       />
-    </Grid>
+    </div>
   );
 };
 

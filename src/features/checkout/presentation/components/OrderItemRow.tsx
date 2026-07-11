@@ -1,6 +1,5 @@
 import type { ICartItem } from '@/features/cart/domain/cartTypes';
-import { TrashIcon } from '@radix-ui/react-icons'
-import { Flex, Box, Text, IconButton } from '@radix-ui/themes';
+import { Trash2 } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface OrderItemRowProps {
@@ -11,52 +10,36 @@ interface OrderItemRowProps {
 export function OrderItemRow({ item, onRemove }: OrderItemRowProps) {
   useLogLifecycle("OrderItemRow");
   return (
-    <Flex
-      align="center"
-      gap="2"
-      p="2"
-      style={{
-        border: "1px solid var(--gray-5)",
-        borderRadius: "var(--radius-3)",
-      }}
+    <div
+      className="flex items-center gap-2 p-2 border border-slate-200 dark:border-slate-850 rounded-lg"
     >
-      <Box
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: "var(--radius-2)",
-          overflow: "hidden",
-          flexShrink: 0,
-          backgroundColor: "var(--gray-3)",
-        }}
+      <div
+        className="w-10 h-10 rounded overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800"
       >
         <img
           src={item.thumbnail}
           alt={item.title}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          className="w-full h-full object-cover"
         />
-      </Box>
-      <Box style={{ flexGrow: 1, minWidth: 0 }}>
-        <Text size="1" weight="medium" as="p" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+      </div>
+      <div className="flex-grow min-w-0">
+        <p className="text-xs font-medium truncate">
           {item.title}
-        </Text>
-        <Text size="1" color="gray" as="p">
+        </p>
+        <p className="text-xs text-muted-foreground">
           ${item.price.toFixed(2)} x {item.quantity}
-        </Text>
-      </Box>
-      <Text size="1" weight="bold" style={{ minWidth: 50, textAlign: "right" }}>
+        </p>
+      </div>
+      <span className="text-xs font-bold min-w-[50px] text-right">
         ${(item.price * item.quantity).toFixed(2)}
-      </Text>
-      <IconButton
-        size="1"
-        variant="ghost"
-        color="red"
+      </span>
+      <button
+        className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 w-8 hover:bg-accent hover:text-accent-foreground cursor-pointer text-red-500"
         onClick={() => onRemove(item.id)}
-        style={{ cursor: "pointer" }}
         aria-label={`Eliminar ${item.title}`}
       >
-        <TrashIcon width="14" height="14" />
-      </IconButton>
-    </Flex>
+        <Trash2 className="h-3.5 w-3.5" />
+      </button>
+    </div>
   )
 }

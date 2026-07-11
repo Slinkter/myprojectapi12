@@ -42,3 +42,6 @@ coverage/
 # System Files
 Thumbs.db
 Desktop.ini
+.agents
+.github
+.husky

@@ -1,4 +1,3 @@
-import { Flex, Heading, Text } from "@radix-ui/themes";
 import { useLogLifecycle } from "@/shared/hooks";
 import { Button } from "@/shared/ui/Button";
 
@@ -21,39 +20,24 @@ export function EmptyState({
 }: IEmptyStateProps) {
   useLogLifecycle("EmptyState");
   return (
-    <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      py="8"
-      px="4"
-      style={{ textAlign: "center", minHeight: "400px", ...style }}
+    <div
+      className="flex flex-col items-center justify-center gap-4 py-16 px-4 text-center"
+      style={{ minHeight: "400px", ...style }}
     >
       {icon && (
-        <Flex
-          align="center"
-          justify="center"
-          style={{
-            width: "80px",
-            height: "80px",
-            borderRadius: "9999px",
-            backgroundColor: "var(--gray-3)",
-            color: "var(--gray-11)",
-            marginBottom: "var(--space-4)",
-          }}
-        >
+        <div className="flex items-center justify-center w-20 h-20 rounded-full bg-slate-200/50 text-slate-500 mb-4">
           {icon}
-        </Flex>
+        </div>
       )}
       
-      <Heading size="4" weight="bold" style={{ marginBottom: "var(--space-2)" }}>
+      <h2 className="text-2xl font-semibold mb-2">
         {title}
-      </Heading>
+      </h2>
       
       {description && (
-        <Text size="2" color="gray" style={{ maxWidth: "320px", marginBottom: "var(--space-4)" }}>
+        <p className="text-sm text-muted-foreground mb-4" style={{ maxWidth: "320px" }}>
           {description}
-        </Text>
+        </p>
       )}
       
       {actionLabel && onAction && (
@@ -61,9 +45,8 @@ export function EmptyState({
           {actionLabel}
         </Button>
       )}
-    </Flex>
+    </div>
   )
 }
 
 export default EmptyState
-

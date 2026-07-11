@@ -5,8 +5,11 @@
  * @architecture Presentation Layer - Common Components
  */
 import React from "react";
-import { Flex, Spinner, Text } from "@radix-ui/themes";
 import { useLogLifecycle } from "@/shared/hooks";
+
+interface ILoaderProps {
+  text?: string;
+}
 
 /**
  * @component Loader
@@ -14,27 +17,16 @@ import { useLogLifecycle } from "@/shared/hooks";
  * 
  * @returns {JSX.Element} El spinner de carga.
  */
-const Loader: React.FC = () => {
+const Loader: React.FC<ILoaderProps> = ({ text }) => {
     useLogLifecycle("Loader");
     return (
-        <Flex
-            position="fixed"
-            inset="0"
-            align="center"
-            justify="center"
-            style={{
-                backgroundColor: "var(--black-a8)",
-                backdropFilter: "blur(4px)",
-                zIndex: 50,
-            }}
-        >
-            <Flex direction="column" align="center" gap="3">
-                <Spinner size="3" />
-                <Text size="2" color="gray">Cargando...</Text>
-            </Flex>
-        </Flex>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-3">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                {text && <span className="text-sm text-muted-foreground">{text}</span>}
+            </div>
+        </div>
     );
 };
 
 export default Loader;
-

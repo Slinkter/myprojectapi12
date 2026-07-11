@@ -1,6 +1,6 @@
-import { Card, Flex, Text, Box } from "@radix-ui/themes";
-import { CheckCircledIcon } from "@radix-ui/react-icons";
+import { CheckCircle } from "lucide-react";
 import { FaBitcoin } from "react-icons/fa";
+import { cn } from "@/shared/lib/cn";
 import { useLogLifecycle } from "@/shared/hooks";
 
 interface IPaymentMethodRadioProps {
@@ -19,20 +19,14 @@ const PaymentMethodRadio = ({
     useLogLifecycle("PaymentMethodRadio");
 
     return (
-        <Card
+        <div
             onClick={onChange}
-            style={{
-                cursor: "pointer",
-                border: checked ? "2px solid var(--purple-9)" : "2px solid var(--gray-5)",
-                backgroundColor: checked ? "var(--purple-2)" : "var(--color-background)",
-                position: "relative",
-                height: 96,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 0.2s",
-            }}
+            className={cn(
+                "cursor-pointer relative h-24 flex flex-col items-center justify-center transition-all duration-200 rounded-xl border-2 focus:outline-none focus:ring-2 focus:ring-emerald-500/20",
+                checked
+                    ? "border-emerald-600 dark:border-emerald-500 bg-emerald-50/10 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400"
+                    : "border-slate-200 dark:border-slate-800 bg-card text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900"
+            )}
             role="radio"
             aria-checked={checked}
             tabIndex={0}
@@ -43,31 +37,30 @@ const PaymentMethodRadio = ({
                 }
             }}
         >
-            <Flex direction="column" align="center" justify="center" gap="1">
-                <Box>
+            <div className="flex flex-col items-center justify-center gap-1">
+                <div>
                     {id === "visa" && (
-                        <Text weight="bold" style={{ color: "var(--blue-9)" }} size="2">VISA</Text>
+                        <span className="font-extrabold text-blue-600 dark:text-blue-400 text-sm tracking-wider">VISA</span>
                     )}
                     {id === "mastercard" && (
-                        <Flex gap="0" style={{ position: "relative" }}>
-                            <Box style={{ width: 16, height: 16, borderRadius: "9999px", backgroundColor: "var(--red-9)" }} />
-                            <Box style={{ width: 16, height: 16, borderRadius: "9999px", backgroundColor: "var(--orange-9)", marginLeft: -6 }} />
-                        </Flex>
+                        <div className="flex relative">
+                            <div className="w-4 h-4 rounded-full bg-red-500" />
+                            <div className="w-4 h-4 rounded-full bg-amber-500 -ml-1.5" />
+                        </div>
                     )}
                     {id === "bitcoin" && (
-                        <FaBitcoin style={{ color: "var(--orange-9)", width: 20, height: 20 }} />
+                        <FaBitcoin className="text-amber-500 w-5 h-5" />
                     )}
-                </Box>
-                <Text size="1" weight="medium">{label}</Text>
-            </Flex>
+                </div>
+                <span className="text-xs font-semibold">{label}</span>
+            </div>
             {checked && (
-                <Box position="absolute" top="2" right="2" style={{ color: "var(--purple-9)" }}>
-                    <CheckCircledIcon width="16" height="16" />
-                </Box>
+                <div className="absolute top-2 right-2 text-emerald-600 dark:text-emerald-400">
+                    <CheckCircle className="h-4 w-4" />
+                </div>
             )}
-        </Card>
+        </div>
     );
 };
 
 export default PaymentMethodRadio;
-

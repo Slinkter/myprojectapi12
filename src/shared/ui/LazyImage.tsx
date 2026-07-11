@@ -14,7 +14,10 @@ interface ILazyImageProps {
   alt: string
   className?: string
   aspectRatio?: string
+  /** Estilos aplicados al contenedor wrapper. */
   style?: React.CSSProperties
+  /** Estilos aplicados directamente al elemento `<img>`. Úsalo para controlar `objectFit`, `padding`, etc. */
+  imgStyle?: React.CSSProperties
 }
 
 /**
@@ -22,7 +25,7 @@ interface ILazyImageProps {
  * @description Imagen con efecto blur-up: muestra un fondo difuminado mientras carga.
  * Optimiza la UX mostrando feedback inmediato.
  */
-export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]', style }: ILazyImageProps) {
+export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]', style, imgStyle }: ILazyImageProps) {
   useLogLifecycle("LazyImage");
   const [isLoaded, setIsLoaded] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -56,8 +59,11 @@ export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]', s
         loading="lazy"
         onLoad={handleLoad}
         onError={handleError}
+        style={imgStyle}
         className={cn(
-          'w-full h-full object-cover transition-all duration-500',
+          'w-full h-full transition-all duration-500',
+          // Si el caller no proporciona objectFit via imgStyle, usar object-cover como default
+          !imgStyle?.objectFit && 'object-cover',
           isLoaded 
             ? 'opacity-100 scale-100' 
             : 'opacity-0 scale-105'

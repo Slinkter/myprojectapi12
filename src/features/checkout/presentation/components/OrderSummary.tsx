@@ -1,5 +1,4 @@
-import { BackpackIcon } from '@radix-ui/react-icons'
-import { Card, Heading, Flex, Text } from '@radix-ui/themes'
+import { ShoppingBag } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
 import type { ICartItem } from '@/features/cart/domain/cartTypes';
 import { OrderItemRow } from './OrderItemRow'
@@ -35,13 +34,13 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
   const finalTotal = discountedSubtotal + shipping
 
   return (
-    <Card size="2" style={style}>
-      <Heading size="3" mb="3" style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
-        <BackpackIcon />
+    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4" style={style}>
+      <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+        <ShoppingBag className="h-4 w-4" />
         Resumen del Pedido
-      </Heading>
+      </h3>
 
-      <Flex direction="column" gap="2" mb="4">
+      <div className="flex flex-col gap-2 mb-4">
         {items.map((item) => (
           <OrderItemRow 
             key={item.id} 
@@ -49,7 +48,7 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
             onRemove={onRemove || (() => {})}
           />
         ))}
-      </Flex>
+      </div>
 
       {!appliedDiscount && (
         <DiscountInput
@@ -68,13 +67,9 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
         />
       )}
 
-      <Flex direction="column" gap="2" pt="3" style={{ borderTop: "1px solid var(--gray-5)" }}>
+      <div className="flex flex-col gap-2 pt-3 border-t border-slate-200 dark:border-slate-850">
         <PriceRow
-          label={
-            <Text size="1" color="gray">
-              Subtotal ({totalItems})
-            </Text>
-          }
+          label={`Subtotal (${totalItems})`}
           value={`$${totalPrice.toFixed(2)}`}
         />
 
@@ -90,7 +85,7 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
           label="Envío"
           value={
             shipping === 0 ? (
-              <Text color="green" weight="medium">GRATIS</Text>
+              <span className="text-green-600 font-medium">GRATIS</span>
             ) : (
               `$${shipping.toFixed(2)}`
             )
@@ -99,9 +94,9 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
         />
 
         {hasItems && shipping > 0 && totalPrice < 50 && (
-          <Text size="1" color="amber" style={{ backgroundColor: "var(--amber-2)", padding: "var(--space-2)", borderRadius: "var(--radius-2)", display: "block" }}>
+          <span className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/50 p-2 rounded-lg block font-medium">
             ¡Agrega ${(50 - totalPrice).toFixed(2)} más para envío gratis!
-          </Text>
+          </span>
         )}
 
         <PriceRow
@@ -109,7 +104,7 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
           value={`$${finalTotal.toFixed(2)}`}
           variant="highlight"
         />
-      </Flex>
-    </Card>
+      </div>
+    </div>
   )
 }
