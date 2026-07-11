@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
-import Loader from "@/components/common/Loader";
+import Loader from "@/shared/ui/Loader";
 import Cart from "@/features/cart/presentation/Cart";
 import { useLogLifecycle } from "@/shared/hooks";
 

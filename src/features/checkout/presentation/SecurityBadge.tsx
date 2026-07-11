@@ -1,12 +1,12 @@
-import { IoLockClosedOutline } from "react-icons/io5";
+import { Lock } from "lucide-react";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const SecurityBadge = () => {
   useLogLifecycle("SecurityBadge");
   return (
-    <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
-      <IoLockClosedOutline className="w-3.5 h-3.5" />
-      <span>Transacción segura encriptada</span>
+    <div role="status" className="flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400">
+      <Lock aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
+      <span className="text-xs font-medium">Transacción segura encriptada</span>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/Button";
 import QuantityControl from "@/features/products/presentation/components/QuantityControl";
 import { StockStatus } from "@/shared/lib/stockUtils";
 
@@ -36,17 +36,18 @@ const AddToCartActions = ({
           onClick={onAddToCart}
           disabled={stockStatus === "out"}
           size="lg"
-          className="flex-1 h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/25 hover:scale-[1.02] transition-transform flex items-center justify-center gap-3 group"
+          className="flex-1 h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/25 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group"
         >
-          <HiOutlineShoppingBag className="w-6 h-6 group-hover:animate-bounce" />
+          <HiOutlineShoppingBag className="w-6 h-6 group-hover:-translate-y-0.5 transition-transform duration-300" />
           Añadir al Carrito
         </Button>
       </div>
 
       <Button
+        type="button"
         variant="ghost"
         onClick={onContinue}
-        className="w-full h-12 rounded-xl text-muted-foreground hover:text-foreground"
+        className="w-full h-12 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
       >
         Continuar Comprando
       </Button>

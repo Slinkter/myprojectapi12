@@ -1,7 +1,6 @@
-import { HiOutlineShoppingBag } from 'react-icons/hi2'
+import { ShoppingBag } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
-import type { CartItem } from '@/entities/cart/types/cart.types'
-import { cn } from '@/shared/lib/cn'
+import type { ICartItem } from '@/features/cart/domain/cartTypes';
 import { OrderItemRow } from './OrderItemRow'
 import { DiscountInput } from './DiscountInput'
 import { AppliedDiscountBadge } from './AppliedDiscountBadge'
@@ -9,13 +8,13 @@ import { PriceRow } from './PriceRow'
 import { useDiscountValidation, calculateDiscountAmount } from '@/features/checkout/application/useDiscountValidation'
 
 interface IOrderSummaryProps {
-  items: CartItem[]
+  items: ICartItem[]
   totalPrice: number
   onRemove?: (id: number) => void
-  className?: string
+  style?: React.CSSProperties
 }
 
-export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderSummaryProps) {
+export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSummaryProps) {
   useLogLifecycle("OrderSummary");
   const {
     code,
@@ -35,18 +34,13 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
   const finalTotal = discountedSubtotal + shipping
 
   return (
-    <div
-      className={cn(
-        'bg-background border border-border rounded-2xl p-4',
-        className
-      )}
-    >
-      <h3 className="font-bold text-base text-foreground mb-3 flex items-center gap-2">
-        <HiOutlineShoppingBag className="w-4 h-4 text-primary" />
+    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4" style={style}>
+      <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+        <ShoppingBag className="h-4 w-4" />
         Resumen del Pedido
       </h3>
 
-      <div className="space-y-2 mb-4">
+      <div className="flex flex-col gap-2 mb-4">
         {items.map((item) => (
           <OrderItemRow 
             key={item.id} 
@@ -73,13 +67,9 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
         />
       )}
 
-      <div className="border-t border-border pt-3 space-y-2">
+      <div className="flex flex-col gap-2 pt-3 border-t border-slate-200 dark:border-slate-850">
         <PriceRow
-          label={
-            <span className="text-xs text-muted-foreground">
-              Subtotal ({totalItems})
-            </span>
-          }
+          label={`Subtotal (${totalItems})`}
           value={`$${totalPrice.toFixed(2)}`}
         />
 
@@ -95,7 +85,7 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
           label="Envío"
           value={
             shipping === 0 ? (
-              <span className="text-success font-medium">GRATIS</span>
+              <span className="text-green-600 font-medium">GRATIS</span>
             ) : (
               `$${shipping.toFixed(2)}`
             )
@@ -104,9 +94,9 @@ export function OrderSummary({ items, totalPrice, onRemove, className }: IOrderS
         />
 
         {hasItems && shipping > 0 && totalPrice < 50 && (
-          <p className="text-xs text-warning bg-warning/10 p-2 rounded">
+          <span className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/50 p-2 rounded-lg block font-medium">
             ¡Agrega ${(50 - totalPrice).toFixed(2)} más para envío gratis!
-          </p>
+          </span>
         )}
 
         <PriceRow

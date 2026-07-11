@@ -1,8 +1,7 @@
-import { KeyboardEvent } from "react";
-import { useLogLifecycle } from "@/shared/hooks";
-import { cn } from "@/lib/utils";
-import { HiCheckCircle } from "react-icons/hi2";
+import { CheckCircle } from "lucide-react";
 import { FaBitcoin } from "react-icons/fa";
+import { cn } from "@/shared/lib/cn";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface IPaymentMethodRadioProps {
     id: string;
@@ -18,56 +17,49 @@ const PaymentMethodRadio = ({
     onChange,
 }: IPaymentMethodRadioProps) => {
     useLogLifecycle("PaymentMethodRadio");
-    const handleKeyDown = (e: KeyboardEvent<HTMLLabelElement>) => {
-        if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onChange();
-        }
-    };
 
     return (
-        <div className="relative h-full">
-            <input
-                id={id}
-                type="radio"
-                name="paymentMethod"
-                className="sr-only"
-                checked={checked}
-                onChange={onChange}
-                aria-label={`Pagar con ${label}`}
-            />
-            <label
-                htmlFor={id}
-                className={cn(
-                    "flex flex-col items-center justify-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 h-24",
-                    checked
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50",
-                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-                )}
-                role="button"
-                tabIndex={0}
-                onKeyDown={handleKeyDown}
-            >
-                <div className="flex items-center justify-center mb-1">
+        <div
+            onClick={onChange}
+            className={cn(
+                "cursor-pointer relative h-24 flex flex-col items-center justify-center transition-all duration-200 rounded-xl border-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30",
+                checked
+                    ? "border-emerald-600 dark:border-emerald-500 bg-emerald-50/10 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400"
+                    : "border-slate-200 dark:border-slate-800 bg-card text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900"
+            )}
+            role="radio"
+            aria-checked={checked}
+            aria-label={label}
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === " " || e.key === "Enter") {
+                    e.preventDefault();
+                    onChange();
+                }
+            }}
+        >
+            <div className="flex flex-col items-center justify-center gap-1">
+                <div aria-hidden="true">
                     {id === "visa" && (
-                        <span className="font-bold text-blue-600 text-sm">VISA</span>
+                        <span className="font-extrabold text-blue-600 dark:text-blue-400 text-sm tracking-wider">VISA</span>
                     )}
                     {id === "mastercard" && (
-                        <div className="flex -space-x-1">
-                            <div className="w-4 h-4 rounded-full bg-red-500"></div>
-                            <div className="w-4 h-4 rounded-full bg-orange-500"></div>
+                        <div className="flex relative">
+                            <div className="w-4 h-4 rounded-full bg-red-500" />
+                            <div className="w-4 h-4 rounded-full bg-amber-500 -ml-1.5" />
                         </div>
                     )}
                     {id === "bitcoin" && (
-                        <FaBitcoin className="text-orange-500 w-5 h-5" />
+                        <FaBitcoin className="text-amber-500 w-5 h-5" />
                     )}
                 </div>
-                <span className="text-xs font-medium">{label}</span>
-                {checked && (
-                    <HiCheckCircle className="absolute top-2 right-2 w-4 h-4 text-primary" />
-                )}
-            </label>
+                <span className="text-xs font-semibold">{label}</span>
+            </div>
+            {checked && (
+                <div aria-hidden="true" className="absolute top-2 right-2 text-emerald-600 dark:text-emerald-400">
+                    <CheckCircle className="h-4 w-4" />
+                </div>
+            )}
         </div>
     );
 };

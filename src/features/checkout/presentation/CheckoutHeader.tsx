@@ -1,27 +1,23 @@
 import { Link } from "react-router-dom";
-import { IoArrowBack, IoShieldCheckmarkOutline } from "react-icons/io5";
+import { ArrowLeft } from "lucide-react";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const CheckoutHeader = () => {
   useLogLifecycle("CheckoutHeader");
   return (
-    <div className="p-6 border-b border-border">
-      <div className="flex items-center justify-between mb-4">
+    <div className="p-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex items-center justify-between mb-3">
         <Link
           to="/"
-          className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5"
+          className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors no-underline rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30"
         >
-          <IoArrowBack className="w-4 h-4" /> Volver
+          <ArrowLeft aria-hidden="true" className="h-4 w-4" /> Volver
         </Link>
-        <div className="flex items-center gap-1.5 text-success text-xs font-medium px-2.5 py-1 bg-success/10 rounded-full">
-          <IoShieldCheckmarkOutline className="w-3.5 h-3.5" />
+        <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900">
           Pago Seguro
-        </div>
+        </span>
       </div>
-      <h1
-        id="checkout-title"
-        className="text-2xl font-bold text-foreground"
-      >
+      <h1 className="text-3xl font-bold" id="checkout-title">
         Checkout
       </h1>
       <p className="text-sm text-muted-foreground mt-1">

@@ -1,73 +1,46 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
-import { HiOutlineMagnifyingGlass, HiOutlineXMark } from "react-icons/hi2";
-import { cn } from "@/shared/lib/cn";
-import { Button } from "@/shared/ui/Button";
+import { Search, X } from "lucide-react";
 
 interface ISearchInputProps {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
-    className?: string;
+    style?: React.CSSProperties;
 }
 
 export function SearchInput({
     value,
     onChange,
     placeholder = "Buscar productos...",
-    className,
+    style,
 }: ISearchInputProps) {
     useLogLifecycle("SearchInput");
-    const [isFocused, setIsFocused] = useState(false);
 
     const handleClear = useCallback(() => {
         onChange("");
     }, [onChange]);
 
     return (
-        <div
-            className={cn(
-                "relative flex items-center rounded-xl transition-all duration-200",
-                "border bg-background",
-                isFocused
-                    ? "border-primary ring-2 ring-primary/30"
-                    : "border-border hover:border-primary/40",
-                className,
-            )}
-        >
-            <HiOutlineMagnifyingGlass
-                className={cn(
-                    "absolute left-4 w-5 h-5 pointer-events-none transition-colors duration-200",
-                    isFocused ? "text-primary" : "text-muted-foreground",
-                )}
-            />
+        <div className="relative" style={style}>
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
-                type="search"
+                type="text"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
                 placeholder={placeholder}
-                className={cn(
-                    "w-full h-12 pl-12 pr-12 rounded-xl",
-                    "bg-transparent",
-                    "text-foreground",
-                    "placeholder:text-muted-foreground",
-                    "focus:outline-none",
-                    "transition-all duration-200",
-                )}
                 aria-label="Buscar productos"
+                className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm pl-9 pr-9 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
             />
             {value && (
-                <Button
-                    variant="ghost"
-                    size="icon"
+                <button
+                    type="button"
                     onClick={handleClear}
-                    className="absolute right-2 h-8 w-8 rounded-full hover:bg-muted cursor-pointer focus-visible:ring-2 focus-visible:ring-primary"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full text-sm font-medium h-10 w-10 hover:bg-accent hover:text-accent-foreground text-muted-foreground cursor-pointer border-none bg-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30"
                     aria-label="Limpiar búsqueda"
                 >
-                    <HiOutlineXMark className="w-4 h-4" />
-                </Button>
+                    <X size={14} />
+                </button>
             )}
         </div>
     );

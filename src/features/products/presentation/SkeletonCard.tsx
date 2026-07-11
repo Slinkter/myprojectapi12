@@ -1,35 +1,28 @@
-/**
- * @file SkeletonCard.tsx
- * @description Componente de carga (placeholder) para productos.
- * @architecture Presentation Layer - UI Skeleton
- */
-
 import React from "react";
 
 const SkeletonCard: React.FC = () => {
   return (
-    <div className="w-full h-full flex flex-col rounded-2xl border border-border bg-background overflow-hidden">
-      <div className="relative h-56 bg-muted overflow-hidden">
-        <div className="absolute inset-0 skeleton-shimmer" />
-      </div>
+    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm h-full flex flex-col">
+      {/* Image Skeleton */}
+      <div className="animate-pulse rounded-t-xl bg-slate-200 dark:bg-slate-800 h-56 w-full" />
 
-      <div className="p-4 flex flex-col gap-2">
-        <div className="h-3 bg-muted rounded w-20">
-          <div className="absolute inset-0 skeleton-shimmer" />
+      <div className="flex flex-col gap-2 p-4 grow">
+        {/* Category Skeleton */}
+        <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-3 w-20" />
+
+        {/* Title Skeleton */}
+        <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-5 w-3/4" />
+
+        {/* Description Skeletons */}
+        <div className="flex flex-col gap-1 grow">
+          <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-4 w-full" />
+          <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-4 w-[85%]" />
         </div>
 
-        <div className="h-5 bg-muted rounded w-3/4">
-          <div className="absolute inset-0 skeleton-shimmer" />
-        </div>
-
-        <div className="space-y-2 flex-grow">
-          <div className="h-4 bg-muted rounded w-full" />
-          <div className="h-4 bg-muted rounded w-5/6" />
-        </div>
-
-        <div className="mt-auto flex items-center justify-between pt-3 border-t border-border">
-          <div className="h-6 bg-muted rounded w-24" />
-          <div className="h-9 bg-muted rounded-full w-24" />
+        {/* Footer Skeleton */}
+        <div className="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-6 w-24" />
+          <div className="animate-pulse rounded-xl bg-slate-200 dark:bg-slate-800 h-9 w-24" />
         </div>
       </div>
     </div>

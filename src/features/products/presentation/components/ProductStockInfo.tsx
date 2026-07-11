@@ -1,5 +1,5 @@
 import { StockStatus } from "@/shared/lib/stockUtils";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/cn";
 
 interface ProductStockInfoProps {
   stock: number;
@@ -21,3 +21,4 @@ const ProductStockInfo = ({ stock, status }: ProductStockInfoProps) => {
 };
 
 export default ProductStockInfo;
+

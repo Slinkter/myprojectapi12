@@ -1,5 +1,5 @@
-import { HiOutlineTag } from 'react-icons/hi2'
-import { Button } from '@/shared/ui/Button'
+import { Bookmark } from "lucide-react";
+import { Button } from '@/shared/ui/Button';
 
 interface DiscountInputProps {
   code: string
@@ -18,12 +18,14 @@ export function DiscountInput({
 }: DiscountInputProps) {
   return (
     <div className="mb-4">
-      <label htmlFor="discount-code" className="block text-xs font-medium text-muted-foreground mb-2">
+      <label htmlFor="discount-code" className="block text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-2">
         Código de descuento
       </label>
       <div className="flex gap-2">
-        <div className="relative flex-1">
-          <HiOutlineTag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <div className="flex-grow relative">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground pointer-events-none">
+            <Bookmark className="h-4 w-4" />
+          </div>
           <input
             id="discount-code"
             type="text"
@@ -31,7 +33,7 @@ export function DiscountInput({
             onChange={(e) => onChange(e.target.value.toUpperCase())}
             onKeyDown={(e) => e.key === 'Enter' && onApply()}
             placeholder="Ingresa tu código"
-            className="w-full h-10 pl-10 pr-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="flex h-9 w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-background pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
           />
         </div>
         <Button
@@ -44,9 +46,9 @@ export function DiscountInput({
         </Button>
       </div>
       {error && (
-        <p className="text-xs text-destructive mt-1">{error}</p>
+        <p className="text-red-500 text-xs mt-1 font-semibold">{error}</p>
       )}
-      <p className="text-xs text-muted-foreground mt-2">
+      <p className="text-xs text-slate-400 dark:text-slate-500 mt-2 font-medium">
         Prueba: WELCOME10, SAVE5, VIP20
       </p>
     </div>

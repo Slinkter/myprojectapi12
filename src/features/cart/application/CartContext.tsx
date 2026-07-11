@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * @file CartContext.tsx
  * @description Gestión de estado global del carrito de compras usando Context API.

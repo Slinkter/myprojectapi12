@@ -1,20 +1,7 @@
-/**
- * @file SkeletonGrid.tsx
- * @description Componente contenedor para mostrar una cuadrícula de esqueletos de carga de productos.
- * @architecture Presentation Layer - UI Skeleton
- */
-
 import React from "react";
 import { useLogLifecycle } from "@/shared/hooks";
 import SkeletonCard from "@/features/products/presentation/SkeletonCard";
 
-/**
- * @component SkeletonGrid
- * @description Crea una cuadrícula responsiva (grid) que contiene 8 SkeletonCards.
- * Se utiliza como reemplazo visual completo de la lista de productos durante la carga inicial.
- *
- * @returns {JSX.Element} El contenedor de la cuadrícula con esqueletos.
- */
 const SkeletonGrid: React.FC = () => {
     useLogLifecycle("SkeletonGrid");
     return (

@@ -1,5 +1,5 @@
-import { ImageZoom } from "@/components/common/ImageZoom";
-import { cn } from "@/lib/utils";
+import { ImageZoom } from "@/shared/ui/ImageZoom";
+import { cn } from "@/shared/lib/cn";
 
 interface ProductImageGalleryProps {
   images?: string[];
@@ -28,13 +28,15 @@ const ProductImageGallery = ({ images, thumbnail, selectedImage, onSelect, title
           {displayImages.map((img, index) => (
             <button
               key={index}
+              type="button"
               onClick={() => onSelect(img)}
+              aria-label={`Ver imagen ${index + 1} de ${title}`}
               className={cn(
-                'flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 bg-background/50',
+                'flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 bg-background/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30',
                 selectedImage === img ? "border-primary shadow-lg shadow-primary/20 scale-110" : "border-transparent opacity-60 hover:opacity-100"
               )}
             >
-              <img src={img} alt={`${title} - ${index}`} className="w-full h-full object-cover" />
+              <img src={img} alt={`${title} - ${index + 1}`} className="w-full h-full object-cover" />
             </button>
           ))}
         </div>
@@ -44,3 +46,4 @@ const ProductImageGallery = ({ images, thumbnail, selectedImage, onSelect, title
 };
 
 export default ProductImageGallery;
+

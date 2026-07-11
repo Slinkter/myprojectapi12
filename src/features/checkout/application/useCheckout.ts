@@ -10,6 +10,7 @@ import {
   ChangeEvent,
   useMemo,
   useCallback,
+  useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { validateCardInfo } from "@/features/checkout/application/validation";
@@ -71,6 +72,9 @@ export const useCheckout = (): IUseCheckoutReturn => {
   const { paymentMethod, cardInfo, errors, cardType } = state;
   const navigate = useNavigate();
 
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleCardTypeDetection = useCallback(() => {
     const newCardType = detectCardType(cardInfo.number);
     if (newCardType !== cardType) {
@@ -94,6 +98,14 @@ export const useCheckout = (): IUseCheckoutReturn => {
    * Maneja el envío del formulario de pago.
    */
   const handlePayment = useCallback(() => {
+    setIsSubmitted(true);
+    setTouched({
+      number: true,
+      name: true,
+      expiry: true,
+      cvc: true,
+    });
+
     if (paymentMethod === "bitcoin") {
       navigate("/checkout-success");
       return;
@@ -118,6 +130,8 @@ export const useCheckout = (): IUseCheckoutReturn => {
       const { name } = e.target;
       let { value } = e.target;
 
+      setTouched((prev) => ({ ...prev, [name]: true }));
+
       if (name === "number") {
         value = formatCardNumber(value);
       } else if (name === "expiry") {
@@ -140,6 +154,8 @@ export const useCheckout = (): IUseCheckoutReturn => {
    */
   const selectPaymentMethod = useCallback((method: PaymentMethod) => {
     dispatch({ type: "SET_PAYMENT_METHOD", payload: method });
+    setTouched({});
+    setIsSubmitted(false);
   }, []);
 
   /**
@@ -157,10 +173,24 @@ export const useCheckout = (): IUseCheckoutReturn => {
     return hasErrors || hasEmptyFields;
   }, [paymentMethod, errors, cardInfo]);
 
+  /**
+   * Filtra los errores para mostrarlos solo si el campo ha sido modificado
+   * o si se intentó enviar el formulario.
+   */
+  const visibleErrors = useMemo(() => {
+    const result: IValidationErrors = {};
+    (Object.keys(errors) as Array<keyof IValidationErrors>).forEach((key) => {
+      if (isSubmitted || touched[key]) {
+        result[key] = errors[key];
+      }
+    });
+    return result;
+  }, [errors, touched, isSubmitted]);
+
   return {
     paymentMethod,
     cardInfo,
-    errors,
+    errors: visibleErrors,
     cardType,
     handlePayment,
     handlePaymentFieldChange,

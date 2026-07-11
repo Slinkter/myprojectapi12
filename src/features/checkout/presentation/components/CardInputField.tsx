@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
-import { cn } from "@/lib/utils";
-import { HiOutlineExclamationCircle } from "react-icons/hi2";
+import { AlertTriangle } from "lucide-react";
+import { cn } from "@/shared/lib/cn";
+import { useLogLifecycle } from "@/shared/hooks";
 
 interface CardInputFieldProps {
   label: string;
@@ -8,18 +9,9 @@ interface CardInputFieldProps {
   value: string;
   error?: string;
   icon: ReactNode;
+  rightSlot?: ReactNode;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
-
-const inputClasses = (hasError: boolean) => {
-  return `w-full px-4 py-3 rounded-xl border bg-background text-foreground placeholder:text-muted-foreground transition-all duration-200 outline-none
-      focus:ring-2 focus:ring-primary/20 focus:border-primary
-      ${
-        hasError
-          ? "border-destructive/50 focus:border-destructive focus:ring-destructive/20 bg-destructive/5"
-          : "border-border hover:border-border/80"
-      }`;
-};
 
 const CardInputField = ({
   label,
@@ -27,8 +19,10 @@ const CardInputField = ({
   value,
   error,
   icon,
+  rightSlot,
   inputProps,
 }: CardInputFieldProps) => {
+  useLogLifecycle("CardInputField");
   const inputId = `card-${name}`;
   const errorId = `${inputId}-error`;
 
@@ -36,29 +30,43 @@ const CardInputField = ({
     <div>
       <label
         htmlFor={inputId}
-        className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-widest"
+        className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1"
       >
         {label}
       </label>
-      <div className="relative group">
+      
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground pointer-events-none">
+          {icon}
+        </div>
         <input
           id={inputId}
-          className={cn(inputClasses(!!error), inputProps?.className || "")}
           name={name}
           value={value}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
+          className={cn(
+            "flex h-10 w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-background px-3 py-2 text-sm pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all",
+            error && "border-red-500 focus:ring-red-500/20 focus:border-red-500",
+            (name === "number" || name === "expiry" || name === "cvc") && "font-mono tracking-wider",
+            inputProps?.className
+          )}
           {...inputProps}
         />
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
-          {icon}
-        </div>
+        {rightSlot && (
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+            {rightSlot}
+          </div>
+        )}
       </div>
+
       {error && (
-        <p id={errorId} className="text-destructive text-xs mt-1.5 flex items-center gap-1.5 font-bold">
-          <HiOutlineExclamationCircle className="w-4 h-4" />
-          {error}
-        </p>
+        <div id={errorId} className="flex gap-1 items-center mt-1 text-red-600">
+          <AlertTriangle className="h-3.5 w-3.5" />
+          <span className="text-xs font-bold">
+            {error}
+          </span>
+        </div>
       )}
     </div>
   );

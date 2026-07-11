@@ -1,29 +1,28 @@
-/**
- * @file CheckoutSuccess.tsx
- * @description Página de confirmación de compra exitosa.
- * @architecture Presentation Layer - Checkout Feature
- */
 import { Link } from "react-router-dom";
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { CheckCircle2 } from "lucide-react";
+import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
 const CheckoutSuccess: React.FC = () => {
   useLogLifecycle("CheckoutSuccess");
   return (
-    <div className="min-h-[70vh] flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-background border border-border rounded-2xl p-8 text-center">
-        <div className="w-20 h-20 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-6">
-          <span className="text-success text-4xl font-bold">✓</span>
+    <div className="flex items-center justify-center p-4 min-h-[70vh]">
+      <div className="rounded-xl border bg-card text-card-foreground shadow p-6 max-w-[400px] w-full text-center">
+        <div
+          aria-hidden="true"
+          className="flex items-center justify-center w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 mx-auto mb-4"
+        >
+          <CheckCircle2 className="w-10 h-10" strokeWidth={1.5} />
         </div>
-        <h2 className="text-2xl font-bold text-foreground mb-3">
+        <h2 className="text-2xl font-semibold mb-3">
           ¡Pago Exitoso!
         </h2>
-        <p className="text-muted-foreground mb-6">
+        <p className="text-sm text-muted-foreground mb-5">
           Tu pedido ha sido procesado correctamente.
         </p>
-        <Link to="/">
-          <Button className="w-full">
+        <Link to="/" className="no-underline">
+          <Button className="w-full h-11 rounded-xl font-semibold transition-colors">
             Continuar Comprando
           </Button>
         </Link>
