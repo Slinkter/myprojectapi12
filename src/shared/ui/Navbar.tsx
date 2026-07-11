@@ -11,6 +11,7 @@ import {
   Sun,
   Moon,
   ShoppingBag,
+  ShoppingCart,
   Menu,
   ChevronDown,
   Home,
@@ -293,7 +294,7 @@ const Navbar = () => {
           {/* Cart Button */}
           <div className="relative">
             <ActionBtn onClick={openCart} label={`Carrito${totalItems > 0 ? ` — ${totalItems} artículos` : ""}`}>
-              <ShoppingBag size="20" />
+              <ShoppingCart size="20" />
             </ActionBtn>
             <AnimatePresence>
               {totalItems > 0 && (
