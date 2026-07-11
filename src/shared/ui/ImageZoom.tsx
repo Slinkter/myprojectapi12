@@ -3,12 +3,27 @@ import { HiOutlineMagnifyingGlassPlus, HiOutlineMagnifyingGlassMinus, HiOutlineA
 import { cn } from '@/shared/lib/cn'
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface IImageZoomProps
+ * @description Propiedades del componente ImageZoom.
+ * @property {string} src - URL de la imagen.
+ * @property {string} alt - Texto alternativo de la imagen.
+ * @property {string} [className] - Clases CSS adicionales.
+ */
 interface IImageZoomProps {
   src: string
   alt: string
   className?: string
 }
 
+/**
+ * @component ImageZoom
+ * @description Componente de zoom interactivo para imágenes.
+ * Permite acercar, alejar, arrastrar y restablecer la vista
+ * con soporte para teclado y controles táctiles.
+ * @param {IImageZoomProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Imagen con controles de zoom.
+ */
 export function ImageZoom({ src, alt, className }: IImageZoomProps) {
   useLogLifecycle("ImageZoom");
   const [zoom, setZoom] = useState(1)

@@ -1,10 +1,27 @@
 import { HiOutlineXMark } from "react-icons/hi2";
 import { Button } from "@/shared/ui/Button";
 
+/**
+ * @interface ModalCloseButtonProps
+ * @description Propiedades del componente ModalCloseButton.
+ */
 interface ModalCloseButtonProps {
+  /** Callback ejecutado al hacer clic en el botón de cerrar. */
   onClose: () => void;
 }
 
+/**
+ * Botón de cierre para modales con icono "X".
+ *
+ * @remarks
+ * Botón circular posicionado en la esquina superior derecha.
+ * Incluye icono `HiOutlineXMark` de HeroIcons y efectos de hover.
+ * Accesible mediante aria-label "Cerrar modal".
+ *
+ * @component
+ * @param props.onClose - Callback al presionar el botón.
+ * @returns Elemento JSX con el botón de cierre.
+ */
 const ModalCloseButton = ({ onClose }: ModalCloseButtonProps) => {
   return (
     <div className="absolute top-6 right-6 z-20">

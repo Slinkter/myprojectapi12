@@ -9,14 +9,22 @@ import { useState, useCallback } from 'react'
 import { useLogLifecycle } from "@/shared/hooks";
 import { cn } from '@/shared/lib/cn'
 
+/**
+ * @interface ILazyImageProps
+ * @description Propiedades del componente LazyImage.
+ * @property {string} src - URL de la imagen.
+ * @property {string} alt - Texto alternativo de la imagen.
+ * @property {string} [className] - Clases CSS adicionales.
+ * @property {string} [aspectRatio] - Relación de aspecto CSS (por defecto "aspect-[4/5]").
+ * @property {React.CSSProperties} [style] - Estilos aplicados al contenedor wrapper.
+ * @property {React.CSSProperties} [imgStyle] - Estilos aplicados directamente al elemento `<img>`.
+ */
 interface ILazyImageProps {
   src: string
   alt: string
   className?: string
   aspectRatio?: string
-  /** Estilos aplicados al contenedor wrapper. */
   style?: React.CSSProperties
-  /** Estilos aplicados directamente al elemento `<img>`. Úsalo para controlar `objectFit`, `padding`, etc. */
   imgStyle?: React.CSSProperties
 }
 

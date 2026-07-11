@@ -1,9 +1,21 @@
+/**
+ * @file CheckoutSuccess.tsx
+ * @description Pantalla de confirmación de pago exitoso.
+ * @architecture Capa de Presentación - Checkout
+ */
+
 import { Link } from "react-router-dom";
 import React from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * Componente que muestra la confirmación de un pago exitoso.
+ * Incluye un icono de verificación, mensaje de éxito y enlace para continuar comprando.
+ *
+ * @returns {JSX.Element} Pantalla de éxito del checkout.
+ */
 const CheckoutSuccess: React.FC = () => {
   useLogLifecycle("CheckoutSuccess");
   return (

@@ -8,10 +8,24 @@ import { useLogLifecycle } from "@/shared/hooks";
 import { CartItemRow } from "./CartItemRow";
 import { Button } from "@/shared/ui/Button";
 
-/** Formatea precio con Intl.NumberFormat */
+/**
+ * @function formatPrice
+ * @description Formatea un número como precio en USD usando Intl.NumberFormat.
+ * @param {number} price - Valor numérico a formatear
+ * @returns {string} Precio formateado como moneda USD (ej. "$1,234.56")
+ */
 const formatPrice = (price: number): string =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price);
 
+/**
+ * @component Cart
+ * @description Drawer del carrito de compras renderizado con createPortal.
+ * Muestra la lista de artículos, resumen de precios, y acciones
+ * (proceder al pago, vaciar carrito). Se cierra con clic en backdrop
+ * o tecla Escape. Estado vacío muestra mensaje y botón para explorar.
+ *
+ * @returns {JSX.Element | null} Portal del drawer si isCartOpen es true, null en caso contrario
+ */
 const Cart = () => {
   useLogLifecycle("Cart");
   const { cart, removeFromCart, clearCart, isCartOpen, closeCart, totalPrice } = useCart();

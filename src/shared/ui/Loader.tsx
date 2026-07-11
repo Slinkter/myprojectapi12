@@ -7,6 +7,11 @@
 import React from "react";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface ILoaderProps
+ * @description Propiedades del componente Loader.
+ * @property {string} [text] - Texto opcional a mostrar junto al spinner.
+ */
 interface ILoaderProps {
   text?: string;
 }

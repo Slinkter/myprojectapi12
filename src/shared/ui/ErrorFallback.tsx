@@ -10,10 +10,11 @@ import clsx from "clsx";
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**
- * @interface ErrorFallbackProps
- * @property {Error | null} error - El objeto de error capturado
- * @property {React.ErrorInfo | null} errorInfo - Stack trace del componente
- * @property {function} onReset - Función para intentar recuperar la aplicación
+ * @interface IErrorFallbackProps
+ * @description Propiedades del componente ErrorFallback.
+ * @property {Error | null} error - Objeto de error capturado.
+ * @property {React.ErrorInfo | null} errorInfo - Pila de componentes donde ocurrió el error.
+ * @property {() => void} onReset - Función para reintentar y recuperar la aplicación.
  */
 interface IErrorFallbackProps {
     error: Error | null;
@@ -22,9 +23,12 @@ interface IErrorFallbackProps {
 }
 
 /**
- * Componente visual para mostrar errores fatales.
- *
- * @component
+ * @component ErrorFallback
+ * @description Pantalla de error fatal con mensaje amigable.
+ * Muestra detalles técnicos del error solo en modo desarrollo
+ * y ofrece botones para reintentar o volver al inicio.
+ * @param {IErrorFallbackProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Pantalla completa de error.
  */
 const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
     useLogLifecycle("ErrorFallback");

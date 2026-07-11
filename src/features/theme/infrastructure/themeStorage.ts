@@ -5,6 +5,7 @@
  * @architecture Capa de Infraestructura - Persistencia de Tema
  */
 
+/** Modos de tema disponibles para la aplicación. */
 export type Theme = "light" | "dark";
 
 const THEME_STORAGE_KEY = "theme";

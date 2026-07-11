@@ -1,15 +1,36 @@
+/**
+ * @file PaymentMethodRadio.tsx
+ * @description Radio button visual para seleccionar un método de pago.
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import { CheckCircle } from "lucide-react";
 import { FaBitcoin } from "react-icons/fa";
 import { cn } from "@/shared/lib/cn";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface IPaymentMethodRadioProps
+ * @description Propiedades del componente PaymentMethodRadio.
+ */
 interface IPaymentMethodRadioProps {
+    /** Identificador único del método de pago */
     id: string;
+    /** Etiqueta visible del método de pago */
     label: string;
+    /** Indica si el método está seleccionado */
     checked: boolean;
+    /** Callback al seleccionar el método */
     onChange: () => void;
 }
 
+/**
+ * Componente que renderiza un radio button visual con icono del método de pago
+ * (Visa, Mastercard o Bitcoin) y un indicador de selección.
+ *
+ * @param {IPaymentMethodRadioProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Radio button de método de pago.
+ */
 const PaymentMethodRadio = ({
     id,
     label,

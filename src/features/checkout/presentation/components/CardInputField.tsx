@@ -1,18 +1,42 @@
+/**
+ * @file CardInputField.tsx
+ * @description Campo de entrada reutilizable para el formulario de tarjeta con icono y validación.
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import { ReactNode } from "react";
 import { AlertTriangle } from "lucide-react";
 import { cn } from "@/shared/lib/cn";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface CardInputFieldProps
+ * @description Propiedades del componente CardInputField.
+ */
 interface CardInputFieldProps {
+  /** Etiqueta del campo */
   label: string;
+  /** Nombre del campo (mapea a ICardInfo) */
   name: string;
+  /** Valor actual del campo */
   value: string;
+  /** Mensaje de error de validación */
   error?: string;
+  /** Icono decorativo a la izquierda del input */
   icon: ReactNode;
+  /** Slot opcional a la derecha del input (ej. indicador de tipo de tarjeta) */
   rightSlot?: ReactNode;
+  /** Propiedades adicionales para el input nativo */
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
+/**
+ * Componente que renderiza un campo de formulario estilizado para datos de tarjeta,
+ * con icono, validación visual, mensajes de error y slot derecho opcional.
+ *
+ * @param {CardInputFieldProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Campo de entrada de tarjeta.
+ */
 const CardInputField = ({
   label,
   name,

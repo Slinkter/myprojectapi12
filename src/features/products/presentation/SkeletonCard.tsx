@@ -1,5 +1,17 @@
 import React from "react";
 
+/**
+ * Esqueleto de carga para una tarjeta de producto.
+ *
+ * @remarks
+ * Muestra una versión placeholder animada (pulse) que imita la estructura
+ * de ProductCard: imagen, categoría, título, descripción y pie con precio/botón.
+ * Útil durante la carga inicial de datos para mejorar la experiencia percibida.
+ *
+ * @component
+ * @returns Elemento JSX con el esqueleto de tarjeta animado.
+ * @see ProductCard - Componente real que este esqueleto representa.
+ */
 const SkeletonCard: React.FC = () => {
   return (
     <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm h-full flex flex-col">

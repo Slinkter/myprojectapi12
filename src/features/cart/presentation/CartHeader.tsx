@@ -2,10 +2,23 @@ import { HiOutlineXMark } from "react-icons/hi2";
 import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface CartHeaderProps
+ * @description Props del componente CartHeader.
+ */
 interface CartHeaderProps {
+  /** Función para cerrar el drawer del carrito */
   onClose: () => void;
 }
 
+/**
+ * @component CartHeader
+ * @description Encabezado del drawer del carrito.
+ * Muestra el título "Mi Carrito" y un botón de cierre con icono X.
+ *
+ * @param {CartHeaderProps} props - Propiedades del componente
+ * @returns {JSX.Element} Encabezado del carrito
+ */
 export const CartHeader = ({ onClose }: CartHeaderProps) => {
   useLogLifecycle("CartHeader");
   return (

@@ -2,13 +2,36 @@ import LoadMoreButton from "@/features/products/presentation/components/LoadMore
 import { IProduct } from "@/features/products/application/types";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface ILoadMoreSectionProps
+ * @description Propiedades del componente LoadMoreSection.
+ */
 interface ILoadMoreSectionProps {
+  /** Lista de productos cargados actualmente. */
   products: IProduct[];
+  /** Indica si existen más páginas disponibles. */
   hasMore: boolean;
+  /** Indica si hay una operación de carga en curso. */
   isLoading: boolean;
+  /** Función para solicitar la siguiente página. */
   loadMoreProducts: () => void;
 }
 
+/**
+ * Sección de control de paginación "Cargar más".
+ *
+ * @remarks
+ * Muestra el botón `LoadMoreButton` si hay más páginas disponibles.
+ * Cuando se han cargado todos los productos, muestra un mensaje
+ * "Has llegado al final de la lista".
+ *
+ * @component
+ * @param props.products - Lista actual de productos.
+ * @param props.hasMore - Si hay más productos por cargar.
+ * @param props.isLoading - Si hay una carga en progreso.
+ * @param props.loadMoreProducts - Callback para cargar más.
+ * @returns Elemento JSX con la sección de paginación.
+ */
 const LoadMoreSection = (props: ILoadMoreSectionProps) => {
   useLogLifecycle("LoadMoreSection");
   const { products, hasMore, loadMoreProducts, isLoading } = props;

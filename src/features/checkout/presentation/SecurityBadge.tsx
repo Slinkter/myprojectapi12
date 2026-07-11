@@ -1,6 +1,18 @@
+/**
+ * @file SecurityBadge.tsx
+ * @description Distintivo de seguridad que indica transacción encriptada.
+ * @architecture Capa de Presentación - Checkout
+ */
+
 import { Lock } from "lucide-react";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * Componente que muestra un distintivo visual de "Transacción segura encriptada"
+ * para transmitir confianza al usuario durante el checkout.
+ *
+ * @returns {JSX.Element} Distintivo de seguridad.
+ */
 const SecurityBadge = () => {
   useLogLifecycle("SecurityBadge");
   return (

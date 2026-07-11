@@ -3,6 +3,14 @@ import { cn } from "@/shared/lib/cn";
 import { HiExclamationCircle } from "react-icons/hi2";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface IErrorMessageProps
+ * @description Propiedades del componente ErrorMessage.
+ * @property {string} message - Mensaje descriptivo del error.
+ * @property {string} [title] - Título del mensaje de error (por defecto "Error").
+ * @property {{ label: string; onClick: () => void }} [action] - Acción opcional con botón.
+ * @property {string} [className] - Clases CSS adicionales.
+ */
 interface IErrorMessageProps {
   message: string;
   title?: string;

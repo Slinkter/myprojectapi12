@@ -1,3 +1,9 @@
+/**
+ * @file OrderSummary.tsx
+ * @description Componente de resumen del pedido con lista de items, descuentos y totales.
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import { ShoppingBag } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
 import type { ICartItem } from '@/features/cart/domain/cartTypes';
@@ -7,13 +13,29 @@ import { AppliedDiscountBadge } from './AppliedDiscountBadge'
 import { PriceRow } from './PriceRow'
 import { useDiscountValidation, calculateDiscountAmount } from '@/features/checkout/application/useDiscountValidation'
 
+/**
+ * @interface IOrderSummaryProps
+ * @description Propiedades del componente OrderSummary.
+ */
 interface IOrderSummaryProps {
+  /** Items del carrito a mostrar en el resumen */
   items: ICartItem[]
+  /** Precio total del carrito */
   totalPrice: number
+  /** Callback opcional para eliminar un item */
   onRemove?: (id: number) => void
+  /** Estilos en línea opcionales */
   style?: React.CSSProperties
 }
 
+/**
+ * Componente que muestra el resumen completo del pedido incluyendo:
+ * lista de productos, input de código de descuento, badge de descuento aplicado,
+ * subtotal, descuento, envío y total final.
+ *
+ * @param {IOrderSummaryProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Resumen del pedido.
+ */
 export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSummaryProps) {
   useLogLifecycle("OrderSummary");
   const {

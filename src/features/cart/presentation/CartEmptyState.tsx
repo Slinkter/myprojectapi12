@@ -2,10 +2,24 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface CartEmptyStateProps
+ * @description Props del componente CartEmptyState.
+ */
 interface CartEmptyStateProps {
+  /** Función para continuar comprando (cierra el drawer) */
   onContinue: () => void;
 }
 
+/**
+ * @component CartEmptyState
+ * @description Estado vacío del carrito de compras.
+ * Muestra un icono de bolsa, mensaje informativo y botón
+ * para seguir comprando.
+ *
+ * @param {CartEmptyStateProps} props - Propiedades del componente
+ * @returns {JSX.Element} Vista de carrito vacío
+ */
 export const CartEmptyState = ({ onContinue }: CartEmptyStateProps) => {
   useLogLifecycle("CartEmptyState");
   return (

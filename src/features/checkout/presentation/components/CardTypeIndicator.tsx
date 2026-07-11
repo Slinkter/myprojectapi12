@@ -1,9 +1,27 @@
+/**
+ * @file CardTypeIndicator.tsx
+ * @description Indicador visual del tipo de tarjeta de crédito detectado (Visa/Mastercard).
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import { cn } from "@/shared/lib/cn";
 
+/**
+ * @interface CardTypeIndicatorProps
+ * @description Propiedades del componente CardTypeIndicator.
+ */
 interface CardTypeIndicatorProps {
+  /** Tipo de tarjeta detectado ("visa", "mastercard" o "") */
   cardType: string;
 }
 
+/**
+ * Componente que muestra un indicador visual del tipo de tarjeta.
+ * Para Visa muestra el texto "VISA", para Mastercard muestra el ícono de círculos rojo y ámbar.
+ *
+ * @param {CardTypeIndicatorProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Indicador de tipo de tarjeta.
+ */
 const CardTypeIndicator = ({ cardType }: CardTypeIndicatorProps) => {
   return (
     <div

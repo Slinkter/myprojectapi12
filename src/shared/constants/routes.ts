@@ -1,3 +1,4 @@
+/** Mapa de rutas de la aplicación. Centraliza todas las rutas para mantener consistencia y facilitar cambios. @remarks Las rutas dinámicas como PRODUCT_DETAIL usan funciones que reciben el ID. */
 export const ROUTES = {
   HOME: '/',
   PRODUCTS: '/products',
@@ -8,4 +9,5 @@ export const ROUTES = {
   NOT_FOUND: '*',
 } as const
 
+/** Tipo que representa cualquier ruta válida de la aplicación, derivada del objeto ROUTES. */
 export type AppRoute = typeof ROUTES[keyof typeof ROUTES]

@@ -10,6 +10,8 @@
  * @remarks
  * Esta interfaz contiene todos los metadatos proporcionados por la API de DummyJSON.
  * Algunos campos como `discountPercentage` y `rating` son opcionales.
+ *
+ * @see IProductsApiResponse - Estructura de respuesta paginada que contiene IProduct
  */
 export interface IProduct {
     /** Identificador único del producto */

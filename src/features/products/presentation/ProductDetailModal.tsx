@@ -8,6 +8,23 @@ import { X, ShoppingBag } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
 import QuantityControl from "./components/QuantityControl";
 
+/**
+ * Modal de detalle de producto con imagen, selector de cantidad y acción de carrito.
+ *
+ * @remarks
+ * Renderiza mediante `createPortal` en `document.body`.
+ * Muestra: galería de imágenes, marca/categoría, título, descripción, precio con
+ * descuento, estado de stock, control de cantidad y botón "Añadir al Carrito".
+ * Bloquea el scroll del body cuando está abierto.
+ * Resetea cantidad e imagen seleccionada al abrir o cambiar de producto.
+ *
+ * @component
+ * @param props.product - Producto a mostrar. Si es null, no renderiza nada.
+ * @param props.isOpen - Controla la visibilidad del modal.
+ * @param props.onClose - Callback al cerrar el modal.
+ * @returns Portal JSX con el modal, o null si no hay producto o no está abierto.
+ * @see IProductDetailModalProps - Tipo completo de las props.
+ */
 const ProductDetailModal = (props: IProductDetailModalProps) => {
   useLogLifecycle("ProductDetailModal");
   const { product, isOpen, onClose } = props;

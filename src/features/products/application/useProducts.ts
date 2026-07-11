@@ -11,15 +11,22 @@ import type {
     IUseProductsResult,
 } from "@/features/products/application/types";
 
-/**
- * Cantidad de productos por página para la paginación infinita.
- */
+/** Cantidad de productos por página para la paginación infinita. */
 const PRODUCTS_PER_PAGE = 20;
 
 /**
- * Hook para obtener y gestionar la lista de productos con scroll infinito.
- * @param {string} [category] - Categoría opcional para filtrar los productos.
- * @returns {IUseProductsResult} Objeto con productos, estados de carga y funciones de paginación.
+ * Hook para obtener y gestionar la lista de productos con paginación infinita.
+ *
+ * @remarks
+ * Utiliza `useInfiniteQuery` de TanStack Query con queryKey `["products", category]`.
+ * - `staleTime` por defecto de React Query (0ms).
+ * - Cada página solicita `PRODUCTS_PER_PAGE` (20) elementos.
+ * - `getNextPageParam` calcula si hay más páginas basándose en el total devuelto por la API.
+ *
+ * @param category - Categoría opcional para filtrar los productos. Cambiar este valor reinicia la consulta.
+ * @returns Objeto con la lista plana de productos, estados de carga y control de paginación.
+ * @see IUseProductsResult - Estructura completa del valor retornado.
+ * @see getProducts - Función de infraestructura que realiza la petición HTTP.
  */
 export const useProducts = (category?: string): IUseProductsResult => {
     const {

@@ -1,3 +1,9 @@
+/**
+ * @file PaymentFormContainer.tsx
+ * @description Contenedor del formulario de pago que muestra el formulario de tarjeta o la opción Bitcoin.
+ * @architecture Capa de Presentación - Checkout
+ */
+
 import type { ChangeEvent } from "react";
 import { FaBitcoin } from "react-icons/fa";
 import CardForm from "@/features/checkout/presentation/components/CardForm";
@@ -5,18 +11,39 @@ import type { PaymentMethod } from "./PaymentMethodSelector";
 import type { ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface CardFormProps
+ * @description Propiedades del formulario de tarjeta dentro del contenedor.
+ */
 interface CardFormProps {
+  /** Datos de la tarjeta ingresados por el usuario */
   cardInfo: ICardInfo;
+  /** Errores de validación del formulario */
   errors: IValidationErrors;
+  /** Tipo de tarjeta detectado */
   cardType: string;
+  /** Manejador de cambios en los campos */
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
+/**
+ * @interface PaymentFormContainerProps
+ * @description Propiedades del componente PaymentFormContainer.
+ */
 interface PaymentFormContainerProps {
+  /** Método de pago seleccionado */
   paymentMethod: PaymentMethod;
+  /** Propiedades del formulario de tarjeta */
   cardProps: CardFormProps;
 }
 
+/**
+ * Componente que renderiza el formulario de tarjeta o la opción de pago con Bitcoin
+ * según el método de pago seleccionado.
+ *
+ * @param {PaymentFormContainerProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Formulario de pago condicional.
+ */
 const PaymentFormContainer = ({ paymentMethod, cardProps }: PaymentFormContainerProps) => {
   useLogLifecycle("PaymentFormContainer");
   const showCardForm = paymentMethod === "visa" || paymentMethod === "mastercard";

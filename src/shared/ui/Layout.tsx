@@ -8,10 +8,23 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "@/shared/ui/Navbar";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface ILayoutProps
+ * @description Propiedades del layout principal de la aplicación.
+ * @property {ReactNode} children - Contenido a renderizar dentro del layout.
+ */
 interface ILayoutProps {
     children: ReactNode;
 }
 
+/**
+ * @component Layout
+ * @description Layout principal que envuelve todas las páginas.
+ * Provee el navbar global y el contenedor de contenido con
+ * espaciado y ancho máximo consistentes.
+ * @param {ILayoutProps} props - Propiedades del layout.
+ * @returns {JSX.Element} Estructura base de la aplicación.
+ */
 const Layout = ({ children }: ILayoutProps) => {
     useLogLifecycle("Layout");
     return (

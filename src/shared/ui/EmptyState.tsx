@@ -1,6 +1,16 @@
 import { useLogLifecycle } from "@/shared/hooks";
 import { Button } from "@/shared/ui/Button";
 
+/**
+ * @interface IEmptyStateProps
+ * @description Propiedades del componente EmptyState para estados vacíos.
+ * @property {React.ReactNode} [icon] - Icono opcional a mostrar.
+ * @property {string} title - Título del estado vacío.
+ * @property {string} [description] - Descripción opcional del estado.
+ * @property {string} [actionLabel] - Texto del botón de acción.
+ * @property {() => void} [onAction] - Callback al hacer clic en el botón.
+ * @property {React.CSSProperties} [style] - Estilos adicionales.
+ */
 interface IEmptyStateProps {
   icon?: React.ReactNode
   title: string
@@ -10,6 +20,13 @@ interface IEmptyStateProps {
   style?: React.CSSProperties
 }
 
+/**
+ * @component EmptyState
+ * @description Componente para representar estados vacíos en la UI.
+ * Muestra un icono, título, descripción y un botón de acción opcional.
+ * @param {IEmptyStateProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Vista de estado vacío.
+ */
 export function EmptyState({
   icon,
   title,

@@ -19,6 +19,11 @@ import { useLogLifecycle } from "@/shared/hooks";
 
 const CART_STORAGE_KEY = "api12-cart-storage";
 
+/**
+ * @constant CartContext
+ * @description Contexto de React para el carrito de compras.
+ * Se inicializa como undefined; su valor es provisto por CartProvider.
+ */
 export const CartContext = createContext<ICartContextValue | undefined>(
     undefined,
 );

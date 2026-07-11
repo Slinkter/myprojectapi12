@@ -4,6 +4,7 @@ import { X } from "lucide-react"
 
 import { cn } from "@/shared/lib/cn"
 
+/** Contexto interno del diálogo. Proporciona estado de apertura y controlador. */
 interface IDialogContext {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -11,12 +12,20 @@ interface IDialogContext {
 
 const DialogContext = React.createContext<IDialogContext | null>(null)
 
+/** Hook para consumir el contexto del diálogo. Lanza error si se usa fuera de `<Dialog>`. */
 const useDialog = () => {
   const ctx = React.useContext(DialogContext)
   if (!ctx) throw new Error("Dialog components must be used within a Dialog")
   return ctx
 }
 
+/**
+ * Raíz del diálogo. Maneja el estado controlado o no controlado de apertura.
+ *
+ * @param children - Contenido del diálogo.
+ * @param open - Control externo del estado abierto/cerrado.
+ * @param onOpenChange - Callback cuando cambia el estado de apertura.
+ */
 const Dialog = ({ children, open: controlledOpen, onOpenChange }: {
   children: React.ReactNode
   open?: boolean
@@ -36,6 +45,7 @@ const Dialog = ({ children, open: controlledOpen, onOpenChange }: {
   )
 }
 
+/** Botón que abre el diálogo al hacer clic. */
 const DialogTrigger = ({ children, ...props }: {
   children: React.ReactNode
 } & React.HTMLAttributes<HTMLButtonElement>) => {
@@ -47,10 +57,12 @@ const DialogTrigger = ({ children, ...props }: {
   )
 }
 
+/** Portal que renderiza el contenido del diálogo en `document.body`. */
 const DialogPortal = ({ children }: { children: React.ReactNode }) => {
   return createPortal(children, document.body)
 }
 
+/** Fondo semitransparente detrás del diálogo. Cierra el diálogo al hacer clic. */
 const DialogOverlay = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -71,6 +83,7 @@ const DialogOverlay = React.forwardRef<
 })
 DialogOverlay.displayName = "DialogOverlay"
 
+/** Cuerpo principal del diálogo con overlay, botón de cierre y soporte para tecla Escape. */
 const DialogContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -123,6 +136,7 @@ const DialogContent = React.forwardRef<
 })
 DialogContent.displayName = "DialogContent"
 
+/** Encabezado del diálogo con diseño en columna centrado en móvil y alineado a la izquierda en desktop. */
 const DialogHeader = ({
   className,
   ...props
@@ -137,6 +151,7 @@ const DialogHeader = ({
 )
 DialogHeader.displayName = "DialogHeader"
 
+/** Pie del diálogo con acciones apiladas en móvil y en fila en desktop. */
 const DialogFooter = ({
   className,
   ...props
@@ -151,6 +166,7 @@ const DialogFooter = ({
 )
 DialogFooter.displayName = "DialogFooter"
 
+/** Título del diálogo con estilo semibold y tracking compacto. */
 const DialogTitle = React.forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
@@ -166,6 +182,7 @@ const DialogTitle = React.forwardRef<
 ))
 DialogTitle.displayName = "DialogTitle"
 
+/** Descripción del diálogo con texto secundario. */
 const DialogDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -178,6 +195,7 @@ const DialogDescription = React.forwardRef<
 ))
 DialogDescription.displayName = "DialogDescription"
 
+/** Botón que cierra el diálogo al hacer clic. */
 const DialogClose = ({ children, ...props }: React.HTMLAttributes<HTMLButtonElement>) => {
   const { onOpenChange } = useDialog()
   return (

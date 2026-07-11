@@ -1,14 +1,40 @@
 import { ImageZoom } from "@/shared/ui/ImageZoom";
 import { cn } from "@/shared/lib/cn";
 
+/**
+ * @interface ProductImageGalleryProps
+ * @description Propiedades del componente ProductImageGallery.
+ */
 interface ProductImageGalleryProps {
+  /** Array de URLs de imágenes adicionales del producto. */
   images?: string[];
+  /** URL de la imagen miniatura principal. */
   thumbnail: string;
+  /** URL de la imagen actualmente seleccionada y en zoom. */
   selectedImage: string;
+  /** Callback al seleccionar una imagen de la galería. */
   onSelect: (image: string) => void;
+  /** Título del producto (usado como texto alternativo). */
   title: string;
 }
 
+/**
+ * Galería de imágenes del producto con zoom interactivo.
+ *
+ * @remarks
+ * Muestra la imagen seleccionada con un componente `ImageZoom`.
+ * Si hay múltiples imágenes, renderiza una fila de miniaturas seleccionables.
+ * Cada miniatura tiene borde resaltado y escala al estar activa.
+ * Si no hay imágenes adicionales, solo muestra la miniatura principal.
+ *
+ * @component
+ * @param props.images - Lista de URLs de imágenes adicionales.
+ * @param props.thumbnail - Miniatura principal del producto.
+ * @param props.selectedImage - Imagen actualmente en vista principal.
+ * @param props.onSelect - Callback al hacer clic en una miniatura.
+ * @param props.title - Título para los atributos alt de las imágenes.
+ * @returns Elemento JSX con la galería de imágenes.
+ */
 const ProductImageGallery = ({ images, thumbnail, selectedImage, onSelect, title }: ProductImageGalleryProps) => {
   const displayImages = images && images.length > 0 ? images : [thumbnail];
 

@@ -5,6 +5,11 @@ import type { IProduct } from "@/features/products/domain/productTypes";
 // puedan importarlo desde un único punto de entrada sin atravesar capas.
 export type { IProduct };
 
+/**
+ * @interface ICartItem
+ * @description Representa un producto dentro del carrito de compras.
+ * Extiende IProduct añadiendo la cantidad seleccionada.
+ */
 export interface ICartItem extends IProduct {
     /** Número de unidades actualmente en el carrito */
     quantity: number;

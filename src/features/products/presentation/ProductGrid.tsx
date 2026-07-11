@@ -11,10 +11,28 @@ import { m, useReducedMotion } from "framer-motion";
 import type { IProduct } from "@/features/products/application/types";
 import { staggerContainer, slideUp } from "@/shared/lib/animations";
 
+/**
+ * @interface IProductGridProps
+ * @description Propiedades del componente ProductGrid.
+ */
 interface IProductGridProps {
+  /** Lista de productos a mostrar en la cuadrícula. */
   products: IProduct[];
 }
 
+/**
+ * Cuadrícula de productos con animaciones de entrada escalonadas.
+ *
+ * @remarks
+ * Componente memoizado. Renderiza los productos en un grid responsive
+ * (1 col en móvil, 2 en sm, 3 en md, 4 en lg). Cada tarjeta se anima
+ * con Framer Motion usando los variantes `staggerContainer` y `slideUp`.
+ * Respeta la preferencia de movimiento reducido del usuario.
+ *
+ * @component
+ * @param props.products - Array de productos a renderizar.
+ * @returns Elemento JSX con el grid de ProductCard.
+ */
 const ProductGrid = memo(({ products }: IProductGridProps) => {
   useLogLifecycle("ProductGrid");
   const shouldReduceMotion = useReducedMotion();

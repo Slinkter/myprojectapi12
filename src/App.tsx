@@ -1,3 +1,8 @@
+/**
+ * @file App.tsx
+ * @description Componente raíz de la aplicación. Configura los proveedores de contexto
+ * (React Query, tema, carrito), el enrutador, las animaciones y el boundary de errores global.
+ */
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -11,6 +16,14 @@ import Layout from "@/shared/ui/Layout";
 import AppRouter from "@/app/routing/AppRouter";
 import ErrorBoundary from "@/shared/ui/ErrorBoundary";
 
+/**
+ * Componente raíz de la aplicación.
+ * Configura los proveedores de contexto (React Query, tema, carrito),
+ * el enrutador con BrowserRouter, las animaciones con Framer Motion
+ * y el boundary de errores global.
+ *
+ * @returns Elemento JSX de la aplicación completa.
+ */
 const App: React.FC = () => {
     return (
         <QueryClientProvider client={queryClient}>

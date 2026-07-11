@@ -8,15 +8,27 @@ import type { IProduct } from '@/features/products/application/types'
 import { LazyImage } from '@/shared/ui/LazyImage';
 import { Plus, Eye } from 'lucide-react'
 
-/** Precio formateado con separador de miles */
+/**
+ * Formatea un número como moneda USD.
+ * @param price - Precio a formatear.
+ * @returns Cadena formateada (ej. "$1,234.56").
+ */
 const formatPrice = (price: number): string =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
 
-/** Precio original antes del descuento */
+/**
+ * Calcula el precio original antes del descuento.
+ * @param price - Precio actual con descuento aplicado.
+ * @param discount - Porcentaje de descuento (ej. 10 para 10%).
+ * @returns Precio original formateado como moneda.
+ */
 const originalPrice = (price: number, discount: number): string =>
   formatPrice(price / (1 - discount / 100));
 
-/** Custom SVG Star Rating */
+/**
+ * Icono SVG de estrella para calificación.
+ * @param fillType - Tipo de relleno: 'full' (completa), 'half' (media) o 'empty' (vacía).
+ */
 const StarIcon = ({ fillType }: { fillType: 'full' | 'half' | 'empty' }) => {
   if (fillType === 'full') {
     return (
@@ -39,6 +51,10 @@ const StarIcon = ({ fillType }: { fillType: 'full' | 'half' | 'empty' }) => {
   );
 };
 
+/**
+ * Componente de calificación con estrellas SVG.
+ * @param rating - Calificación numérica (ej. 4.5).
+ */
 const StarRating = ({ rating }: { rating: number }) => {
   const full = Math.floor(rating);
   const half = rating - full >= 0.5;
@@ -55,10 +71,28 @@ const StarRating = ({ rating }: { rating: number }) => {
   );
 };
 
+/**
+ * @interface IProductCardProps
+ * @description Propiedades del componente ProductCard.
+ */
 interface IProductCardProps {
+  /** Producto a mostrar en la tarjeta. */
   product: IProduct
 }
 
+/**
+ * Tarjeta de producto con imagen, precio, calificación y controles de acción rápida.
+ *
+ * @remarks
+ * Componente memoizado con `React.memo`. Muestra miniatura, nombre, precio con
+ * descuento, calificación por estrellas, estado de stock y botones de acción
+ * (Añadir / Ver detalle). Usa animaciones de Framer Motion para hover.
+ * Si el producto está agotado, se muestra con opacidad reducida y sin interacción.
+ *
+ * @component
+ * @param props.product - Producto a renderizar.
+ * @returns Elemento JSX article con la tarjeta o null si product es inválido.
+ */
 const ProductCard = React.memo(({ product }: IProductCardProps) => {
   useLogLifecycle("ProductCard");
   const shouldReduceMotion = useReducedMotion();

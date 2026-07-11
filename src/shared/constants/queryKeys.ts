@@ -1,3 +1,4 @@
+/** Claves de consulta para TanStack Query. Estructura jerárquica que permite invalidar y actualizar caché de forma granular. @remarks Sigue el patrón de claves anidadas recomendado por TanStack Query para consultas dependientes. */
 export const QUERY_KEYS = {
   products: {
     all: ['products'] as const,

@@ -1,14 +1,34 @@
+/**
+ * @file PaymentSubmitButton.tsx
+ * @description Botón de envío del formulario de pago con estado de procesamiento.
+ * @architecture Capa de Presentación - Checkout
+ */
+
 import { Button } from "@/shared/ui/Button";
 import { Loader2, Lock } from "lucide-react";
 import type { PaymentMethod } from "./PaymentMethodSelector";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface PaymentSubmitButtonProps
+ * @description Propiedades del botón de pago.
+ */
 interface PaymentSubmitButtonProps {
+  /** Indica si el botón debe estar deshabilitado */
   isDisabled: boolean;
+  /** Indica si se está procesando el pago */
   isProcessing: boolean;
+  /** Método de pago seleccionado para el label aria */
   method: PaymentMethod;
 }
 
+/**
+ * Botón de envío que muestra estado de carga y un icono de candado.
+ * Cambia su texto e icono según el estado de procesamiento.
+ *
+ * @param {PaymentSubmitButtonProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Botón de pago.
+ */
 const PaymentSubmitButton = ({
   isDisabled,
   isProcessing,

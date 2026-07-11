@@ -8,9 +8,16 @@ import { useContext } from "react";
 import { ProductModalContext } from "@/features/products/application/ProductModalContext";
 
 /**
- * @function useProductModalContext
- * @description Hook para acceder a las funciones y estado del modal de producto.
+ * Hook para acceder al contexto del modal de producto.
+ *
+ * @remarks
+ * Consume `ProductModalContext` y verifica que el contexto esté definido.
+ * Si se invoca fuera del árbol de `ProductModalProvider`, lanza un error.
+ *
  * @throws {Error} Si se usa fuera de un ProductModalProvider.
+ * @returns El valor del contexto con el estado y controladores del modal.
+ * @see ProductModalContext - Contexto de React creado con createContext.
+ * @see ProductModalProvider - Proveedor que debe envolver la aplicación.
  */
 export const useProductModalContext = () => {
     const context = useContext(ProductModalContext);

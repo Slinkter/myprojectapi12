@@ -18,6 +18,13 @@ import { useCategories } from "@/features/products/application/useCategories";
 
 import { X } from "lucide-react";
 
+/**
+ * Componente principal del contenido de la página de inicio.
+ * Orquesta la carga de productos, la búsqueda con debounce, el filtrado por categoría,
+ * la paginación infinita y el modal de detalle de producto.
+ *
+ * @returns Elemento JSX con la página de inicio completa.
+ */
 export const HomeContent = () => {
     useLogLifecycle("HomeContent");
     const [searchParams, setSearchParams] = useSearchParams();

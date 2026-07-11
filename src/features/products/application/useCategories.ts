@@ -9,7 +9,16 @@ import { getCategories, ICategory } from "@/features/products/infrastructure/pro
 
 /**
  * Hook para obtener y gestionar la lista de categorías con caché prolongada.
- * @returns Retorno estándar de useQuery con categorías.
+ *
+ * @remarks
+ * Utiliza `useQuery` de TanStack Query con:
+ * - queryKey `["categories"]` — estable, no depende de parámetros.
+ * - `staleTime: 60 * 60 * 1000` (1 hora) para minimizar revalidaciones.
+ * - Los datos se reutilizan entre sesiones gracias a la caché de React Query.
+ *
+ * @returns Objeto estándar de `useQuery<ICategory[], Error>` con `data`, `isLoading`, `error`, etc.
+ * @see getCategories - Función de infraestructura que realiza la petición HTTP.
+ * @see ICategory - Estructura de cada categoría.
  */
 export const useCategories = () => {
   return useQuery<ICategory[], Error>({

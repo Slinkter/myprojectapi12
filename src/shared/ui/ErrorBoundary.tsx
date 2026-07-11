@@ -8,15 +8,23 @@ import React, { Component, ReactNode } from "react";
 import ErrorFallback from "@/shared/ui/ErrorFallback";
 
 /**
- * @interface ErrorBoundaryProps
- * @property {ReactNode} children - Componentes hijos a envolver
- * @property {ReactNode} [fallback] - UI opcional alternativa`
+ * @interface IErrorBoundaryProps
+ * @description Propiedades del componente ErrorBoundary.
+ * @property {ReactNode} children - Componentes hijos a envolver.
+ * @property {ReactNode} [fallback] - UI opcional alternativa de error.
  */
 interface IErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
 }
 
+/**
+ * @interface IErrorBoundaryState
+ * @description Estado interno del ErrorBoundary.
+ * @property {boolean} hasError - Indica si ocurrió un error.
+ * @property {Error | null} error - Objeto de error capturado.
+ * @property {React.ErrorInfo | null} errorInfo - Información del stack del error.
+ */
 interface IErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
@@ -42,10 +50,20 @@ class ErrorBoundary extends Component<
     };
   }
 
+  /**
+   * Actualiza el estado para renderizar la UI de fallback en el siguiente render.
+   * @param {Error} error - Error capturado.
+   * @returns {Partial<IErrorBoundaryState>} Estado parcial con el error.
+   */
   static getDerivedStateFromError(error: Error): Partial<IErrorBoundaryState> {
     return { hasError: true, error };
   }
 
+  /**
+   * Captura el error y registra información en consola (solo en desarrollo).
+   * @param {Error} error - El error capturado.
+   * @param {React.ErrorInfo} errorInfo - Información de la pila de componentes.
+   */
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     if (import.meta.env.DEV) {
       console.error("ErrorBoundary capturó un error:", error, errorInfo);
@@ -59,6 +77,9 @@ class ErrorBoundary extends Component<
     });
   }
 
+  /**
+   * Reinicia el estado de error, permitiendo reintentar la renderización.
+   */
   handleReset = (): void => {
     this.setState({
       hasError: false,
@@ -67,6 +88,10 @@ class ErrorBoundary extends Component<
     });
   };
 
+  /**
+   * Renderiza los hijos o la UI de fallback si hay un error.
+   * @returns {ReactNode} Hijos o componente de error.
+   */
   render() {
     if (this.state.hasError) {
       if (this.props.fallback) {

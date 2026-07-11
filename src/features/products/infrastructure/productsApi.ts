@@ -8,12 +8,11 @@ import apiClient from "@/app/api/apiClient";
 import type { IProductsApiResponse } from "@/features/products/domain/productTypes";
 
 /**
- * Obtiene una lista paginada de productos de la API, opcionalmente filtrada por categoría.
- * 
- * @param {number} skip - Cantidad de elementos a saltar (offset).
- * @param {number} limit - Cantidad máxima de elementos a retornar.
- * @param {string} [category] - Categoría opcional para filtrar los productos.
- * @returns {Promise<IProductsApiResponse>} Promesa con la respuesta paginada de productos.
+ * Representa una categoría de producto devuelta por la API.
+ * @interface ICategory
+ * @property {string} slug - Identificador único en formato slug para la categoría.
+ * @property {string} name - Nombre legible de la categoría.
+ * @property {string} url - URL del endpoint de la API para esta categoría.
  */
 export interface ICategory {
   slug: string;

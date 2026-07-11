@@ -1,3 +1,9 @@
+/**
+ * @file CardForm.tsx
+ * @description Formulario completo de datos de tarjeta de crédito.
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import { ChangeEvent } from "react";
 import { ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
 import { User, Calendar, Lock } from "lucide-react";
@@ -6,13 +12,28 @@ import CardInputField from "./CardInputField";
 import CardTypeIndicator from "./CardTypeIndicator";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface ICardFormProps
+ * @description Propiedades del componente CardForm.
+ */
 interface ICardFormProps {
+  /** Datos actuales de la tarjeta */
   cardInfo: ICardInfo;
+  /** Errores de validación del formulario */
   errors: IValidationErrors;
+  /** Tipo de tarjeta detectado para el indicador visual */
   cardType: string;
+  /** Manejador de cambios en los campos del formulario */
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
+/**
+ * Componente que renderiza el formulario completo de datos de tarjeta:
+ * número, titular, vencimiento y CVC con sus respectivos iconos y validaciones.
+ *
+ * @param {ICardFormProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Formulario de tarjeta.
+ */
 const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
   useLogLifecycle("CardForm");
   return (

@@ -1,17 +1,40 @@
+/**
+ * @file AppliedDiscountBadge.tsx
+ * @description Distintivo que muestra el código de descuento aplicado con opción a eliminarlo.
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import { Check, X } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface IDiscountCode
+ * @description Estructura de un código de descuento aplicado.
+ */
 interface IDiscountCode {
   code: string
   discount: number
   type: 'percentage' | 'fixed'
 }
 
+/**
+ * @interface AppliedDiscountBadgeProps
+ * @description Propiedades del componente AppliedDiscountBadge.
+ */
 interface AppliedDiscountBadgeProps {
+  /** Código de descuento aplicado */
   discount: IDiscountCode
+  /** Callback para eliminar el descuento */
   onRemove: () => void
 }
 
+/**
+ * Componente que muestra una insignia con el código de descuento aplicado,
+ * el monto ahorrado y un botón para eliminarlo.
+ *
+ * @param {AppliedDiscountBadgeProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Distintivo de descuento aplicado.
+ */
 export function AppliedDiscountBadge({ discount, onRemove }: AppliedDiscountBadgeProps) {
   useLogLifecycle("AppliedDiscountBadge");
   return (

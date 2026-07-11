@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/lib/cn";
 
+/** Variantes de estilo y tamaño para el botón. */
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] cursor-pointer",
   {
@@ -28,10 +29,12 @@ const buttonVariants = cva(
   }
 );
 
+/** Props del botón. Hereda atributos HTML de botón y variantes de estilo/tamaño. */
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {}
 
+/** Botón reutilizable con variantes de estilo (default, destructive, outline, secondary, ghost, link) y tamaños. */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
     return (

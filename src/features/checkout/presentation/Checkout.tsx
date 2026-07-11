@@ -17,8 +17,19 @@ import PaymentSubmitButton from "@/features/checkout/presentation/PaymentSubmitB
 import SecurityBadge from "@/features/checkout/presentation/SecurityBadge";
 import { OrderSummary } from "@/features/checkout/presentation/components/OrderSummary";
 
+/**
+ * Pasos del proceso de checkout para el componente CheckoutSteps.
+ * @type {string[]}
+ */
 const STEPS = ['Carrito', 'Pago', 'Confirmación'];
 
+/**
+ * Componente principal de la página de checkout.
+ * Muestra el formulario de pago y el resumen del pedido.
+ * Redirige al inicio si el carrito está vacío.
+ *
+ * @returns {JSX.Element} Página completa de checkout.
+ */
 const Checkout = () => {
   useLogLifecycle("Checkout");
   const { cart, totalPrice, removeFromCart } = useCart();

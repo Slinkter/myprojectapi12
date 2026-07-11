@@ -1,3 +1,7 @@
+/**
+ * @file AppRouter.tsx
+ * @description Enrutador principal de la aplicación con carga diferida (lazy loading) de páginas.
+ */
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Loader from "@/shared/ui/Loader";
@@ -14,6 +18,13 @@ const CheckoutSuccess = lazy(
     () => import("@/features/checkout/presentation/CheckoutSuccess"),
 );
 
+/**
+ * Componente del enrutador principal.
+ * Renderiza las rutas de la aplicación con carga diferida (lazy loading)
+ * y muestra un Loader mientras se cargan los módulos. Incluye el carrito global.
+ *
+ * @returns Elemento JSX con las rutas y el carrito.
+ */
 const AppRouter: React.FC = () => {
     useLogLifecycle("AppRouter");
     return (

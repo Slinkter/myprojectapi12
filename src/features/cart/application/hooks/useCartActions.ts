@@ -13,18 +13,28 @@ import {
 import type { ICartItem, IProduct } from "@/features/cart/domain/cartTypes";
 
 /**
- * Acciones disponibles para el carrito.
+ * @interface IUseCartActionsReturn
+ * @description Acciones memoizadas disponibles para manipular el carrito.
  */
 interface IUseCartActionsReturn {
+  /** Agrega un producto al carrito con validación previa */
   addToCart: (product: IProduct, quantity: number) => void;
+  /** Elimina un producto del carrito por su ID */
   removeFromCart: (productId: number) => void;
+  /** Vacía el carrito por completo */
   clearCart: () => void;
 }
 
 /**
- * Proporciona acciones memoizadas para el carrito.
- * @param {React.Dispatch<React.SetStateAction<ICartItem[]>>} setCart - Actualizador del estado
- * @param {Function} openCart - Abre el drawer
+ * @function useCartActions
+ * @description Hook que proporciona acciones memoizadas para el carrito.
+ * Valida el producto antes de agregarlo, muestra notificaciones toast,
+ * y abre automáticamente el drawer al agregar un artículo.
+ *
+ * @param {React.Dispatch<React.SetStateAction<ICartItem[]>>} setCart - Actualizador del estado del carrito
+ * @param {() => void} openCart - Función para abrir el drawer del carrito
+ *
+ * @returns {IUseCartActionsReturn} Objeto con funciones addToCart, removeFromCart y clearCart
  */
 export const useCartActions = (
   setCart: React.Dispatch<React.SetStateAction<ICartItem[]>>,

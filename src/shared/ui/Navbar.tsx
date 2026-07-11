@@ -17,7 +17,12 @@ import {
     Home,
 } from "lucide-react";
 
-/* ─── Logo ─────────────────────────────────────────── */
+/**
+ * @component NavLogo
+ * @description Logo animado de la aplicación con enlace a la página de inicio.
+ * Muestra el nombre "ShopAPI" con un icono de bolsa de compras.
+ * @returns {JSX.Element} Elemento Link con el logo y nombre de la marca.
+ */
 const NavLogo = () => (
     <Link
         to="/"
@@ -44,7 +49,17 @@ const NavLogo = () => (
     </Link>
 );
 
-/* ─── NavLink ───────────────────────────────────────── */
+/**
+ * @component NavLink
+ * @description Enlace de navegación con indicador animado de ruta activa.
+ * Renderiza un `Link` de React Router con estilos condicionales.
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.to - Ruta de destino.
+ * @param {boolean} props.active - Indica si la ruta actual coincide.
+ * @param {React.ReactNode} props.children - Contenido del enlace.
+ * @param {() => void} [props.onClick] - Callback al hacer clic.
+ * @returns {JSX.Element} Elemento Link estilizado.
+ */
 const NavLink = ({
     to,
     active,
@@ -75,7 +90,17 @@ const NavLink = ({
     </Link>
 );
 
-/* ─── Icon Action Button ────────────────────────────── */
+/**
+ * @component ActionBtn
+ * @description Botón de acción iconográfico con animaciones de hover y tap.
+ * Utilizado para búsqueda, cambio de tema, carrito y menú móvil.
+ * @param {Object} props - Propiedades del componente.
+ * @param {() => void} [props.onClick] - Callback al hacer clic.
+ * @param {string} props.label - Etiqueta ARIA para accesibilidad.
+ * @param {React.ReactNode} props.children - Contenido (icono).
+ * @param {string} [props.className] - Clases CSS adicionales.
+ * @returns {JSX.Element} Botón animado con ícono.
+ */
 const ActionBtn = ({
     onClick,
     label,
@@ -99,7 +124,14 @@ const ActionBtn = ({
     </m.button>
 );
 
-/* ─── Main Navbar ───────────────────────────────────── */
+/**
+ * @component Navbar
+ * @description Barra de navegación principal de la aplicación.
+ * Incluye logo, enlaces de navegación, búsqueda expandible,
+ * selector de categorías, cambio de tema oscuro/claro, carrito
+ * y menú responsive para dispositivos móviles.
+ * @returns {JSX.Element} Header con navegación completa.
+ */
 const Navbar = () => {
     useLogLifecycle("Navbar");
     const shouldReduceMotion = useReducedMotion();

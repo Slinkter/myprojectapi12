@@ -7,6 +7,7 @@ import { Check, ChevronRight } from "lucide-react"
 import { cn } from "@/shared/lib/cn"
 
 /* ─── Context ──────────────────────────────────────── */
+/** Contexto interno del menú desplegable. Comparte estado, referencia del trigger y del contenido. */
 interface IDropdownContext {
   open: boolean
   setOpen: (v: boolean) => void
@@ -16,6 +17,7 @@ interface IDropdownContext {
 
 const DropdownContext = React.createContext<IDropdownContext | null>(null)
 
+/** Hook para consumir el contexto del menú desplegable. */
 const useDropdown = () => {
   const ctx = React.useContext(DropdownContext)
   if (!ctx) throw new Error("Dropdown components must be used within DropdownMenu")
@@ -23,6 +25,7 @@ const useDropdown = () => {
 }
 
 /* ─── Root ──────────────────────────────────────────── */
+/** Raíz del menú desplegable. Controla apertura/cierre y cierre al hacer clic fuera o presionar Escape. */
 const DropdownMenu = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = React.useState(false)
   const triggerRef = React.useRef<HTMLButtonElement | null>(null)
@@ -62,6 +65,7 @@ const DropdownMenu = ({ children }: { children: React.ReactNode }) => {
 }
 
 /* ─── Trigger ──────────────────────────────────────── */
+/** Botón que abre/cierra el menú desplegable al hacer clic. */
 const DropdownMenuTrigger = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
@@ -91,6 +95,7 @@ const DropdownMenuTrigger = React.forwardRef<
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger"
 
 /* ─── Content ──────────────────────────────────────── */
+/** Panel flotante del menú, posicionado debajo del trigger. Renderizado mediante portal. */
 const DropdownMenuContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { sideOffset?: number }
@@ -135,6 +140,7 @@ const DropdownMenuContent = React.forwardRef<
 DropdownMenuContent.displayName = "DropdownMenuContent"
 
 /* ─── Item ─────────────────────────────────────────── */
+/** Elemento individual del menú desplegable. */
 const DropdownMenuItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { inset?: boolean }
@@ -153,6 +159,7 @@ const DropdownMenuItem = React.forwardRef<
 DropdownMenuItem.displayName = "DropdownMenuItem"
 
 /* ─── CheckboxItem ─────────────────────────────────── */
+/** Elemento del menú con casilla de verificación. Soporta modo controlado y no controlado. */
 const DropdownMenuCheckboxItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { checked?: boolean; onCheckedChange?: (v: boolean) => void }
@@ -183,6 +190,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
 DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem"
 
 /* ─── RadioItem ────────────────────────────────────── */
+/** Elemento del menú con botón de opción (radio). */
 const DropdownMenuRadioItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { checked?: boolean }
@@ -206,6 +214,7 @@ const DropdownMenuRadioItem = React.forwardRef<
 DropdownMenuRadioItem.displayName = "DropdownMenuRadioItem"
 
 /* ─── Label ────────────────────────────────────────── */
+/** Etiqueta dentro del menú desplegable, opcionalmente con sangría. */
 const DropdownMenuLabel = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { inset?: boolean }
@@ -219,6 +228,7 @@ const DropdownMenuLabel = React.forwardRef<
 DropdownMenuLabel.displayName = "DropdownMenuLabel"
 
 /* ─── Separator ────────────────────────────────────── */
+/** Línea separadora horizontal dentro del menú. */
 const DropdownMenuSeparator = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -232,6 +242,7 @@ const DropdownMenuSeparator = React.forwardRef<
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator"
 
 /* ─── Shortcut ─────────────────────────────────────── */
+/** Atajo de teclado mostrado dentro de un elemento del menú. */
 const DropdownMenuShortcut = ({
   className,
   ...props
@@ -246,16 +257,19 @@ const DropdownMenuShortcut = ({
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
 
 /* ─── Group ────────────────────────────────────────── */
+/** Agrupador visual de elementos del menú. */
 const DropdownMenuGroup = ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div role="group" {...props}>{children}</div>
 )
 
 /* ─── Portal ────────────────────────────────────────── */
+/** Portal que renderiza el contenido del menú en `document.body`. */
 const DropdownMenuPortal = ({ children }: { children: React.ReactNode }) => {
   return createPortal(children, document.body)
 }
 
 /* ─── Sub ──────────────────────────────────────────── */
+/** Contexto interno para submenús anidados. */
 interface IDropdownSubContext {
   open: boolean
   setOpen: (v: boolean) => void
@@ -263,12 +277,14 @@ interface IDropdownSubContext {
 
 const DropdownSubContext = React.createContext<IDropdownSubContext | null>(null)
 
+/** Hook para consumir el contexto del submenú. */
 const useDropdownSub = () => {
   const ctx = React.useContext(DropdownSubContext)
   if (!ctx) throw new Error("DropdownMenuSub components must be within DropdownMenuSub")
   return ctx
 }
 
+/** Raíz de un submenú anidado dentro del menú desplegable. */
 const DropdownMenuSub = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = React.useState(false)
   const value = React.useMemo(() => ({ open, setOpen }), [open])
@@ -279,6 +295,7 @@ const DropdownMenuSub = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
+/** Trigger que abre/cierra un submenú anidado. */
 const DropdownMenuSubTrigger = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { inset?: boolean }
@@ -304,6 +321,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
 })
 DropdownMenuSubTrigger.displayName = "DropdownMenuSubTrigger"
 
+/** Contenido del submenú anidado. */
 const DropdownMenuSubContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -323,6 +341,7 @@ const DropdownMenuSubContent = React.forwardRef<
 })
 DropdownMenuSubContent.displayName = "DropdownMenuSubContent"
 
+/** Grupo de elementos de tipo radio dentro del menú. */
 const DropdownMenuRadioGroup = ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div role="radiogroup" {...props}>{children}</div>
 )

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/shared/lib/cn";
 
+/** Campo de entrada de texto con estilos consistentes y soporte de ref. */
 const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   ({ className, type, ...props }, ref) => {
     return (

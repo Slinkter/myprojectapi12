@@ -1,6 +1,7 @@
 import * as React from "react"
 import { cn } from "@/shared/lib/cn"
 
+/** Contenedor con área de desplazamiento personalizada y scrollbar nativo oculto. */
 const ScrollArea = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -20,6 +21,7 @@ const ScrollArea = React.forwardRef<
 })
 ScrollArea.displayName = "ScrollArea"
 
+/** Barra de desplazamiento personalizada, vertical u horizontal. */
 const ScrollBar = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { orientation?: "vertical" | "horizontal" }

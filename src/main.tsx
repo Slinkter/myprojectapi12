@@ -1,3 +1,8 @@
+/**
+ * @file main.tsx
+ * @description Punto de entrada de la aplicación. Renderiza el componente App
+ * en el elemento raíz del DOM con React.StrictMode.
+ */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "@/App";

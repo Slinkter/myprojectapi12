@@ -1,5 +1,6 @@
 const BASE_URL = import.meta.env.VITE_API_URL ?? 'https://dummyjson.com'
 
+/** Error personalizado para peticiones HTTP con código de estado y texto asociado. @extends Error */
 class HttpError extends Error {
   constructor(
     public readonly status: number,
@@ -11,10 +12,12 @@ class HttpError extends Error {
   }
 }
 
+/** Configuración extendida de petición que añade soporte para parámetros de consulta (query params). @extends RequestInit */
 interface IRequestConfig extends RequestInit {
   params?: Record<string, string>
 }
 
+/** Realiza una petición HTTP genérica con tipado seguro. @template T - Tipo esperado de la respuesta. @param endpoint - Ruta del recurso (se concatena con BASE_URL). @param config - Configuración de la petición incluyendo query params. @returns Promesa con los datos tipados. @throws {HttpError} Si la respuesta HTTP no es exitosa. */
 async function request<T>(
   endpoint: string,
   config: IRequestConfig = {}
@@ -47,10 +50,13 @@ async function request<T>(
   return response.json() as Promise<T>
 }
 
+/** Cliente HTTP con métodos abreviados para GET, POST, PUT, PATCH y DELETE. Encapsula `request` con el método HTTP predefinido. */
 export const httpClient = {
+  /** Realiza una petición GET. @template T - Tipo de la respuesta. @param endpoint - Ruta del recurso. @param config - Configuración opcional. @returns Promesa con los datos tipados. */
   get: <T>(endpoint: string, config?: IRequestConfig) =>
     request<T>(endpoint, { method: 'GET', ...config }),
 
+  /** Realiza una petición POST. @template T - Tipo de la respuesta. @param endpoint - Ruta del recurso. @param body - Cuerpo de la petición. @param config - Configuración opcional. @returns Promesa con los datos tipados. */
   post: <T>(endpoint: string, body: unknown, config?: IRequestConfig) =>
     request<T>(endpoint, {
       method: 'POST',
@@ -58,6 +64,7 @@ export const httpClient = {
       ...config,
     }),
 
+  /** Realiza una petición PUT. @template T - Tipo de la respuesta. @param endpoint - Ruta del recurso. @param body - Cuerpo de la petición. @param config - Configuración opcional. @returns Promesa con los datos tipados. */
   put: <T>(endpoint: string, body: unknown, config?: IRequestConfig) =>
     request<T>(endpoint, {
       method: 'PUT',
@@ -65,6 +72,7 @@ export const httpClient = {
       ...config,
     }),
 
+  /** Realiza una petición PATCH. @template T - Tipo de la respuesta. @param endpoint - Ruta del recurso. @param body - Cuerpo de la petición. @param config - Configuración opcional. @returns Promesa con los datos tipados. */
   patch: <T>(endpoint: string, body: unknown, config?: IRequestConfig) =>
     request<T>(endpoint, {
       method: 'PATCH',
@@ -72,6 +80,7 @@ export const httpClient = {
       ...config,
     }),
 
+  /** Realiza una petición DELETE. @template T - Tipo de la respuesta. @param endpoint - Ruta del recurso. @param config - Configuración opcional. @returns Promesa con los datos tipados. */
   delete: <T>(endpoint: string, config?: IRequestConfig) =>
     request<T>(endpoint, { method: 'DELETE', ...config }),
 }

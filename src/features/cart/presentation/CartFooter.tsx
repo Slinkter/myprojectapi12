@@ -1,12 +1,27 @@
 import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface CartFooterProps
+ * @description Props del componente CartFooter.
+ */
 interface CartFooterProps {
+  /** Precio total del carrito */
   totalPrice: number;
+  /** Función para proceder al pago */
   onCheckout: () => void;
+  /** Función para vaciar el carrito */
   onClearCart: () => void;
 }
 
+/**
+ * @component CartFooter
+ * @description Pie del drawer del carrito con resumen de total
+ * y botones de acción: proceder al pago y vaciar carrito.
+ *
+ * @param {CartFooterProps} props - Propiedades del componente
+ * @returns {JSX.Element} Pie del carrito con total y botones
+ */
 export const CartFooter = ({
   totalPrice,
   onCheckout,

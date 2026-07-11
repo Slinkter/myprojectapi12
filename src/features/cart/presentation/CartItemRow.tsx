@@ -2,11 +2,26 @@ import { Trash2 } from "lucide-react";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface CartItemRowProps
+ * @description Props del componente CartItemRow.
+ */
 interface CartItemRowProps {
+  /** Artículo del carrito a mostrar */
   item: ICartItem;
+  /** Función para eliminar el artículo por su ID */
   onRemove: (id: number) => void;
 }
 
+/**
+ * @component CartItemRow
+ * @description Fila individual de un artículo en el carrito.
+ * Muestra miniatura, título, precio unitario, cantidad, subtotal
+ * y botón para eliminar el artículo.
+ *
+ * @param {CartItemRowProps} props - Propiedades del componente
+ * @returns {JSX.Element} Fila del artículo en el carrito
+ */
 export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
   useLogLifecycle("CartItemRow");
   return (

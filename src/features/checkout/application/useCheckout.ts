@@ -96,6 +96,8 @@ export const useCheckout = (): IUseCheckoutReturn => {
 
   /**
    * Maneja el envío del formulario de pago.
+   * Valida los datos de la tarjeta y navega a la pantalla de éxito si son válidos.
+   * @returns {void}
    */
   const handlePayment = useCallback(() => {
     setIsSubmitted(true);
@@ -176,6 +178,7 @@ export const useCheckout = (): IUseCheckoutReturn => {
   /**
    * Filtra los errores para mostrarlos solo si el campo ha sido modificado
    * o si se intentó enviar el formulario.
+   * @type {IValidationErrors}
    */
   const visibleErrors = useMemo(() => {
     const result: IValidationErrors = {};

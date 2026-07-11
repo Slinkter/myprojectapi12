@@ -1,13 +1,33 @@
+/**
+ * @file CheckoutSteps.tsx
+ * @description Indicador visual de pasos del proceso de checkout.
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import { Check } from 'lucide-react';
 import { useLogLifecycle } from "@/shared/hooks";
 import { cn } from "@/shared/lib/cn";
 
+/**
+ * @interface ICheckoutStepsProps
+ * @description Propiedades del componente CheckoutSteps.
+ */
 interface ICheckoutStepsProps {
+  /** Lista de nombres de los pasos */
   steps: string[];
+  /** Índice del paso actual (0-based) */
   currentStep: number;
+  /** Clases CSS adicionales */
   className?: string;
 }
 
+/**
+ * Componente que muestra una barra de progreso visual con los pasos del checkout.
+ * Los pasos completados se muestran con un check, el actual resaltado y los futuros atenuados.
+ *
+ * @param {ICheckoutStepsProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Barra de progreso de pasos.
+ */
 export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsProps) {
   useLogLifecycle("CheckoutSteps");
   return (

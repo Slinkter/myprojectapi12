@@ -1,9 +1,25 @@
 import { IProduct } from "@/features/products/domain/productTypes";
 
+/**
+ * @interface ProductHeaderProps
+ * @description Propiedades del componente ProductHeader.
+ */
 interface ProductHeaderProps {
+  /** Producto del cual se mostrará la cabecera. */
   product: IProduct;
 }
 
+/**
+ * Cabecera del detalle de producto con marca, categoría, título y descripción.
+ *
+ * @remarks
+ * Renderiza badges de marca y categoría (si existen), título del producto
+ * en formato grande con fuente serif y descripción en texto secundario.
+ *
+ * @component
+ * @param props.product - Producto con los datos a mostrar.
+ * @returns Elemento JSX con la cabecera del producto.
+ */
 const ProductHeader = ({ product }: ProductHeaderProps) => {
   return (
     <div className="mb-6">

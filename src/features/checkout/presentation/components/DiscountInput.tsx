@@ -1,14 +1,36 @@
+/**
+ * @file DiscountInput.tsx
+ * @description Campo de entrada para código de descuento con botón de aplicar.
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import { Bookmark } from "lucide-react";
 import { Button } from '@/shared/ui/Button';
 
+/**
+ * @interface DiscountInputProps
+ * @description Propiedades del componente DiscountInput.
+ */
 interface DiscountInputProps {
+  /** Código de descuento ingresado por el usuario */
   code: string
+  /** Indica si se está validando el código */
   isApplying: boolean
+  /** Mensaje de error si el código es inválido */
   error: string
+  /** Callback para aplicar el código de descuento */
   onApply: () => void
+  /** Callback al cambiar el valor del input */
   onChange: (code: string) => void
 }
 
+/**
+ * Componente que renderiza un campo de texto para ingresar un código de descuento
+ * con un botón para aplicar, validación y mensajes de error.
+ *
+ * @param {DiscountInputProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Input de código de descuento.
+ */
 export function DiscountInput({
   code,
   isApplying,

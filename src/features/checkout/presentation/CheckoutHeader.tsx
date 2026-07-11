@@ -1,7 +1,19 @@
+/**
+ * @file CheckoutHeader.tsx
+ * @description Encabezado de la página de checkout con navegación de retorno e indicador de seguridad.
+ * @architecture Capa de Presentación - Checkout
+ */
+
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * Componente que renderiza el encabezado del checkout.
+ * Incluye un botón de retroceso, el título "Checkout" y un distintivo de pago seguro.
+ *
+ * @returns {JSX.Element} Encabezado del checkout.
+ */
 const CheckoutHeader = () => {
   useLogLifecycle("CheckoutHeader");
   return (

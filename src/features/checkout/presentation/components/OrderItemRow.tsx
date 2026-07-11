@@ -1,12 +1,31 @@
+/**
+ * @file OrderItemRow.tsx
+ * @description Fila individual de un producto en el resumen del pedido.
+ * @architecture Capa de Presentación - Componente de Checkout
+ */
+
 import type { ICartItem } from '@/features/cart/domain/cartTypes';
 import { Trash2 } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
 
+/**
+ * @interface OrderItemRowProps
+ * @description Propiedades del componente OrderItemRow.
+ */
 interface OrderItemRowProps {
+  /** Item del carrito a mostrar */
   item: ICartItem
+  /** Callback para eliminar el item del carrito */
   onRemove: (id: number) => void
 }
 
+/**
+ * Componente que renderiza una fila con la imagen, título, precio y botón de eliminar
+ * para un producto en el resumen del pedido.
+ *
+ * @param {OrderItemRowProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Fila de producto.
+ */
 export function OrderItemRow({ item, onRemove }: OrderItemRowProps) {
   useLogLifecycle("OrderItemRow");
   return (

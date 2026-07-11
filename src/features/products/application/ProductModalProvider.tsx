@@ -10,8 +10,19 @@ import { IProductModalProviderProps } from "@/features/products/application/type
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**
- * @component ProductModalProvider
- * @description Proveedor que envuelve la aplicación para dar acceso al estado del modal.
+ * Proveedor de contexto para el modal de producto.
+ *
+ * @remarks
+ * Envuelve la aplicación (o una sección) para que cualquier componente hijo
+ * pueda acceder al estado y controladores del modal mediante `useProductModalContext`.
+ * Internamente delega la lógica de estado a `useProductModal`.
+ *
+ * @component
+ * @param props.children - Elementos hijos que heredan el contexto del modal.
+ * @returns Elemento JSX con el Provider del contexto.
+ * @see IProductModalProviderProps - Tipo de las props.
+ * @see ProductModalContext - Contexto compartido.
+ * @see useProductModal - Hook que gestiona el estado interno.
  */
 export const ProductModalProvider = ({
     children,

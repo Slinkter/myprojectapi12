@@ -8,6 +8,7 @@ import { X } from "lucide-react"
 import { cn } from "@/shared/lib/cn"
 
 /* ─── Context ──────────────────────────────────────── */
+/** Contexto interno del sheet. Proporciona estado de apertura y controlador. */
 interface ISheetContext {
   open: boolean
   onOpenChange: (v: boolean) => void
@@ -15,12 +16,20 @@ interface ISheetContext {
 
 const SheetContext = React.createContext<ISheetContext | null>(null)
 
+/** Hook para consumir el contexto del sheet. Lanza error si se usa fuera de `<Sheet>`. */
 const useSheet = () => {
   const ctx = React.useContext(SheetContext)
   if (!ctx) throw new Error("Sheet components must be used within Sheet")
   return ctx
 }
 
+/**
+ * Raíz del panel lateral (sheet). Maneja el estado controlado o no controlado de apertura.
+ *
+ * @param children - Contenido del sheet.
+ * @param open - Control externo del estado abierto/cerrado.
+ * @param onOpenChange - Callback cuando cambia el estado de apertura.
+ */
 const Sheet = ({ children, open: controlledOpen, onOpenChange }: {
   children: React.ReactNode
   open?: boolean
@@ -40,6 +49,7 @@ const Sheet = ({ children, open: controlledOpen, onOpenChange }: {
   )
 }
 
+/** Botón que abre el sheet al hacer clic. */
 const SheetTrigger = ({ children, ...props }: React.HTMLAttributes<HTMLButtonElement> & { asChild?: boolean }) => {
   const { onOpenChange } = useSheet()
   return (
@@ -49,6 +59,7 @@ const SheetTrigger = ({ children, ...props }: React.HTMLAttributes<HTMLButtonEle
   )
 }
 
+/** Botón que cierra el sheet al hacer clic. */
 const SheetClose = ({ children, ...props }: React.HTMLAttributes<HTMLButtonElement> & { asChild?: boolean }) => {
   const { onOpenChange } = useSheet()
   return (
@@ -58,10 +69,12 @@ const SheetClose = ({ children, ...props }: React.HTMLAttributes<HTMLButtonEleme
   )
 }
 
+/** Portal que renderiza el contenido del sheet en `document.body`. */
 const SheetPortal = ({ children }: { children: React.ReactNode }) => {
   return createPortal(children, document.body)
 }
 
+/** Fondo semitransparente detrás del sheet. Cierra el sheet al hacer clic. */
 const SheetOverlay = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -101,10 +114,12 @@ const sheetVariants = cva(
   }
 )
 
+/** Props del contenido del sheet, incluye variante de lado. */
 interface ISheetContentProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof sheetVariants> {}
 
+/** Panel lateral del sheet con overlay, botón de cierre y animación. Aparece desde el lado especificado. */
 const SheetContent = React.forwardRef<
   HTMLDivElement,
   ISheetContentProps
@@ -154,6 +169,7 @@ const SheetContent = React.forwardRef<
 })
 SheetContent.displayName = "SheetContent"
 
+/** Encabezado del sheet con diseño en columna centrado en móvil y alineado a la izquierda en desktop. */
 const SheetHeader = ({
   className,
   ...props
@@ -168,6 +184,7 @@ const SheetHeader = ({
 )
 SheetHeader.displayName = "SheetHeader"
 
+/** Pie del sheet con acciones apiladas en móvil y en fila en desktop. */
 const SheetFooter = ({
   className,
   ...props
@@ -182,6 +199,7 @@ const SheetFooter = ({
 )
 SheetFooter.displayName = "SheetFooter"
 
+/** Título del sheet con estilo semibold. */
 const SheetTitle = React.forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
@@ -194,6 +212,7 @@ const SheetTitle = React.forwardRef<
 ))
 SheetTitle.displayName = "SheetTitle"
 
+/** Descripción del sheet con texto secundario. */
 const SheetDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
