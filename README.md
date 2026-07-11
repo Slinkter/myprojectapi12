@@ -1,5 +1,7 @@
 # 🛍️ MyProjectAPI12
 
+agy --conversation=a3f0ba2a-9dee-4e21-8ab4-b0e386265c49
+
 > SPA de comercio electrónico moderna construida con React, TypeScript y Tailwind CSS v4.
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Slinkter/myprojectapi12)
