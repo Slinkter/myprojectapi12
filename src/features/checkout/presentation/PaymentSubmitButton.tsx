@@ -19,7 +19,7 @@ const PaymentSubmitButton = ({
     <Button
       type="submit"
       disabled={isDisabled || isProcessing}
-      className="w-full h-12"
+      className="w-full h-12 rounded-xl font-bold shadow-[0_4px_12px_rgba(5,150,105,0.15)]"
       aria-label={`Pagar ahora con ${method}`}
     >
       {isProcessing ? (

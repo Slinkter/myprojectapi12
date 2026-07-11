@@ -94,7 +94,7 @@ const Cart = () => {
                 <Button
                   onClick={closeCart}
                   variant="outline"
-                  className="rounded-full px-6 py-2.5"
+                  className="rounded-xl px-6 py-2.5"
                 >
                   Continuar Comprando
                 </Button>
@@ -139,7 +139,7 @@ const Cart = () => {
               {/* MD3 Filled Button — Primary CTA */}
               <Button
                 onClick={handleCheckout}
-                className="w-full h-11 rounded-full text-sm font-bold shadow-[0_4px_12px_rgba(5,150,105,0.15)] mb-2"
+                className="w-full h-12 rounded-xl text-sm font-bold shadow-[0_4px_12px_rgba(5,150,105,0.15)] mb-2"
               >
                 Proceder al Pago
               </Button>
@@ -148,7 +148,7 @@ const Cart = () => {
               <Button
                 onClick={clearCart}
                 variant="ghost"
-                className="w-full h-10 rounded-full hover:bg-red-500/10 hover:text-red-600 text-red-600 dark:text-red-400 text-sm font-semibold flex items-center justify-center gap-1.5"
+                className="w-full h-10 rounded-xl hover:bg-red-500/10 hover:text-red-600 text-red-600 dark:text-red-400 text-sm font-semibold flex items-center justify-center gap-1.5"
               >
                 <Trash2 size={14} />
                 Vaciar Carrito
