@@ -56,7 +56,7 @@ const ErrorMessage = memo(
                 type="button"
                 onClick={action.onClick}
                 className={cn(
-                  "mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors",
+                  "mt-3 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-500 dark:hover:text-red-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30 rounded",
                 )}
               >
                 {action.label}

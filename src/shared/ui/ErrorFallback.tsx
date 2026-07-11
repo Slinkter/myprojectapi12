@@ -129,7 +129,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
                         type="button"
                         onClick={onReset}
                         className={clsx(
-                            "error-fallback-try-again-button px-6 py-3",
+                            "error-fallback-try-again-button px-6 py-3 min-h-[44px] rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30",
                         )}
                     >
                         Reintentar
@@ -139,7 +139,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
                         onClick={() =>
                             (window.location.href = "/myprojectapi12/")
                         }
-                        className={clsx("error-fallback-home-button px-6 py-3")}
+                        className={clsx("error-fallback-home-button px-6 py-3 min-h-[44px] rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30")}
                     >
                         Ir al Inicio
                     </button>

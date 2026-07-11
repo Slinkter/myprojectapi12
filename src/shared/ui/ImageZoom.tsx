@@ -65,7 +65,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
         tabIndex={0}
         aria-label="Zoom de imagen. Presiona Enter o Espacio para ampliar, o arrastra con el ratón cuando esté ampliado."
         className={cn(
-          'overflow-hidden cursor-zoom-in rounded-xl focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none',
+          'overflow-hidden cursor-zoom-in rounded-xl focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:outline-none',
           zoom > 1 && 'cursor-grab',
           isDragging && 'cursor-grabbing'
         )}
@@ -101,7 +101,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
           <button
             type="button"
             onClick={zoomOut}
-            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/20 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Alejar"
           >
             <HiOutlineMagnifyingGlassMinus className="w-5 h-5" />
@@ -112,7 +112,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
           <button
             type="button"
             onClick={zoomIn}
-            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/20 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Acercar"
           >
             <HiOutlineMagnifyingGlassPlus className="w-5 h-5" />
@@ -120,7 +120,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
           <button
             type="button"
             onClick={resetZoom}
-            className="p-1.5 text-white hover:bg-white/20 rounded-full transition-colors ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/20 rounded-full transition-colors ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label="Restablecer"
           >
             <HiOutlineArrowPath className="w-5 h-5" />

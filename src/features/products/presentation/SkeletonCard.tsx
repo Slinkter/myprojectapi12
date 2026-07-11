@@ -22,7 +22,7 @@ const SkeletonCard: React.FC = () => {
         {/* Footer Skeleton */}
         <div className="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-800">
           <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-6 w-24" />
-          <div className="animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 h-9 w-24 rounded-lg" />
+          <div className="animate-pulse rounded-xl bg-slate-200 dark:bg-slate-800 h-9 w-24" />
         </div>
       </div>
     </div>
