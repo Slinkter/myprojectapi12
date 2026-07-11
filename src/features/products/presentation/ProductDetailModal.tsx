@@ -12,23 +12,32 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
   useLogLifecycle("ProductDetailModal");
   const { product, isOpen, onClose } = props;
   const { addToCart } = useCart();
+  const [prevProductId, setPrevProductId] = useState<number | undefined>(product?.id);
+  const [prevIsOpen, setPrevIsOpen] = useState<boolean>(isOpen);
   const [quantity, setQuantity] = useState<number>(1);
-  const [selectedImage, setSelectedImage] = useState<string>('');
+  const [selectedImage, setSelectedImage] = useState<string>(product?.images?.[0] || product?.thumbnail || '');
+
+  if (product && product.id !== prevProductId) {
+    setPrevProductId(product.id);
+    setQuantity(1);
+    setSelectedImage(product.images?.[0] || product.thumbnail || '');
+  }
+
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    if (isOpen) {
+      setQuantity(1);
+      setSelectedImage(product?.images?.[0] || product?.thumbnail || '');
+    }
+  }
 
   useEffect(() => {
     if (!isOpen) return;
-    setQuantity(1);
-    if (product?.images && product.images.length > 0) {
-      setSelectedImage(product.images[0]);
-    } else if (product?.thumbnail) {
-      setSelectedImage(product.thumbnail);
-    }
-
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, product?.images, product?.thumbnail]);
+  }, [isOpen]);
 
   const increment = () => {
     setQuantity((prev) => (product && prev < product.stock ? prev + 1 : prev));
@@ -61,7 +70,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-pointer border-none bg-transparent"
+            className="inline-flex items-center justify-center rounded-full text-sm font-medium h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-pointer border-none bg-transparent"
             aria-label="Cerrar modal"
           >
             <X size={18} />
@@ -83,7 +92,7 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
               <div className="flex gap-2 mt-4 flex-wrap justify-center">
                 {displayImages.map((img, index) => (
                   <button
-                    key={index}
+                    key={img}
                     type="button"
                     onClick={() => setSelectedImage(img)}
                     className={`w-14 h-14 p-0 overflow-hidden rounded-md cursor-pointer border-2 ${

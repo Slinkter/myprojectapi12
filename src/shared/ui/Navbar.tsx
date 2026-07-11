@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
-import { m, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCart } from "@/features/cart/application/CartContext";
 import { useTheme } from "@/features/theme/application/ThemeContext";
 import { useLogLifecycle } from "@/shared/hooks";
@@ -93,6 +93,7 @@ const ActionBtn = ({
 /* ─── Main Navbar ───────────────────────────────────── */
 const Navbar = () => {
   useLogLifecycle("Navbar");
+  const shouldReduceMotion = useReducedMotion();
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -241,11 +242,11 @@ const Navbar = () => {
               <m.form
                 key="search-open"
                 onSubmit={handleSearchSubmit}
-                initial={{ width: 40, opacity: 0 }}
-                animate={{ width: 320, opacity: 1 }}
-                exit={{ width: 40, opacity: 0 }}
-                transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                className="flex items-center gap-2 bg-slate-100/80 dark:bg-slate-800/80 rounded-full border border-primary px-3 overflow-hidden h-10"
+                initial={shouldReduceMotion ? { opacity: 0 } : { scaleX: 0.8, opacity: 0, originX: 1 }}
+                animate={{ scaleX: 1, opacity: 1, originX: 1 }}
+                exit={shouldReduceMotion ? { opacity: 0 } : { scaleX: 0.8, opacity: 0, originX: 1 }}
+                transition={shouldReduceMotion ? { duration: 0.05 } : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                className="flex items-center gap-2 bg-slate-100/80 dark:bg-slate-800/80 rounded-full border border-primary px-3 overflow-hidden h-10 w-[280px] sm:w-[320px]"
               >
                 <Search size="16" className="text-primary shrink-0" />
                 <input
@@ -259,6 +260,7 @@ const Navbar = () => {
                 <button
                   type="button"
                   onClick={closeSearch}
+                  aria-label="Cerrar búsqueda"
                   className="bg-none border-none cursor-pointer flex text-slate-500 dark:text-slate-400 shrink-0"
                 >
                   <X size="14" />
@@ -336,10 +338,10 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileOpen && (
           <m.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { y: -15, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { y: -15, opacity: 0 }}
+            transition={shouldReduceMotion ? { duration: 0.05 } : { duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
             className="overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/50 dark:border-slate-800/50 md:hidden"
           >
             <div className="flex flex-col p-3 gap-1">

@@ -17,7 +17,7 @@ export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsP
         const isCurrent = index === currentStep;
 
         return (
-          <div key={index} className="flex items-center">
+          <div key={step} className="flex items-center">
             <div
               className={cn(
                 "flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm transition-all duration-300",

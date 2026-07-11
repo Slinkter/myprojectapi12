@@ -10,6 +10,7 @@ import {
     useEffect,
     useCallback,
     useContext,
+    useMemo,
     ReactNode,
 } from "react";
 import {
@@ -32,7 +33,7 @@ const ThemeContext = createContext<IThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({
     children,
-}: IThemeProviderProps): JSX.Element => {
+}: IThemeProviderProps): ReactNode => {
     useLogLifecycle("ThemeContext");
     const [theme, setTheme] = useState<Theme>(getStoredTheme);
 
@@ -51,8 +52,10 @@ export const ThemeProvider = ({
         setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
     }, []);
 
+    const value = useMemo(() => ({ theme, toggleDarkMode }), [theme, toggleDarkMode]);
+
     return (
-        <ThemeContext.Provider value={{ theme, toggleDarkMode }}>
+        <ThemeContext.Provider value={value}>
             {children}
         </ThemeContext.Provider>
     );

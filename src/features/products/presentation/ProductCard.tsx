@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { m, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLogLifecycle } from "@/shared/hooks";
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { useCart } from '@/features/cart/application/CartContext'
@@ -61,6 +61,7 @@ interface IProductCardProps {
 
 const ProductCard = React.memo(({ product }: IProductCardProps) => {
   useLogLifecycle("ProductCard");
+  const shouldReduceMotion = useReducedMotion();
   const { openProductModal } = useProductModalContext()
   const { addToCart } = useCart()
   const [isHovered, setIsHovered] = useState(false)
@@ -98,12 +99,12 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
       onKeyDown={handleKeyDown}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      whileHover={isOutOfStock ? {} : {
+      whileHover={(isOutOfStock || shouldReduceMotion) ? {} : {
         y: -8,
         boxShadow: '0 20px 30px -10px rgba(5, 150, 105, 0.15)',
         borderColor: 'rgba(5, 150, 105, 0.45)',
       }}
-      transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
       className={`flex flex-col h-full rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm overflow-hidden relative ${
         isOutOfStock ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'
       }`}
@@ -113,8 +114,8 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
         {/* Imagen con zoom suave al hover */}
         <m.div
           className="w-full h-full"
-          animate={{ scale: isHovered && !isOutOfStock ? 1.05 : 1 }}
-          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+          animate={{ scale: isHovered && !isOutOfStock && !shouldReduceMotion ? 1.05 : 1 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
         >
           <LazyImage
             src={product.thumbnail}
@@ -237,11 +238,11 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
             onClick={(e) => { e.stopPropagation(); if (!isOutOfStock) openProductModal(product) }}
             disabled={isOutOfStock}
             aria-label={`Ver detalle de ${product.title}`}
-            animate={{
+            animate={shouldReduceMotion ? { opacity: 1 } : {
               opacity: isHovered ? 1 : 0.85,
               scale: isHovered ? 1.02 : 1,
             }}
-            transition={{ duration: 0.2 }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
             className={`inline-flex items-center justify-center px-4 h-8.5 rounded-full text-xs font-bold border-none transition-colors shrink-0 ${
               isOutOfStock
                 ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-600 cursor-not-allowed'
