@@ -5,7 +5,7 @@
  * @architecture Presentation Layer - Página
  */
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useProducts } from "@/features/products/application/useProducts";
 import { useProductModalContext } from "@/features/products/application/useProductModalContext";
@@ -33,35 +33,16 @@ export const HomeContent = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const debouncedSearch = useDebounce(searchQuery, 350);
 
-    const [filteredProducts, setFilteredProducts] = useState(products);
-
-    useEffect(() => {
-        if (!debouncedSearch) {
-            setFilteredProducts((prev) => {
-                if (
-                    prev !== products &&
-                    JSON.stringify(prev) !== JSON.stringify(products)
-                ) {
-                    return products;
-                }
-                return prev;
-            });
-        } else {
-            const lowerQuery = debouncedSearch.toLowerCase();
-            const filtered = products.filter(
-                (p) =>
-                    p.title.toLowerCase().includes(lowerQuery) ||
-                    p.description.toLowerCase().includes(lowerQuery) ||
-                    p.category?.toLowerCase().includes(lowerQuery) ||
-                    p.brand?.toLowerCase().includes(lowerQuery),
-            );
-            setFilteredProducts((prev) => {
-                if (JSON.stringify(prev) !== JSON.stringify(filtered)) {
-                    return filtered;
-                }
-                return prev;
-            });
-        }
+    const filteredProducts = useMemo(() => {
+        if (!debouncedSearch) return products;
+        const lowerQuery = debouncedSearch.toLowerCase();
+        return products.filter(
+            (p) =>
+                p.title.toLowerCase().includes(lowerQuery) ||
+                p.description.toLowerCase().includes(lowerQuery) ||
+                p.category?.toLowerCase().includes(lowerQuery) ||
+                p.brand?.toLowerCase().includes(lowerQuery)
+        );
     }, [debouncedSearch, products]);
 
     const handleSearchChange = useCallback((query: string) => {
