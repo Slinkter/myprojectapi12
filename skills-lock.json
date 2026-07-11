@@ -19,6 +19,12 @@
       "skillPath": "react/hooks-pattern/SKILL.md",
       "computedHash": "35dc2c47889a5bcbef968036f72e8455012682cbf255a5c2bc47cbe8dbc5dc43"
     },
+    "jsdoc-typescript-docs": {
+      "source": "patricio0312rev/skills",
+      "sourceType": "github",
+      "skillPath": "foundation/jsdoc-typescript-docs/SKILL.md",
+      "computedHash": "96505a4a52e2cc4b14c942b6a8df66352c960cb5b3c27a26d45e0ea461910e14"
+    },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",
