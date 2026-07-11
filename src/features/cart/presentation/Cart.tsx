@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/features/cart/application/useCart";
 import { ICartItem } from "@/features/cart/domain/cartTypes";
-import { X, ShoppingBag, Trash2 } from "lucide-react";
+import { X, ShoppingCart, Trash2, ArrowRight, PackageOpen } from "lucide-react";
 import { useLogLifecycle } from "@/shared/hooks";
 import { CartItemRow } from "./CartItemRow";
 import { Button } from "@/shared/ui/Button";
@@ -23,6 +23,7 @@ const Cart = () => {
   };
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const hasItems = cart.length > 0;
 
   useEffect(() => {
     if (!isCartOpen) return;
@@ -37,125 +38,153 @@ const Cart = () => {
 
   return createPortal(
     <>
-      <div className="fixed inset-0 z-40 bg-black/50" onClick={closeCart} />
+      {/* Backdrop */}
       <div
-        aria-label="Carrito de compras"
-        className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[360px] h-screen rounded-l-2xl flex flex-col shadow-2xl glass-panel border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden"
-      >
-        <div className="flex flex-col h-full">
+        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px]"
+        onClick={closeCart}
+      />
 
-          {/* MD3 Drawer Header */}
-          <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200/50 dark:border-slate-800/50 shrink-0">
-            <div className="flex items-center gap-2.5">
-              {/* MD3 Leading Icon */}
-              <div className="w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
-                <ShoppingBag className="text-primary" size={16} />
-              </div>
-              <div>
-                <h2 className="text-base font-bold text-slate-800 dark:text-slate-100 leading-snug">
-                  Mi Carrito
-                </h2>
-                {totalItems > 0 && (
-                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                    {totalItems} {totalItems === 1 ? "artículo" : "artículos"}
-                  </span>
-                )}
-              </div>
+      {/* Drawer Panel */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Carrito de compras"
+        className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[380px] h-screen flex flex-col shadow-2xl border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden rounded-l-2xl"
+      >
+        {/* ── Accent line ── */}
+        <div className="h-[3px] w-full shrink-0 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600" />
+
+        {/* ── Navbar Header ── */}
+        <div className="flex items-center justify-between px-5 py-4 shrink-0 border-b border-slate-100 dark:border-slate-800/80">
+          {/* Left: Icon + Title + Badge */}
+          <div className="flex items-center gap-3">
+            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 shrink-0">
+              <ShoppingCart size={17} className="text-emerald-600 dark:text-emerald-400" />
+              {hasItems && (
+                <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full bg-emerald-500 text-white text-[10px] font-bold leading-none shadow-sm">
+                  {totalItems > 99 ? "99+" : totalItems}
+                </span>
+              )}
             </div>
 
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={closeCart}
-              aria-label="Cerrar carrito"
-              className="p-2 rounded-full cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors border-none bg-transparent flex items-center justify-center focus-visible:outline-2 focus-visible:outline-primary"
-            >
-              <X size={18} />
-            </button>
+            <div className="flex flex-col min-w-0">
+              <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-none">
+                Mi Carrito
+              </h2>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5 font-medium">
+                {hasItems
+                  ? `${totalItems} ${totalItems === 1 ? "artículo" : "artículos"}`
+                  : "Vacío"}
+              </p>
+            </div>
           </div>
 
-          {/* MD3 Drawer Content — Scrollable */}
-          <div className="grow overflow-y-auto p-4">
-            {cart.length === 0 ? (
-              /* Empty State */
-              <div className="flex flex-col items-center justify-center min-h-[320px] gap-4 text-center">
-                <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center">
-                  <ShoppingBag size={36} className="text-slate-400 dark:text-slate-500" />
-                </div>
-                <div>
-                  <p className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                    Tu carrito está vacío
-                  </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-normal">
-                    Agrega productos para comenzar tu compra
-                  </p>
-                </div>
-                {/* MD3 Outlined Button */}
-                <Button
-                  onClick={closeCart}
-                  variant="outline"
-                  className="rounded-xl px-6 py-2.5"
-                >
-                  Continuar Comprando
-                </Button>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2">
-                {cart.map((item: ICartItem) => (
-                  <CartItemRow
-                    key={item.id}
-                    item={item}
-                    onRemove={removeFromCart}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Right: Close button */}
+          <button
+            type="button"
+            onClick={closeCart}
+            aria-label="Cerrar carrito"
+            className="flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30"
+          >
+            <X size={16} />
+          </button>
+        </div>
 
-          {/* MD3 Drawer Footer — Summary & Actions */}
-          {cart.length > 0 && (
-            <div className="p-4 border-t border-slate-200/50 dark:border-slate-800/50 shrink-0 bg-slate-50/50 dark:bg-slate-900/30">
-              {/* Price Summary */}
-              <div className="flex flex-col gap-1 mb-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-500 dark:text-slate-400">
-                    Subtotal ({totalItems} items)
-                  </span>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    {formatPrice(totalPrice)}
-                  </span>
-                </div>
-                <div className="border-t border-slate-200/50 dark:border-slate-800/50 my-2" />
-                <div className="flex items-center justify-between">
-                  <span className="text-base font-bold text-slate-800 dark:text-slate-200">
-                    Total
-                  </span>
-                  <span className="text-xl font-extrabold text-primary">
-                    {formatPrice(totalPrice)}
-                  </span>
-                </div>
+        {/* ── Scrollable Content ── */}
+        <div className="grow overflow-y-auto px-4 py-4">
+          {!hasItems ? (
+            /* Empty State */
+            <div className="flex flex-col items-center justify-center min-h-[340px] gap-5 text-center">
+              <div className="w-20 h-20 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-center justify-center">
+                <PackageOpen size={34} className="text-slate-300 dark:text-slate-600" />
               </div>
-
-              {/* MD3 Filled Button — Primary CTA */}
+              <div className="flex flex-col gap-1">
+                <p className="text-base font-semibold text-slate-700 dark:text-slate-200">
+                  Tu carrito está vacío
+                </p>
+                <p className="text-sm text-slate-400 dark:text-slate-500 leading-normal">
+                  Agrega productos para comenzar tu compra
+                </p>
+              </div>
               <Button
-                onClick={handleCheckout}
-                className="w-full h-12 rounded-xl text-sm font-bold shadow-[0_4px_12px_rgba(5,150,105,0.15)] mb-2"
+                onClick={closeCart}
+                variant="outline"
+                className="rounded-xl px-6"
               >
-                Proceder al Pago
+                Explorar productos
               </Button>
-
-              {/* MD3 Text Button — Secondary action */}
-              <Button
-                onClick={clearCart}
-                variant="ghost"
-                className="w-full h-10 rounded-xl hover:bg-red-500/10 hover:text-red-600 text-red-600 dark:text-red-400 text-sm font-semibold flex items-center justify-center gap-1.5"
-              >
-                <Trash2 size={14} />
-                Vaciar Carrito
-              </Button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {cart.map((item: ICartItem) => (
+                <CartItemRow
+                  key={item.id}
+                  item={item}
+                  onRemove={removeFromCart}
+                />
+              ))}
             </div>
           )}
         </div>
+
+        {/* ── Footer / Price Summary ── */}
+        {hasItems && (
+          <div className="shrink-0 border-t border-slate-200 dark:border-slate-800">
+            {/* Price rows */}
+            <div className="px-5 pt-4 pb-3 flex flex-col gap-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-slate-500 dark:text-slate-400">
+                  Subtotal
+                </span>
+                <span className="font-semibold text-slate-700 dark:text-slate-300">
+                  {formatPrice(totalPrice)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-slate-500 dark:text-slate-400">
+                  Envío
+                </span>
+                <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                  {totalPrice >= 50 ? "Gratis" : formatPrice(9.99)}
+                </span>
+              </div>
+              <div className="h-px bg-slate-100 dark:bg-slate-800 my-1" />
+              <div className="flex items-center justify-between">
+                <span className="text-base font-bold text-slate-800 dark:text-slate-100">
+                  Total
+                </span>
+                <span className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400">
+                  {formatPrice(totalPrice >= 50 ? totalPrice : totalPrice + 9.99)}
+                </span>
+              </div>
+              {totalPrice < 50 && (
+                <p className="text-[11px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 rounded-lg px-2.5 py-1.5 text-center font-medium">
+                  Agrega {formatPrice(50 - totalPrice)} más para envío gratis 🎁
+                </p>
+              )}
+            </div>
+
+            {/* CTA buttons */}
+            <div className="px-4 pb-5 flex flex-col gap-2">
+              <Button
+                onClick={handleCheckout}
+                className="w-full h-11 rounded-xl text-sm font-bold gap-2 shadow-[0_4px_14px_rgba(5,150,105,0.25)]"
+              >
+                Proceder al Pago
+                <ArrowRight size={15} />
+              </Button>
+
+              <button
+                type="button"
+                onClick={clearCart}
+                className="w-full h-9 flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all cursor-pointer border-none bg-transparent"
+              >
+                <Trash2 size={13} />
+                Vaciar carrito
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>,
     document.body
