@@ -46,7 +46,7 @@ const CardInputField = ({
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
           className={cn(
-            "flex h-10 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-background px-3 py-2 text-sm pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all",
+            "flex h-10 w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-background px-3 py-2 text-sm pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all",
             error && "border-red-500 focus:ring-red-500/20 focus:border-red-500",
             (name === "number" || name === "expiry" || name === "cvc") && "font-mono tracking-wider",
             inputProps?.className

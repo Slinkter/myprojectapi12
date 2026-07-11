@@ -33,7 +33,7 @@ export function DiscountInput({
             onChange={(e) => onChange(e.target.value.toUpperCase())}
             onKeyDown={(e) => e.key === 'Enter' && onApply()}
             placeholder="Ingresa tu código"
-            className="flex h-9 w-full rounded-md border border-slate-200 dark:border-slate-800 bg-background pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
+            className="flex h-9 w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-background pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors"
           />
         </div>
         <Button

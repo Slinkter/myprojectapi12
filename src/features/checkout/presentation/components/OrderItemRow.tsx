@@ -34,7 +34,8 @@ export function OrderItemRow({ item, onRemove }: OrderItemRowProps) {
         ${(item.price * item.quantity).toFixed(2)}
       </span>
       <button
-        className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 w-8 hover:bg-accent hover:text-accent-foreground cursor-pointer text-red-500"
+        type="button"
+        className="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/25 disabled:pointer-events-none disabled:opacity-50 h-8 w-8 hover:bg-red-50 dark:hover:bg-red-950/20 cursor-pointer border-none bg-transparent text-red-500"
         onClick={() => onRemove(item.id)}
         aria-label={`Eliminar ${item.title}`}
       >

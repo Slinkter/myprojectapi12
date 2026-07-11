@@ -31,7 +31,7 @@ export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
         <button
           type="button"
           onClick={() => onRemove(item.id)}
-          className="inline-flex items-center justify-center rounded-md text-sm font-medium h-8 w-8 hover:bg-red-100 dark:hover:bg-red-900/20 text-red-500 cursor-pointer border-none bg-transparent"
+          className="inline-flex items-center justify-center rounded-full text-sm font-medium h-8 w-8 hover:bg-red-50 dark:hover:bg-red-950/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/25 text-red-500 cursor-pointer border-none bg-transparent transition-all"
           aria-label={`Eliminar ${item.title}`}
         >
           <Trash2 size={16} />
