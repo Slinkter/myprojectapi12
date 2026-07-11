@@ -4,8 +4,9 @@ import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/useCart";
 import { IProductDetailModalProps } from "@/features/products/application/types";
 import { getStockStatus } from "@/shared/lib/stockUtils";
-import { X, ShoppingBag, Plus, Minus } from "lucide-react";
+import { X, ShoppingBag } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
+import QuantityControl from "./components/QuantityControl";
 
 const ProductDetailModal = (props: IProductDetailModalProps) => {
   useLogLifecycle("ProductDetailModal");
@@ -172,30 +173,13 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
             {/* Quantity & Add to Cart */}
             <div className="flex flex-col gap-3 mt-auto">
               <div className="flex items-center gap-3">
-                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Cantidad:</p>
-                <div className="flex items-center border border-slate-300 dark:border-slate-600 rounded-lg">
-                  <button
-                    type="button"
-                    onClick={decrement}
-                    disabled={quantity <= 1}
-                    className="inline-flex items-center justify-center rounded-md text-sm font-medium h-9 w-9 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-50 cursor-pointer border-none bg-transparent"
-                    aria-label="Disminuir cantidad"
-                  >
-                    <Minus size={16} />
-                  </button>
-                  <span className="font-medium text-sm min-w-[40px] text-center px-3 text-slate-800 dark:text-slate-200">
-                    {quantity}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={increment}
-                    disabled={quantity >= product.stock}
-                    className="inline-flex items-center justify-center rounded-md text-sm font-medium h-9 w-9 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 disabled:opacity-50 cursor-pointer border-none bg-transparent"
-                    aria-label="Aumentar cantidad"
-                  >
-                    <Plus size={16} />
-                  </button>
-                </div>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-350">Cantidad:</p>
+                <QuantityControl
+                  quantity={quantity}
+                  stock={product.stock}
+                  onIncrement={increment}
+                  onDecrement={decrement}
+                />
               </div>
 
               <Button

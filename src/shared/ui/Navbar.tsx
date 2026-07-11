@@ -144,7 +144,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 glass-panel border-b border-white/20 dark:border-white/10 shadow-[0_2px_15px_rgba(0,0,0,0.03)] dark:shadow-[0_2px_15px_rgba(0,0,0,0.3)]">
+    <header className="sticky top-0 z-50 glass-panel border-b border-slate-200 dark:border-slate-800 shadow-[0_2px_15px_rgba(0,0,0,0.03)] dark:shadow-[0_2px_15px_rgba(0,0,0,0.3)]">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
         {/* ── Logo ── */}
         <NavLogo />

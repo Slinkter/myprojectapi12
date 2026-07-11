@@ -6,6 +6,7 @@ import { ICartItem } from "@/features/cart/domain/cartTypes";
 import { X, ShoppingBag, Trash2 } from "lucide-react";
 import { useLogLifecycle } from "@/shared/hooks";
 import { CartItemRow } from "./CartItemRow";
+import { Button } from "@/shared/ui/Button";
 
 /** Formatea precio con Intl.NumberFormat */
 const formatPrice = (price: number): string =>
@@ -39,7 +40,7 @@ const Cart = () => {
       <div className="fixed inset-0 z-40 bg-black/50" onClick={closeCart} />
       <div
         aria-label="Carrito de compras"
-        className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[360px] h-screen rounded-l-2xl flex flex-col shadow-2xl glass-panel border-l border-white/20 dark:border-white/10 bg-white dark:bg-slate-950"
+        className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[360px] h-screen rounded-l-2xl flex flex-col shadow-2xl glass-panel border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden"
       >
         <div className="flex flex-col h-full">
 
@@ -90,13 +91,13 @@ const Cart = () => {
                   </p>
                 </div>
                 {/* MD3 Outlined Button */}
-                <button
-                  type="button"
+                <Button
                   onClick={closeCart}
-                  className="px-6 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-transparent text-primary hover:bg-primary/5 transition-colors cursor-pointer text-sm font-semibold tracking-wide"
+                  variant="outline"
+                  className="rounded-full px-6 py-2.5"
                 >
                   Continuar Comprando
-                </button>
+                </Button>
               </div>
             ) : (
               <div className="flex flex-col gap-2">
@@ -136,23 +137,22 @@ const Cart = () => {
               </div>
 
               {/* MD3 Filled Button — Primary CTA */}
-              <button
-                type="button"
+              <Button
                 onClick={handleCheckout}
-                className="w-full py-3 px-6 rounded-full border-none bg-primary hover:bg-primary-hover text-white text-sm font-bold cursor-pointer transition-all shadow-[0_4px_12px_rgba(5,150,105,0.2)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 mb-2"
+                className="w-full h-11 rounded-full text-sm font-bold shadow-[0_4px_12px_rgba(5,150,105,0.15)] mb-2"
               >
                 Proceder al Pago
-              </button>
+              </Button>
 
               {/* MD3 Text Button — Secondary action */}
-              <button
-                type="button"
+              <Button
                 onClick={clearCart}
-                className="w-full py-2.5 px-6 rounded-full border-none bg-transparent hover:bg-red-500/10 text-red-600 dark:text-red-400 text-sm font-semibold cursor-pointer transition-colors flex items-center justify-center gap-1.5 focus-visible:outline-2 focus-visible:outline-red-500 focus-visible:outline-offset-2"
+                variant="ghost"
+                className="w-full h-10 rounded-full hover:bg-red-500/10 hover:text-red-600 text-red-600 dark:text-red-400 text-sm font-semibold flex items-center justify-center gap-1.5"
               >
                 <Trash2 size={14} />
                 Vaciar Carrito
-              </button>
+              </Button>
             </div>
           )}
         </div>
