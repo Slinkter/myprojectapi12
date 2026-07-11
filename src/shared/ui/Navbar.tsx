@@ -13,6 +13,7 @@ import {
   ShoppingBag,
   Menu,
   ChevronDown,
+  Home,
 } from "lucide-react";
 
 /* ─── Logo ─────────────────────────────────────────── */
@@ -49,14 +50,12 @@ const NavLink = ({
   onClick?: () => void;
 }) => (
   <Link to={to} className="no-underline" onClick={onClick}>
-    <m.div
-      whileHover={{ backgroundColor: "rgba(5, 150, 105, 0.08)" }}
+    <div
       className={`px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition-all cursor-pointer relative flex items-center min-h-[36px] ${
         active
-          ? "bg-primary/10 text-primary dark:bg-primary/20"
-          : "text-slate-600 dark:text-slate-300"
+          ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
+          : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
       }`}
-      transition={{ duration: 0.15 }}
     >
       {children}
       {active && (
@@ -65,7 +64,7 @@ const NavLink = ({
           className="absolute bottom-0 left-[20%] right-[20%] h-0.5 rounded-t-full bg-primary"
         />
       )}
-    </m.div>
+    </div>
   </Link>
 );
 
@@ -83,10 +82,9 @@ const ActionBtn = ({
     type="button"
     onClick={onClick}
     aria-label={label}
-    whileHover={{ scale: 1.05, backgroundColor: "rgba(15, 23, 42, 0.06)" }}
+    whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className="flex items-center justify-center w-10 h-10 rounded-full border-none bg-transparent cursor-pointer text-slate-600 dark:text-slate-300 dark:hover:bg-white/10 shrink-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-    transition={{ duration: 0.15 }}
+    className="flex items-center justify-center w-10 h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
   >
     {children}
   </m.button>
@@ -168,15 +166,14 @@ const Navbar = () => {
                   <m.button
                     type="button"
                     onClick={() => setIsCatOpen(!isCatOpen)}
-                    whileHover={{ backgroundColor: "rgba(5, 150, 105, 0.08)" }}
+                    whileTap={{ scale: 0.98 }}
                     className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold tracking-wide border-none cursor-pointer transition-all min-h-[36px] ${
                       isCatActive
-                        ? "bg-primary/10 text-primary dark:bg-primary/20"
-                        : "text-slate-600 dark:text-slate-300"
+                        ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
+                        : "text-slate-600 dark:text-slate-350 hover:bg-slate-100 dark:hover:bg-slate-800"
                     }`}
                     aria-haspopup="listbox"
                     aria-expanded={isCatOpen}
-                    transition={{ duration: 0.15 }}
                   >
                     Categorías
                     <m.span animate={{ rotate: isCatOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
@@ -204,9 +201,10 @@ const Navbar = () => {
                           <button
                             type="button"
                             onClick={() => handleCategorySelect(null)}
-                            className="w-full text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 transition-colors"
+                            className="w-full text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 transition-colors flex items-center gap-2"
                           >
-                            🏠 Todas las categorías
+                            <Home size={15} />
+                            Todas las categorías
                           </button>
                           <div className="h-[1px] bg-slate-200/50 dark:bg-slate-800/50 my-1 mx-2" />
                           {isLoading ? (
@@ -357,8 +355,9 @@ const Navbar = () => {
                 <button
                   type="button"
                   onClick={() => handleCategorySelect(null)}
-                  className="text-left px-4 py-2 rounded-full border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 transition-colors"
+                  className="text-left px-4 py-2 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 transition-colors flex items-center gap-2"
                 >
+                  <Home size={15} />
                   Todas las categorías
                 </button>
                 {categories?.map((cat) => (
@@ -366,7 +365,7 @@ const Navbar = () => {
                     key={cat.slug}
                     type="button"
                     onClick={() => handleCategorySelect(cat.slug)}
-                    className="text-left px-4 py-2 rounded-full border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 text-capitalize tracking-widest transition-colors"
+                    className="text-left px-4 py-2 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-350 hover:bg-slate-100 dark:hover:bg-slate-800 text-capitalize transition-colors"
                   >
                     {cat.name}
                   </button>

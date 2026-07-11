@@ -102,7 +102,7 @@ const DialogContent = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 shadow-xl text-slate-900 dark:text-slate-100 sm:rounded-lg transition-all duration-200",
+          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 shadow-xl text-slate-900 dark:text-slate-100 sm:rounded-xl transition-all duration-200",
           className
         )}
         {...props}
@@ -111,7 +111,7 @@ const DialogContent = React.forwardRef<
         <button
           type="button"
           onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:pointer-events-none bg-transparent border-none text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 cursor-pointer"
+          className="absolute right-4 top-4 rounded-full p-1 opacity-70 transition-all hover:opacity-100 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/25 disabled:pointer-events-none bg-transparent border-none text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 cursor-pointer flex items-center justify-center"
         >
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
