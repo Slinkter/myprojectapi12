@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
+import { m, AnimatePresence } from "framer-motion";
 import { useCart } from "@/features/cart/application/useCart";
 import { ICartItem } from "@/features/cart/domain/cartTypes";
 import { X, ShoppingCart, Trash2, ArrowRight, PackageOpen } from "lucide-react";
@@ -48,22 +49,30 @@ const Cart = () => {
     return () => document.removeEventListener("keydown", handleEsc);
   }, [isCartOpen, closeCart]);
 
-  if (!isCartOpen) return null;
-
   return createPortal(
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px]"
-        onClick={closeCart}
-      />
+    <AnimatePresence>
+      {isCartOpen && (
+        <>
+          {/* Backdrop */}
+          <m.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px]"
+            onClick={closeCart}
+          />
 
-      {/* Drawer Panel */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label="Carrito de compras"
-        className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[380px] h-screen flex flex-col shadow-2xl border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden rounded-l-2xl"
+          {/* Drawer Panel */}
+          <m.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Carrito de compras"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[380px] flex flex-col shadow-2xl border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden rounded-l-2xl" style={{ height: 'calc(100dvh - env(safe-area-inset-bottom))' }}
       >
         {/* ── Accent line ── */}
         <div className="h-[3px] w-full shrink-0 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600" />
@@ -199,8 +208,10 @@ const Cart = () => {
             </div>
           </div>
         )}
-      </div>
-    </>,
+      </m.div>
+        </>
+      )}
+    </AnimatePresence>,
     document.body
   );
 };

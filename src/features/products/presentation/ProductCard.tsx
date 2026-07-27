@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useRef } from 'react'
 import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLogLifecycle } from "@/shared/hooks";
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
@@ -6,29 +6,14 @@ import { useCart } from '@/features/cart/application/CartContext'
 import { getStockStatus } from '@/shared/lib/stockUtils'
 import type { IProduct } from '@/features/products/application/types'
 import { LazyImage } from '@/shared/ui/LazyImage';
-import { Plus, Eye } from 'lucide-react'
+import { Eye, ShoppingBag } from 'lucide-react'
 
-/**
- * Formatea un número como moneda USD.
- * @param price - Precio a formatear.
- * @returns Cadena formateada (ej. "$1,234.56").
- */
 const formatPrice = (price: number): string =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
 
-/**
- * Calcula el precio original antes del descuento.
- * @param price - Precio actual con descuento aplicado.
- * @param discount - Porcentaje de descuento (ej. 10 para 10%).
- * @returns Precio original formateado como moneda.
- */
 const originalPrice = (price: number, discount: number): string =>
   formatPrice(price / (1 - discount / 100));
 
-/**
- * Icono SVG de estrella para calificación.
- * @param fillType - Tipo de relleno: 'full' (completa), 'half' (media) o 'empty' (vacía).
- */
 const StarIcon = ({ fillType }: { fillType: 'full' | 'half' | 'empty' }) => {
   if (fillType === 'full') {
     return (
@@ -51,10 +36,6 @@ const StarIcon = ({ fillType }: { fillType: 'full' | 'half' | 'empty' }) => {
   );
 };
 
-/**
- * Componente de calificación con estrellas SVG.
- * @param rating - Calificación numérica (ej. 4.5).
- */
 const StarRating = ({ rating }: { rating: number }) => {
   const full = Math.floor(rating);
   const half = rating - full >= 0.5;
@@ -71,34 +52,17 @@ const StarRating = ({ rating }: { rating: number }) => {
   );
 };
 
-/**
- * @interface IProductCardProps
- * @description Propiedades del componente ProductCard.
- */
 interface IProductCardProps {
-  /** Producto a mostrar en la tarjeta. */
   product: IProduct
 }
 
-/**
- * Tarjeta de producto con imagen, precio, calificación y controles de acción rápida.
- *
- * @remarks
- * Componente memoizado con `React.memo`. Muestra miniatura, nombre, precio con
- * descuento, calificación por estrellas, estado de stock y botones de acción
- * (Añadir / Ver detalle). Usa animaciones de Framer Motion para hover.
- * Si el producto está agotado, se muestra con opacidad reducida y sin interacción.
- *
- * @component
- * @param props.product - Producto a renderizar.
- * @returns Elemento JSX article con la tarjeta o null si product es inválido.
- */
 const ProductCard = React.memo(({ product }: IProductCardProps) => {
   useLogLifecycle("ProductCard");
   const shouldReduceMotion = useReducedMotion();
   const { openProductModal } = useProductModalContext()
   const { addToCart } = useCart()
   const [isHovered, setIsHovered] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
 
   const stockStatus = getStockStatus(product?.stock)
   const isOutOfStock = stockStatus === 'out'
@@ -125,6 +89,7 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
 
   return (
     <m.article
+      ref={cardRef}
       role="button"
       tabIndex={isOutOfStock ? -1 : 0}
       aria-label={`Ver detalle de ${product.title}${isOutOfStock ? ' (Sin stock)' : ''}`}
@@ -135,21 +100,20 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
       onHoverEnd={() => setIsHovered(false)}
       whileHover={(isOutOfStock || shouldReduceMotion) ? {} : {
         y: -8,
-        boxShadow: '0 20px 30px -10px rgba(5, 150, 105, 0.15)',
-        borderColor: 'rgba(5, 150, 105, 0.45)',
+        boxShadow: '0 24px 40px -12px rgba(5, 150, 105, 0.18)',
+        borderColor: 'rgba(5, 150, 105, 0.4)',
       }}
-      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-      className={`flex flex-col h-full rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm overflow-hidden relative ${
+      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+      className={`will-change-transform flex flex-col h-full rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm overflow-hidden relative ${
         isOutOfStock ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'
       }`}
     >
-      {/* ── IMAGE ZONE ── */}
-      <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-white/20 to-transparent dark:from-white/5 dark:to-transparent border-b border-slate-200 dark:border-slate-800 relative shrink-0">
-        {/* Imagen con zoom suave al hover */}
+      {/* Image zone */}
+      <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800 relative shrink-0">
         <m.div
-          className="w-full h-full"
-          animate={{ scale: isHovered && !isOutOfStock && !shouldReduceMotion ? 1.05 : 1 }}
-          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+          className="w-full h-full will-change-transform"
+          animate={{ scale: isHovered && !isOutOfStock && !shouldReduceMotion ? 1.06 : 1 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
         >
           <LazyImage
             src={product.thumbnail}
@@ -160,7 +124,7 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
           />
         </m.div>
 
-        {/* Overlay oscuro al hover con CTA rápido */}
+        {/* Hover overlay with CTAs */}
         <AnimatePresence>
           {isHovered && !isOutOfStock && (
             <m.div
@@ -168,44 +132,42 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] flex items-center justify-center gap-2.5"
+              className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/30 to-slate-950/10 flex items-center justify-center gap-2.5"
             >
-              {/* Quick Add to Cart */}
               <m.button
                 type="button"
-                initial={{ y: 12, opacity: 0 }}
+                initial={{ y: 16, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 12, opacity: 0 }}
-                transition={{ duration: 0.25, delay: 0.02, ease: "easeOut" }}
+                exit={{ y: 16, opacity: 0 }}
+                transition={{ duration: 0.25, delay: 0.02, ease: [0.4, 0, 0.2, 1] }}
                 onClick={handleAddToCart}
                 aria-label={`Añadir ${product.title} al carrito`}
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border-none bg-primary text-white text-xs font-bold cursor-pointer hover:bg-primary-hover active:scale-95 transition-all shadow-lg shadow-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:ring-offset-1"
+                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border-none bg-primary text-white text-xs font-bold cursor-pointer hover:bg-primary-hover active:scale-95 transition-all shadow-lg shadow-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
               >
-                <Plus size={14} />
+                <ShoppingBag size={13} />
                 Añadir
               </m.button>
 
-              {/* Quick View */}
               <m.button
                 type="button"
-                initial={{ y: 12, opacity: 0 }}
+                initial={{ y: 16, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 12, opacity: 0 }}
-                transition={{ duration: 0.25, delay: 0.06, ease: "easeOut" }}
+                exit={{ y: 16, opacity: 0 }}
+                transition={{ duration: 0.25, delay: 0.06, ease: [0.4, 0, 0.2, 1] }}
                 onClick={(e) => { e.stopPropagation(); openProductModal(product) }}
                 aria-label={`Vista rápida de ${product.title}`}
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border border-slate-700 bg-slate-900/85 hover:bg-slate-900 text-white text-xs font-bold cursor-pointer backdrop-blur active:scale-95 transition-all shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border border-slate-600/50 bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-bold cursor-pointer backdrop-blur active:scale-95 transition-all shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
               >
-                <Eye size={14} />
+                <Eye size={13} />
                 Ver
               </m.button>
             </m.div>
           )}
         </AnimatePresence>
 
-        {/* Discount Badge */}
+        {/* Discount badge */}
         {product.discountPercentage && product.discountPercentage > 0 && (
-          <div className="absolute top-2.5 left-2.5 z-10 bg-red-500 text-white px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider shadow-[0_2px_8px_rgba(220,38,38,0.25)]">
+          <div className="absolute top-2.5 left-2.5 z-10 bg-gradient-to-r from-red-500 to-rose-500 text-white px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider shadow-lg">
             -{Math.round(product.discountPercentage)}%
           </div>
         )}
@@ -220,9 +182,8 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
         )}
       </div>
 
-      {/* ── CONTENT ZONE ── */}
+      {/* Content zone */}
       <div className="flex flex-col gap-2.5 p-4 grow">
-        {/* Category chip + Rating */}
         <div className="flex items-center justify-between gap-1">
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/8 text-primary dark:bg-primary/15 text-[9px] font-bold tracking-wider uppercase max-w-[55%] truncate">
             {product.category}
@@ -230,7 +191,6 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
           {product.rating && <StarRating rating={product.rating} />}
         </div>
 
-        {/* Title */}
         <p
           title={product.title}
           className="text-sm font-semibold leading-snug text-slate-800 dark:text-slate-200 line-clamp-2 min-h-[2.6rem] hover:text-primary transition-colors"
@@ -238,7 +198,6 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
           {product.title}
         </p>
 
-        {/* Price + Stock */}
         <div className="flex items-center justify-between gap-1 mt-auto pt-3 border-t border-slate-200 dark:border-slate-800">
           <div>
             <div className="flex items-baseline gap-1.5">
@@ -266,7 +225,6 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
             </span>
           </div>
 
-          {/* CTA Button */}
           <m.button
             type="button"
             onClick={(e) => { e.stopPropagation(); if (!isOutOfStock) openProductModal(product) }}

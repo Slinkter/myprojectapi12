@@ -39,6 +39,17 @@
 | [Hooks](patterns/HOOKS.md) | Custom hooks: `useDebounce`, `useLogLifecycle`, `useCart`, `useCartActions`, `useProducts`, `useCategories`, `useCheckout`, `useDiscountValidation`, `useProductSearch` |
 | [Contextos](patterns/CONTEXTS.md) | Patrones de contexto: `ThemeContext`, `CartContext`, `ProductModalContext` |
 
+## Ingeniería de Software
+
+| Documento | Descripción |
+|-----------|-------------|
+| [Casos de Uso](engineering/USE-CASES.md) | 5 casos de uso formales (Cockburn): explorar, buscar, carrito, pago, tema |
+| [Arquitectura C4](engineering/ARCHITECTURE-C4.md) | Diagramas C4: Contexto, Contenedores, Componentes, Código (Mermaid) |
+| [Diagramas UML](engineering/UML-DIAGRAMS.md) | Clases, secuencia, estados, actividad, paquetes (Mermaid) |
+| [Decisiones Técnicas (ADR)](engineering/ARCHITECTURE-DECISIONS.md) | 10 ADRs: React, TypeScript, Vite, Tailwind, TanStack Query, Context API, Framer Motion, FSD, React Router, pnpm |
+| [Auditoría SOLID + DRY](engineering/SOLID-DRY-AUDIT.md) | Cumplimiento de principios con ejemplos de código real |
+| [Mapa de Dependencias](engineering/DEPENDENCY-MAP.md) | Grafo de dependencias entre módulos, validación de dependencias circulares |
+
 ## Operaciones
 
 | Documento | Descripción |

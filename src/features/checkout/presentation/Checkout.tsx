@@ -32,7 +32,7 @@ const STEPS = ['Carrito', 'Pago', 'Confirmación'];
  */
 const Checkout = () => {
   useLogLifecycle("Checkout");
-  const { cart, totalPrice, removeFromCart } = useCart();
+  const { cart, totalPrice, removeFromCart, clearCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const {
@@ -43,7 +43,7 @@ const Checkout = () => {
     handlePayment,
     handlePaymentFieldChange,
     selectPaymentMethod,
-  } = useCheckout();
+  } = useCheckout(cart, totalPrice, clearCart);
 
   if (cart.length === 0) {
     return <Navigate to="/" replace />;

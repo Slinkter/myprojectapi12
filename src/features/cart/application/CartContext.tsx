@@ -84,7 +84,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
     const { isCartOpen, openCart, closeCart, toggleCart } = useCartDrawer();
 
     // Acciones del carrito (add, remove, clear)
-    const { addToCart, removeFromCart, clearCart } = useCartActions(
+    const { addToCart, removeFromCart, updateQuantity, clearCart } = useCartActions(
         setCart,
         openCart,
     );
@@ -119,6 +119,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
             cart,
             addToCart,
             removeFromCart,
+            updateQuantity,
             clearCart,
             isCartOpen,
             openCart,
@@ -131,6 +132,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
             cart,
             addToCart,
             removeFromCart,
+            updateQuantity,
             clearCart,
             isCartOpen,
             openCart,

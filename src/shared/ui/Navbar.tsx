@@ -10,7 +10,6 @@ import {
     X,
     Sun,
     Moon,
-    ShoppingBag,
     ShoppingCart,
     Menu,
     ChevronDown,
@@ -28,22 +27,12 @@ const NavLogo = () => (
         to="/"
         className="flex items-center gap-2.5 no-underline shrink-0 group"
     >
-        <m.div
-            whileHover={{ rotate: -8, scale: 1.08 }}
-            transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center shadow-[0_4px_12px_rgba(5,150,105,0.25)] shrink-0"
-        >
-            <ShoppingBag size="18" className="text-white" />
-        </m.div>
         <div className="flex flex-col">
             <span className="text-lg font-extrabold tracking-tight leading-none text-slate-800 dark:text-slate-100">
-                Shop
+                MyProject
                 <span className="text-primary transition-colors group-hover:text-primary-hover">
-                    API
+                    API12
                 </span>
-            </span>
-            <span className="text-[10px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase mt-0.5">
-                E-Commerce
             </span>
         </div>
     </Link>

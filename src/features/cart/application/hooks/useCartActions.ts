@@ -21,6 +21,8 @@ interface IUseCartActionsReturn {
   addToCart: (product: IProduct, quantity: number) => void;
   /** Elimina un producto del carrito por su ID */
   removeFromCart: (productId: number) => void;
+  /** Actualiza la cantidad de un producto en el carrito */
+  updateQuantity: (productId: number, quantity: number) => void;
   /** Vacía el carrito por completo */
   clearCart: () => void;
 }
@@ -77,6 +79,28 @@ export const useCartActions = (
   );
 
   /**
+   * Updates the quantity of a product in the cart.
+   * Removes the item if quantity is 0 or less.
+   * @param productId - The unique identifier of the product
+   * @param quantity - The new quantity to set
+   * @returns void
+   */
+  const updateQuantity = useCallback(
+    (productId: number, quantity: number) => {
+      if (quantity <= 0) {
+        setCart((prev) => removeItemFromCart(prev, productId));
+        return;
+      }
+      setCart((prev) =>
+        prev.map((item) =>
+          item.id === productId ? { ...item, quantity } : item,
+        ),
+      );
+    },
+    [setCart],
+  );
+
+  /**
    * Clears all items from the cart, emptying it completely.
    * @returns void
    */
@@ -85,5 +109,5 @@ export const useCartActions = (
     toast.success("El carrito ha sido vaciado.");
   }, [setCart]);
 
-  return { addToCart, removeFromCart, clearCart };
+  return { addToCart, removeFromCart, updateQuantity, clearCart };
 };

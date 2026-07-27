@@ -5,7 +5,7 @@ export const ROUTES = {
   PRODUCT_DETAIL: (id: string | number) => `/products/${id}`,
   CART: '/cart',
   CHECKOUT: '/checkout',
-  CHECKOUT_SUCCESS: '/checkout/success',
+  CHECKOUT_SUCCESS: '/checkout-success',
   NOT_FOUND: '*',
 } as const
 

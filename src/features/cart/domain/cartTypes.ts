@@ -54,6 +54,7 @@ export interface ICartContextValue {
     totalItems: number;
     addToCart: (product: IProduct, quantity: number) => void;
     removeFromCart: (productId: number) => void;
+    updateQuantity: (productId: number, quantity: number) => void;
     clearCart: () => void;
     openCart: () => void;
     closeCart: () => void;

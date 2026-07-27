@@ -1,12 +1,10 @@
-/**
- * @file AppRouter.tsx
- * @description Enrutador principal de la aplicación con carga diferida (lazy loading) de páginas.
- */
 import React, { Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence, m } from "framer-motion";
 import Loader from "@/shared/ui/Loader";
 import Cart from "@/features/cart/presentation/Cart";
 import { useLogLifecycle } from "@/shared/hooks";
+import { pageFadeIn } from "@/shared/lib/animations";
 
 const Home = lazy(() => import("@/pages/Home"));
 
@@ -18,23 +16,30 @@ const CheckoutSuccess = lazy(
     () => import("@/features/checkout/presentation/CheckoutSuccess"),
 );
 
-/**
- * Componente del enrutador principal.
- * Renderiza las rutas de la aplicación con carga diferida (lazy loading)
- * y muestra un Loader mientras se cargan los módulos. Incluye el carrito global.
- *
- * @returns Elemento JSX con las rutas y el carrito.
- */
+const AnimatedPage = ({ children }: { children: React.ReactNode }) => (
+  <m.div
+    variants={pageFadeIn}
+    initial="hidden"
+    animate="visible"
+    exit="exit"
+  >
+    {children}
+  </m.div>
+);
+
 const AppRouter: React.FC = () => {
     useLogLifecycle("AppRouter");
+    const location = useLocation();
     return (
         <Suspense fallback={<Loader />}>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/checkout-success" element={<CheckoutSuccess />} />
-                <Route path="*" element={<Home />} />
-            </Routes>
+            <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
+                    <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />
+                    <Route path="/checkout" element={<AnimatedPage><Checkout /></AnimatedPage>} />
+                    <Route path="/checkout-success" element={<AnimatedPage><CheckoutSuccess /></AnimatedPage>} />
+                    <Route path="*" element={<AnimatedPage><Home /></AnimatedPage>} />
+                </Routes>
+            </AnimatePresence>
             <Cart />
         </Suspense>
     );

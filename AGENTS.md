@@ -27,7 +27,6 @@
 - **Variable de entorno de la API inconsistente:** `src/app/config/env.ts` lee `VITE_API_BASE_URL`; `src/shared/api/httpClient.ts` lee `VITE_API_URL`. Son dos clientes distintos — revisa cuál usa tu código antes de añadir env vars.
 - **CSP** en `index.html` restringe `connect-src` a `https://dummyjson.com`. Si cambias la API base, actualiza también la meta CSP o el navegador bloqueará las peticiones.
 - **Sin `tailwind.config.js` ni `postcss.config.js`:** Tailwind v4 se configura vía `@tailwindcss/vite` y directivas en `src/index.css`. **No crees esos archivos** — están en `.eslintignore` precisamente para que no aparezcan.
-- **Inconsistencia de ruta de éxito:** `ROUTES.CHECKOUT_SUCCESS` en `shared/constants/routes.ts` es `/checkout/success`, pero `AppRouter.tsx` tiene la ruta en `/checkout-success`. Si navegas con `ROUTES.CHECKOUT_SUCCESS`, la página de éxito no se encuentra.
 - **`react-refresh/only-export-components` (`warn`)** con `allowConstantExport: true`: en archivos `.tsx` exporta solo componentes (o constantes sueltas). No exportes hooks/utils desde un `.tsx` de componente.
 - **ESLint** falla con `--max-warnings 2`: limpia warnings antes de commitear o el pre-commit te bloquea.
 - **`.gitignore`** excluye `.env*`, `.playwright-mcp/`, `dist`, `coverage/` — no commitees nada de eso.
@@ -42,3 +41,8 @@
 - JSDoc en español (proyecto 100% documentado; conserva el estilo `@file`/`@description` ya presente).
 - Sin commits automáticos. Sin emojis en código o mensajes salvo que el usuario lo pida.
 - No crear `AGENTS.md` duplicados en subcarpetas — este archivo es la única fuente.
+
+## Agent skills
+- Los skills están consolidados en el archivo `.agent` de la raíz del proyecto.
+- Usa `@project-agent` para invocar el agente con todos los skills inline (JSDoc, diseño frontend, hooks React, UI/UX, descubrimiento de skills).
+- Ya no existe `skills-lock.json` ni la carpeta `.claude/skills/`.

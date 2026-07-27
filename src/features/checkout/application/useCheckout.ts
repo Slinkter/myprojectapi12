@@ -29,6 +29,7 @@ import {
   IValidationErrors,
   IUseCheckoutReturn,
 } from "@/features/checkout/application/types";
+import type { ICartItem } from "@/features/cart/domain/cartTypes";
 
 /**
  * @function detectCardType
@@ -67,7 +68,11 @@ const hasEmptyRequiredFields = (cardInfo: ICardInfo): boolean => {
  *
  * @returns {IUseCheckoutReturn} Objeto con estado y handlers.
  */
-export const useCheckout = (): IUseCheckoutReturn => {
+export const useCheckout = (
+  cart: ICartItem[],
+  totalPrice: number,
+  clearCart: () => void,
+): IUseCheckoutReturn => {
   const [state, dispatch] = useReducer(checkoutReducer, initialState);
   const { paymentMethod, cardInfo, errors, cardType } = state;
   const navigate = useNavigate();
@@ -82,7 +87,6 @@ export const useCheckout = (): IUseCheckoutReturn => {
     }
   }, [cardInfo.number, cardType]);
 
-  // Efecto para validación en tiempo real (opcional, podría moverse a onBlur para menos ruido)
   useEffect(() => {
     if (paymentMethod === "bitcoin") {
       dispatch({ type: "SET_ERRORS", payload: {} });
@@ -94,11 +98,19 @@ export const useCheckout = (): IUseCheckoutReturn => {
     handleCardTypeDetection();
   }, [paymentMethod, cardInfo, cardType, handleCardTypeDetection]);
 
-  /**
-   * Maneja el envío del formulario de pago.
-   * Valida los datos de la tarjeta y navega a la pantalla de éxito si son válidos.
-   * @returns {void}
-   */
+  const goToSuccess = useCallback(() => {
+    const orderId = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+    clearCart();
+    navigate("/checkout-success", {
+      state: {
+        orderId,
+        items: cart,
+        total: totalPrice,
+        paymentMethod,
+      },
+    });
+  }, [cart, totalPrice, paymentMethod, clearCart, navigate]);
+
   const handlePayment = useCallback(() => {
     setIsSubmitted(true);
     setTouched({
@@ -109,7 +121,7 @@ export const useCheckout = (): IUseCheckoutReturn => {
     });
 
     if (paymentMethod === "bitcoin") {
-      navigate("/checkout-success");
+      goToSuccess();
       return;
     }
 
@@ -117,9 +129,9 @@ export const useCheckout = (): IUseCheckoutReturn => {
     dispatch({ type: "SET_ERRORS", payload: validationErrors });
 
     if (Object.keys(validationErrors).length === 0) {
-      navigate("/checkout-success");
+      goToSuccess();
     }
-  }, [paymentMethod, cardInfo, navigate]);
+  }, [paymentMethod, cardInfo, goToSuccess]);
 
   /**
    * Handles changes to payment form input fields with automatic formatting.
