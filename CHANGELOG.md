@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.1.0] - 2026-07-27
+
+### Plan de Mejora, Optimización y Capa Entities FSD
+
+- **Arquitectura FSD**: Implementación de la capa `@entities/` (`product`, `cart-item`, `order`). Se trasladaron tipos y utilidades dominiales (`stockUtils.ts`).
+- **Nuevas Utilidades**:
+  - `src/shared/hooks/useLocalStorage.ts`: Hook reactivo para sincronización con `localStorage`.
+  - `src/features/checkout/domain/discounts.ts`: Objeto de configuración dominial `DISCOUNT_CODES`.
+- **Refactorización de Hooks & Componentes**:
+  - `useProducts`: Modularización en sub-hooks `useProductsQuery` y `useFlattenedProducts`.
+  - `CartContext`: Persistencia automática mediante `useLocalStorage`.
+  - `SkeletonCard`: Migración de clases repetitivas a la utilidad `.skeleton-line`.
+- **CSS y Diseño**:
+  - Eliminación de inline-styles innecesarios.
+  - Corrección de clases de Tailwind obsoletas (`dark:text-slate-350`, `dark:border-slate-850`).
+  - Creación de utilidades visuales (`.focus-ring`, `.skeleton-line`, `.tap-feedback`, `.icon-button`, `.spinner`).
+  - Adaptación de botones a tokens de color primario (`bg-primary`, `hover:bg-primary-hover`).
+- **Documentación & DX**:
+  - JSDoc 100% en español con diagramas de carga `@remarks` en componentes principales (`ProductCard`, `Cart`, `Checkout`, `Navbar`, `HomeContent`).
+  - Limpieza de cliente HTTP huérfano (`shared/api/httpClient.ts`) y `Navbar` duplicado.
+
 ## [1.0.0] - 2026-02-24
 
 ### Refactorización y Mejoras de Arquitectura (Fases A y B)

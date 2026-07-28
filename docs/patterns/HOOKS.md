@@ -52,6 +52,20 @@ export const useLogLifecycle = (name: string) => {
 
 ---
 
+### useLocalStorage (`src/shared/hooks/useLocalStorage.ts`)
+
+Sincroniza el estado reactivo de React con la persistencia en `localStorage`.
+
+```typescript
+export function useLocalStorage<T>(key: string, initialValue: T | (() => T)): [T, (value: T | ((val: T) => T)) => void] {
+  // Manejo de lectura inicial segura, serialización JSON y escuchador del evento window storage
+}
+```
+
+**Uso**: Persistencia automática en `CartContext` (`api12-cart-storage`).
+
+---
+
 ## Hooks de Carrito
 
 ### useCart (`src/features/cart/application/CartContext.tsx`)
@@ -109,23 +123,22 @@ export const useCartDrawer = (): IUseCartDrawerReturn => {
 
 ### useProducts (`src/features/products/application/useProducts.ts`)
 
-Paginación infinita con TanStack Query:
+Paginación infinita modularizada con `useProductsQuery` y `useFlattenedProducts`:
 
 ```typescript
 export const useProducts = (category?: string): IUseProductsResult => {
-  const { data, fetchNextPage, hasNextPage, ... } = useInfiniteQuery({
-    queryKey: ["products", category] as const,
-    queryFn: async ({ pageParam = 1 }) => {
-      const skip = (pageParam - 1) * PRODUCTS_PER_PAGE;
-      return getProducts(skip, PRODUCTS_PER_PAGE, category);
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      const totalFetched = allPages.length * PRODUCTS_PER_PAGE;
-      return totalFetched < lastPage.total ? allPages.length + 1 : undefined;
-    },
-    initialPageParam: 1,
-  });
-  // ...
+  const query = useProductsQuery(category);
+  const products = useFlattenedProducts(query.data);
+
+  return {
+    products,
+    error: query.error?.message || null,
+    isLoading: query.isLoading || query.isFetchingNextPage,
+    initialLoading: query.isLoading,
+    hasMore: query.hasNextPage ?? false,
+    loadMoreProducts: query.fetchNextPage,
+    isLoadingMore: query.isFetchingNextPage,
+  };
 };
 ```
 
@@ -211,7 +224,7 @@ export const useCheckout = (): IUseCheckoutReturn => {
 
 ### useDiscountValidation (`src/features/checkout/application/useDiscountValidation.ts`)
 
-Validación y aplicación de códigos de descuento:
+Validación y aplicación de códigos de descuento desde la entidad dominial `DISCOUNT_CODES`:
 
 ```typescript
 export function useDiscountValidation(): UseDiscountValidationReturn {
@@ -221,7 +234,7 @@ export function useDiscountValidation(): UseDiscountValidationReturn {
   const [isApplying, setIsApplying] = useState(false);
 
   const applyDiscount = useCallback(() => {
-    // Simula validación asíncrona (500ms)
+    // Simula validación asíncrona (500ms) usando DISCOUNT_CODES
     setTimeout(() => {
       const found = VALID_CODES.find(
         (c) => c.code.toUpperCase() === code.toUpperCase()
@@ -239,11 +252,12 @@ export function useDiscountValidation(): UseDiscountValidationReturn {
 | Hook | Ubicación | Propósito |
 |------|-----------|-----------|
 | `useDebounce` | `shared/hooks` | Retrasar actualización de valor |
+| `useLocalStorage` | `shared/hooks` | Sincronización de estado con localStorage |
 | `useLogLifecycle` | `shared/hooks` | Depurar ciclo de vida |
 | `useCart` | `features/cart/application` | Acceder al contexto del carrito |
 | `useCartActions` | `features/cart/application/hooks` | Acciones memoizadas del carrito |
 | `useCartDrawer` | `features/cart/application/hooks` | Control del drawer |
-| `useProducts` | `features/products/application` | Productos con paginación infinita |
+| `useProducts` | `features/products/application` | Productos con paginación infinita modularizada |
 | `useCategories` | `features/products/application` | Categorías con caché |
 | `useProductSearch` | `features/products/presentation/components` | Búsqueda con debounce |
 | `useProductModalContext` | `features/products/application` | Acceder al contexto del modal |

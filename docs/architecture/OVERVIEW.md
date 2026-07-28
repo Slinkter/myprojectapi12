@@ -25,6 +25,10 @@ src/
 │   ├── api/        # Cliente API estandarizado (apiClient)
 │   ├── config/     # Configuración: env.ts, queryClient.ts
 │   └── routing/    # Enrutador principal (AppRouter.tsx)
+├── entities/       # Capa dominial de entidades compartidas (FSD)
+│   ├── product/    # Modelo, tipos y utilidades dominiales de Producto
+│   ├── cart-item/  # Modelo y tipos dominiales de CartItem
+│   └── order/      # Modelo y tipos dominiales de Pedido/Orden
 ├── features/       # Features: módulos funcionales autónomos
 │   ├── cart/       # Carrito de compras
 │   ├── checkout/   # Proceso de pago
@@ -34,11 +38,11 @@ src/
 │   ├── Home.tsx
 │   └── HomeContent.tsx
 ├── shared/         # Código compartido entre features
-│   ├── api/        # Cliente HTTP genérico (httpClient)
 │   ├── constants/  # Rutas y query keys
-│   ├── hooks/      # Hooks compartidos
-│   ├── lib/        # Utilidades (cn, animaciones, stock)
+│   ├── hooks/      # Hooks compartidos (useDebounce, useLocalStorage, useLogLifecycle)
+│   ├── lib/        # Utilidades (cn, animaciones)
 │   └── ui/         # Componentes de UI primitivos
+├── widgets/        # Componentes complejos de nivel superior (Navbar)
 ├── App.tsx         # Componente raíz con providers
 └── main.tsx        # Punto de entrada
 ```
