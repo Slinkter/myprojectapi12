@@ -18,11 +18,7 @@ dist-ssr
 
 # Environmental variables (Security)
 .env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
-
+.env*.local
 
 # Testing
 coverage/
@@ -42,7 +38,7 @@ coverage/
 # System Files
 Thumbs.db
 Desktop.ini
+
+# Agent/CLI artifacts
 .agents
-.github
-.husky
 .playwright-mcp/
