@@ -6,7 +6,7 @@
  * @architecture Application Layer - Context y Provider del carrito
  */
 
-import { createContext, useState, useMemo, useContext, useEffect } from "react";
+import { createContext, useMemo, useContext } from "react";
 import { useCartActions } from "@/features/cart/application/hooks/useCartActions";
 import { calculateTotal } from "@/features/cart/domain/cartUtils";
 import { useCartDrawer } from "@/features/cart/application/hooks/useCartDrawer";
@@ -15,7 +15,7 @@ import type {
     ICartContextValue,
     ICartProviderProps,
 } from "@/features/cart/domain/cartTypes";
-import { useLogLifecycle } from "@/shared/hooks";
+import { useLogLifecycle, useLocalStorage } from "@/shared/hooks";
 
 const CART_STORAGE_KEY = "api12-cart-storage";
 
@@ -65,29 +65,14 @@ export const CartContext = createContext<ICartContextValue | undefined>(
  */
 export const CartProvider = ({ children }: ICartProviderProps) => {
     useLogLifecycle("CartProvider");
-    const [cart, setCart] = useState<ICartItem[]>(() => {
-        try {
-            const stored = localStorage.getItem(CART_STORAGE_KEY);
-            return stored ? JSON.parse(stored) : [];
-        } catch (error) {
-            console.error("Error loading cart from localStorage:", error);
-            return [];
-        }
-    });
-
-    // Persistir en localStorage cada vez que el carrito cambia
-    useEffect(() => {
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    }, [cart]);
+    const [cart, setCart] = useLocalStorage<ICartItem[]>(CART_STORAGE_KEY, []);
 
     // Control del drawer del carrito
     const { isCartOpen, openCart, closeCart, toggleCart } = useCartDrawer();
 
     // Acciones del carrito (add, remove, clear)
-    const { addToCart, removeFromCart, updateQuantity, clearCart } = useCartActions(
-        setCart,
-        openCart,
-    );
+    const { addToCart, removeFromCart, updateQuantity, clearCart } =
+        useCartActions(setCart, openCart);
 
     /**
      * @constant totalPrice

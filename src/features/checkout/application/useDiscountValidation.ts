@@ -5,6 +5,7 @@
  */
 
 import { useState, useCallback } from 'react'
+import { DISCOUNT_CODES, IDiscount } from '@/features/checkout/domain/discounts'
 
 /**
  * @interface IDiscountCode
@@ -17,14 +18,13 @@ export interface IDiscountCode {
 }
 
 /**
- * Lista de códigos de descuento válidos predefinidos en la aplicación.
- * @type {IDiscountCode[]}
+ * Lista de códigos de descuento válidos construida dinámicamente desde el dominio.
  */
-const VALID_CODES: IDiscountCode[] = [
-  { code: 'WELCOME10', discount: 10, type: 'percentage' },
-  { code: 'SAVE5', discount: 5, type: 'fixed' },
-  { code: 'VIP20', discount: 20, type: 'percentage' },
-]
+const VALID_CODES: IDiscountCode[] = Object.entries(DISCOUNT_CODES).map(([code, item]: [string, IDiscount]) => ({
+  code,
+  discount: item.value,
+  type: item.type === 'percent' ? 'percentage' : 'fixed',
+}));
 
 /**
  * @interface UseDiscountValidationReturn

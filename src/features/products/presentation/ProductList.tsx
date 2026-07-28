@@ -50,7 +50,7 @@ const ProductList = memo((props: IProductListProps) => {
         description="No hay productos disponibles en este momento. Intenta más tarde o explora otras categorías."
         actionLabel="Recargar"
         onAction={loadMoreProducts}
-        style={{ minHeight: "400px" }}
+        className="min-h-[400px]"
       />
     );
   }

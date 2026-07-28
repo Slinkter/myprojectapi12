@@ -18,6 +18,7 @@ interface IEmptyStateProps {
   actionLabel?: string
   onAction?: () => void
   style?: React.CSSProperties
+  className?: string
 }
 
 /**
@@ -27,19 +28,20 @@ interface IEmptyStateProps {
  * @param {IEmptyStateProps} props - Propiedades del componente.
  * @returns {JSX.Element} Vista de estado vacío.
  */
-export function EmptyState({
+export const EmptyState: React.FC<IEmptyStateProps> = ({
   icon,
   title,
   description,
   actionLabel,
   onAction,
-  style
-}: IEmptyStateProps) {
+  style,
+  className,
+}) => {
   useLogLifecycle("EmptyState");
   return (
     <div
-      className="flex flex-col items-center justify-center gap-4 py-16 px-4 text-center"
-      style={{ minHeight: "400px", ...style }}
+      className={`flex flex-col items-center justify-center p-8 text-center text-muted-foreground ${className ?? ''}`}
+      style={style}
     >
       {icon && (
         <div className="flex items-center justify-center w-20 h-20 rounded-full bg-slate-200/50 text-slate-500 mb-4">
@@ -52,7 +54,7 @@ export function EmptyState({
       </h2>
       
       {description && (
-        <p className="text-sm text-muted-foreground mb-4" style={{ maxWidth: "320px" }}>
+        <p className="text-sm text-muted-foreground mb-4 max-w-[320px]">
           {description}
         </p>
       )}

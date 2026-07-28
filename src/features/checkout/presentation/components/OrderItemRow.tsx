@@ -30,7 +30,7 @@ export function OrderItemRow({ item, onRemove }: OrderItemRowProps) {
   useLogLifecycle("OrderItemRow");
   return (
     <div
-      className="flex items-center gap-2 p-2 border border-slate-200 dark:border-slate-850 rounded-lg"
+      className="flex items-center gap-2 p-2 border border-slate-200 dark:border-slate-800 rounded-lg"
     >
       <div
         className="w-10 h-10 rounded overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800"

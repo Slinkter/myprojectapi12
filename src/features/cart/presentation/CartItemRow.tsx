@@ -1,7 +1,11 @@
 import { Trash2, Minus, Plus } from "lucide-react";
+import { Button } from "@/shared/ui/Button";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/CartContext";
+
+const qtyBtnClass =
+  "inline-flex items-center justify-center w-7 h-7 rounded-full border border-slate-300 dark:border-slate-600 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-colors";
 
 export interface CartItemRowProps {
   item: ICartItem;
@@ -31,7 +35,7 @@ export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
           <button
             type="button"
             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-            className="inline-flex items-center justify-center w-7 h-7 rounded-full border border-slate-300 dark:border-slate-600 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-colors"
+            className={qtyBtnClass}
             aria-label={`Reducir cantidad de ${item.title}`}
           >
             <Minus size={12} />
@@ -42,7 +46,7 @@ export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
           <button
             type="button"
             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-            className="inline-flex items-center justify-center w-7 h-7 rounded-full border border-slate-300 dark:border-slate-600 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 cursor-pointer transition-colors"
+            className={qtyBtnClass}
             aria-label={`Aumentar cantidad de ${item.title}`}
           >
             <Plus size={12} />
@@ -53,14 +57,15 @@ export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
         <p className="text-sm font-bold text-slate-800 dark:text-slate-200">
           ${(item.price * item.quantity).toFixed(2)}
         </p>
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="iconSm"
           onClick={() => onRemove(item.id)}
-          className="inline-flex items-center justify-center rounded-full text-sm font-medium h-8 w-8 hover:bg-red-50 dark:hover:bg-red-950/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/25 text-red-500 cursor-pointer border-none bg-transparent transition-all"
+          className="hover:bg-red-50 dark:hover:bg-red-950/20 focus-visible:ring-red-500/25 text-red-500"
           aria-label={`Eliminar ${item.title}`}
         >
           <Trash2 size={16} />
-        </button>
+        </Button>
       </div>
     </div>
   );

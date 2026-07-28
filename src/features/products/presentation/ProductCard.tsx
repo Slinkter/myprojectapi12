@@ -1,12 +1,47 @@
+/**
+ * @file ProductCard.tsx
+ * @description Componente de presentación para renderizar la tarjeta visual de producto.
+ * @architecture Presentation Layer - Product Component
+ */
+
 import React, { useCallback, useState, useRef } from 'react'
 import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLogLifecycle } from "@/shared/hooks";
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { useCart } from '@/features/cart/application/CartContext'
-import { getStockStatus } from '@/shared/lib/stockUtils'
+import { getStockStatus } from '@/entities/product'
 import type { IProduct } from '@/features/products/application/types'
 import { LazyImage } from '@/shared/ui/LazyImage';
 import { Eye, ShoppingBag } from 'lucide-react'
+
+/**
+ * Props para el componente ProductCard.
+ * @interface ProductCardProps
+ */
+export interface ProductCardProps {
+  /** Objeto de producto con datos dominiales. */
+  product: IProduct;
+}
+
+/**
+ * @component ProductCard
+ * Renderiza una tarjeta visual interactiva con la información esencial del producto.
+ *
+ * @remarks
+ * **Secuencia de carga:**
+ * 1. Recibe props (`product`) desde `ProductGrid` (padre).
+ * 2. `useReducedMotion` (framer-motion) -> decide si desactiva animaciones.
+ * 3. `m.div` con `variants` aplica `initial="hidden"` en espera de viewport.
+ * 4. `whileInView="visible"` dispara animación de entrada.
+ * 5. `<LazyImage>` carga la imagen diferida (IntersectionObserver).
+ * 6. Click en "Detalles" -> `useProductModal().openModal(product)`.
+ * 7. El modal (`ProductDetailModal`) se monta en portal con `AnimatePresence`.
+ * 8. Click en "Añadir" -> `useCart().addToCart(product)` -> toast + drawer.
+ *
+ * @param {ProductCardProps} props - Props del componente.
+ * @returns {JSX.Element | null} Elemento JSX renderizado o null si el producto es inválido.
+ * @see {@link ProductCardProps}
+ */
 
 const formatPrice = (price: number): string =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);

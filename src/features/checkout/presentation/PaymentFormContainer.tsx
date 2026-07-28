@@ -51,7 +51,7 @@ const PaymentFormContainer = ({ paymentMethod, cardProps }: PaymentFormContainer
   if (!showCardForm) {
     return (
       <div
-        className="flex flex-col items-center justify-center py-6 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-850 rounded-xl text-center"
+        className="flex flex-col items-center justify-center py-6 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl text-center"
       >
         <FaBitcoin className="w-10 h-10 text-amber-500 mb-3 animate-pulse" />
         <h3 className="text-base font-semibold text-slate-800 dark:text-slate-200">Pagar con Bitcoin</h3>

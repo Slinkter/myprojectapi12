@@ -10,16 +10,39 @@ import ProductDetailModal from "@/features/products/presentation/ProductDetailMo
 import { useDebounce, useLogLifecycle } from "@/shared/hooks";
 import { useCategories } from "@/features/products/application/useCategories";
 import { slideUp } from "@/shared/lib/animations";
-
 import { X, Sparkles, Package } from "lucide-react";
 
+/**
+ * @component HomeContent
+ * Renderiza el contenido principal de la página de inicio.
+ *
+ * @remarks
+ * **Secuencia de carga:**
+ * 1. `ProductModalProvider` envuelve todo (context para modal de detalle).
+ * 2. `FeatureErrorBoundary` atrapa errores de la feature Products.
+ * 3. `HomeContent` lee `category` de URL vía `useSearchParams`.
+ * 4. `SearchInput` -> debounce de 350ms vía `useDebounce`.
+ * 5. Hero section -> `m.div` con `slideUp` animation.
+ * 6. `ProductList` -> `useProducts(category)` -> `useInfiniteQuery`.
+ * 7. `ProductGrid` -> `m.div` con `whileInView` para lazy render.
+ * 8. `ProductCard` por cada producto (lazy render vía viewport).
+ * 9. Click en card -> `ProductDetailModal` (portal + AnimatePresence).
+ *
+ * @returns {JSX.Element} Vista principal de la tienda.
+ */
 export const HomeContent = () => {
     useLogLifecycle("HomeContent");
     const [searchParams, setSearchParams] = useSearchParams();
     const categoryQuery = searchParams.get("category") || undefined;
 
-    const { products, initialLoading, isLoading, error, loadMoreProducts, hasMore } =
-        useProducts(categoryQuery);
+    const {
+        products,
+        initialLoading,
+        isLoading,
+        error,
+        loadMoreProducts,
+        hasMore,
+    } = useProducts(categoryQuery);
 
     const { selectedProduct, isModalOpen, closeProductModal } =
         useProductModalContext();
@@ -36,7 +59,7 @@ export const HomeContent = () => {
                 p.title.toLowerCase().includes(lowerQuery) ||
                 p.description.toLowerCase().includes(lowerQuery) ||
                 p.category?.toLowerCase().includes(lowerQuery) ||
-                p.brand?.toLowerCase().includes(lowerQuery)
+                p.brand?.toLowerCase().includes(lowerQuery),
         );
     }, [debouncedSearch, products]);
 
@@ -49,7 +72,9 @@ export const HomeContent = () => {
         setSearchParams(searchParams);
     };
 
-    const activeCategoryName = categories?.find(c => c.slug === categoryQuery)?.name || categoryQuery;
+    const activeCategoryName =
+        categories?.find((c) => c.slug === categoryQuery)?.name ||
+        categoryQuery;
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -75,8 +100,9 @@ export const HomeContent = () => {
                     </span>
                 </h1>
                 <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed mt-4">
-                    Encuentra lo que necesitas con envíos rápidos, garantía extendida y precios justos.
-                    Más de 100 productos seleccionados para ti.
+                    Encuentra lo que necesitas con envíos rápidos, garantía
+                    extendida y precios justos. Más de 100 productos
+                    seleccionados para ti.
                 </p>
             </m.div>
 
@@ -85,12 +111,14 @@ export const HomeContent = () => {
                     value={searchQuery}
                     onChange={handleSearchChange}
                     placeholder="Buscar productos por nombre, descripción o categoría..."
-                    style={{ width: "100%" }}
+                    className="w-full"
                 />
 
                 {categoryQuery && (
                     <div className="flex items-center gap-2">
-                        <span className="text-sm text-slate-500 dark:text-slate-400">Categoría:</span>
+                        <span className="text-sm text-slate-500 dark:text-slate-400">
+                            Categoría:
+                        </span>
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary dark:bg-primary/20">
                             <Package size={12} />
                             {activeCategoryName}
@@ -108,7 +136,9 @@ export const HomeContent = () => {
 
                 {searchQuery && (
                     <p className="text-sm text-slate-500 dark:text-slate-400 text-center mt-1">
-                        {filteredProducts.length} resultado{filteredProducts.length !== 1 ? "s" : ""} para &quot;{searchQuery}&quot;
+                        {filteredProducts.length} resultado
+                        {filteredProducts.length !== 1 ? "s" : ""} para &quot;
+                        {searchQuery}&quot;
                     </p>
                 )}
             </div>

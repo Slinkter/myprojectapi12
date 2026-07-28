@@ -4,7 +4,7 @@ import { m, AnimatePresence } from "framer-motion";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/useCart";
 import { IProductDetailModalProps } from "@/features/products/application/types";
-import { getStockStatus } from "@/shared/lib/stockUtils";
+import { getStockStatus } from "@/entities/product";
 import { X, ShoppingBag } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
 import QuantityControl from "./components/QuantityControl";

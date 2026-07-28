@@ -28,7 +28,7 @@ const ProductGrid = memo(({ products }: IProductGridProps) => {
           whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-30px" }}
           transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
-          style={{ height: "100%" }}
+          className="h-full"
         >
           <ProductCard product={product} />
         </m.div>

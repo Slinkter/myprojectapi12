@@ -5,18 +5,9 @@
  */
 
 import { ChangeEvent } from "react";
+import type { ICartItem } from "@/entities/cart-item";
 
-/**
- * @interface CartItem
- * @description Estructura de un item en el contexto del checkout.
- * Mapea la información necesaria del producto y cantidad.
- */
-export interface ICartItem {
-    id: number;
-    title: string;
-    price: number;
-    quantity: number;
-}
+export type { ICartItem };
 
 /**
  * @type PaymentMethod

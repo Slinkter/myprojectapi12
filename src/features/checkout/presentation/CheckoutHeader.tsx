@@ -21,7 +21,7 @@ const CheckoutHeader = () => {
       <div className="flex items-center justify-between mb-3">
         <Link
           to="/"
-          className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors no-underline rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30"
+          className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors no-underline rounded-md focus-ring"
         >
           <ArrowLeft aria-hidden="true" className="h-4 w-4" /> Volver
         </Link>

@@ -15,6 +15,8 @@ export interface ISearchInputProps {
     placeholder?: string;
     /** Estilos CSS en línea adicionales. */
     style?: React.CSSProperties;
+    /** Clases CSS adicionales. */
+    className?: string;
 }
 
 /**
@@ -30,6 +32,7 @@ export interface ISearchInputProps {
  * @param props.onChange - Callback al escribir (recibe el nuevo string).
  * @param props.placeholder - Placeholder opcional (default: "Buscar productos...").
  * @param props.style - Estilos CSS opcionales.
+ * @param props.className - Clases CSS opcionales.
  * @returns Elemento JSX del input de búsqueda.
  */
 export function SearchInput({
@@ -37,6 +40,7 @@ export function SearchInput({
     onChange,
     placeholder = "Buscar productos...",
     style,
+    className,
 }: ISearchInputProps) {
     useLogLifecycle("SearchInput");
 
@@ -45,7 +49,7 @@ export function SearchInput({
     }, [onChange]);
 
     return (
-        <div className="relative" style={style}>
+        <div className={`relative ${className ?? ''}`} style={style}>
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
                 type="text"
@@ -53,13 +57,13 @@ export function SearchInput({
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
                 aria-label="Buscar productos"
-                className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm pl-9 pr-9 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+                className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm pl-9 pr-9 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-ring disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
             />
             {value && (
                 <button
                     type="button"
                     onClick={handleClear}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full text-sm font-medium h-10 w-10 hover:bg-accent hover:text-accent-foreground text-muted-foreground cursor-pointer border-none bg-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full text-sm font-medium h-10 w-10 hover:bg-accent hover:text-accent-foreground text-muted-foreground cursor-pointer border-none bg-transparent transition-colors focus-ring"
                     aria-label="Limpiar búsqueda"
                 >
                     <X size={14} />

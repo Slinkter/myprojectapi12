@@ -9,4 +9,4 @@
  * Este archivo los re-exporta para mantener compatibilidad con imports existentes.
  */
 
-export type { IProduct, IProductsApiResponse } from "@/shared/types/product";
+export type { IProduct, IProductsApiResponse } from "@/entities/product";

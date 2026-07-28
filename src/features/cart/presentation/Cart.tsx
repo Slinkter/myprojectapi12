@@ -25,6 +25,18 @@ const formatPrice = (price: number): string =>
  * (proceder al pago, vaciar carrito). Se cierra con clic en backdrop
  * o tecla Escape. Estado vacío muestra mensaje y botón para explorar.
  *
+ * @remarks
+ * **Secuencia de carga:**
+ * 1. `CartContext` provee `isDrawerOpen` + `closeDrawer`.
+ * 2. `AnimatePresence mode="wait"` controla entrada/salida del drawer.
+ * 3. Backdrop con `motion.div` -> fade-in.
+ * 4. Panel con `motion.div` -> slide-in desde la derecha (`x: "100%"` -> `x: 0`).
+ * 5. `CartHeader` renderiza título + botón cerrar.
+ * 6. `Cart` lista items vía `useCart().items`.
+ * 7. `CartItemRow` por cada item (con botón eliminar).
+ * 8. `CartFooter` muestra total + botón checkout.
+ * 9. Click en checkout -> `navigate("/checkout")`.
+ *
  * @returns {JSX.Element | null} Portal del drawer si isCartOpen es true, null en caso contrario
  */
 const Cart = () => {
@@ -103,14 +115,14 @@ const Cart = () => {
           </div>
 
           {/* Right: Close button */}
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="iconSm"
             onClick={closeCart}
             aria-label="Cerrar carrito"
-            className="flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30"
           >
             <X size={16} />
-          </button>
+          </Button>
         </div>
 
         {/* ── Scrollable Content ── */}

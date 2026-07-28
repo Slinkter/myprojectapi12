@@ -17,14 +17,9 @@ const CheckoutSuccess = lazy(
 );
 
 const AnimatedPage = ({ children }: { children: React.ReactNode }) => (
-  <m.div
-    variants={pageFadeIn}
-    initial="hidden"
-    animate="visible"
-    exit="exit"
-  >
-    {children}
-  </m.div>
+    <m.div variants={pageFadeIn} initial="hidden" animate="visible" exit="exit">
+        {children}
+    </m.div>
 );
 
 const AppRouter: React.FC = () => {
@@ -34,10 +29,38 @@ const AppRouter: React.FC = () => {
         <Suspense fallback={<Loader />}>
             <AnimatePresence mode="wait">
                 <Routes location={location} key={location.pathname}>
-                    <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />
-                    <Route path="/checkout" element={<AnimatedPage><Checkout /></AnimatedPage>} />
-                    <Route path="/checkout-success" element={<AnimatedPage><CheckoutSuccess /></AnimatedPage>} />
-                    <Route path="*" element={<AnimatedPage><Home /></AnimatedPage>} />
+                    <Route
+                        path="/"
+                        element={
+                            <AnimatedPage>
+                                <Home />
+                            </AnimatedPage>
+                        }
+                    />
+                    <Route
+                        path="/checkout"
+                        element={
+                            <AnimatedPage>
+                                <Checkout />
+                            </AnimatedPage>
+                        }
+                    />
+                    <Route
+                        path="/checkout-success"
+                        element={
+                            <AnimatedPage>
+                                <CheckoutSuccess />
+                            </AnimatedPage>
+                        }
+                    />
+                    <Route
+                        path="*"
+                        element={
+                            <AnimatedPage>
+                                <Home />
+                            </AnimatedPage>
+                        }
+                    />
                 </Routes>
             </AnimatePresence>
             <Cart />

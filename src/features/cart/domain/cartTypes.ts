@@ -1,19 +1,8 @@
 import { ReactNode } from "react";
-import type { IProduct } from "@/shared/types/product";
+import type { IProduct } from "@/entities/product";
+import type { ICartItem } from "@/entities/cart-item";
 
-// Re-exportamos IProduct para que los consumidores del dominio cart
-// puedan importarlo desde un único punto de entrada sin atravesar capas.
-export type { IProduct };
-
-/**
- * @interface ICartItem
- * @description Representa un producto dentro del carrito de compras.
- * Extiende IProduct añadiendo la cantidad seleccionada.
- */
-export interface ICartItem extends IProduct {
-    /** Número de unidades actualmente en el carrito */
-    quantity: number;
-}
+export type { IProduct, ICartItem };
 
 /**
  * Resultado de una comprobación de validación de un artículo del carrito.

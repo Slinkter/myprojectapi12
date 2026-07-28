@@ -1,3 +1,9 @@
+/**
+ * @file types.ts
+ * @description Tipos e interfaces dominiales de la entidad Product.
+ * @architecture Entity Layer - Product Model
+ */
+
 export interface IProduct {
     id: number;
     title: string;

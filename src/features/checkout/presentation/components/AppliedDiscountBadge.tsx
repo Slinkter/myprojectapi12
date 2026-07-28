@@ -6,6 +6,7 @@
 
 import { Check, X } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
+import { Button } from "@/shared/ui/Button";
 import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
 
 /**
@@ -39,14 +40,14 @@ export function AppliedDiscountBadge({ discount, onRemove }: AppliedDiscountBadg
             {discount.code} (-{discount.type === 'percentage' ? `${discount.discount}%` : `$${discount.discount}`})
           </span>
         </div>
-         <button
-          type="button"
-          className="inline-flex items-center justify-center rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 cursor-pointer border-none bg-transparent"
+         <Button
+          variant="ghost"
+          size="iconSm"
           onClick={onRemove}
           aria-label="Eliminar descuento"
         >
           <X className="h-3.5 w-3.5" />
-        </button>
+        </Button>
       </div>
     </div>
   )

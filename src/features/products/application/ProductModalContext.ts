@@ -20,5 +20,5 @@ import { IUseProductModalResult } from "@/features/products/application/types";
  * @see useProductModalContext - Hook consumidor con validación.
  */
 export const ProductModalContext = createContext<
-  IUseProductModalResult | undefined
+    IUseProductModalResult | undefined
 >(undefined);

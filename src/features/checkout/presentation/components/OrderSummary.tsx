@@ -89,7 +89,7 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
         />
       )}
 
-      <div className="flex flex-col gap-2 pt-3 border-t border-slate-200 dark:border-slate-850">
+      <div className="flex flex-col gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
         <PriceRow
           label={`Subtotal (${totalItems})`}
           value={`$${totalPrice.toFixed(2)}`}

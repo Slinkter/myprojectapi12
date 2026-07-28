@@ -3,6 +3,7 @@ import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 
 import { cn } from "@/shared/lib/cn"
+import { Button } from "@/shared/ui/Button"
 
 /** Contexto interno del diálogo. Proporciona estado de apertura y controlador. */
 interface IDialogContext {
@@ -121,14 +122,15 @@ const DialogContent = React.forwardRef<
         {...props}
       >
         {children}
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="iconSm"
           onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 rounded-full p-1 opacity-70 transition-all hover:opacity-100 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/25 disabled:pointer-events-none bg-transparent border-none text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 cursor-pointer flex items-center justify-center"
+          className="absolute right-4 top-4 opacity-70 hover:opacity-100"
+          aria-label="Close"
         >
           <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </button>
+        </Button>
       </div>
     </>,
     document.body

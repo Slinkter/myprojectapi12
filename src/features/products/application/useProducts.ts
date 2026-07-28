@@ -6,10 +6,8 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProducts } from "@/features/products/infrastructure/productsApi";
-import type {
-    IProduct,
-    IUseProductsResult,
-} from "@/features/products/application/types";
+import type { IProduct } from "@/features/products/application/types";
+import type { IUseProductsResult } from "@/features/products/application/types";
 
 /** Cantidad de productos por página para la paginación infinita. */
 const PRODUCTS_PER_PAGE = 20;
@@ -28,15 +26,11 @@ const PRODUCTS_PER_PAGE = 20;
  * @see IUseProductsResult - Estructura completa del valor retornado.
  * @see getProducts - Función de infraestructura que realiza la petición HTTP.
  */
-export const useProducts = (category?: string): IUseProductsResult => {
-    const {
-        isLoading: isInitialLoading,
-        error,
-        data,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage,
-    } = useInfiniteQuery({
+/**
+ * Hook interno para ejecutar la consulta de paginación infinita con React Query.
+ */
+function useProductsQuery(category?: string) {
+    return useInfiniteQuery({
         queryKey: ["products", category] as const,
         queryFn: async ({ pageParam = 1 }) => {
             const skip = (pageParam - 1) * PRODUCTS_PER_PAGE;
@@ -50,17 +44,40 @@ export const useProducts = (category?: string): IUseProductsResult => {
         },
         initialPageParam: 1,
     });
+}
 
-    const products: IProduct[] =
-        data?.pages.flatMap((page) => page.products) ?? [];
+/**
+ * Hook interno para aplanar las páginas devueltas por React Query.
+ */
+function useFlattenedProducts(data: ReturnType<typeof useProductsQuery>["data"]): IProduct[] {
+    return data?.pages.flatMap((page) => page.products) ?? [];
+}
+
+/**
+ * Hook para obtener y gestionar la lista de productos con paginación infinita.
+ *
+ * @remarks
+ * Utiliza `useInfiniteQuery` de TanStack Query con queryKey `["products", category]`.
+ * - `staleTime` por defecto de React Query (0ms).
+ * - Cada página solicita `PRODUCTS_PER_PAGE` (20) elementos.
+ * - `getNextPageParam` calcula si hay más páginas basándose en el total devuelto por la API.
+ *
+ * @param category - Categoría opcional para filtrar los productos. Cambiar este valor reinicia la consulta.
+ * @returns Objeto con la lista plana de productos, estados de carga y control de paginación.
+ * @see IUseProductsResult - Estructura completa del valor retornado.
+ * @see getProducts - Función de infraestructura que realiza la petición HTTP.
+ */
+export const useProducts = (category?: string): IUseProductsResult => {
+    const query = useProductsQuery(category);
+    const products = useFlattenedProducts(query.data);
 
     return {
         products,
-        error: error?.message || null,
-        isLoading: isInitialLoading || isFetchingNextPage,
-        initialLoading: isInitialLoading,
-        hasMore: hasNextPage ?? false,
-        loadMoreProducts: fetchNextPage,
-        isLoadingMore: isFetchingNextPage,
+        error: query.error?.message || null,
+        isLoading: query.isLoading || query.isFetchingNextPage,
+        initialLoading: query.isLoading,
+        hasMore: query.hasNextPage ?? false,
+        loadMoreProducts: query.fetchNextPage,
+        isLoadingMore: query.isFetchingNextPage,
     };
 };

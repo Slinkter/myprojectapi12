@@ -1,3 +1,9 @@
+/**
+ * @file Navbar.tsx
+ * @description Barra de navegación principal de la aplicación.
+ * @architecture Widget Layer - Navigation Bar
+ */
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { m, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -20,6 +26,19 @@ import {
  * @component NavLogo
  * @description Logo animado de la aplicación con enlace a la página de inicio.
  * Muestra el nombre "MyProjectAPI12" con un icono de bolsa de compras.
+ *
+ * @remarks
+ * **Secuencia de carga:**
+ * 1. `useCart()` -> lee items para badge de cantidad.
+ * 2. `useTheme()` -> lee estado para toggle sun/moon.
+ * 3. `useCategories()` -> carga categorías de la API.
+ * 4. `Link` (react-router) -> navegación interna.
+ * 5. Búsqueda: input expand-on-click -> dispatch de evento `input` en HomeContent.
+ * 6. Categorías: dropdown animado con `AnimatePresence` + `layoutId`.
+ * 7. Tema: `ThemeSwitcher` -> `toggleDarkMode()`.
+ * 8. Carrito: badge con `m.span animate={{ scale }}` -> click abre drawer.
+ * 9. Mobile: hamburger menu con `AnimatePresence` -> `motion.nav` slide-down.
+ *
  * @returns {JSX.Element} Elemento Link con el logo y nombre de la marca.
  */
 const NavLogo = () => (
@@ -90,6 +109,9 @@ const NavLink = ({
  * @param {string} [props.className] - Clases CSS adicionales.
  * @returns {JSX.Element} Botón animado con ícono.
  */
+const actionBtnClass =
+    "flex items-center justify-center w-10 h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:ring-offset-1";
+
 const ActionBtn = ({
     onClick,
     label,
@@ -107,7 +129,7 @@ const ActionBtn = ({
         aria-label={label}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`flex items-center justify-center w-10 h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:ring-offset-1 ${className ?? ""}`}
+        className={`${actionBtnClass} ${className ?? ""}`}
     >
         {children}
     </m.button>

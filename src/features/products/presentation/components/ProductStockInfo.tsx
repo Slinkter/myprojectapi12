@@ -1,4 +1,4 @@
-import { StockStatus } from "@/shared/lib/stockUtils";
+import { StockStatus } from "@/entities/product";
 import { cn } from "@/shared/lib/cn";
 
 /**
