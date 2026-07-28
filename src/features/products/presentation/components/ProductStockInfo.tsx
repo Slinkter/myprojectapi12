@@ -5,7 +5,7 @@ import { cn } from "@/shared/lib/cn";
  * @interface ProductStockInfoProps
  * @description Propiedades del componente ProductStockInfo.
  */
-interface ProductStockInfoProps {
+export interface ProductStockInfoProps {
   /** Cantidad de unidades en inventario. */
   stock: number;
   /** Estado del stock: 'ok', 'low' o 'out'. */

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import type { IProduct } from "@/features/products/domain/productTypes";
+import type { IProduct } from "@/shared/types/product";
 
 // Re-exportamos IProduct para que los consumidores del dominio cart
 // puedan importarlo desde un único punto de entrada sin atravesar capas.

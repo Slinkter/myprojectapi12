@@ -4,7 +4,7 @@ import { IProduct } from "@/features/products/domain/productTypes";
  * @interface ProductHeaderProps
  * @description Propiedades del componente ProductHeader.
  */
-interface ProductHeaderProps {
+export interface ProductHeaderProps {
   /** Producto del cual se mostrará la cabecera. */
   product: IProduct;
 }

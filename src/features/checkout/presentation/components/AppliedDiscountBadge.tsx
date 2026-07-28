@@ -6,22 +6,13 @@
 
 import { Check, X } from 'lucide-react'
 import { useLogLifecycle } from "@/shared/hooks";
-
-/**
- * @interface IDiscountCode
- * @description Estructura de un código de descuento aplicado.
- */
-interface IDiscountCode {
-  code: string
-  discount: number
-  type: 'percentage' | 'fixed'
-}
+import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
 
 /**
  * @interface AppliedDiscountBadgeProps
  * @description Propiedades del componente AppliedDiscountBadge.
  */
-interface AppliedDiscountBadgeProps {
+export interface AppliedDiscountBadgeProps {
   /** Código de descuento aplicado */
   discount: IDiscountCode
   /** Callback para eliminar el descuento */

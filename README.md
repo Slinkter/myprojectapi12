@@ -132,6 +132,89 @@ index.html
               └── AppRouter            ← Qué página mostrar
 ```
 
+<svg viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;display:block;margin:0 auto">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <marker id="arrow-down" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L5,10 L10,0 Z" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-up" viewBox="0 0 10 10" refX="5" refY="0" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,10 L5,0 L10,10 Z" fill="#ea580c"/>
+    </marker>
+  </defs>
+
+  <rect width="600" height="560" fill="url(#bgGrad)" rx="16"/>
+
+  <text x="300" y="28" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="bold" font-family="sans-serif">🏗️ Cadena de Providers — Torre Isométrica</text>
+  <text x="300" y="44" text-anchor="middle" fill="#64748b" font-size="11" font-family="sans-serif">(de afuera hacia adentro = de abajo hacia arriba)</text>
+
+  <!-- L8: QueryClientProvider (w=200, z0=0) -->
+  <polygon points="300,296 473.2,396 300,496 126.8,396" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="0.5"/>
+  <polygon points="300,320 473.2,420 473.2,396 300,296" fill="#cbd5e1"/>
+  <polygon points="300,320 126.8,420 126.8,396 300,296" fill="#94a3b8"/>
+  <text x="300" y="404" text-anchor="middle" fill="#1e293b" font-size="13" font-weight="bold" font-family="sans-serif">QueryClientProvider</text>
+  <text x="300" y="418" text-anchor="middle" fill="#475569" font-size="9" font-family="sans-serif">TanStack Query — Caché de datos</text>
+
+  <!-- L7: ThemeProvider (w=180, z0=24) -->
+  <polygon points="300,282 455.9,372 300,462 144.1,372" fill="#fce4ec" stroke="#f48fb1" stroke-width="0.5"/>
+  <polygon points="300,306 455.9,396 455.9,372 300,282" fill="#f48fb1"/>
+  <polygon points="300,306 144.1,396 144.1,372 300,282" fill="#e91e63"/>
+  <text x="300" y="378" text-anchor="middle" fill="#880e4f" font-size="13" font-weight="bold" font-family="sans-serif">ThemeProvider</text>
+  <text x="300" y="392" text-anchor="middle" fill="#ad1457" font-size="9" font-family="sans-serif">Context API — Modo oscuro/claro</text>
+
+  <!-- L6: CartProvider (w=160, z0=48) -->
+  <polygon points="300,268 438.6,348 300,428 161.4,348" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="0.5"/>
+  <polygon points="300,292 438.6,372 438.6,348 300,268" fill="#a5d6a7"/>
+  <polygon points="300,292 161.4,372 161.4,348 300,268" fill="#66bb6a"/>
+  <text x="300" y="354" text-anchor="middle" fill="#1b5e20" font-size="13" font-weight="bold" font-family="sans-serif">CartProvider</text>
+  <text x="300" y="368" text-anchor="middle" fill="#2e7d32" font-size="9" font-family="sans-serif">Context + useReducer + localStorage</text>
+
+  <!-- L5: BrowserRouter (w=140, z0=72) -->
+  <polygon points="300,254 421.2,324 300,394 178.8,324" fill="#e8eaf6" stroke="#9fa8da" stroke-width="0.5"/>
+  <polygon points="300,278 421.2,348 421.2,324 300,254" fill="#9fa8da"/>
+  <polygon points="300,278 178.8,348 178.8,324 300,254" fill="#5c6bc0"/>
+  <text x="300" y="330" text-anchor="middle" fill="#1a237e" font-size="13" font-weight="bold" font-family="sans-serif">BrowserRouter</text>
+  <text x="300" y="344" text-anchor="middle" fill="#283593" font-size="9" font-family="sans-serif">React Router — URLs y rutas</text>
+
+  <!-- L4: LazyMotion (w=120, z0=96) -->
+  <polygon points="300,240 403.9,300 300,360 196.1,300" fill="#fff8e1" stroke="#ffe082" stroke-width="0.5"/>
+  <polygon points="300,264 403.9,324 403.9,300 300,240" fill="#ffe082"/>
+  <polygon points="300,264 196.1,324 196.1,300 300,240" fill="#ffc107"/>
+  <text x="300" y="306" text-anchor="middle" fill="#e65100" font-size="13" font-weight="bold" font-family="sans-serif">LazyMotion</text>
+  <text x="300" y="320" text-anchor="middle" fill="#ef6c00" font-size="9" font-family="sans-serif">Framer Motion — Animaciones</text>
+
+  <!-- L3: ErrorBoundary (w=100, z0=120) -->
+  <polygon points="300,226 386.6,276 300,326 213.4,276" fill="#ffebee" stroke="#ef9a9a" stroke-width="0.5"/>
+  <polygon points="300,250 386.6,300 386.6,276 300,226" fill="#ef9a9a"/>
+  <polygon points="300,250 213.4,300 213.4,276 300,226" fill="#e53935"/>
+  <text x="300" y="282" text-anchor="middle" fill="#b71c1c" font-size="13" font-weight="bold" font-family="sans-serif">ErrorBoundary</text>
+  <text x="300" y="296" text-anchor="middle" fill="#c62828" font-size="9" font-family="sans-serif">Atrapa errores de componentes</text>
+
+  <!-- L2: Layout (w=80, z0=144) -->
+  <polygon points="300,212 369.3,252 300,292 230.7,252" fill="#e0f7fa" stroke="#80deea" stroke-width="0.5"/>
+  <polygon points="300,236 369.3,276 369.3,252 300,212" fill="#80deea"/>
+  <polygon points="300,236 230.7,276 230.7,252 300,212" fill="#00bcd4"/>
+  <text x="300" y="258" text-anchor="middle" fill="#004d40" font-size="13" font-weight="bold" font-family="sans-serif">Layout</text>
+  <text x="300" y="272" text-anchor="middle" fill="#00695c" font-size="9" font-family="sans-serif">Navbar + main + Toaster</text>
+
+  <!-- L1: AppRouter (w=60, z0=168) -->
+  <polygon points="300,198 352,228 300,258 248,228" fill="#e8f5e9" stroke="#81c784" stroke-width="0.5"/>
+  <polygon points="300,222 352,252 352,228 300,198" fill="#81c784"/>
+  <polygon points="300,222 248,252 248,228 300,198" fill="#4caf50"/>
+  <text x="300" y="234" text-anchor="middle" fill="#1b5e20" font-size="13" font-weight="bold" font-family="sans-serif">AppRouter</text>
+  <text x="300" y="248" text-anchor="middle" fill="#2e7d32" font-size="9" font-family="sans-serif">lazy() + Suspense — Páginas</text>
+
+  <!-- Flechas laterales -->
+  <line x1="520" y1="430" x2="520" y2="210" stroke="#64748b" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow-down)"/>
+  <text x="530" y="330" fill="#64748b" font-size="11" font-family="sans-serif" transform="rotate(-90,530,330)">⬆ Datos fluyen hacia adentro (contexto)</text>
+
+  <line x1="70" y1="210" x2="70" y2="430" stroke="#ea580c" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow-up)"/>
+  <text x="22" y="330" fill="#ea580c" font-size="11" font-family="sans-serif" transform="rotate(90,22,330)">⬆ Componentes renderizan hacia afuera</text>
+</svg>
+
 **¿Qué hace cada provider?**
 
 1. **QueryClientProvider** — Crea un *cliente* de TanStack Query que se encarga de pedir datos a la API y guardarlos en caché. Todos los componentes pueden usarlo sin tener que importar `fetch` cada vez. El caché permite que si vuelves a una página, los datos aparezcan al instante.
@@ -152,14 +235,72 @@ index.html
 
 **Diagrama de flujo de datos:**
 
-```
-Usuario hace clic en "Agregar al carrito"
-  → ProductCard llama a addToCart(producto)
-    → CartContext actualiza el estado (useReducer)
-      → Guarda en localStorage
-        → CartDrawer se re-renderiza con el nuevo total
-          → El usuario ve el cambio en pantalla
-```
+<svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;display:block;margin:0 auto">
+  <defs>
+    <marker id="flow-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#0ea5e9"/>
+    </marker>
+    <linearGradient id="bgFlow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f9ff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="340" fill="url(#bgFlow)" rx="16"/>
+
+  <text x="300" y="28" text-anchor="middle" fill="#0c4a6e" font-size="15" font-weight="bold" font-family="sans-serif">🔄 Flujo de Datos — Tubería Isométrica</text>
+
+  <!-- Block 1: Usuario (click) -->
+  <polygon points="80,270 170,270 200,250 110,250" fill="#e0e7ff" stroke="#818cf8" stroke-width="1"/>
+  <polygon points="80,270 80,240 110,220 110,250" fill="#a5b4fc"/>
+  <polygon points="80,240 170,240 200,220 110,220" fill="#c7d2fe" stroke="#818cf8" stroke-width="1"/>
+  <text x="140" y="266" text-anchor="middle" fill="#3730a3" font-size="11" font-weight="bold" font-family="sans-serif">👆 Usuario</text>
+  <text x="140" y="280" text-anchor="middle" fill="#4338ca" font-size="9" font-family="sans-serif">Clic "Agregar"</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="200" y1="250" x2="260" y2="225" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#flow-arrow)"/>
+
+  <!-- Block 2: ProductCard -->
+  <polygon points="270,240 360,240 390,220 300,220" fill="#d1fae5" stroke="#34d399" stroke-width="1"/>
+  <polygon points="270,240 270,210 300,190 300,220" fill="#6ee7b7"/>
+  <polygon points="270,210 360,210 390,190 300,190" fill="#a7f3d0" stroke="#34d399" stroke-width="1"/>
+  <text x="330" y="236" text-anchor="middle" fill="#065f46" font-size="11" font-weight="bold" font-family="sans-serif">📦 ProductCard</text>
+  <text x="330" y="250" text-anchor="middle" fill="#047857" font-size="9" font-family="sans-serif">addToCart(producto)</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="390" y1="220" x2="450" y2="200" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#flow-arrow)"/>
+
+  <!-- Block 3: CartContext -->
+  <polygon points="460,215 550,215 580,195 490,195" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+  <polygon points="460,215 460,185 490,165 490,195" fill="#fde68a"/>
+  <polygon points="460,185 550,185 580,165 490,165" fill="#fef9c3" stroke="#fbbf24" stroke-width="1"/>
+  <text x="520" y="211" text-anchor="middle" fill="#78350f" font-size="11" font-weight="bold" font-family="sans-serif">🛒 CartContext</text>
+  <text x="520" y="225" text-anchor="middle" fill="#92400e" font-size="9" font-family="sans-serif">useReducer(ADD_ITEM)</text>
+
+  <!-- Flow line 3a: hacia localStorage -->
+  <line x1="520" y1="185" x2="520" y2="120" stroke="#64748b" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#flow-arrow)"/>
+
+  <!-- Block: localStorage -->
+  <rect x="490" y="85" width="60" height="30" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="520" y="103" text-anchor="middle" fill="#1e293b" font-size="10" font-family="sans-serif">💾 localStorage</text>
+
+  <!-- Flow line 3b: hacia CartDrawer -->
+  <line x1="565" y1="195" x2="625" y2="140" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#flow-arrow)"/>
+
+  <!-- Block 4: CartDrawer -->
+  <polygon points="630,140 680,115 710,95 660,120" fill="#e0e7ff" stroke="#818cf8" stroke-width="1"/>
+  <polygon points="630,140 630,110 660,90 660,120" fill="#a5b4fc"/>
+  <polygon points="660,120 710,95 710,65 660,90" fill="#c7d2fe" stroke="#818cf8" stroke-width="1"/>
+  <text x="670" y="118" text-anchor="middle" fill="#3730a3" font-size="10" font-weight="bold" font-family="sans-serif">🖼️ CartDrawer</text>
+  <text x="670" y="130" text-anchor="middle" fill="#4338ca" font-size="8" font-family="sans-serif">Re-render con total</text>
+
+  <!-- Arrow 4→5 (back to user) -->
+  <path d="M 680,90 Q 680,50 140,50 Q 50,50 50,200" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#flow-arrow)"/>
+  <text x="400" y="48" text-anchor="middle" fill="#64748b" font-size="9" font-family="sans-serif">⬅ El usuario ve el cambio en pantalla</text>
+
+  <!-- Etiqueta de paso -->
+  <text x="300" y="305" text-anchor="middle" fill="#64748b" font-size="10" font-family="sans-serif">Cada paso dispara el siguiente automáticamente (React re-renderiza)</text>
+</svg>
 
 ### 📝 Resumen Cornell
 
@@ -447,6 +588,81 @@ cart/
 ├── application/     ← Lógica (CartContext, cartReducer, useCart)
 ├── infrastructure/  ← Comunicación externa (no usado en cart, pero sí en products)
 └── presentation/    ← Componentes visuales (CartDrawer, CartItemRow)
+```
+
+### 📐 Diagrama Isométrico 3D — Pastel de Capas FSD
+
+<svg viewBox="0 0 600 520" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;display:block;margin:0 auto">
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00000030"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="600" height="520" fill="#f8fafc" rx="16"/>
+
+  <!-- Título -->
+  <text x="300" y="35" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="bold" font-family="sans-serif">🧱 Arquitectura FSD — Capas Isométricas</text>
+
+  <!-- L1: shared/ (slate) -->
+  <polygon points="126.8,396 473.2,396 300,496 126.8,396" fill="#cbd5e1"/>
+  <polygon points="300,320 473.2,420 473.2,396 300,296" fill="#94a3b8"/>
+  <polygon points="300,320 126.8,420 126.8,396 300,296" fill="#64748b"/>
+  <polygon points="300,296 473.2,396 300,496 126.8,396" fill="#e2e8f0" stroke="#94a3b8" stroke-width="0.5"/>
+  <text x="300" y="402" text-anchor="middle" fill="#1e293b" font-size="15" font-weight="bold" font-family="sans-serif">shared/</text>
+  <text x="300" y="418" text-anchor="middle" fill="#475569" font-size="10" font-family="sans-serif">api · hooks · ui · lib · constants</text>
+
+  <!-- L2: features/ (sky) -->
+  <polygon points="126.8,372 473.2,372 300,472 126.8,372" fill="#7dd3fc"/>
+  <polygon points="300,296 473.2,396 473.2,372 300,272" fill="#38bdf8"/>
+  <polygon points="300,296 126.8,396 126.8,372 300,272" fill="#0ea5e9"/>
+  <polygon points="300,272 473.2,372 300,472 126.8,372" fill="#bae6fd" stroke="#38bdf8" stroke-width="0.5"/>
+  <text x="300" y="378" text-anchor="middle" fill="#0c4a6e" font-size="15" font-weight="bold" font-family="sans-serif">features/</text>
+  <text x="300" y="394" text-anchor="middle" fill="#0369a1" font-size="10" font-family="sans-serif">cart · checkout · products · theme</text>
+
+  <!-- L3: pages/ (violet) -->
+  <polygon points="126.8,348 473.2,348 300,448 126.8,348" fill="#c4b5fd"/>
+  <polygon points="300,272 473.2,372 473.2,348 300,248" fill="#a78bfa"/>
+  <polygon points="300,272 126.8,372 126.8,348 300,248" fill="#8b5cf6"/>
+  <polygon points="300,248 473.2,348 300,448 126.8,348" fill="#ddd6fe" stroke="#a78bfa" stroke-width="0.5"/>
+  <text x="300" y="354" text-anchor="middle" fill="#f5f3ff" font-size="15" font-weight="bold" font-family="sans-serif">pages/</text>
+  <text x="300" y="370" text-anchor="middle" fill="#ddd6fe" font-size="10" font-family="sans-serif">Home · (futuro: Checkout, About)</text>
+
+  <!-- L4: app/ (emerald) -->
+  <polygon points="126.8,324 473.2,324 300,424 126.8,324" fill="#6ee7b7"/>
+  <polygon points="300,248 473.2,348 473.2,324 300,224" fill="#34d399"/>
+  <polygon points="300,248 126.8,348 126.8,324 300,224" fill="#10b981"/>
+  <polygon points="300,224 473.2,324 300,424 126.8,324" fill="#a7f3d0" stroke="#34d399" stroke-width="0.5"/>
+  <text x="300" y="330" text-anchor="middle" fill="#064e3b" font-size="15" font-weight="bold" font-family="sans-serif">app/</text>
+  <text x="300" y="346" text-anchor="middle" fill="#065f46" font-size="10" font-family="sans-serif">config · routing · providers</text>
+
+  <!-- Eje Z (flecha arriba) -->
+  <line x1="520" y1="420" x2="520" y2="220" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,3"/>
+  <polygon points="520,215 514,228 526,228" fill="#94a3b8"/>
+  <text x="530" y="215" fill="#64748b" font-size="11" font-family="sans-serif">⬆ Dependencias</text>
+  <text x="530" y="228" fill="#94a3b8" font-size="9" font-family="sans-serif">(solo importan hacia abajo)</text>
+
+  <!-- Eje X (flecha) -->
+  <line x1="60" y1="460" x2="210" y2="460" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,3"/>
+  <polygon points="215,460 202,454 202,466" fill="#94a3b8"/>
+  <text x="65" y="455" fill="#64748b" font-size="11" font-family="sans-serif">⬇ Reutilización creciente</text>
+</svg>
+
+```
+       🔝 app/        ← Configuración global (providers, router)
+          📄 pages/    ← Páginas completas (Home)
+            🧩 features/ ← Funcionalidades del negocio
+              🧰 shared/ ← Código reusable (api, hooks, ui)
+```
+       🔝 app/        ← Configuración global (providers, router)
+          📄 pages/    ← Páginas completas (Home)
+            🧩 features/ ← Funcionalidades del negocio
+              🧰 shared/ ← Código reusable (api, hooks, ui)
 ```
 
 **¿Por qué hacer esta separación?**

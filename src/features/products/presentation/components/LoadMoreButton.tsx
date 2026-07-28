@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
  * @interface ILoadMoreButtonProps
  * @description Propiedades del componente LoadMoreButton.
  */
-interface ILoadMoreButtonProps {
+export interface ILoadMoreButtonProps {
     /** Callback ejecutado al hacer clic en el botón. */
     onClick: () => void;
     /** Indica si hay una carga en progreso (deshabilita el botón y muestra spinner). */

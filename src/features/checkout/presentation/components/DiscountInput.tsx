@@ -11,7 +11,7 @@ import { Button } from '@/shared/ui/Button';
  * @interface DiscountInputProps
  * @description Propiedades del componente DiscountInput.
  */
-interface DiscountInputProps {
+export interface DiscountInputProps {
   /** Código de descuento ingresado por el usuario */
   code: string
   /** Indica si se está validando el código */

@@ -6,7 +6,7 @@ import { useLogLifecycle } from "@/shared/hooks";
  * @interface ILoadMoreSectionProps
  * @description Propiedades del componente LoadMoreSection.
  */
-interface ILoadMoreSectionProps {
+export interface ILoadMoreSectionProps {
   /** Lista de productos cargados actualmente. */
   products: IProduct[];
   /** Indica si existen más páginas disponibles. */

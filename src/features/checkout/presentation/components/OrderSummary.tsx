@@ -17,7 +17,7 @@ import { useDiscountValidation, calculateDiscountAmount } from '@/features/check
  * @interface IOrderSummaryProps
  * @description Propiedades del componente OrderSummary.
  */
-interface IOrderSummaryProps {
+export interface IOrderSummaryProps {
   /** Items del carrito a mostrar en el resumen */
   items: ICartItem[]
   /** Precio total del carrito */

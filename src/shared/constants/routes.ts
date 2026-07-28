@@ -9,5 +9,8 @@ export const ROUTES = {
   NOT_FOUND: '*',
 } as const
 
-/** Tipo que representa cualquier ruta válida de la aplicación, derivada del objeto ROUTES. */
-export type AppRoute = typeof ROUTES[keyof typeof ROUTES]
+/** Tipo que representa cualquier ruta válida de la aplicación, excluyendo funciones. */
+export type AppRoute = '/' | '/products' | '/cart' | '/checkout' | '/checkout-success' | '*'
+
+/** Tipo para la función generadora de ruta de detalle de producto. */
+export type ProductDetailRoute = (id: string | number) => string

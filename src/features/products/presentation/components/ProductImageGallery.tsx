@@ -5,7 +5,7 @@ import { cn } from "@/shared/lib/cn";
  * @interface ProductImageGalleryProps
  * @description Propiedades del componente ProductImageGallery.
  */
-interface ProductImageGalleryProps {
+export interface ProductImageGalleryProps {
   /** Array de URLs de imágenes adicionales del producto. */
   images?: string[];
   /** URL de la imagen miniatura principal. */

@@ -7,7 +7,7 @@ import { StockStatus } from "@/shared/lib/stockUtils";
  * @interface AddToCartActionsProps
  * @description Propiedades del componente AddToCartActions.
  */
-interface AddToCartActionsProps {
+export interface AddToCartActionsProps {
   /** Cantidad actual seleccionada. */
   quantity: number;
   /** Stock máximo disponible del producto. */

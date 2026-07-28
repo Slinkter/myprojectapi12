@@ -5,7 +5,7 @@
  */
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
-import Navbar from "@/shared/ui/Navbar";
+import Navbar from "@/widgets/Navbar";
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**
@@ -13,7 +13,7 @@ import { useLogLifecycle } from "@/shared/hooks";
  * @description Propiedades del layout principal de la aplicación.
  * @property {ReactNode} children - Contenido a renderizar dentro del layout.
  */
-interface ILayoutProps {
+export interface ILayoutProps {
     children: ReactNode;
 }
 

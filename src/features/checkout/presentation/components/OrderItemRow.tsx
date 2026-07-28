@@ -12,7 +12,7 @@ import { useLogLifecycle } from "@/shared/hooks";
  * @interface OrderItemRowProps
  * @description Propiedades del componente OrderItemRow.
  */
-interface OrderItemRowProps {
+export interface OrderItemRowProps {
   /** Item del carrito a mostrar */
   item: ICartItem
   /** Callback para eliminar el item del carrito */

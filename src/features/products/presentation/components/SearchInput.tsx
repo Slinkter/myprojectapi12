@@ -6,7 +6,7 @@ import { Search, X } from "lucide-react";
  * @interface ISearchInputProps
  * @description Propiedades del componente SearchInput.
  */
-interface ISearchInputProps {
+export interface ISearchInputProps {
     /** Valor actual del campo de búsqueda. */
     value: string;
     /** Callback que se dispara al escribir en el input. */

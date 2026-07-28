@@ -52,7 +52,7 @@ const StarRating = ({ rating }: { rating: number }) => {
   );
 };
 
-interface IProductCardProps {
+export interface IProductCardProps {
   product: IProduct
 }
 

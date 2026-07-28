@@ -20,11 +20,12 @@
 - Orden de providers en `src/App.tsx` (no reordenar sin razón): `QueryClientProvider → ThemeProvider → CartProvider → BrowserRouter → LazyMotion → ErrorBoundary → Layout → AppRouter`.
 - Enrutamiento: `src/app/routing/AppRouter.tsx`. Rutas con `lazy()`: `Home`, `Checkout`, `CheckoutSuccess`. La ruta comodín `*` también renderiza `Home`.
 - Estructura por feature (FSD-like): `src/features/<feature>/{domain,application,infrastructure,presentation}` — ver `docs/architecture/OVERVIEW.md`.
-- Aliases (deben coincidir en `vite.config.js` y `tsconfig.json`): `@/`, `@shared/`, `@features/`, `@pages/`, `@entities/`, `@widgets/`. **Ojo:** `@entities/` y `@widgets/` están configurados pero las carpetas no existen todavía.
+- Aliases (deben coincidir en `vite.config.js` y `tsconfig.json`): `@/`, `@shared/`, `@features/`, `@pages/`, `@entities/`, `@widgets/`. **Ojo:** `@entities/` está configurado pero la carpeta no existe todavía.
+- **Navbar** está en `src/widgets/Navbar.tsx` (NO en `shared/ui/`) porque necesita imports de features. `Layout.tsx` lo importa desde `@/widgets/Navbar`.
 
 ## Gotchas (cosas que se rompen en silencio)
 - **GitHub Pages:** `vite.config.js` define `base: "/myprojectapi12/"` y `BrowserRouter` usa `basename="/myprojectapi12/"` en `App.tsx`. **Ambos deben coincidir** o las rutas devuelven 404 / los assets no cargan.
-- **Variable de entorno de la API inconsistente:** `src/app/config/env.ts` lee `VITE_API_BASE_URL`; `src/shared/api/httpClient.ts` lee `VITE_API_URL`. Son dos clientes distintos — revisa cuál usa tu código antes de añadir env vars.
+- **Única variable de entorno API:** `VITE_API_URL`. Ambas implementaciones (`env.ts` y `httpClient.ts`) ahora usan la misma variable. Si cambias la API base, actualiza también la meta CSP en `index.html`.
 - **CSP** en `index.html` restringe `connect-src` a `https://dummyjson.com`. Si cambias la API base, actualiza también la meta CSP o el navegador bloqueará las peticiones.
 - **Sin `tailwind.config.js` ni `postcss.config.js`:** Tailwind v4 se configura vía `@tailwindcss/vite` y directivas en `src/index.css`. **No crees esos archivos** — están en `.eslintignore` precisamente para que no aparezcan.
 - **`react-refresh/only-export-components` (`warn`)** con `allowConstantExport: true`: en archivos `.tsx` exporta solo componentes (o constantes sueltas). No exportes hooks/utils desde un `.tsx` de componente.

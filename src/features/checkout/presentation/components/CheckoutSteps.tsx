@@ -12,7 +12,7 @@ import { cn } from "@/shared/lib/cn";
  * @interface ICheckoutStepsProps
  * @description Propiedades del componente CheckoutSteps.
  */
-interface ICheckoutStepsProps {
+export interface ICheckoutStepsProps {
   /** Lista de nombres de los pasos */
   steps: string[];
   /** Índice del paso actual (0-based) */

@@ -11,7 +11,7 @@ import { useLogLifecycle } from "@/shared/hooks";
  * @interface IQuantityControlProps
  * @description Props del componente QuantityControl.
  */
-interface IQuantityControlProps {
+export interface IQuantityControlProps {
   /** Cantidad actual seleccionada */
   quantity: number;
   /** Stock máximo disponible del producto */

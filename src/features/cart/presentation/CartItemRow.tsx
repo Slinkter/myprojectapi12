@@ -3,7 +3,7 @@ import type { ICartItem } from "@/features/cart/domain/cartTypes";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/CartContext";
 
-interface CartItemRowProps {
+export interface CartItemRowProps {
   item: ICartItem;
   onRemove: (id: number) => void;
 }

@@ -2,7 +2,7 @@
  * @interface ProductPriceSectionProps
  * @description Propiedades del componente ProductPriceSection.
  */
-interface ProductPriceSectionProps {
+export interface ProductPriceSectionProps {
   /** Precio actual del producto en USD. */
   price: number;
   /** Porcentaje de descuento opcional (ej. 10 para 10%). */

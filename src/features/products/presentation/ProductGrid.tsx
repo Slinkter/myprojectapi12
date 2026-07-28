@@ -5,7 +5,7 @@ import { m, useReducedMotion } from "framer-motion";
 import type { IProduct } from "@/features/products/application/types";
 import { staggerContainer } from "@/shared/lib/animations";
 
-interface IProductGridProps {
+export interface IProductGridProps {
   products: IProduct[];
 }
 

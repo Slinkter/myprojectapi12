@@ -16,7 +16,7 @@ import { useLogLifecycle } from "@/shared/hooks";
  * @property {React.ErrorInfo | null} errorInfo - Pila de componentes donde ocurrió el error.
  * @property {() => void} onReset - Función para reintentar y recuperar la aplicación.
  */
-interface IErrorFallbackProps {
+export interface IErrorFallbackProps {
     error: Error | null;
     errorInfo: React.ErrorInfo | null;
     onReset: () => void;

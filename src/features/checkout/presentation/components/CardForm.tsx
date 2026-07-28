@@ -16,7 +16,7 @@ import { useLogLifecycle } from "@/shared/hooks";
  * @interface ICardFormProps
  * @description Propiedades del componente CardForm.
  */
-interface ICardFormProps {
+export interface ICardFormProps {
   /** Datos actuales de la tarjeta */
   cardInfo: ICardInfo;
   /** Errores de validación del formulario */

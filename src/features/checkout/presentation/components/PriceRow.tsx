@@ -12,7 +12,7 @@ import { cn } from "@/shared/lib/cn";
  * @interface PriceRowProps
  * @description Propiedades del componente PriceRow.
  */
-interface PriceRowProps {
+export interface PriceRowProps {
   /** Texto descriptivo de la fila (ej. "Subtotal", "Envío") */
   label: React.ReactNode;
   /** Valor del precio a mostrar */

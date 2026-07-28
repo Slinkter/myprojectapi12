@@ -5,7 +5,7 @@ import { Button } from "@/shared/ui/Button";
  * @interface ModalCloseButtonProps
  * @description Propiedades del componente ModalCloseButton.
  */
-interface ModalCloseButtonProps {
+export interface ModalCloseButtonProps {
   /** Callback ejecutado al hacer clic en el botón de cerrar. */
   onClose: () => void;
 }

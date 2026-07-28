@@ -19,7 +19,7 @@ import {
 /**
  * @component NavLogo
  * @description Logo animado de la aplicación con enlace a la página de inicio.
- * Muestra el nombre "ShopAPI" con un icono de bolsa de compras.
+ * Muestra el nombre "MyProjectAPI12" con un icono de bolsa de compras.
  * @returns {JSX.Element} Elemento Link con el logo y nombre de la marca.
  */
 const NavLogo = () => (
