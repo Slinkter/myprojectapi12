@@ -1,152 +1,103 @@
-# Feature: Carrito de Compras
+# Módulo de Carrito de Compras (`src/features/cart`)
 
-El carrito de compras gestiona los productos seleccionados por el usuario, persistiendo el estado en `localStorage` y exponiendo acciones a través de Context API.
+## 📌 Descripción General
+
+El módulo `src/features/cart` es la feature encargada de gestionar el ciclo de vida completo del **Carrito de Compras** en la aplicación. 
+
+Está construido bajo los principios de la arquitectura **Feature-Sliced Design (FSD)** y **Clean Architecture**, dividiendo sus responsabilidades en 3 capas bien definidas: `domain`, `application` y `presentation`.
 
 ---
 
-## Estructura de Archivos
+## 🗂️ Estructura del Módulo
 
-```
+```text
 src/features/cart/
-├── domain/
-│   ├── cartTypes.ts       # ICartItem, ICartContextValue, IValidationResult
-│   ├── cart.types.ts      # CartItem, CartState, CartSummary (alternativo)
-│   └── cartUtils.ts       # Funciones puras: addItemToCart, removeItemFromCart, etc.
-├── application/
-│   ├── CartContext.tsx     # Contexto + Provider + hook useCart
-│   ├── useCart.ts          # Re-exportación de useCart
-│   └── hooks/
-│       ├── useCartActions.ts   # Acciones memoizadas con validación y toast
-│       └── useCartDrawer.ts    # Control de visibilidad del drawer
-└── presentation/
-    ├── Cart.tsx            # Drawer principal del carrito (portal)
-    ├── CartHeader.tsx      # Encabezado con título y botón de cierre
-    ├── CartFooter.tsx      # Pie con total, checkout y vaciar
-    ├── CartItemRow.tsx     # Fila individual de artículo
-    └── CartEmptyState.tsx  # Estado vacío
+├── 🧠 domain/          # Lógica de negocio pura (sin React/UI)
+│   ├── cartTypes.ts    # Contratos de interfaces del módulo
+│   └── cartUtils.ts    # Funciones matemáticas, de mutación inmutable y validación
+│
+├── ⚙️ application/     # Orquestación de estado reactivo y React Context
+│   ├── CartContext.tsx # Provider global del estado del carrito con persistencia
+│   ├── useCart.ts      # Custom hook de entrada pública para consumir el contexto
+│   └── hooks/          # Sub-hooks especializados
+│       ├── useCartActions.ts  # Acciones de mutación con validación y notificaciones
+│       └── useCartDrawer.ts   # Control de visibilidad del drawer lateral
+│
+└── 🎨 presentation/    # Interfaz de usuario (UI & Animaciones)
+    ├── Cart.tsx           # Componente principal (Drawer flotante mediante createPortal)
+    ├── CartHeader.tsx     # Encabezado del carrito con botón de cierre (X)
+    ├── CartItemRow.tsx    # Fila individual para renderizar cada producto
+    ├── CartFooter.tsx     # Pie del carrito con resumen de totales y enlace a checkout
+    └── CartEmptyState.tsx # Estado visual cuando el carrito no posee elementos
 ```
 
-## Tipos Principales
+---
 
-```typescript
-interface ICartItem extends IProduct {
-  quantity: number;
-}
+## 🔍 Detalle por Capa
 
-interface ICartContextValue {
-  cart: ICartItem[];
-  isCartOpen: boolean;
-  totalPrice: number;
-  totalItems: number;
-  addToCart: (product: IProduct, quantity: number) => void;
-  removeFromCart: (productId: number) => void;
-  clearCart: () => void;
-  openCart: () => void;
-  closeCart: () => void;
-  toggleCart: () => void;
-}
+### 1. 🧠 Capa de Dominio (`domain/`)
+Contiene las reglas de negocio puras. No depende de React, Hooks, DOM ni componentes visuales:
+- **`cartUtils.ts`**:
+  - `calculateTotal(cart)`: Suma pura del costo total ($).
+  - `addItemToCart(cart, product, quantity)`: Retorna un nuevo arreglo inmutable sumando cantidades o agregando ítems.
+  - `removeItemFromCart(cart, productId)`: Filtra y remueve un artículo.
+  - `validateCartItem(product, quantity)`: Verifica stock disponible y reglas de cantidad antes de alterar el estado.
+- **`cartTypes.ts`**:
+  - Re-exporta los tipos de la entidad `@entities/cart-item` y `@entities/product`.
+  - Define la interfaz `ICartContextValue` que expone el contexto al resto de la app.
+
+### 2. ⚙️ Capa de Aplicación (`application/`)
+Orquesta las funciones de dominio con el ciclo de vida de React y el almacenamiento del navegador:
+- **`CartContext.tsx`**: Provee el estado global del carrito. Utiliza el hook `useLocalStorage` (`api12-cart-storage`) para persistir automáticamente las selecciones del usuario aunque recargue la página.
+- **`useCartActions.ts`**: Centraliza los handlers de modificación (`addToCart`, `removeFromCart`, `updateQuantity`, `clearCart`) integrando toasts interactivos (`react-hot-toast`).
+- **`useCartDrawer.ts`**: Controla el estado booleano de apertura (`isCartOpen`) y funciones de alternancia (`openCart`, `closeCart`, `toggleCart`).
+- **`useCart.ts`**: Custom hook expuesto para consumir el contexto de manera sencilla y segura:
+  ```tsx
+  const { cart, addToCart, totalPrice } = useCart();
+  ```
+
+### 3. 🎨 Capa de Presentación (`presentation/`)
+Componentes gráficos construidos con **Tailwind CSS v4** y **Framer Motion**:
+- **`Cart.tsx`**: Drawer deslizable desde la derecha que se renderiza fuera del árbol DOM habitual mediante `createPortal`. Soporta cierre al hacer clic en el backdrop o presionar la tecla `Escape`.
+- **`CartItemRow.tsx`**: Representa cada producto con controles de cantidad `+` y `-`, cálculo individual y botón para eliminar.
+- **`CartFooter.tsx`**: Muestra el cálculo acumulado e inicia la navegación hacia la ruta `/checkout`.
+- **`CartEmptyState.tsx`**: Presentación visual sugerente cuando la lista de compras está vacía.
+
+---
+
+## 🔄 Flujo de Datos: Agregar un Producto al Carrito
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Usuario
+    participant Card as ProductCard (UI)
+    participant Hook as useCart (Application)
+    participant Actions as useCartActions (Application)
+    participant Domain as cartUtils (Domain)
+    participant Storage as useLocalStorage (Shared)
+    participant Drawer as Cart Drawer (UI)
+
+    Usuario->>Card: Clic en "Añadir al carrito"
+    Card->>Hook: Llama a addToCart(product, 1)
+    Hook->>Actions: Ejecuta la acción
+    Actions->>Domain: validateCartItem(product, 1)
+    alt Stock suficiente
+        Domain-->>Actions: Validado (isValid: true)
+        Actions->>Storage: Actualiza estado e incrementa en localStorage
+        Actions->>Actions: Muestra Toast de éxito
+        Actions->>Drawer: Dispara openCart()
+        Drawer-->>Usuario: Despliega el panel lateral con animaciones
+    else Stock insuficiente / Inválido
+        Domain-->>Actions: Error de validación (isValid: false)
+        Actions->>Actions: Muestra Toast de error
+    end
 ```
 
-## CartProvider (`CartContext.tsx`)
+---
 
-Provider que envuelve la aplicación y proporciona el contexto del carrito.
+## ⚡ Métricas de Rendimiento & Optimización
 
-```tsx
-const CART_STORAGE_KEY = "api12-cart-storage";
-
-export const CartProvider = ({ children }: ICartProviderProps) => {
-  const [cart, setCart] = useState<ICartItem[]>(() => {
-    const stored = localStorage.getItem(CART_STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  });
-
-  // Persistencia automática
-  useEffect(() => {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-  }, [cart]);
-
-  const { isCartOpen, openCart, closeCart, toggleCart } = useCartDrawer();
-  const { addToCart, removeFromCart, clearCart } = useCartActions(setCart, openCart);
-  const totalPrice = useMemo(() => calculateTotal(cart), [cart]);
-  const totalItems = useMemo(() => cart.reduce((sum, item) => sum + item.quantity, 0), [cart]);
-  // ...
-};
-```
-
-## useCartActions (`useCartActions.ts`)
-
-Hook que proporciona acciones memoizadas con:
-
-- **Validación** antes de agregar (`validateCartItem`)
-- **Notificaciones toast** en éxito/error
-- **Apertura automática** del drawer al agregar
-
-```typescript
-export const useCartActions = (
-  setCart: React.Dispatch<React.SetStateAction<ICartItem[]>>,
-  openCart: () => void,
-): IUseCartActionsReturn => {
-  const addToCart = useCallback((product: IProduct, quantity: number) => {
-    const validation = validateCartItem(product, quantity);
-    if (!validation.isValid) {
-      toast.error(validation.error || "Error al agregar el producto");
-      return;
-    }
-    setCart((prev) => addItemToCart(prev, product, quantity));
-    toast.success(`${product.title} agregado al carrito!`);
-    openCart();
-  }, [setCart, openCart]);
-  // ...
-};
-```
-
-## useCartDrawer (`useCartDrawer.ts`)
-
-Hook simple que controla la visibilidad del drawer del carrito:
-
-```typescript
-export const useCartDrawer = (): IUseCartDrawerReturn => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const openCart = useCallback(() => setIsCartOpen(true), []);
-  const closeCart = useCallback(() => setIsCartOpen(false), []);
-  const toggleCart = useCallback(() => setIsCartOpen((prev) => !prev), []);
-  return { isCartOpen, openCart, closeCart, toggleCart };
-};
-```
-
-## Utilidades de Dominio (`cartUtils.ts`)
-
-Funciones puras sin efectos secundarios:
-
-| Función | Descripción |
-|---------|-------------|
-| `calculateTotal(cart)` | Suma precio × cantidad de todos los items |
-| `addItemToCart(cart, product, quantity)` | Agrega o incrementa cantidad |
-| `removeItemFromCart(cart, productId)` | Elimina un item por ID |
-| `validateCartItem(product, quantity)` | Valida producto, cantidad y stock |
-
-## Componentes de Presentación
-
-### Cart (drawer principal)
-
-- Renderizado con `createPortal` en `document.body`
-- Backdrop semitransparente que cierra al hacer clic
-- Escape key para cerrar
-- Footer con subtotal, envío (gratis desde $50), total y botones de acción
-- Badge animado con cantidad de artículos
-
-### CartItemRow
-
-- Muestra miniatura, título, precio × cantidad, subtotal
-- Botón de eliminar con icono Trash2
-
-### CartEmptyState
-
-- Icono de bolsa, mensaje "Tu carrito está vacío"
-- Botón "Seguir comprando"
-
-## Cálculo de Envío
-
-- **Gratis** si el total es ≥ $50
-- **$9.99** si el total es < $50
-- Mensaje informativo: "Agrega $X más para envío gratis"
+1. **Memoización de Cálculos**: Los montos totales (`totalPrice`, `totalItems`) usan `useMemo` para evitar recálculos en re-renders no relacionados.
+2. **Callbacks Estables**: Las funciones de manipulación emplean `useCallback` para mantener una referencia limpia a través de los componentes hijos.
+3. **Imprimible/Modular**: Al estar aislado en `/features/cart`, cualquier cambio en el carrito no impacta directamente los componentes de catálogo ni el flujo de pago.
