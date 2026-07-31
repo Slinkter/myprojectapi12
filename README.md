@@ -1,3 +1,7 @@
+Resume with -c (or command below):
+agy --conversation=9c9a5107-0ed4-45d9-9b9d-72d1220b8ffc
+PS C:\Users\luisj\Desktop\Github\myprojectapi12>
+
 # 🛍️ MyProjectAPI12
 
 Una tiendita online hecha con React. Muestra productos, los busca, los agrega al carrito y simula un pago.
@@ -13,7 +17,7 @@ Una tiendita online hecha con React. Muestra productos, los busca, los agrega al
 
 ### Notas
 
-MyProjectAPI12 es una **SPA** (*Single Page Application* — aplicación de una sola página). A diferencia de las páginas web tradicionales donde cada clic pide un HTML nuevo al servidor, aquí **todo el código se descarga una sola vez** y la página se re-pinta sola en el navegador.
+MyProjectAPI12 es una **SPA** (_Single Page Application_ — aplicación de una sola página). A diferencia de las páginas web tradicionales donde cada clic pide un HTML nuevo al servidor, aquí **todo el código se descarga una sola vez** y la página se re-pinta sola en el navegador.
 
 **Flujo de una SPA:**
 
@@ -30,12 +34,12 @@ React es una librería que organiza la interfaz en **componentes**. Un component
 
 ```jsx
 function TarjetaProducto({ titulo, precio }) {
-  return (
-    <div className="tarjeta">
-      <h2>{titulo}</h2>
-      <p>${precio}</p>
-    </div>
-  );
+    return (
+        <div className="tarjeta">
+            <h2>{titulo}</h2>
+            <p>${precio}</p>
+        </div>
+    );
 }
 ```
 
@@ -45,12 +49,12 @@ Cada componente tiene su propio **estado** (state) y **propiedades** (props). Cu
 
 ### 📝 Resumen Cornell
 
-| Cue (Pregunta clave) | Notes (Respuesta) |
-|---|---|
-| ¿Qué tipo de app es? | SPA — una sola página que se re-pinta sola |
-| ¿Qué hace React? | Divide la pantalla en componentes, cada uno con su estado |
-| ¿De dónde saca los productos? | De DummyJSON (API pública de pruebas) vía TanStack Query |
-| ¿Qué es un componente? | Una función que devuelve JSX (HTML escrito en JavaScript) |
+| Cue (Pregunta clave)          | Notes (Respuesta)                                         |
+| ----------------------------- | --------------------------------------------------------- |
+| ¿Qué tipo de app es?          | SPA — una sola página que se re-pinta sola                |
+| ¿Qué hace React?              | Divide la pantalla en componentes, cada uno con su estado |
+| ¿De dónde saca los productos? | De DummyJSON (API pública de pruebas) vía TanStack Query  |
+| ¿Qué es un componente?        | Una función que devuelve JSX (HTML escrito en JavaScript) |
 
 ### ❓ Preguntas y Respuestas
 
@@ -76,23 +80,24 @@ Antes de empezar, necesitas dos programas instalados:
 
 **Node.js** no es un lenguaje nuevo. Es un programa que permite ejecutar JavaScript fuera del navegador. ¿Recuerdas que JS solo corría en Chrome/Firefox? Node.js lo sacó de ahí y lo puso a correr en tu computadora directamente. Así podemos hacer herramientas en JS.
 
-**pnpm** es un *package manager* (gestor de paquetes). Piensa en él como un "instalador automático de piezas". Cuando escribes `pnpm install`, él lee el archivo `package.json` y descarga todas las librerías que el proyecto necesita (React, TypeScript, Tailwind, etc.) en una carpeta llamada `node_modules`.
+**pnpm** es un _package manager_ (gestor de paquetes). Piensa en él como un "instalador automático de piezas". Cuando escribes `pnpm install`, él lee el archivo `package.json` y descarga todas las librerías que el proyecto necesita (React, TypeScript, Tailwind, etc.) en una carpeta llamada `node_modules`.
 
 **git clone** copia el código desde GitHub a tu computadora. GitHub es como Drive pero para código: guarda proyectos y permite que varias personas trabajen juntas.
 
 **pnpm dev** arranca **Vite**, una herramienta que hace dos cosas:
+
 1. **Sirve los archivos** en `http://localhost:5173` para que los veas en el navegador
-2. **HMR** (*Hot Module Replacement*): cuando guardas un archivo, Vite reemplaza solo esa parte en el navegador sin recargar la página. Cambias un color y lo ves al instante.
+2. **HMR** (_Hot Module Replacement_): cuando guardas un archivo, Vite reemplaza solo esa parte en el navegador sin recargar la página. Cambias un color y lo ves al instante.
 
 ### 📝 Resumen Cornell
 
-| Cue | Notes |
-|---|---|
-| ¿Qué es Node.js? | Un programa que corre JavaScript fuera del navegador |
-| ¿Qué es pnpm? | Un instalador automático de librerías JS |
-| ¿Qué hace `pnpm install`? | Descarga todas las dependencias del proyecto |
-| ¿Qué es Vite? | Un "cocinero" que prepara el código para el navegador y lo sirve en tiempo real |
-| ¿Qué es HMR? | Hot Module Replacement — cambias código y se ve al instante sin recargar |
+| Cue                       | Notes                                                                           |
+| ------------------------- | ------------------------------------------------------------------------------- |
+| ¿Qué es Node.js?          | Un programa que corre JavaScript fuera del navegador                            |
+| ¿Qué es pnpm?             | Un instalador automático de librerías JS                                        |
+| ¿Qué hace `pnpm install`? | Descarga todas las dependencias del proyecto                                    |
+| ¿Qué es Vite?             | Un "cocinero" que prepara el código para el navegador y lo sirve en tiempo real |
+| ¿Qué es HMR?              | Hot Module Replacement — cambias código y se ve al instante sin recargar        |
 
 ### ❓ Preguntas y Respuestas
 
@@ -148,8 +153,8 @@ index.html
 
   <rect width="600" height="560" fill="url(#bgGrad)" rx="16"/>
 
-  <text x="300" y="28" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="bold" font-family="sans-serif">🏗️ Cadena de Providers — Torre Isométrica</text>
-  <text x="300" y="44" text-anchor="middle" fill="#64748b" font-size="11" font-family="sans-serif">(de afuera hacia adentro = de abajo hacia arriba)</text>
+<text x="300" y="28" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="bold" font-family="sans-serif">🏗️ Cadena de Providers — Torre Isométrica</text>
+<text x="300" y="44" text-anchor="middle" fill="#64748b" font-size="11" font-family="sans-serif">(de afuera hacia adentro = de abajo hacia arriba)</text>
 
   <!-- L8: QueryClientProvider (w=200, z0=0) -->
   <polygon points="300,296 473.2,396 300,496 126.8,396" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="0.5"/>
@@ -217,13 +222,13 @@ index.html
 
 **¿Qué hace cada provider?**
 
-1. **QueryClientProvider** — Crea un *cliente* de TanStack Query que se encarga de pedir datos a la API y guardarlos en caché. Todos los componentes pueden usarlo sin tener que importar `fetch` cada vez. El caché permite que si vuelves a una página, los datos aparezcan al instante.
+1. **QueryClientProvider** — Crea un _cliente_ de TanStack Query que se encarga de pedir datos a la API y guardarlos en caché. Todos los componentes pueden usarlo sin tener que importar `fetch` cada vez. El caché permite que si vuelves a una página, los datos aparezcan al instante.
 
 2. **ThemeProvider** — Usa **Context API** de React para compartir el tema actual (claro u oscuro). Guarda la preferencia en `localStorage`. Cuando cambias de tema, todos los componentes se actualizan porque React detecta el cambio de contexto.
 
 3. **CartProvider** — También usa Context API. Guarda el carrito (lista de productos, cantidades, total) en un `useReducer`. Sincroniza con `localStorage` para que el carrito no se pierda si cierras el navegador.
 
-4. **BrowserRouter** — Lee la URL del navegador y decide qué componente mostrar. Si la URL es `/`, muestra `Home`. Si es `/checkout`, muestra `Checkout`. Usa el *History API* del navegador (la misma que usan los botones de atrás/adelante).
+4. **BrowserRouter** — Lee la URL del navegador y decide qué componente mostrar. Si la URL es `/`, muestra `Home`. Si es `/checkout`, muestra `Checkout`. Usa el _History API_ del navegador (la misma que usan los botones de atrás/adelante).
 
 5. **LazyMotion** — Configura Framer Motion para animaciones. Sin esto, las animaciones no tendrían el motor que las ejecuta.
 
@@ -248,7 +253,7 @@ index.html
 
   <rect width="600" height="340" fill="url(#bgFlow)" rx="16"/>
 
-  <text x="300" y="28" text-anchor="middle" fill="#0c4a6e" font-size="15" font-weight="bold" font-family="sans-serif">🔄 Flujo de Datos — Tubería Isométrica</text>
+<text x="300" y="28" text-anchor="middle" fill="#0c4a6e" font-size="15" font-weight="bold" font-family="sans-serif">🔄 Flujo de Datos — Tubería Isométrica</text>
 
   <!-- Block 1: Usuario (click) -->
   <polygon points="80,270 170,270 200,250 110,250" fill="#e0e7ff" stroke="#818cf8" stroke-width="1"/>
@@ -299,19 +304,20 @@ index.html
   <text x="400" y="48" text-anchor="middle" fill="#64748b" font-size="9" font-family="sans-serif">⬅ El usuario ve el cambio en pantalla</text>
 
   <!-- Etiqueta de paso -->
-  <text x="300" y="305" text-anchor="middle" fill="#64748b" font-size="10" font-family="sans-serif">Cada paso dispara el siguiente automáticamente (React re-renderiza)</text>
+
+<text x="300" y="305" text-anchor="middle" fill="#64748b" font-size="10" font-family="sans-serif">Cada paso dispara el siguiente automáticamente (React re-renderiza)</text>
 </svg>
 
 ### 📝 Resumen Cornell
 
-| Cue | Notes |
-|---|---|
-| ¿Qué es un provider? | Un componente que envuelve a otros y les comparte datos |
-| ¿Quién maneja los datos de internet? | QueryClientProvider (TanStack Query) |
-| ¿Quién maneja el tema? | ThemeProvider (Context API + localStorage) |
-| ¿Quién maneja el carrito? | CartProvider (Context API + useReducer + localStorage) |
-| ¿Quién maneja las rutas? | BrowserRouter + AppRouter |
-| ¿Por qué están en este orden? | Porque los de afuera deben existir antes que los de adentro los usen |
+| Cue                                  | Notes                                                                |
+| ------------------------------------ | -------------------------------------------------------------------- |
+| ¿Qué es un provider?                 | Un componente que envuelve a otros y les comparte datos              |
+| ¿Quién maneja los datos de internet? | QueryClientProvider (TanStack Query)                                 |
+| ¿Quién maneja el tema?               | ThemeProvider (Context API + localStorage)                           |
+| ¿Quién maneja el carrito?            | CartProvider (Context API + useReducer + localStorage)               |
+| ¿Quién maneja las rutas?             | BrowserRouter + AppRouter                                            |
+| ¿Por qué están en este orden?        | Porque los de afuera deben existir antes que los de adentro los usen |
 
 ### ❓ Preguntas y Respuestas
 
@@ -344,25 +350,30 @@ El carrito es un **contexto global**. Cualquier componente puede leerlo o modifi
 ```jsx
 // Así se ve una acción del reducer
 function cartReducer(state, action) {
-  switch (action.type) {
-    case "ADD_ITEM": {
-      const existing = state.items.find(i => i.id === action.product.id);
-      if (existing) {
-        // Si ya está, solo suma 1 a la cantidad
-        return {
-          ...state,
-          items: state.items.map(i =>
-            i.id === action.product.id
-              ? { ...i, quantity: i.quantity + 1 }
-              : i
-          )
-        };
-      }
-      // Si no está, lo agrega con cantidad 1
-      return { ...state, items: [...state.items, { ...action.product, quantity: 1 }] };
+    switch (action.type) {
+        case "ADD_ITEM": {
+            const existing = state.items.find(
+                (i) => i.id === action.product.id,
+            );
+            if (existing) {
+                // Si ya está, solo suma 1 a la cantidad
+                return {
+                    ...state,
+                    items: state.items.map((i) =>
+                        i.id === action.product.id
+                            ? { ...i, quantity: i.quantity + 1 }
+                            : i,
+                    ),
+                };
+            }
+            // Si no está, lo agrega con cantidad 1
+            return {
+                ...state,
+                items: [...state.items, { ...action.product, quantity: 1 }],
+            };
+        }
+        // ...más casos
     }
-    // ...más casos
-  }
 }
 ```
 
@@ -370,7 +381,7 @@ El carrito se sincroniza con `localStorage` cada vez que cambia:
 
 ```jsx
 useEffect(() => {
-  localStorage.setItem("cart", JSON.stringify(state));
+    localStorage.setItem("cart", JSON.stringify(state));
 }, [state]);
 ```
 
@@ -381,14 +392,14 @@ Usa **CSS variables** para cambiar los colores. No hay clases distintas, solo ca
 ```css
 /* Tema claro (default) */
 :root {
-  --color-fondo: #ffffff;
-  --color-texto: #1a1a1a;
+    --color-fondo: #ffffff;
+    --color-texto: #1a1a1a;
 }
 
 /* Tema oscuro */
 [data-theme="dark"] {
-  --color-fondo: #1a1a1a;
-  --color-texto: #f0f0f0;
+    --color-fondo: #1a1a1a;
+    --color-texto: #f0f0f0;
 }
 ```
 
@@ -398,13 +409,13 @@ Cuando cambias de tema, `ThemeProvider` cambia el atributo `data-theme` en el `<
 
 Usamos **Framer Motion**, una librería de animaciones para React. Tiene varios tipos de animaciones:
 
-| Animación | Cómo funciona | Código ejemplo |
-|---|---|---|
-| **Scroll reveal** | Cada tarjeta de producto se anima cuando aparece en pantalla | `<motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} />` |
-| **Page transition** | Al cambiar de página, la vieja se desvanece y la nueva aparece | `<AnimatePresence><motion.div exit={{ opacity: 0 }} /></AnimatePresence>` |
-| **Drawer (carrito)** | El carrito se desliza desde la derecha con un resorte | `<Sheet component={motion.div} animate={{ x: 0 }} transition={{ type: "spring" }} />` |
-| **Fly to cart** | Cuando agregas un producto, una copia vuela hacia el ícono del carrito | Animación con `animate` que sigue las coordenadas del botón |
-| **Hover en botones** | Los botones se elevan y agrandan un poco | `whileHover={{ scale: 1.02 }}` |
+| Animación            | Cómo funciona                                                          | Código ejemplo                                                                        |
+| -------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Scroll reveal**    | Cada tarjeta de producto se anima cuando aparece en pantalla           | `<motion.div whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} />`         |
+| **Page transition**  | Al cambiar de página, la vieja se desvanece y la nueva aparece         | `<AnimatePresence><motion.div exit={{ opacity: 0 }} /></AnimatePresence>`             |
+| **Drawer (carrito)** | El carrito se desliza desde la derecha con un resorte                  | `<Sheet component={motion.div} animate={{ x: 0 }} transition={{ type: "spring" }} />` |
+| **Fly to cart**      | Cuando agregas un producto, una copia vuela hacia el ícono del carrito | Animación con `animate` que sigue las coordenadas del botón                           |
+| **Hover en botones** | Los botones se elevan y agrandan un poco                               | `whileHover={{ scale: 1.02 }}`                                                        |
 
 `AnimatePresence` es un componente de Framer Motion que detecta cuando un hijo se va a eliminar y ejecuta su animación de `exit` antes de removerlo del DOM.
 
@@ -414,12 +425,12 @@ La búsqueda usa **`useDebounce`**: cuando escribes en el input, espera 300ms de
 
 ```jsx
 function useDebounce(valor, delay = 300) {
-  const [debounced, setDebounced] = useState(valor);
-  useEffect(() => {
-    const timer = setTimeout(() => setDebounced(valor), delay);
-    return () => clearTimeout(timer); // limpia el timer anterior
-  }, [valor, delay]);
-  return debounced;
+    const [debounced, setDebounced] = useState(valor);
+    useEffect(() => {
+        const timer = setTimeout(() => setDebounced(valor), delay);
+        return () => clearTimeout(timer); // limpia el timer anterior
+    }, [valor, delay]);
+    return debounced;
 }
 ```
 
@@ -427,23 +438,23 @@ Las categorías se obtienen de un endpoint de DummyJSON (`/products/categories`)
 
 #### ♿ Accesibilidad
 
-| Práctica | Implementación |
-|---|---|
-| Navegación por teclado | `Tab` para moverse, `Enter`/`Space` para activar, `Escape` para cerrar modales |
-| Focus trap | En el modal de producto y el carrito, el foco no puede salir hasta que se cierren |
-| Lectores de pantalla | `aria-label`, `role`, `alt` en imágenes |
-| Movimiento reducido | `prefers-reduced-motion` — si el usuario lo activa, las animaciones se desactivan |
+| Práctica               | Implementación                                                                    |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| Navegación por teclado | `Tab` para moverse, `Enter`/`Space` para activar, `Escape` para cerrar modales    |
+| Focus trap             | En el modal de producto y el carrito, el foco no puede salir hasta que se cierren |
+| Lectores de pantalla   | `aria-label`, `role`, `alt` en imágenes                                           |
+| Movimiento reducido    | `prefers-reduced-motion` — si el usuario lo activa, las animaciones se desactivan |
 
 ### 📝 Resumen Cornell
 
-| Cue | Notes |
-|---|---|
-| ¿Cómo maneja el carrito los cambios? | Con useReducer y acciones (ADD_ITEM, REMOVE_ITEM, etc.) |
-| ¿Cómo persiste el carrito? | Guarda el estado en localStorage cada vez que cambia |
-| ¿Cómo cambia de tema sin recargar? | Cambia el atributo `data-theme` en `<html>`, las variables CSS se actualizan solas |
-| ¿Qué hace Framer Motion? | Anima componentes con scroll reveal, transiciones, drawers, hover |
-| ¿Qué es useDebounce? | Espera 300ms después de escribir para buscar, evita peticiones innecesarias |
-| ¿Cómo se asegura que funciona sin mouse? | Focus trap, aria-labels, navegación por teclado |
+| Cue                                      | Notes                                                                              |
+| ---------------------------------------- | ---------------------------------------------------------------------------------- |
+| ¿Cómo maneja el carrito los cambios?     | Con useReducer y acciones (ADD_ITEM, REMOVE_ITEM, etc.)                            |
+| ¿Cómo persiste el carrito?               | Guarda el estado en localStorage cada vez que cambia                               |
+| ¿Cómo cambia de tema sin recargar?       | Cambia el atributo `data-theme` en `<html>`, las variables CSS se actualizan solas |
+| ¿Qué hace Framer Motion?                 | Anima componentes con scroll reveal, transiciones, drawers, hover                  |
+| ¿Qué es useDebounce?                     | Espera 300ms después de escribir para buscar, evita peticiones innecesarias        |
+| ¿Cómo se asegura que funciona sin mouse? | Focus trap, aria-labels, navegación por teclado                                    |
 
 ### ❓ Preguntas y Respuestas
 
@@ -470,6 +481,7 @@ Los comandos están definidos en `package.json` en la sección `"scripts"`. Son 
 **`pnpm dev`**
 
 Arranca Vite en modo desarrollo.
+
 - Lee `vite.config.js`
 - Configura los alias (`@/` → `src/`, `@shared/` → `src/shared/`, etc.)
 - Inicia un servidor en `localhost:5173`
@@ -479,6 +491,7 @@ Arranca Vite en modo desarrollo.
 **`pnpm build`**
 
 Vite compila todo para producción.
+
 1. TypeScript se compila a JavaScript (y se eliminan los tipos)
 2. Todos los JS se juntan en un archivo (bundling)
 3. Se minimiza (quita espacios, acorta nombres de variables)
@@ -489,6 +502,7 @@ Vite compila todo para producción.
 **`pnpm lint`**
 
 Ejecuta ESLint.
+
 - Busca errores de sintaxis, variables sin usar, imports incorrectos
 - Tiene una regla de React Refresh: solo exportes componentes desde archivos `.tsx`
 - Máximo 2 warnings permitidos (si hay más, falla)
@@ -497,6 +511,7 @@ Ejecuta ESLint.
 **`pnpm type-check`**
 
 Ejecuta `tsc --noEmit` (TypeScript sin emitir archivos).
+
 - Revisa que todos los tipos sean correctos
 - No genera archivos `.js` (solo revisa)
 - Es más rápido que una compilación completa
@@ -513,14 +528,14 @@ Arranca un servidor simple con el contenido de `dist/` para ver cómo queda el b
 
 ### 📝 Resumen Cornell
 
-| Cue | Notes |
-|---|---|
-| `pnpm dev` | Servidor de desarrollo con HMR (cambios en vivo) |
-| `pnpm build` | Compila, junta y minimiza todo a `dist/` |
-| `pnpm lint` | ESLint — revisa calidad del código |
-| `pnpm type-check` | TypeScript — revisa tipos sin compilar |
-| `pnpm preview` | Previsualiza `dist/` localmente |
-| `pnpm deploy` | Sube `dist/` a GitHub Pages |
+| Cue               | Notes                                            |
+| ----------------- | ------------------------------------------------ |
+| `pnpm dev`        | Servidor de desarrollo con HMR (cambios en vivo) |
+| `pnpm build`      | Compila, junta y minimiza todo a `dist/`         |
+| `pnpm lint`       | ESLint — revisa calidad del código               |
+| `pnpm type-check` | TypeScript — revisa tipos sin compilar           |
+| `pnpm preview`    | Previsualiza `dist/` localmente                  |
+| `pnpm deploy`     | Sube `dist/` a GitHub Pages                      |
 
 ### ❓ Preguntas y Respuestas
 
@@ -542,7 +557,7 @@ R: Vite **no compila** TypeScript en desarrollo. Usa **esbuild** que solo borra 
 
 ### Notas
 
-El proyecto usa **FSD** (*Feature-Sliced Design*), una metodología para organizar código que separa el proyecto en capas y features.
+El proyecto usa **FSD** (_Feature-Sliced Design_), una metodología para organizar código que separa el proyecto en capas y features.
 
 **Las capas (de arriba a abajo):**
 
@@ -607,7 +622,8 @@ cart/
   <rect width="600" height="520" fill="#f8fafc" rx="16"/>
 
   <!-- Título -->
-  <text x="300" y="35" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="bold" font-family="sans-serif">🧱 Arquitectura FSD — Capas Isométricas</text>
+
+<text x="300" y="35" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="bold" font-family="sans-serif">🧱 Arquitectura FSD — Capas Isométricas</text>
 
   <!-- L1: shared/ (slate) -->
   <polygon points="126.8,396 473.2,396 300,496 126.8,396" fill="#cbd5e1"/>
@@ -659,10 +675,12 @@ cart/
             🧩 features/ ← Funcionalidades del negocio
               🧰 shared/ ← Código reusable (api, hooks, ui)
 ```
+
        🔝 app/        ← Configuración global (providers, router)
           📄 pages/    ← Páginas completas (Home)
             🧩 features/ ← Funcionalidades del negocio
               🧰 shared/ ← Código reusable (api, hooks, ui)
+
 ```
 
 **¿Por qué hacer esta separación?**
@@ -687,16 +705,16 @@ cart/
 
 ### ❓ Preguntas y Respuestas
 
-**P: ¿Qué pasa si dos features necesitan compartir datos?**  
+**P: ¿Qué pasa si dos features necesitan compartir datos?**
 R: Usan `shared/`. Por ejemplo, el tipo `Product` está en `shared/api` porque tanto `cart` como `products` lo necesitan. Si está en `shared`, ambas pueden importarlo sin violar las reglas.
 
-**P: ¿Por qué `entities/` y `widgets/` no existen si están en los alias?**  
+**P: ¿Por qué `entities/` y `widgets/` no existen si están en los alias?**
 R: Están configurados para cuando el proyecto crezca. Si aparecen más features, se pueden extraer modelos a `entities/` y componentes compuestos a `widgets/`. No se crean antes de necesitarlos (YAGNI — You Aren't Gonna Need It).
 
-**P: ¿Qué diferencia hay entre `domain/` y `application/` en un feature?**  
+**P: ¿Qué diferencia hay entre `domain/` y `application/` en un feature?**
 R: `domain/` solo tiene tipos e interfaces (el "qué"). `application/` tiene la lógica (el "cómo"). `domain/cart.types.ts` define `CartItem { id, name, price, quantity }`. `application/useCart.ts` dice cómo agregar, quitar y calcular el total.
 
-**P: ¿Cómo sé si algo va en `shared/ui` o en `features`?**  
+**P: ¿Cómo sé si algo va en `shared/ui` o en `features`?**
 R: Si el componente es genérico y no sabe nada del negocio (un botón, un input, un card), va en `shared/ui`. Si sabe de productos o carritos, va en `features`. Un `ProductCard` sabe de productos → va en `features/products`. Un `Button` no sabe nada → va en `shared/ui`.
 
 ---
@@ -730,3 +748,4 @@ El proyecto incluye 37 archivos de documentación. Cada uno explica una parte es
 <div align="center">
   Hecho con ❤️ y mucho café ☕
 </div>
+```
