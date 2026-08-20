@@ -1,6 +1,6 @@
 /**
  * @file Checkout.tsx
- * @description Página principal del proceso de pago con formulario interactivo y resumen en tiempo real.
+ * @description Página principal del proceso de pago con formulario interactivo y resumen en tiempo real sincronizado.
  * @architecture Capa de Presentación - Feature de Checkout
  */
 import { useState } from "react";
@@ -15,6 +15,7 @@ import PaymentFormContainer from "@/features/checkout/presentation/PaymentFormCo
 import PaymentSubmitButton from "@/features/checkout/presentation/PaymentSubmitButton";
 import SecurityBadge from "@/features/checkout/presentation/SecurityBadge";
 import { OrderSummary } from "@/features/checkout/presentation/components/OrderSummary";
+import { useDiscountValidation } from "@/features/checkout/application/useDiscountValidation";
 import { useAuth } from "@/features/auth/application/AuthContext";
 import { LoginModal } from "@/features/auth/presentation/LoginModal";
 import Loader from "@/shared/ui/Loader";
@@ -38,6 +39,7 @@ const Checkout = () => {
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     const { user, loading } = useAuth();
+    const discountState = useDiscountValidation();
 
     const {
         paymentMethod,
@@ -48,7 +50,7 @@ const Checkout = () => {
         handlePaymentFieldChange,
         handleBlur,
         selectPaymentMethod,
-    } = useCheckout(cart, totalPrice, clearCart);
+    } = useCheckout(cart, totalPrice, clearCart, discountState.appliedDiscount);
 
     if (loading) {
         return <Loader />;
@@ -162,6 +164,7 @@ const Checkout = () => {
                                 items={cart}
                                 totalPrice={totalPrice}
                                 onRemove={removeFromCart}
+                                discountState={discountState}
                             />
                         </aside>
                     </div>

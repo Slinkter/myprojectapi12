@@ -1,32 +1,35 @@
 /**
  * @file CartProvider.tsx
- * @description Proveedor del contexto del carrito de compras.
- * Gestiona el estado del carrito con persistencia en localStorage,
- * las acciones (agregar/eliminar/limpiar) y el control del drawer.
- * @architecture Application Layer - Provider Component
+ * @description Proveedor del contexto del carrito de compras con segregación de Estado y Acciones.
+ * Implementa State/Actions Context Segregation para eliminar tormentas de re-render en el catálogo.
+ * @architecture Application Layer - Provider Component (Context Segregation Pattern)
  */
 
 import { useMemo } from "react";
-import { useCartActions } from "@/features/cart/application/hooks/useCartActions";
+import { useCartActions as useCartActionsHook } from "@/features/cart/application/hooks/useCartActions";
 import { calculateCartSummary } from "@/features/cart/domain/cartUtils";
 import { useCartDrawer } from "@/features/cart/application/hooks/useCartDrawer";
 import type {
     ICartItem,
     ICartContextValue,
+    ICartStateContextValue,
+    ICartActionsContextValue,
     ICartProviderProps,
 } from "@/features/cart/domain/cartTypes";
 import { useLogLifecycle, useLocalStorage } from "@/shared/hooks";
-import { CartContext } from "@features/cart/application/CartContext";
+import { CartContext } from "@/features/cart/application/CartContext";
+import { CartStateContext } from "@/features/cart/application/CartStateContext";
+import { CartActionsContext } from "@/features/cart/application/CartActionsContext";
 
 const CART_STORAGE_KEY = "api12-cart-storage";
 
 /**
- * Proveedor del contexto del carrito de compras.
+ * Proveedor del contexto del carrito de compras con segregación de Estado y Acciones.
  *
  * @component
  * @param props - Props del componente
- * @param props.children - Componentes hijos
- * @returns Elemento JSX con el Provider del contexto
+ * @param props.children - Componentes hijos con acceso a los contextos segregados
+ * @returns Elemento JSX con la jerarquía de Providers
  */
 export const CartProvider = ({ children }: ICartProviderProps) => {
     useLogLifecycle("CartProvider");
@@ -37,7 +40,7 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
 
     // Acciones del carrito (add, remove, clear)
     const { addToCart, removeFromCart, updateQuantity, clearCart } =
-        useCartActions(setCart, openCart);
+        useCartActionsHook(setCart, openCart);
 
     // Cálculo combinado en una sola pasada O(n) para precio y cantidad
     const { totalPrice, totalItems } = useMemo(
@@ -45,38 +48,55 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
         [cart],
     );
 
-    const propValue = useMemo<ICartContextValue>(
+    // Contexto de acciones estables (no muta cuando cambian los items ni totales)
+    const actionsValue = useMemo<ICartActionsContextValue>(
         () => ({
-            cart,
             addToCart,
             removeFromCart,
             updateQuantity,
             clearCart,
-            isCartOpen,
             openCart,
             closeCart,
             toggleCart,
-            totalPrice,
-            totalItems,
         }),
         [
-            cart,
             addToCart,
             removeFromCart,
             updateQuantity,
             clearCart,
-            isCartOpen,
             openCart,
             closeCart,
             toggleCart,
-            totalPrice,
-            totalItems,
         ],
     );
 
+    // Contexto de estado reactivo (muta únicamente cuando cambian items o totales)
+    const stateValue = useMemo<ICartStateContextValue>(
+        () => ({
+            cart,
+            isCartOpen,
+            totalPrice,
+            totalItems,
+        }),
+        [cart, isCartOpen, totalPrice, totalItems],
+    );
+
+    // Contexto unificado para retrocompatibilidad total con useCart()
+    const combinedValue = useMemo<ICartContextValue>(
+        () => ({
+            ...stateValue,
+            ...actionsValue,
+        }),
+        [stateValue, actionsValue],
+    );
+
     return (
-        <CartContext.Provider value={propValue}>
-            {children}
-        </CartContext.Provider>
+        <CartActionsContext.Provider value={actionsValue}>
+            <CartStateContext.Provider value={stateValue}>
+                <CartContext.Provider value={combinedValue}>
+                    {children}
+                </CartContext.Provider>
+            </CartStateContext.Provider>
+        </CartActionsContext.Provider>
     );
 };

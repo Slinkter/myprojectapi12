@@ -5,7 +5,7 @@
  * @architecture Pages Layer - Vista Principal
  */
 
-import { useState, useCallback, useMemo, useDeferredValue } from "react";
+import { useState, useCallback, useMemo, useDeferredValue, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { m } from "framer-motion";
 import { useProducts } from "@/features/products/application/useProducts";
@@ -23,6 +23,7 @@ import { useAuth } from "@/features/auth/application/AuthContext";
 import { ProductFormModal } from "@/features/products/presentation/ProductFormModal";
 import { deleteProduct } from "@/features/products/infrastructure/productsFirestore";
 import { useQueryClient } from "@tanstack/react-query";
+import { eventBus, DomainEvents, type ISearchTriggeredPayload } from "@/shared/infrastructure/eventBus";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "rating-desc" | "name-asc";
 
@@ -89,6 +90,17 @@ export const HomeContent = () => {
             }
         }
     }, [queryClient]);
+
+    // Suscripción al bus de eventos de dominio para búsqueda desacoplada desde el Navbar
+    useEffect(() => {
+        const unsubscribe = eventBus.on<ISearchTriggeredPayload>(
+            DomainEvents.SEARCH_TRIGGERED,
+            ({ query }) => {
+                setSearchQuery(query);
+            },
+        );
+        return () => unsubscribe();
+    }, []);
 
     // Valor diferido para evitar bloqueos durante la búsqueda en tiempo real (rerender-use-deferred-value)
     const deferredSearchQuery = useDeferredValue(searchQuery);
@@ -228,7 +240,7 @@ export const HomeContent = () => {
                                     setProductToEdit(null);
                                     setIsFormOpen(true);
                                 }}
-                                className="h-10 px-4 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover active:scale-95 transition-all shadow-md shadow-primary/20 flex items-center gap-1.5 shrink-0 cursor-pointer"
+                                className="h-10 px-4 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover active:scale-95 transition-colors shadow-md shadow-primary/20 flex items-center gap-1.5 shrink-0 cursor-pointer"
                             >
                                 <Plus size={14} />
                                 Nuevo

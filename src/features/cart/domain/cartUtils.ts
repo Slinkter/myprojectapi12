@@ -143,7 +143,7 @@ export const removeMultipleItemsFromCart = (
 
 /**
  * @function isProductInCart
- * @description Verifica la presencia de un producto en el carrito utilizando un Set para búsqueda O(1).
+ * @description Verifica la presencia de un producto en el carrito con búsqueda O(N) sin alocación intermedia de memoria.
  * @architecture Domain Layer - Lógica de carrito
  *
  * @param {ICartItem[]} cart - Array actual del carrito
@@ -154,8 +154,70 @@ export const isProductInCart = (
   cart: ICartItem[],
   productId: number,
 ): boolean => {
-  const idSet = new Set(cart.map((item) => item.id));
+  for (let i = 0; i < cart.length; i++) {
+    if (cart[i].id === productId) return true;
+  }
+  return false;
+};
+
+/**
+ * @function isProductInIdSet
+ * @description Verifica la presencia de un producto en un Set de IDs previamente indexado con complejidad O(1).
+ * @architecture Domain Layer - Lógica de carrito
+ *
+ * @param {Set<number>} idSet - Conjunto de IDs indexados
+ * @param {number} productId - ID del producto a verificar
+ * @returns {boolean} True si el ID está presente
+ */
+export const isProductInIdSet = (
+  idSet: Set<number>,
+  productId: number,
+): boolean => {
   return idSet.has(productId);
+};
+
+/**
+ * @function calculateDetailedCartSummary
+ * @description Calcula subtotal, impuestos, descuento y total de artículos en una sola pasada O(N).
+ * @architecture Domain Layer - Reducción de carrito de un solo paso
+ *
+ * @param {ICartItem[]} cart - Array del carrito
+ * @param {number} [discountPercentage=0] - Porcentaje de descuento opcional
+ * @param {number} [taxRate=0] - Tasa de impuesto opcional
+ * @returns {{ subtotal: number; totalItems: number; discountAmount: number; taxAmount: number; finalTotal: number }} Resumen financiero consolidado
+ */
+export const calculateDetailedCartSummary = (
+  cart: ICartItem[],
+  discountPercentage: number = 0,
+  taxRate: number = 0,
+): {
+  subtotal: number;
+  totalItems: number;
+  discountAmount: number;
+  taxAmount: number;
+  finalTotal: number;
+} => {
+  let subtotal = 0;
+  let totalItems = 0;
+
+  for (let i = 0; i < cart.length; i++) {
+    const item = cart[i];
+    subtotal += item.price * item.quantity;
+    totalItems += item.quantity;
+  }
+
+  const discountAmount = discountPercentage > 0 ? (subtotal * discountPercentage) / 100 : 0;
+  const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+  const taxAmount = taxRate > 0 ? (discountedSubtotal * taxRate) / 100 : 0;
+  const finalTotal = Math.round((discountedSubtotal + taxAmount) * 100) / 100;
+
+  return {
+    subtotal,
+    totalItems,
+    discountAmount,
+    taxAmount,
+    finalTotal,
+  };
 };
 
 /**

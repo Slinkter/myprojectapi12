@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { m, AnimatePresence } from "framer-motion";
 import { useLogLifecycle } from "@/shared/hooks";
-import { useCart } from "@/features/cart/application/useCart";
+import { useCartActions } from "@/features/cart/application/useCart";
 import type { IProductDetailModalProps } from "@/features/products/application/types";
 import { getStockStatus } from "@/entities/product";
 import { modalSlideUp, backdropFade } from "@/shared/lib/animations";
@@ -36,7 +36,7 @@ import ModalCloseButton from "@features/products/presentation/components/ModalCl
 const ProductDetailModal = (props: IProductDetailModalProps) => {
   useLogLifecycle("ProductDetailModal");
   const { product, isOpen, onClose } = props;
-  const { addToCart } = useCart();
+  const { addToCart } = useCartActions();
   const [prevProductId, setPrevProductId] = useState<number | undefined>(product?.id);
   const [prevIsOpen, setPrevIsOpen] = useState<boolean>(isOpen);
   const [quantity, setQuantity] = useState<number>(1);

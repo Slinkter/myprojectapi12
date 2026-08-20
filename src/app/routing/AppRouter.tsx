@@ -9,11 +9,11 @@ import { pageFadeIn } from "@/shared/lib/animations";
 const Home = lazy(() => import("@/pages/Home"));
 
 const Checkout = lazy(
-    () => import("@/features/checkout/presentation/Checkout"),
+    () => import("@/pages/CheckoutPage"),
 );
 
 const CheckoutSuccess = lazy(
-    () => import("@/features/checkout/presentation/CheckoutSuccess"),
+    () => import("@/pages/CheckoutSuccessPage"),
 );
 
 const Orders = lazy(() => import("@/pages/Orders"));

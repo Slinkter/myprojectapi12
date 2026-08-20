@@ -47,6 +47,10 @@ export interface IOrderDocument {
   userId: string;
   email: string;
   items: IOrderItem[];
+  subtotal?: number;
+  discountAmount?: number;
+  appliedDiscountCode?: string;
+  shippingCost?: number;
   total: number;
   paymentMethod: string;
   status: OrderStatus;

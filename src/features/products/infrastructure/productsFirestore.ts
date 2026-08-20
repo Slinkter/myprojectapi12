@@ -133,29 +133,14 @@ export const getProducts = async (
   return getProductsFromApi(skip, limit, category);
 };
 
+import { ProductFactory } from "@/features/products/domain/factories/ProductFactory";
+
 /**
- * Crea un nuevo producto en Firestore.
+ * Crea un nuevo producto en Firestore con generación O(1) de ID numérico.
  */
 export const createProduct = async (productData: Omit<IProduct, "id">): Promise<IProduct> => {
-  const productsRef = collection(db, PRODUCTS_COLLECTION);
-  
-  // Obtenemos todos para calcular el siguiente ID numérico
-  const snapshot = await getDocs(productsRef);
-  let maxId = 0;
-  snapshot.forEach((doc) => {
-    const data = doc.data() as IProduct;
-    if (data.id > maxId) {
-      maxId = data.id;
-    }
-  });
-
-  const newId = maxId + 1;
-  const newProduct: IProduct = {
-    ...productData,
-    id: newId,
-  };
-
-  await setDoc(doc(db, PRODUCTS_COLLECTION, String(newId)), newProduct);
+  const newProduct = ProductFactory.createProduct(productData);
+  await setDoc(doc(db, PRODUCTS_COLLECTION, String(newProduct.id)), newProduct);
   return newProduct;
 };
 

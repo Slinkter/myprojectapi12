@@ -1,12 +1,7 @@
 /**
- * @module useCart
- * @description Re-exportación del hook useCart desde CartContext.
- * Proporciona un punto de entrada único para acceder al contexto del carrito.
- *
- * @returns {ICartContextValue} Estado y acciones del carrito
- * @throws {Error} Si se usa fuera de un CartProvider
- *
- * @example
- * const { cart, addToCart, totalPrice } = useCart();
+ * @file useCart.ts
+ * @description Re-exportación de los hooks del carrito de compras (useCart, useCartState, useCartActions).
+ * @architecture Application Layer - Cart Hooks Entrypoint
  */
-export { useCart } from "./CartContext";
+
+export { useCart, useCartState, useCartActions } from "./CartContext";

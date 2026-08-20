@@ -11,7 +11,11 @@ import { OrderItemRow } from '@features/checkout/presentation/components/OrderIt
 import { DiscountInput } from '@features/checkout/presentation/components/DiscountInput';
 import { AppliedDiscountBadge } from '@features/checkout/presentation/components/AppliedDiscountBadge';
 import { PriceRow } from '@features/checkout/presentation/components/PriceRow';
-import { useDiscountValidation, calculateDiscountAmount } from '@/features/checkout/application/useDiscountValidation';
+import {
+  useDiscountValidation,
+  calculateDiscountAmount,
+  type IUseDiscountValidationReturn,
+} from '@/features/checkout/application/useDiscountValidation';
 
 /**
  * @interface IOrderSummaryProps
@@ -24,6 +28,8 @@ export interface IOrderSummaryProps {
   totalPrice: number;
   /** Callback opcional para eliminar un item */
   onRemove?: (id: number) => void;
+  /** Estado de validación de descuentos sincronizado desde el padre */
+  discountState?: IUseDiscountValidationReturn;
   /** Estilos en línea opcionales */
   style?: React.CSSProperties;
 }
@@ -36,8 +42,11 @@ export interface IOrderSummaryProps {
  * @param {IOrderSummaryProps} props - Propiedades del componente.
  * @returns {JSX.Element} Resumen del pedido.
  */
-export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSummaryProps) {
+export function OrderSummary({ items, totalPrice, onRemove, discountState, style }: IOrderSummaryProps) {
   useLogLifecycle("OrderSummary");
+  const internalDiscount = useDiscountValidation();
+  const activeDiscount = discountState ?? internalDiscount;
+
   const {
     code,
     setCode,
@@ -46,7 +55,7 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
     isApplying,
     applyDiscount,
     removeDiscount,
-  } = useDiscountValidation();
+  } = activeDiscount;
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
   const hasItems = totalItems > 0;
@@ -109,7 +118,7 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
           </div>
           <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
             <div
-              className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+              className="bg-emerald-500 h-full rounded-full transition-[width] duration-500"
               style={{ width: `${progressToFreeShipping}%` }}
             />
           </div>

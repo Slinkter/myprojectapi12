@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/features/auth/application/AuthContext";
 import { LoginModal } from "@/features/auth/presentation/LoginModal";
+import { eventBus, DomainEvents } from "@/shared/infrastructure/eventBus";
 
 /**
  * @component NavLogo
@@ -211,18 +212,11 @@ const Navbar = () => {
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!searchVal.trim()) return;
+        const trimmed = searchVal.trim();
+        if (!trimmed) return;
         navigate("/");
-        setTimeout(() => {
-            const input = document.querySelector<HTMLInputElement>(
-                '[aria-label="Buscar productos"]',
-            );
-            if (input) {
-                input.value = searchVal;
-                input.dispatchEvent(new Event("input", { bubbles: true }));
-                input.focus();
-            }
-        }, 100);
+        // Publicar evento de búsqueda desacoplado mediante Domain EventBus (Observer Pattern)
+        eventBus.emit(DomainEvents.SEARCH_TRIGGERED, { query: trimmed });
         closeSearch();
     };
 

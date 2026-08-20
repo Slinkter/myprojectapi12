@@ -46,11 +46,13 @@ const VALID_CODES_MAP = new Map<string, IDiscountCode>(
   VALID_CODES.map((item) => [item.code.toUpperCase(), item]),
 );
 
+import { DiscountStrategyFactory } from "@/features/checkout/domain/factories/DiscountStrategyFactory";
+
 /**
- * @interface UseDiscountValidationReturn
+ * @interface IUseDiscountValidationReturn
  * @description Retorno del hook useDiscountValidation.
  */
-interface UseDiscountValidationReturn {
+export interface IUseDiscountValidationReturn {
   code: string;
   setCode: (code: string) => void;
   appliedDiscount: IDiscountCode | null;
@@ -64,9 +66,9 @@ interface UseDiscountValidationReturn {
  * Hook que gestiona la validación, aplicación y eliminación de códigos de descuento.
  * Simula una validación asíncrona contra una lista de códigos predefinidos.
  *
- * @returns {UseDiscountValidationReturn} Estado y funciones para gestionar descuentos.
+ * @returns {IUseDiscountValidationReturn} Estado y funciones para gestionar descuentos.
  */
-export function useDiscountValidation(): UseDiscountValidationReturn {
+export function useDiscountValidation(): IUseDiscountValidationReturn {
   const [code, setCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState<IDiscountCode | null>(null);
   const [error, setError] = useState("");
@@ -109,8 +111,7 @@ export function useDiscountValidation(): UseDiscountValidationReturn {
 }
 
 /**
- * Calcula el monto del descuento aplicado sobre el precio total.
- * Soporta descuentos porcentuales y montos fijos.
+ * Calcula el monto del descuento aplicado sobre el precio total utilizando el patrón Strategy.
  *
  * @param {IDiscountCode | null} appliedDiscount - Código de descuento aplicado o null.
  * @param {number} totalPrice - Precio total antes del descuento.
@@ -121,9 +122,8 @@ export function calculateDiscountAmount(
   totalPrice: number,
 ): number {
   if (!appliedDiscount || totalPrice <= 0) return 0;
-
-  return appliedDiscount.type === "percentage"
-    ? (totalPrice * appliedDiscount.discount) / 100
-    : Math.min(appliedDiscount.discount, totalPrice);
+  const strategy = DiscountStrategyFactory.createFromDiscount(appliedDiscount);
+  return strategy.calculateDiscount(totalPrice);
 }
+
 

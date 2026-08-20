@@ -8,7 +8,7 @@ import React, { useCallback, useState, useRef } from 'react'
 import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLogLifecycle } from "@/shared/hooks";
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
-import { useCart } from '@/features/cart/application/CartContext'
+import { useCartActions } from '@/features/cart/application/CartActionsContext'
 import { getStockStatus } from '@/entities/product'
 import type { IProduct } from '@/features/products/application/types'
 import { LazyImage } from '@/shared/ui/LazyImage';
@@ -92,7 +92,7 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
   const { openProductModal } = useProductModalContext()
-  const { addToCart } = useCart()
+  const { addToCart } = useCartActions()
   const [isHovered, setIsHovered] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -122,7 +122,6 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
   return (
     <m.article
       ref={cardRef}
-      role="button"
       tabIndex={isOutOfStock ? -1 : 0}
       aria-label={`Ver detalle de ${product.title}${isOutOfStock ? ' (Sin stock)' : ''}`}
       aria-disabled={isOutOfStock}
@@ -140,7 +139,7 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
         isOutOfStock ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'
       }`}
     >
-      {/* Botones de Admin */}
+      {/* Botones de Admin — z-20 para estar sobre el área de clic del artículo */}
       {isAdmin && (
         <div className="absolute top-2.5 right-2.5 z-20 flex gap-1.5">
           <button
@@ -150,7 +149,7 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
               if (onEdit) onEdit(product);
             }}
             aria-label={`Editar ${product.title}`}
-            className="p-1.5 rounded-full bg-white/95 hover:bg-white dark:bg-slate-900/95 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-primary transition-all shadow-md active:scale-95 flex items-center justify-center cursor-pointer"
+            className="p-1.5 rounded-full bg-white/95 hover:bg-white dark:bg-slate-900/95 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-primary transition-colors shadow-md active:scale-95 flex items-center justify-center cursor-pointer"
           >
             <Pencil size={12} />
           </button>
@@ -161,7 +160,7 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
               if (onDelete) onDelete(product.id);
             }}
             aria-label={`Eliminar ${product.title}`}
-            className="p-1.5 rounded-full bg-white/95 hover:bg-white dark:bg-slate-900/95 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-red-600 transition-all shadow-md active:scale-95 flex items-center justify-center cursor-pointer"
+            className="p-1.5 rounded-full bg-white/95 hover:bg-white dark:bg-slate-900/95 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-red-600 transition-colors shadow-md active:scale-95 flex items-center justify-center cursor-pointer"
           >
             <Trash2 size={12} />
           </button>

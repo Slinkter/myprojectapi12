@@ -1,8 +1,8 @@
 /**
  * @file useCheckout.ts
  * @description Hook personalizado para manejar la lógica de negocio del proceso de pago (checkout).
- * Orquesta la validación, formateo y navegación.
- * @architecture Capa de Aplicación - Lógica de Negocio de Checkout
+ * Orquesta la validación, formateo y navegación delegando la ejecución en CheckoutFacade.
+ * @architecture Capa de Aplicación - Lógica de Negocio de Checkout (Facade & Strategy Integration)
  */
 import {
     useReducer,
@@ -13,7 +13,6 @@ import {
     useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { validateCardInfo } from "@/features/checkout/application/validation";
 import {
     getCardType,
     formatCardNumber,
@@ -30,8 +29,10 @@ import {
     IUseCheckoutReturn,
 } from "@/features/checkout/application/types";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
+import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
 import { useAuth } from "@/features/auth/application/AuthContext";
-import { recordPurchaseAndUpdateStock } from "@/features/checkout/infrastructure/checkoutFirestore";
+import { checkoutFacade } from "@/features/checkout/application/CheckoutFacade";
+import { PaymentStrategyFactory } from "@/features/checkout/domain/factories/PaymentStrategyFactory";
 
 /**
  * @function detectCardType
@@ -68,14 +69,19 @@ const hasEmptyRequiredFields = (cardInfo: ICardInfo): boolean => {
 /**
  * @function useCheckout
  * @description Hook principal para el checkout.
- * Centraliza la lógica de estado, validación y formateo.
+ * Centraliza la lógica de estado, validación y formateo, coordinando con CheckoutFacade.
  *
+ * @param {ICartItem[]} cart - Array de items en el carrito.
+ * @param {number} _totalPrice - Precio total base del carrito.
+ * @param {() => void} clearCart - Función para limpiar el carrito.
+ * @param {IDiscountCode | null} [appliedDiscount] - Código de descuento aplicado opcional.
  * @returns {IUseCheckoutReturn} Objeto con estado y handlers.
  */
 export const useCheckout = (
     cart: ICartItem[],
-    totalPrice: number,
+    _totalPrice: number,
     clearCart: () => void,
+    appliedDiscount?: IDiscountCode | null,
 ): IUseCheckoutReturn => {
     const [state, dispatch] = useReducer(checkoutReducer, initialState);
     const { paymentMethod, cardInfo, errors, cardType } = state;
@@ -93,42 +99,16 @@ export const useCheckout = (
     }, [cardInfo.number, cardType]);
 
     useEffect(() => {
-        if (paymentMethod === "bitcoin") {
+        const strategy = PaymentStrategyFactory.getStrategy(paymentMethod);
+        if (!strategy.requiresCardDetails) {
             dispatch({ type: "SET_ERRORS", payload: {} });
         } else {
-            const validationErrors: IValidationErrors =
-                validateCardInfo(cardInfo);
+            const validationErrors: IValidationErrors = strategy.validate(cardInfo);
             dispatch({ type: "SET_ERRORS", payload: validationErrors });
         }
 
         handleCardTypeDetection();
     }, [paymentMethod, cardInfo, cardType, handleCardTypeDetection]);
-
-    const goToSuccess = useCallback(async () => {
-        if (!user) return;
-        try {
-            const orderId = await recordPurchaseAndUpdateStock(
-                user.uid,
-                user.email,
-                cart,
-                totalPrice,
-                paymentMethod
-            );
-            clearCart();
-            navigate("/checkout-success", {
-                state: {
-                    orderId,
-                    items: cart,
-                    total: totalPrice,
-                    paymentMethod,
-                },
-            });
-        } catch (error) {
-            console.error(error);
-            alert((error as Error).message || "Error al registrar la compra.");
-            throw error; // Re-throw so handlePayment knows it failed
-        }
-    }, [cart, totalPrice, paymentMethod, clearCart, navigate, user]);
 
     const handlePayment = useCallback(async () => {
         setIsSubmitted(true);
@@ -139,18 +119,41 @@ export const useCheckout = (
             cvc: true,
         });
 
-        if (paymentMethod === "bitcoin") {
-            await goToSuccess();
+        if (!user) {
+            alert("Por favor inicia sesión para continuar con el pago.");
             return;
         }
 
-        const validationErrors: IValidationErrors = validateCardInfo(cardInfo);
-        dispatch({ type: "SET_ERRORS", payload: validationErrors });
+        const result = await checkoutFacade.executeCheckout({
+            userId: user.uid,
+            email: user.email || "cliente@tienda.com",
+            cart,
+            paymentMethod,
+            cardInfo,
+            appliedDiscount,
+        });
 
-        if (Object.keys(validationErrors).length === 0) {
-            await goToSuccess();
+        if (!result.success) {
+            if (result.validationErrors) {
+                dispatch({ type: "SET_ERRORS", payload: result.validationErrors });
+            }
+            alert(result.error || "Error al procesar el pago.");
+            throw new Error(result.error || "Error al procesar el pago.");
         }
-    }, [paymentMethod, cardInfo, goToSuccess]);
+
+        clearCart();
+        navigate("/checkout-success", {
+            state: {
+                orderId: result.orderId,
+                items: cart,
+                subtotal: result.subtotal,
+                discountAmount: result.discountAmount,
+                shippingCost: result.shippingCost,
+                total: result.finalTotal,
+                paymentMethod,
+            },
+        });
+    }, [user, cart, paymentMethod, cardInfo, appliedDiscount, clearCart, navigate]);
 
     /**
      * Handles changes to payment form input fields with automatic formatting.
@@ -186,6 +189,7 @@ export const useCheckout = (
         },
         [],
     );
+
     /**
      * Updates the selected payment method (e.g., credit card, bitcoin).
      * Clears any existing card info errors when switching methods.
@@ -205,7 +209,8 @@ export const useCheckout = (
      * @returns true if payment button should be disabled, false otherwise
      */
     const isPaymentDisabled = useMemo(() => {
-        if (paymentMethod === "bitcoin") return false;
+        const strategy = PaymentStrategyFactory.getStrategy(paymentMethod);
+        if (!strategy.requiresCardDetails) return false;
 
         const hasErrors = hasValidationErrors(errors);
         const hasEmptyFields = hasEmptyRequiredFields(cardInfo);
