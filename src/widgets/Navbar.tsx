@@ -90,7 +90,7 @@ const NavLink = ({
         onClick={onClick}
     >
         <div
-            className={`px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition-all cursor-pointer relative flex items-center min-h-[44px] ${
+            className={`px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition-all cursor-pointer relative flex items-center min-h-[48px] md:min-h-[44px] ${
                 active
                     ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80"
@@ -119,7 +119,7 @@ const NavLink = ({
  * @returns {JSX.Element} Botón animado con ícono.
  */
 const actionBtnClass =
-    "flex items-center justify-center w-10 h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+    "flex items-center justify-center w-12 h-12 sm:w-10 sm:h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const ActionBtn = ({
     onClick,
@@ -254,7 +254,7 @@ const Navbar = () => {
                                         type="button"
                                         onClick={() => setIsCatOpen(!isCatOpen)}
                                         whileTap={{ scale: 0.98 }}
-                                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold tracking-wide border-none cursor-pointer transition-all min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold tracking-wide border-none cursor-pointer transition-all min-h-[48px] md:min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                                             isCatActive
                                                 ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
                                                 : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80"
@@ -668,7 +668,7 @@ const Navbar = () => {
                                     <button
                                         type="button"
                                         onClick={() => handleCategorySelect(null)}
-                                        className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors flex items-center gap-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
+                                        className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors flex items-center gap-2 min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
                                     >
                                         <Home size={14} />
                                         Todas las categorías
@@ -688,7 +688,7 @@ const Navbar = () => {
                                                 onClick={() =>
                                                     handleCategorySelect(cat.slug)
                                                 }
-                                                className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 capitalize transition-colors min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
+                                                className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 capitalize transition-colors min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
                                             >
                                                 {cat.name}
                                             </button>

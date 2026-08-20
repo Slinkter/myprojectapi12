@@ -32,7 +32,19 @@ const Layout = ({ children }: ILayoutProps) => {
             className="min-h-screen bg-background text-foreground transition-colors duration-200 ease-in-out"
             style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
-            <Toaster position="top-center" reverseOrder={false} />
+            {/* Snackbars M3: inferior en móvil, superior en escritorio */}
+            <div className="hidden sm:block">
+                <Toaster position="top-center" reverseOrder={false} />
+            </div>
+            <div className="sm:hidden">
+                <Toaster
+                    position="bottom-center"
+                    reverseOrder={false}
+                    containerStyle={{
+                        bottom: "calc(1rem + env(safe-area-inset-bottom))",
+                    }}
+                />
+            </div>
             <Navbar />
             <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 transition-colors duration-200">
                 {children}

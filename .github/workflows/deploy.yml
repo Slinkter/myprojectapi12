@@ -43,6 +43,9 @@ jobs:
 
             - name: Construir proyecto
               run: pnpm run build # Genera la carpeta 'dist'
+              env:
+                  # Base path correcto para GitHub Pages (proyecto en /myprojectapi12/)
+                  VITE_BASE_PATH: /myprojectapi12/
 
             - name: Preparar artefacto para Pages
               uses: actions/upload-pages-artifact@v3

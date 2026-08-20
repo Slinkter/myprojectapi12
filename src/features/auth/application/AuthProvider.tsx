@@ -12,7 +12,7 @@ import {
   onAuthStateChanged 
 } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { auth, db } from "@/shared/lib/firebase";
+import { auth, db, firebaseReady } from "@/shared/lib/firebase";
 import { AuthContext } from "@features/auth/application/AuthContext";
 import type { IUserProfile, IAuthContextValue, UserRole } from "@features/auth/domain/authTypes";
 
@@ -25,6 +25,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    // Sin configuración de Firebase (builds de CI) no hay sesión: degrada a invitado.
+    if (!firebaseReady) {
+      setLoading(false);
+      return;
+    }
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         try {
@@ -69,6 +74,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const login = async (email: string, pass: string) => {
+    if (!firebaseReady) throw new Error("La autenticación no está disponible en este entorno.");
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, pass);
@@ -79,6 +85,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const signup = async (email: string, pass: string, role: UserRole) => {
+    if (!firebaseReady) throw new Error("El registro no está disponible en este entorno.");
     setLoading(true);
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, pass);
@@ -104,6 +111,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = async () => {
+    if (!firebaseReady) return;
     setLoading(true);
     try {
       await signOut(auth);

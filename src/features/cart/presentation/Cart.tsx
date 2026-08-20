@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { m, AnimatePresence } from "framer-motion";
 import { useCart } from "@/features/cart/application/useCart";
-import { useLogLifecycle } from "@/shared/hooks";
+import { useLogLifecycle, useIsMobile } from "@/shared/hooks";
 import { CartHeader } from "@features/cart/presentation/CartHeader";
 import { CartItemRow } from "@features/cart/presentation/CartItemRow";
 import { CartFooter } from "@features/cart/presentation/CartFooter";
@@ -11,25 +11,29 @@ import { CartEmptyState } from "@features/cart/presentation/CartEmptyState";
 
 /**
  * @component Cart
- * @description Drawer del carrito de compras renderizado mediante createPortal.
- * Compone de manera modular y declarativa `CartHeader`, `CartItemRow`, `CartFooter`
- * y `CartEmptyState`. Incorpora animaciones fluidas con Framer Motion (slide-in con spring
- * y backdrop con desenfoque), soporte de tecla Escape y navegación al flujo de Checkout.
+ * @description Panel del carrito de compras renderizado mediante createPortal.
+ * En móvil se comporta como un **Modal Bottom Sheet** de Material Design 3 (desliza
+ * desde el borde inferior con handle de arrastre para cerrar); en escritorio conserva
+ * el comportamiento de drawer lateral. Compone de manera modular y declarativa
+ * `CartHeader`, `CartItemRow`, `CartFooter` y `CartEmptyState`. Incorpora animaciones
+ * fluidas con Framer Motion, soporte de tecla Escape y navegación al flujo de Checkout.
  *
  * @remarks
  * **Composición y Flujo de Interacción:**
  * 1. `useCart` provee el estado global del carrito (`cart`, `totalPrice`, `totalItems`, `isCartOpen`, etc.).
- * 2. `AnimatePresence` maneja el ciclo de vida de animación de entrada y salida.
- * 3. `m.div` (Backdrop) genera un fondo oscuro con `backdrop-blur-sm` que responde al clic de cierre.
- * 4. `m.div` (Panel) se desliza desde el borde derecho con física de resorte (spring).
- * 5. `CartHeader` muestra el título interactivo, badge y botón de cierre.
- * 6. El área con scroll renderiza `CartItemRow` para cada producto o `CartEmptyState` si está vacío.
- * 7. `CartFooter` desglosa subtotal, envío, total y dispara el checkout al hacer clic.
+ * 2. `useIsMobile` decide el patrón de presentación: bottom sheet (móvil) o drawer (escritorio).
+ * 3. `AnimatePresence` maneja el ciclo de vida de animación de entrada y salida.
+ * 4. `m.div` (Backdrop) genera un fondo oscuro con `backdrop-blur-sm` que responde al clic de cierre.
+ * 5. En móvil, un handle superior es arrastrable hacia abajo para cerrar (drag-to-dismiss).
+ * 6. `CartHeader` muestra el título interactivo, badge y botón de cierre.
+ * 7. El área con scroll renderiza `CartItemRow` para cada producto o `CartEmptyState` si está vacío.
+ * 8. `CartFooter` desglosa subtotal, envío, total y dispara el checkout al hacer clic.
  *
- * @returns {JSX.Element | null} Portal del drawer si el carrito está montado, gestionado por AnimatePresence.
+ * @returns {JSX.Element | null} Portal del panel si el carrito está montado, gestionado por AnimatePresence.
  */
 const Cart = () => {
   useLogLifecycle("Cart");
+  const isMobile = useIsMobile();
   const { cart, removeFromCart, clearCart, isCartOpen, closeCart, totalPrice, totalItems } = useCart();
   const navigate = useNavigate();
 
@@ -38,6 +42,13 @@ const Cart = () => {
   const handleCheckout = () => {
     closeCart();
     navigate("/checkout");
+  };
+
+  const handleDragEnd = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: { offset: { y: number }; velocity: { y: number } }
+  ) => {
+    if (info.offset.y > 120 || info.velocity.y > 500) closeCart();
   };
 
   useEffect(() => {
@@ -64,18 +75,48 @@ const Cart = () => {
             aria-hidden="true"
           />
 
-          {/* Panel Lateral Deslizante (Drawer) */}
+          {/* Panel: Bottom Sheet M3 en móvil / Drawer lateral en escritorio */}
           <m.div
             role="dialog"
             aria-modal="true"
             aria-label="Carrito de compras"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 26, stiffness: 280 }}
-            className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[400px] flex flex-col shadow-2xl border-l border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden rounded-l-3xl"
-            style={{ height: "calc(100dvh - env(safe-area-inset-bottom))" }}
+            initial={isMobile ? { y: "100%" } : { x: "100%" }}
+            animate={isMobile ? { y: 0 } : { x: 0 }}
+            exit={isMobile ? { y: "100%" } : { x: "100%" }}
+            transition={
+              isMobile
+                ? { type: "spring", stiffness: 260, damping: 32, mass: 1 }
+                : { type: "spring", damping: 26, stiffness: 280 }
+            }
+            className={
+              isMobile
+                ? "fixed inset-x-0 bottom-0 z-50 max-h-[92dvh] flex flex-col shadow-2xl border-t border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden rounded-t-3xl"
+                : "fixed top-0 right-0 bottom-0 z-50 w-full max-w-[400px] flex flex-col shadow-2xl border-l border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden rounded-l-3xl"
+            }
+            style={
+              isMobile
+                ? { maxHeight: "92dvh" }
+                : { height: "calc(100dvh - env(safe-area-inset-bottom))" }
+            }
           >
+            {/* Handle de arrastre M3 (solo móvil) — drag-to-dismiss */}
+            {isMobile && (
+              <div
+                className="flex justify-center pt-2.5 pb-1 shrink-0"
+                style={{ paddingBottom: "0.25rem" }}
+              >
+                <m.div
+                  drag="y"
+                  dragConstraints={{ top: 0, bottom: 0 }}
+                  dragElastic={{ top: 0, bottom: 0.35 }}
+                  dragMomentum={false}
+                  onDragEnd={handleDragEnd}
+                  className="w-10 h-1 rounded-full bg-slate-300 dark:bg-slate-700 cursor-grab active:cursor-grabbing touch-none"
+                  aria-hidden="true"
+                />
+              </div>
+            )}
+
             {/* Línea de acento visual superior */}
             <div className="h-[3px] w-full shrink-0 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600" />
 
@@ -105,6 +146,15 @@ const Cart = () => {
                 totalPrice={totalPrice}
                 onCheckout={handleCheckout}
                 onClearCart={clearCart}
+              />
+            )}
+
+            {/* Safe area inferior de iOS */}
+            {isMobile && (
+              <div
+                className="shrink-0 bg-slate-50/50 dark:bg-slate-900/30"
+                style={{ height: "env(safe-area-inset-bottom)" }}
+                aria-hidden="true"
               />
             )}
           </m.div>

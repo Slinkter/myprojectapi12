@@ -7,11 +7,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { m, AnimatePresence } from "framer-motion";
-import { useLogLifecycle } from "@/shared/hooks";
+import { useLogLifecycle, useIsMobile } from "@/shared/hooks";
 import { useCartActions } from "@/features/cart/application/useCart";
 import type { IProductDetailModalProps } from "@/features/products/application/types";
 import { getStockStatus } from "@/entities/product";
-import { modalSlideUp, backdropFade } from "@/shared/lib/animations";
+import { modalSlideUp, bottomSheet, backdropFade } from "@/shared/lib/animations";
 
 import ProductImageGallery from "@features/products/presentation/components/ProductImageGallery";
 import ProductHeader from "@features/products/presentation/components/ProductHeader";
@@ -25,16 +25,19 @@ import ModalCloseButton from "@features/products/presentation/components/ModalCl
  * @description Modal accesible de presentación y detalle de producto.
  *
  * @remarks
- * Orquesta subcomponentes especializados (`ProductImageGallery`, `ProductHeader`,
- * `ProductPriceSection`, `ProductStockInfo`, `AddToCartActions`, `ModalCloseButton`),
- * asegurando trampa de foco (keyboard trap), cierre por tecla Escape, bloqueo de scroll
- * en body y animaciones suaves con Framer Motion.
+ * En móvil se comporta como un **Modal Bottom Sheet** de Material Design 3 (anclado al
+ * borde inferior, esquinas superiores redondeadas y handle de arrastre para cerrar);
+ * en escritorio conserva el diálogo centrado. Orquesta subcomponentes especializados
+ * (`ProductImageGallery`, `ProductHeader`, `ProductPriceSection`, `ProductStockInfo`,
+ * `AddToCartActions`, `ModalCloseButton`), asegurando trampa de foco (keyboard trap),
+ * cierre por tecla Escape, bloqueo de scroll en body y animaciones suaves con Framer Motion.
  *
  * @param {IProductDetailModalProps} props - Propiedades del modal.
  * @returns {JSX.Element | null} Portal del modal o null si no está abierto o no hay producto.
  */
 const ProductDetailModal = (props: IProductDetailModalProps) => {
   useLogLifecycle("ProductDetailModal");
+  const isMobile = useIsMobile();
   const { product, isOpen, onClose } = props;
   const { addToCart } = useCartActions();
   const [prevProductId, setPrevProductId] = useState<number | undefined>(product?.id);
@@ -104,6 +107,13 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
     onClose();
   };
 
+  const handleDragEnd = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: { offset: { y: number }; velocity: { y: number } }
+  ) => {
+    if (info.offset.y > 120 || info.velocity.y > 500) onClose();
+  };
+
   if (!product) return null;
 
   const stockStatus = getStockStatus(product.stock);
@@ -114,7 +124,11 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
     <AnimatePresence>
       {isOpen && (
         <m.div
-          className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4"
+          className={
+            isMobile
+              ? "fixed inset-0 z-50 flex items-end justify-center overflow-hidden"
+              : "fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4"
+          }
           variants={backdropFade}
           initial="hidden"
           animate="visible"
@@ -130,15 +144,37 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
             role="dialog"
             aria-modal="true"
             aria-label={`Detalle de ${product.title}`}
-            variants={modalSlideUp}
+            variants={isMobile ? bottomSheet : modalSlideUp}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="w-full max-w-[850px] bg-white dark:bg-slate-950 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 relative my-8"
+            className={
+              isMobile
+                ? "w-full max-h-[92dvh] overflow-y-auto bg-white dark:bg-slate-950 rounded-t-3xl shadow-2xl border-t border-slate-200/80 dark:border-slate-800"
+                : "w-full max-w-[850px] bg-white dark:bg-slate-950 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 relative my-8"
+            }
           >
+            {/* Handle de arrastre M3 (solo móvil) — drag-to-dismiss */}
+            {isMobile && (
+              <div
+                className="flex justify-center pt-3 pb-1 shrink-0"
+                style={{ paddingBottom: "0.25rem" }}
+              >
+                <m.div
+                  drag="y"
+                  dragConstraints={{ top: 0, bottom: 0 }}
+                  dragElastic={{ top: 0, bottom: 0.35 }}
+                  dragMomentum={false}
+                  onDragEnd={handleDragEnd}
+                  className="w-10 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 cursor-grab active:cursor-grabbing touch-none"
+                  aria-hidden="true"
+                />
+              </div>
+            )}
+
             <ModalCloseButton onClose={onClose} />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch ${isMobile ? "p-4 pt-0" : ""}`}>
               <ProductImageGallery
                 images={product.images}
                 thumbnail={product.thumbnail}
@@ -172,6 +208,15 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                 />
               </div>
             </div>
+
+            {/* Safe area inferior de iOS */}
+            {isMobile && (
+              <div
+                className="shrink-0"
+                style={{ height: "env(safe-area-inset-bottom)" }}
+                aria-hidden="true"
+              />
+            )}
           </m.div>
         </m.div>
       )}

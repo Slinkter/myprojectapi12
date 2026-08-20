@@ -7,7 +7,7 @@
 
 import { useState, useCallback, useMemo, useDeferredValue, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { m } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useProducts } from "@/features/products/application/useProducts";
 import type { IProduct } from "@/features/products/domain/productTypes";
 import { useProductModalContext } from "@/features/products/application/useProductModalContext";
@@ -18,7 +18,7 @@ import ProductDetailModal from "@/features/products/presentation/ProductDetailMo
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCategories } from "@/features/products/application/useCategories";
 import { slideUp } from "@/shared/lib/animations";
-import { X, Sparkles, Package, Plus } from "lucide-react";
+import { X, Sparkles, Package, Plus, ArrowUp } from "lucide-react";
 import { useAuth } from "@/features/auth/application/AuthContext";
 import { ProductFormModal } from "@/features/products/presentation/ProductFormModal";
 import { deleteProduct } from "@/features/products/infrastructure/productsFirestore";
@@ -72,7 +72,16 @@ export const HomeContent = () => {
     const isAdmin = user?.role === "admin";
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [productToEdit, setProductToEdit] = useState<IProduct | null>(null);
+    const [showScrollTop, setShowScrollTop] = useState(false);
     const queryClient = useQueryClient();
+
+    // FAB "volver arriba" (M3) — aparece solo en móvil tras desplazarse
+    useEffect(() => {
+        const onScroll = () => setShowScrollTop(window.scrollY > 480);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
 
     const handleEditProduct = useCallback((product: IProduct) => {
         setProductToEdit(product);
@@ -240,7 +249,7 @@ export const HomeContent = () => {
                                     setProductToEdit(null);
                                     setIsFormOpen(true);
                                 }}
-                                className="h-10 px-4 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover active:scale-95 transition-colors shadow-md shadow-primary/20 flex items-center gap-1.5 shrink-0 cursor-pointer"
+                                className="hidden sm:flex h-10 px-4 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover active:scale-95 transition-colors shadow-md shadow-primary/20 flex items-center gap-1.5 shrink-0 cursor-pointer"
                             >
                                 <Plus size={14} />
                                 Nuevo
@@ -305,6 +314,63 @@ export const HomeContent = () => {
                 }}
                 productToEdit={productToEdit}
             />
+
+            {/* ── FABs Material Design 3 — solo móvil ── */}
+            <div className="sm:hidden">
+                <AnimatePresence>
+                    {showScrollTop && (
+                        <m.button
+                            type="button"
+                            key="fab-scroll-top"
+                            onClick={() =>
+                                window.scrollTo({ top: 0, behavior: "smooth" })
+                            }
+                            initial={{ opacity: 0, scale: 0.6 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.6 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 260,
+                                damping: 22,
+                            }}
+                            aria-label="Volver arriba"
+                            className="fixed right-4 z-40 w-14 h-14 rounded-2xl flex items-center justify-center border-none bg-primary text-white shadow-lg shadow-primary/30 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
+                            style={{
+                                bottom: isAdmin
+                                    ? "calc(5.5rem + env(safe-area-inset-bottom))"
+                                    : "calc(1.25rem + env(safe-area-inset-bottom))",
+                            }}
+                        >
+                            <ArrowUp size={22} />
+                        </m.button>
+                    )}
+                </AnimatePresence>
+
+                {isAdmin && (
+                    <m.button
+                        type="button"
+                        onClick={() => {
+                            setProductToEdit(null);
+                            setIsFormOpen(true);
+                        }}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 260,
+                            damping: 24,
+                        }}
+                        aria-label="Crear nuevo producto"
+                        className="fixed right-4 z-40 h-14 px-5 rounded-2xl inline-flex items-center gap-2 border-none bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
+                        style={{
+                            bottom: "calc(1.25rem + env(safe-area-inset-bottom))",
+                        }}
+                    >
+                        <Plus size={18} />
+                        Nuevo
+                    </m.button>
+                )}
+            </div>
         </div>
     );
 };

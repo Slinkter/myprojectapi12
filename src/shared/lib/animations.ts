@@ -77,3 +77,25 @@ export const flyToCart: Variants = {
     transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
   },
 }
+
+/**
+ * Easing "emphasized" de Material Design 3 (`motion/easing.md3`) para transiciones
+ * de entrada/salida de componentes móviles (bottom sheets, FABs).
+ */
+export const md3EmphasizedEase: [number, number, number, number] = [0.2, 0, 0, 1]
+
+/**
+ * Variantes de Modal Bottom Sheet de Material Design 3.
+ * Entrada y salida deslizando desde el borde inferior con física de resorte suave.
+ */
+export const bottomSheet: Variants = {
+  hidden: { y: '100%' },
+  visible: {
+    y: 0,
+    transition: { type: 'spring', stiffness: 260, damping: 32, mass: 1 },
+  },
+  exit: {
+    y: '100%',
+    transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
+  },
+}
