@@ -39,6 +39,7 @@ export interface IOrderItem {
   title: string;
   price: number;
   quantity: number;
+  thumbnail?: string;
 }
 
 export interface IOrderDocument {

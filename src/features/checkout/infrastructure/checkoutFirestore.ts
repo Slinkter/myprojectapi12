@@ -24,12 +24,20 @@ export const recordPurchaseAndUpdateStock = async (
   const orderId = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 
   await runTransaction(db, async (transaction) => {
-    // 1. Validar y descontar stock para cada producto en el carrito
+    // 1. Validar y descontar stock para cada producto en el carrito (Lectura paralela en transacción)
+    const productRefs = cart.map((item) => ({
+      item,
+      docRef: doc(db, "products", String(item.id)),
+    }));
+
+    const productSnapshots = await Promise.all(
+      productRefs.map((p) => transaction.get(p.docRef))
+    );
+
     const productUpdates: Array<{ docRef: DocumentReference; newStock: number }> = [];
 
-    for (const item of cart) {
-      const productRef = doc(db, "products", String(item.id));
-      const productSnapshot = await transaction.get(productRef);
+    productSnapshots.forEach((productSnapshot, index) => {
+      const { item, docRef } = productRefs[index];
 
       if (!productSnapshot.exists()) {
         throw new Error(`El producto "${item.title}" no existe en la base de datos.`);
@@ -41,10 +49,10 @@ export const recordPurchaseAndUpdateStock = async (
       }
 
       productUpdates.push({
-        docRef: productRef,
+        docRef,
         newStock: currentStock - item.quantity,
       });
-    }
+    });
 
     // 2. Aplicar las actualizaciones de stock
     for (const update of productUpdates) {
@@ -63,6 +71,7 @@ export const recordPurchaseAndUpdateStock = async (
         title: item.title,
         price: item.price,
         quantity: item.quantity,
+        thumbnail: item.thumbnail || "",
       })),
       total,
       paymentMethod,

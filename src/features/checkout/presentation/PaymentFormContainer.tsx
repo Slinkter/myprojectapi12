@@ -8,7 +8,7 @@ import type { ChangeEvent } from "react";
 import { FaBitcoin } from "react-icons/fa";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import CardForm from "@/features/checkout/presentation/components/CardForm";
-import type { PaymentMethod } from "./PaymentMethodSelector";
+import type { PaymentMethod } from "@features/checkout/presentation/PaymentMethodSelector";
 import type { ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
 import { useLogLifecycle } from "@/shared/hooks";
 
@@ -25,6 +25,8 @@ interface CardFormProps {
   cardType: string;
   /** Manejador de cambios en los campos */
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Manejador de desenfoque de los campos */
+  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -78,6 +80,7 @@ const PaymentFormContainer = ({ paymentMethod, cardProps }: PaymentFormContainer
       errors={cardProps.errors}
       cardType={cardProps.cardType}
       onChange={cardProps.onChange}
+      onBlur={cardProps.onBlur}
     />
   );
 };

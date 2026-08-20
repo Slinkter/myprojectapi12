@@ -18,6 +18,7 @@ const CheckoutSuccess = lazy(
 
 const Orders = lazy(() => import("@/pages/Orders"));
 const FAQ = lazy(() => import("@/pages/FAQ"));
+const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 
 const AnimatedPage = ({ children }: { children: React.ReactNode }) => (
     <m.div variants={pageFadeIn} initial="hidden" animate="visible" exit="exit">
@@ -69,6 +70,14 @@ const AppRouter: React.FC = () => {
                         element={
                             <AnimatedPage>
                                 <FAQ />
+                            </AnimatedPage>
+                        }
+                    />
+                    <Route
+                        path="/admin"
+                        element={
+                            <AnimatedPage>
+                                <AdminDashboard />
                             </AnimatedPage>
                         }
                     />

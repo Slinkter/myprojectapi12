@@ -35,8 +35,132 @@ import {
   Printer
 } from "lucide-react";
 
+const priceFormatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price);
+  return priceFormatter.format(price);
+};
+
+const handlePrintTicket = (order: IOrderDocument) => {
+  const printWindow = window.open("", "_blank");
+  if (!printWindow) return;
+
+  // Calcular fecha de entrega estimada (2 a 3 días después de la fecha de creación)
+  const orderCreatedDate = order.createdAt?.toDate ? order.createdAt.toDate() : new Date();
+  const estDeliveryMin = new Date(orderCreatedDate.getTime() + 2 * 24 * 60 * 60 * 1000);
+  const estDeliveryMax = new Date(orderCreatedDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+  
+  const estDeliveryStr = `${estDeliveryMin.toLocaleDateString("es-ES", { day: "numeric", month: "short" })} a ${estDeliveryMax.toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" })}`;
+
+  const itemsHtml = order.items
+    .map(
+      (i) => `
+      <tr>
+        <td style="padding: 12px 8px; border-bottom: 1px solid #e2e8f0; vertical-align: middle;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            ${i.thumbnail ? `<img src="${i.thumbnail}" alt="${i.title}" style="width: 44px; height: 44px; object-cover: cover; border-radius: 6px; border: 1px solid #e2e8f0;" />` : `<div style="width: 44px; height: 44px; background: #f1f5f9; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #94a3b8;">N/A</div>`}
+            <span style="font-weight: 500;">${i.title}</span>
+          </div>
+        </td>
+        <td style="padding: 12px 8px; border-bottom: 1px solid #e2e8f0; text-align: center; vertical-align: middle;">${i.quantity}</td>
+        <td style="padding: 12px 8px; border-bottom: 1px solid #e2e8f0; text-align: right; vertical-align: middle; font-weight: 600;">${formatPrice(i.price * i.quantity)}</td>
+      </tr>`
+    )
+    .join("");
+
+  const historyHtml = (order.statusHistory || [])
+    .map(
+      (h) => `
+      <div style="display: flex; gap: 10px; font-size: 12px; margin-bottom: 8px;">
+        <span style="color: #64748b; font-family: monospace;">[${h.timestamp?.toDate ? h.timestamp.toDate().toLocaleDateString("es-ES") : "Reciente"}]</span>
+        <span><strong>${(ORDER_STATUS_LABELS[h.status]?.label || h.status).toUpperCase()}:</strong> ${h.note || "Actualización de estado"} <span style="color: #94a3b8; font-size: 11px;">(${h.updatedBy || "Sistema"})</span></span>
+      </div>`
+    )
+    .join("");
+
+  const orderDate = order.createdAt?.toDate 
+    ? order.createdAt.toDate().toLocaleString("es-ES", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      })
+    : "Reciente";
+
+  const currentStatusLabel = ORDER_STATUS_LABELS[order.status]?.label || order.status;
+
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Comprobante de Pedido - ${order.orderId}</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; color: #334155; max-width: 700px; margin: auto; line-height: 1.5; }
+          h1 { font-size: 24px; margin-bottom: 4px; color: #0f172a; }
+          .header { border-bottom: 2px solid #10b981; padding-bottom: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 20px; font-size: 14px; }
+          th { text-align: left; background: #f8fafc; padding: 10px 8px; border-bottom: 2px solid #e2e8f0; color: #475569; font-weight: 600; }
+          .total-section { display: flex; flex-direction: column; align-items: flex-end; border-top: 1px solid #e2e8f0; padding-top: 15px; margin-top: 15px; }
+          .total { font-size: 20px; font-weight: bold; color: #059669; margin: 0; }
+          .badge { display: inline-block; padding: 4px 12px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-weight: bold; border-radius: 20px; font-size: 12px; }
+          .section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; color: #475569; letter-spacing: 0.05em; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-top: 25px; margin-bottom: 10px; }
+          .meta-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 15px; font-size: 14px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #f1f5f9; }
+          .meta-item { margin-bottom: 4px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div>
+            <h1>MyProjectAPI12 Store</h1>
+            <p style="font-size: 12px; color: #64748b; margin: 0;">Comprobante Oficial de Compra y Despacho</p>
+          </div>
+          <div class="badge">${currentStatusLabel.toUpperCase()}</div>
+        </div>
+        
+        <div class="meta-grid">
+          <div>
+            <div class="meta-item"><strong>ID de Pedido:</strong> <span style="font-family: monospace;">${order.orderId}</span></div>
+            <div class="meta-item"><strong>Fecha:</strong> ${orderDate}</div>
+            <div class="meta-item"><strong>Cliente:</strong> ${order.email}</div>
+          </div>
+          <div>
+            <div class="meta-item"><strong>Método de Pago:</strong> ${order.paymentMethod.toUpperCase()}</div>
+            <div class="meta-item"><strong>Estimado de Entrega:</strong> <span style="color: #0369a1; font-weight: 600;">${estDeliveryStr}</span></div>
+            <div class="meta-item" style="font-size: 11px; color: #64748b;">(Entrega estándar dentro de 2-3 días hábiles)</div>
+          </div>
+        </div>
+        
+        <div class="section-title">Productos Adquiridos</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th style="text-align: center;">Cantidad</th>
+              <th style="text-align: right;">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsHtml}
+          </tbody>
+        </table>
+        
+        <div class="total-section">
+          <p class="total">Total Pagado: ${formatPrice(order.total)}</p>
+        </div>
+
+        ${historyHtml ? `
+          <div class="section-title">Historial de Estado del Pedido</div>
+          <div style="background: #fafafa; padding: 12px; border-radius: 8px; border: 1px solid #f3f4f6;">
+            ${historyHtml}
+          </div>
+        ` : ""}
+        
+        <p style="font-size: 11px; color: #94a3b8; text-align: center; margin-top: 40px; border-top: 1px dashed #e2e8f0; padding-top: 20px;">¡Gracias por tu confianza en MyProjectAPI12! Conserve este comprobante para cualquier aclaración.</p>
+        <script>
+          window.onload = function() { window.print(); };
+        </script>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
 };
 
 export const Orders: React.FC = () => {
@@ -87,78 +211,6 @@ export const Orders: React.FC = () => {
       if (unsubscribe) unsubscribe();
     };
   }, [user]);
-
-  const handlePrintTicket = (order: IOrderDocument) => {
-    const printWindow = window.open("", "_blank");
-    if (!printWindow) return;
-    
-    const itemsHtml = order.items
-      .map(
-        (i) => `
-        <tr>
-          <td style="padding: 8px; border-bottom: 1px solid #eee;">${i.title}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">${i.quantity}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">${formatPrice(i.price * i.quantity)}</td>
-        </tr>`
-      )
-      .join("");
-
-    const orderDate = order.createdAt?.toDate 
-      ? order.createdAt.toDate().toLocaleString("es-ES", {
-          dateStyle: "medium",
-          timeStyle: "short",
-        })
-      : "Reciente";
-
-    printWindow.document.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>Comprobante de Pedido - ${order.orderId}</title>
-          <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px; color: #1e293b; max-width: 600px; margin: auto; }
-            h1 { font-size: 22px; margin-bottom: 4px; color: #0f172a; }
-            .header { border-bottom: 2px solid #10b981; padding-bottom: 12px; margin-bottom: 20px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-            th { text-align: left; background: #f8fafc; padding: 8px; border-bottom: 2px solid #cbd5e1; }
-            .total { text-align: right; font-size: 18px; font-weight: bold; margin-top: 20px; color: #059669; }
-            .badge { display: inline-block; padding: 4px 10px; background: #ecfdf5; color: #059669; font-weight: bold; border-radius: 20px; font-size: 12px; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>MyProjectAPI12 Store</h1>
-            <p style="font-size: 12px; color: #64748b; margin: 0;">Comprobante de Compra y Despacho</p>
-          </div>
-          <p><strong>ID de Pedido:</strong> ${order.orderId}</p>
-          <p><strong>Cliente:</strong> ${order.email}</p>
-          <p><strong>Fecha:</strong> ${orderDate}</p>
-          <p><strong>Estado Actual:</strong> <span class="badge">${order.status.toUpperCase()}</span></p>
-          <p><strong>Método de Pago:</strong> ${order.paymentMethod.toUpperCase()}</p>
-          
-          <table>
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th style="text-align: center;">Cantidad</th>
-                <th style="text-align: right;">Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${itemsHtml}
-            </tbody>
-          </table>
-          
-          <p class="total">Total Pagado: ${formatPrice(order.total)}</p>
-          <p style="font-size: 11px; color: #94a3b8; text-align: center; margin-top: 40px;">¡Gracias por tu compra en MyProjectAPI12!</p>
-          <script>
-            window.onload = function() { window.print(); };
-          </script>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-  };
 
   if (authLoading) return <Loader />;
   if (!user) return <Navigate to="/?login=true" replace />;
@@ -312,6 +364,7 @@ export const Orders: React.FC = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Buscar por ID o correo..."
+            aria-label="Buscar pedidos por ID o correo electrónico"
             className="w-full h-10 pl-10 pr-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-medium text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
           />
         </div>
@@ -353,10 +406,12 @@ export const Orders: React.FC = () => {
                 key={order.orderId}
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all"
               >
-                {/* Cabecera del pedido */}
-                <div 
+                {/* Cabecera del pedido accesible por teclado */}
+                <button
+                  type="button"
                   onClick={() => toggleExpand(order.orderId)}
-                  className="p-5 flex flex-wrap items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors"
+                  className="w-full text-left p-5 flex flex-wrap items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors border-none bg-transparent"
+                  aria-expanded={isExpanded}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
@@ -383,19 +438,20 @@ export const Orders: React.FC = () => {
                       <span className="text-lg font-extrabold text-primary">{formatPrice(order.total)}</span>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                       {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                     </div>
                   </div>
-                </div>
+                </button>
 
                 {/* Contenido expandido */}
                 <AnimatePresence>
                   {isExpanded && (
                     <m.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2 }}
                       className="border-t border-slate-150 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/40 p-5 sm:p-6 space-y-6"
                     >
                       {/* Observaciones del Administrador */}
@@ -503,8 +559,8 @@ export const Orders: React.FC = () => {
                           Artículos del Pedido ({order.items.reduce((acc, i) => acc + i.quantity, 0)})
                         </h4>
                         <div className="divide-y divide-slate-150 dark:divide-slate-800 bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
-                          {order.items.map((item, idx) => (
-                            <div key={idx} className="py-2.5 first:pt-0 last:pb-0 flex justify-between items-center text-sm">
+                          {order.items.map((item) => (
+                            <div key={`${order.orderId}-item-${item.productId}`} className="py-2.5 first:pt-0 last:pb-0 flex justify-between items-center text-sm">
                               <div>
                                 <span className="font-semibold text-slate-800 dark:text-slate-200 block">
                                   {item.title}
@@ -531,7 +587,7 @@ export const Orders: React.FC = () => {
                             </h4>
                           </div>
                           <div className="space-y-2">
-                            {order.statusHistory.map((hist, idx) => {
+                            {order.statusHistory.map((hist, histIdx) => {
                               const histDate = hist.timestamp?.toDate
                                 ? hist.timestamp.toDate().toLocaleString("es-ES", {
                                     dateStyle: "short",
@@ -539,9 +595,10 @@ export const Orders: React.FC = () => {
                                   })
                                 : "Reciente";
                               const histLabel = ORDER_STATUS_LABELS[hist.status]?.label || hist.status;
+                              const uniqueHistKey = `${order.orderId}-hist-${hist.status}-${hist.timestamp?.seconds || histIdx}`;
 
                               return (
-                                <div key={idx} className="text-xs p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                <div key={uniqueHistKey} className="text-xs p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                                   <div className="space-y-0.5">
                                     <div className="flex items-center gap-2">
                                       <span className="font-bold text-slate-800 dark:text-slate-200">
@@ -607,10 +664,11 @@ export const Orders: React.FC = () => {
 
             {/* Selector de Nuevo Estado */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label htmlFor="order-status-select" className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                 Estado del Pedido:
               </label>
               <select
+                id="order-status-select"
                 value={newStatus}
                 onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
                 className="w-full h-11 px-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -638,10 +696,11 @@ export const Orders: React.FC = () => {
 
             {/* Nota u Observación del Admin */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label htmlFor="admin-note-textarea" className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                 Observaciones / Nota para el Cliente:
               </label>
               <textarea
+                id="admin-note-textarea"
                 value={adminNote}
                 onChange={(e) => setAdminNote(e.target.value)}
                 placeholder="Ejemplo: Pago validado con éxito. El paquete será despachado mañana a primera hora..."
@@ -664,7 +723,7 @@ export const Orders: React.FC = () => {
                 type="button"
                 disabled={isUpdating}
                 onClick={handleSaveStatusUpdate}
-                className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 cursor-pointer transition-all flex items-center gap-2"
+                className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 cursor-pointer transition-colors flex items-center gap-2"
               >
                 {isUpdating ? "Guardando..." : "Guardar Cambios"}
               </button>

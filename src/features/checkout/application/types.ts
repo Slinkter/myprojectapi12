@@ -81,6 +81,7 @@ export interface IUseCheckoutReturn {
     cardType: string;
     handlePayment: () => void | Promise<void>;
     handlePaymentFieldChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
     selectPaymentMethod: (method: PaymentMethod) => void;
     isPaymentDisabled: boolean;
 }

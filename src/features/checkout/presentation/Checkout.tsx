@@ -46,6 +46,7 @@ const Checkout = () => {
         cardType,
         handlePayment,
         handlePaymentFieldChange,
+        handleBlur,
         selectPaymentMethod,
     } = useCheckout(cart, totalPrice, clearCart);
 
@@ -68,13 +69,13 @@ const Checkout = () => {
                 <div className="flex flex-col sm:flex-row gap-3 w-full">
                     <button
                         onClick={() => setIsAuthModalOpen(true)}
-                        className="flex-1 h-11 px-6 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary-hover shadow-lg shadow-primary/25 cursor-pointer transition-all flex items-center justify-center"
+                        className="flex-1 h-11 px-6 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary-hover shadow-lg shadow-primary/25 cursor-pointer transition-colors flex items-center justify-center"
                     >
                         Iniciar Sesión / Registro
                     </button>
                     <Link
                         to="/"
-                        className="flex-1 h-11 px-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-bold text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer transition-all no-underline"
+                        className="flex-1 h-11 px-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-bold text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer transition-colors no-underline"
                     >
                         Volver a la tienda
                     </Link>
@@ -140,6 +141,7 @@ const Checkout = () => {
                                         errors,
                                         cardType,
                                         onChange: handlePaymentFieldChange,
+                                        onBlur: handleBlur,
                                     }}
                                 />
                             </div>

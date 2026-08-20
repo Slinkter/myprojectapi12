@@ -13,12 +13,12 @@ import type { IProductDetailModalProps } from "@/features/products/application/t
 import { getStockStatus } from "@/entities/product";
 import { modalSlideUp, backdropFade } from "@/shared/lib/animations";
 
-import ProductImageGallery from "./components/ProductImageGallery";
-import ProductHeader from "./components/ProductHeader";
-import ProductPriceSection from "./components/ProductPriceSection";
-import ProductStockInfo from "./components/ProductStockInfo";
-import AddToCartActions from "./components/AddToCartActions";
-import ModalCloseButton from "./components/ModalCloseButton";
+import ProductImageGallery from "@features/products/presentation/components/ProductImageGallery";
+import ProductHeader from "@features/products/presentation/components/ProductHeader";
+import ProductPriceSection from "@features/products/presentation/components/ProductPriceSection";
+import ProductStockInfo from "@features/products/presentation/components/ProductStockInfo";
+import AddToCartActions from "@features/products/presentation/components/AddToCartActions";
+import ModalCloseButton from "@features/products/presentation/components/ModalCloseButton";
 
 /**
  * @component ProductDetailModal

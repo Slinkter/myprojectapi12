@@ -6,7 +6,7 @@
 
 import { ShoppingBag } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
-import QuantityControl from "./QuantityControl";
+import QuantityControl from "@features/products/presentation/components/QuantityControl";
 import type { StockStatus } from "@/entities/product";
 
 /**
@@ -54,8 +54,8 @@ const AddToCartActions = ({
 
   return (
     <div className="flex flex-col gap-3.5 mt-auto pt-4 border-t border-slate-200/60 dark:border-slate-800/60">
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-3 shrink-0">
           <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Cantidad:
           </span>
@@ -71,10 +71,12 @@ const AddToCartActions = ({
           onClick={onAddToCart}
           disabled={isOutOfStock}
           size="lg"
-          className="flex-1 h-11 md:h-12 text-sm md:text-base font-bold shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-[box-shadow,colors,transform] cursor-pointer"
+          className="flex-grow lg:flex-1 h-11 md:h-12 text-sm md:text-base font-bold shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-[box-shadow,colors,transform] cursor-pointer min-w-[140px] px-4"
         >
-          <ShoppingBag className="mr-2" size={18} />
-          {isOutOfStock ? "Sin Stock" : "Añadir al Carrito"}
+          <ShoppingBag className="mr-2 shrink-0" size={18} />
+          <span className="truncate">
+            {isOutOfStock ? "Sin Stock" : "Añadir al Carrito"}
+          </span>
         </Button>
       </div>
 

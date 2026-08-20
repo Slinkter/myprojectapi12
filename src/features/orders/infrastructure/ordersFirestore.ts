@@ -18,7 +18,7 @@ import {
   Unsubscribe 
 } from "firebase/firestore";
 import { db } from "@/shared/lib/firebase";
-import type { IOrderDocument, OrderStatus, IOrderStatusHistoryItem } from "../domain/orderTypes";
+import type { IOrderDocument, OrderStatus, IOrderStatusHistoryItem } from "@features/orders/domain/orderTypes";
 
 export type { IOrderDocument, OrderStatus, IOrderStatusHistoryItem };
 
@@ -154,14 +154,23 @@ export const updateOrderStatusAndNotes = async (
     const wasAlreadyCancelled = oldStatus === "anulado" || oldStatus === "rechazado";
 
     if (isNowCancelled && !wasAlreadyCancelled && restoreStock && orderData.items) {
-      for (const item of orderData.items) {
-        const productRef = doc(db, "products", String(item.productId));
-        const productSnap = await transaction.get(productRef);
+      // Optimizamos obteniendo todas las lecturas de los documentos de forma paralela al inicio de la transacción
+      const productRefs = orderData.items.map(item => ({
+        ref: doc(db, "products", String(item.productId)),
+        quantity: item.quantity
+      }));
+
+      const productSnaps = await Promise.all(
+        productRefs.map(p => transaction.get(p.ref))
+      );
+
+      productSnaps.forEach((productSnap, index) => {
         if (productSnap.exists()) {
           const currentStock = productSnap.data().stock ?? 0;
-          transaction.update(productRef, { stock: currentStock + item.quantity });
+          const target = productRefs[index];
+          transaction.update(target.ref, { stock: currentStock + target.quantity });
         }
-      }
+      });
     }
 
     // 2. Construir nuevo item de historial

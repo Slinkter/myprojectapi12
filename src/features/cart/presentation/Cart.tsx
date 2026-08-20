@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { m, AnimatePresence } from "framer-motion";
 import { useCart } from "@/features/cart/application/useCart";
 import { useLogLifecycle } from "@/shared/hooks";
-import { CartHeader } from "./CartHeader";
-import { CartItemRow } from "./CartItemRow";
-import { CartFooter } from "./CartFooter";
-import { CartEmptyState } from "./CartEmptyState";
+import { CartHeader } from "@features/cart/presentation/CartHeader";
+import { CartItemRow } from "@features/cart/presentation/CartItemRow";
+import { CartFooter } from "@features/cart/presentation/CartFooter";
+import { CartEmptyState } from "@features/cart/presentation/CartEmptyState";
 
 /**
  * @component Cart

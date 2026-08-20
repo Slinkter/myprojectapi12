@@ -16,9 +16,9 @@ import {
   where
 } from "firebase/firestore";
 import { db } from "@/shared/lib/firebase";
-import { getProducts as getProductsFromApi, getCategories as getCategoriesFromApi } from "./productsApi";
+import { getProducts as getProductsFromApi, getCategories as getCategoriesFromApi } from "@features/products/infrastructure/productsApi";
 import type { IProduct, IProductsApiResponse } from "@/features/products/domain/productTypes";
-import type { ICategory } from "./productsApi";
+import type { ICategory } from "@features/products/infrastructure/productsApi";
 
 const PRODUCTS_COLLECTION = "products";
 
@@ -104,7 +104,11 @@ export const getProducts = async (
     const allProducts: IProduct[] = [];
     
     snapshot.forEach((doc) => {
-      allProducts.push(doc.data() as IProduct);
+      const data = doc.data() as IProduct;
+      // Solo mostrar productos activos en la tienda pública
+      if (data.isActive !== false) {
+        allProducts.push(data);
+      }
     });
 
     if (allProducts.length > 0) {
@@ -170,3 +174,18 @@ export const deleteProduct = async (id: number): Promise<void> => {
   const docRef = doc(db, PRODUCTS_COLLECTION, String(id));
   await deleteDoc(docRef);
 };
+
+/**
+ * Obtiene la lista completa de productos para el panel de administración (incluyendo inactivos).
+ */
+export const getAllProductsForAdmin = async (): Promise<IProduct[]> => {
+  await seedProductsIfEmpty();
+  const productsRef = collection(db, PRODUCTS_COLLECTION);
+  const snapshot = await getDocs(productsRef);
+  const products: IProduct[] = [];
+  snapshot.forEach((doc) => {
+    products.push(doc.data() as IProduct);
+  });
+  return products.sort((a, b) => a.id - b.id);
+};
+

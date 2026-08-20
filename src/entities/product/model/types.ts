@@ -16,6 +16,7 @@ export interface IProduct {
     category?: string;
     thumbnail: string;
     images?: string[];
+    isActive?: boolean;
 }
 
 export interface IProductsApiResponse {

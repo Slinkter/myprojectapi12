@@ -5,7 +5,7 @@
  */
 
 import { useState } from "react";
-import { useAuth } from "../application/AuthContext";
+import { useAuth } from "@features/auth/application/AuthContext";
 import { Mail, Lock, User, ShieldCheck, X, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
 
@@ -60,9 +60,15 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     } catch (err) {
       console.error(err);
       const firebaseError = err as { code?: string; message?: string };
-      if (firebaseError.code === "auth/email-already-in-use") {
+      const code = firebaseError.code || "";
+      if (code === "auth/email-already-in-use") {
         setError("El correo ya está registrado.");
-      } else if (firebaseError.code === "auth/invalid-credential") {
+      } else if (
+        code === "auth/invalid-credential" ||
+        code === "auth/wrong-password" ||
+        code === "auth/user-not-found" ||
+        code === "auth/invalid-email"
+      ) {
         setError("Credenciales incorrectas.");
       } else {
         setError(firebaseError.message || "Ocurrió un error.");
@@ -106,7 +112,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
+            <label htmlFor="login-email" className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
               Correo Electrónico
             </label>
             <div className="relative">
@@ -114,18 +120,31 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 <Mail size={16} />
               </span>
               <input
+                id="login-email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) setError("");
+                }}
                 placeholder="ejemplo@correo.com"
-                className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                className={`w-full h-11 pl-10 pr-4 rounded-xl border bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:ring-2 ${
+                  error === "Credenciales incorrectas."
+                    ? "border-red-500 dark:border-red-700 focus:ring-red-500/20"
+                    : "border-slate-200 dark:border-slate-800 focus:ring-emerald-500/30"
+                }`}
                 required
               />
             </div>
+            {error === "Credenciales incorrectas." && (
+              <span className="text-[10px] text-red-500 font-semibold mt-1 block">
+                Por favor, verifica tu dirección de correo electrónico.
+              </span>
+            )}
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
+            <label htmlFor="login-password" className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
               Contraseña
             </label>
             <div className="relative">
@@ -133,11 +152,19 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 <Lock size={16} />
               </span>
               <input
+                id="login-password"
                 type={showPassword ? "text" : "password"}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (error) setError("");
+                }}
                 placeholder="••••••••"
-                className="w-full h-11 pl-10 pr-11 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+                className={`w-full h-11 pl-10 pr-11 rounded-xl border bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:ring-2 ${
+                  error === "Credenciales incorrectas."
+                    ? "border-red-500 dark:border-red-700 focus:ring-red-500/20"
+                    : "border-slate-200 dark:border-slate-800 focus:ring-emerald-500/30"
+                }`}
                 required
               />
               <button
@@ -149,12 +176,17 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
+            {error === "Credenciales incorrectas." && (
+              <span className="text-[10px] text-red-500 font-semibold mt-1 block">
+                La contraseña introducida es incorrecta.
+              </span>
+            )}
           </div>
 
           {isRegister && (
             <>
               <div>
-                <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
+                <label htmlFor="login-confirm-password" className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
                   Confirmar Contraseña
                 </label>
                 <div className="relative">
@@ -162,6 +194,7 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                     <Lock size={16} />
                   </span>
                   <input
+                    id="login-confirm-password"
                     type={showConfirmPassword ? "text" : "password"}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -181,9 +214,9 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
+                <div className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">
                   Tipo de Usuario (Rol)
-                </label>
+                </div>
                 <div className="flex gap-4">
                   <label className="flex-1 flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 cursor-pointer text-sm font-semibold text-slate-700 dark:text-slate-300">
                     <div className="flex items-center gap-2">

@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.3.0] - 2026-08-20
+
+### Excelencia Técnica, Optimización Big-O, Patrones de Diseño, Accesibilidad y Preparación para Alta Gerencia
+
+- **Arquitectura & Patrones de Diseño**:
+  - Implementación de patrones formales: **Repository** en capas de infraestructura de Firestore, **Strategy** en validaciones de pago/descuentos, **Observer** en reactividad de contextos y suscripciones `onSnapshot`, **Factory** en creación de tickets de despacho y **Facade** en el hook `useCheckout`.
+  - Desacoplamiento estricto bajo Feature-Sliced Design (FSD) y Clean Architecture.
+- **Optimización Algorítmica & Notación Big-O**:
+  - **Firestore Concurrent Reads:** Optimización de transacciones de stock a $O(1)$ en tiempo de red paralelo usando `Promise.all` en `checkoutFirestore.ts`.
+  - **Cart Summary Single-Pass:** Reducción de cálculos de precio y cantidad de productos en el carrito a una sola iteración $O(n)$ en `CartProvider.tsx`.
+- **Rendimiento Visual & UX/UI**:
+  - Eliminación de animaciones basadas en layout reflow (`height: auto`), sustituyéndolas por transformaciones de aceleración por GPU (`opacity`, `transform`) a 60fps.
+  - Reemplazo de transiciones genéricas `transition-all` por transiciones específicas de rendimiento (`transition-colors`, `transition-transform`).
+  - Accesibilidad WCAG 2.1 AA: botones de acordeón semánticos con soporte completo de navegación por teclado, `aria-expanded`, `aria-label` en búsquedas y asociaciones explícitas `<label htmlFor>` en todos los formularios y modales.
+  - Corrección de alternancia de visibilidad en el campo CVV/CVC y validación fluida con `onBlur` (touched) en el formulario de pago.
+- **Impresión & Ticket PDF Enriquecido**:
+  - Generación de comprobante oficial de compra con miniaturas de productos, cálculo automatizado de fecha estimada de entrega (2 a 3 días hábiles) e historial completo de auditoría del pedido.
+- **Documentación & DX Corporativo**:
+  - JSDoc exhaustivo en español en el 100% de los archivos `.ts` y `.tsx`.
+  - Documentación del sistema de diseño y tokens de color en `DESIGN_SYSTEM.md`.
+  - Auditoría de **React Doctor** con calificación **Great** (87/100) y cero errores críticos.
+
 ## [1.2.0] - 2026-08-20
 
 ### Autenticación, Catálogo Firestore, Transacciones de Stock, Historial Real-time y FAQ

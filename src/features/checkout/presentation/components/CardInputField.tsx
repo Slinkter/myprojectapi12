@@ -84,9 +84,10 @@ const CardInputField = ({
           id={inputId}
           name={name}
           value={value}
-          type={resolvedType}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : helperText ? helperId : undefined}
+          {...inputProps}
+          type={resolvedType}
           className={cn(
             "flex h-11 w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-background px-3 py-2 text-sm pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all shadow-xs",
             isNumericField && "font-mono tracking-wider tabular-nums",
@@ -94,7 +95,6 @@ const CardInputField = ({
             (rightSlot || isPasswordType) && "pr-12",
             inputProps?.className
           )}
-          {...inputProps}
         />
 
         {/* Slot a la derecha: indicador de marca o botón para revelar/ocultar CVV */}

@@ -179,6 +179,13 @@ export const useCheckout = (
         [],
     );
 
+    const handleBlur = useCallback(
+        (e: React.FocusEvent<HTMLInputElement>) => {
+            const { name } = e.target;
+            setTouched((prev) => ({ ...prev, [name]: true }));
+        },
+        [],
+    );
     /**
      * Updates the selected payment method (e.g., credit card, bitcoin).
      * Clears any existing card info errors when switching methods.
@@ -230,6 +237,7 @@ export const useCheckout = (
         cardType,
         handlePayment,
         handlePaymentFieldChange,
+        handleBlur,
         selectPaymentMethod,
         isPaymentDisabled,
     };

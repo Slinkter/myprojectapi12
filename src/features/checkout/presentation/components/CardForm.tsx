@@ -8,8 +8,8 @@ import { ChangeEvent } from "react";
 import { ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
 import { User, Calendar, Lock } from "lucide-react";
 import { HiOutlineCreditCard } from "react-icons/hi2";
-import CardInputField from "./CardInputField";
-import CardTypeIndicator from "./CardTypeIndicator";
+import CardInputField from "@features/checkout/presentation/components/CardInputField";
+import CardTypeIndicator from "@features/checkout/presentation/components/CardTypeIndicator";
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**
@@ -25,6 +25,8 @@ export interface ICardFormProps {
   cardType: string;
   /** Manejador de cambios en los campos del formulario */
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Manejador de desenfoque de los campos */
+  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -34,7 +36,7 @@ export interface ICardFormProps {
  * @param {ICardFormProps} props - Propiedades del componente.
  * @returns {JSX.Element} Formulario de tarjeta de crédito.
  */
-const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
+const CardForm = ({ cardInfo, errors, cardType, onChange, onBlur }: ICardFormProps) => {
   useLogLifecycle("CardForm");
 
   return (
@@ -53,6 +55,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
           inputMode: "numeric",
           autoComplete: "cc-number",
           onChange,
+          onBlur,
         }}
       />
 
@@ -67,6 +70,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
           placeholder: "Juan Pérez",
           autoComplete: "cc-name",
           onChange,
+          onBlur,
         }}
       />
 
@@ -85,6 +89,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
             inputMode: "numeric",
             autoComplete: "cc-exp",
             onChange,
+            onBlur,
           }}
         />
 
@@ -102,6 +107,7 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
             inputMode: "numeric",
             autoComplete: "cc-csc",
             onChange,
+            onBlur,
           }}
         />
       </div>

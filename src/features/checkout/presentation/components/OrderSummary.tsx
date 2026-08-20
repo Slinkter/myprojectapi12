@@ -7,10 +7,10 @@
 import { ShoppingBag, Sparkles, Truck } from 'lucide-react';
 import { useLogLifecycle } from "@/shared/hooks";
 import type { ICartItem } from '@/features/cart/domain/cartTypes';
-import { OrderItemRow } from './OrderItemRow';
-import { DiscountInput } from './DiscountInput';
-import { AppliedDiscountBadge } from './AppliedDiscountBadge';
-import { PriceRow } from './PriceRow';
+import { OrderItemRow } from '@features/checkout/presentation/components/OrderItemRow';
+import { DiscountInput } from '@features/checkout/presentation/components/DiscountInput';
+import { AppliedDiscountBadge } from '@features/checkout/presentation/components/AppliedDiscountBadge';
+import { PriceRow } from '@features/checkout/presentation/components/PriceRow';
 import { useDiscountValidation, calculateDiscountAmount } from '@/features/checkout/application/useDiscountValidation';
 
 /**

@@ -524,11 +524,21 @@ const Navbar = () => {
                                 }`}>
                                     {user.role === "admin" ? "Admin" : "Cliente"}
                                 </span>
+                                {user.role === "admin" && (
+                                    <Link
+                                        to="/admin"
+                                        className="no-underline rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                    >
+                                        <div className="px-3 py-1 bg-red-100 hover:bg-red-200 dark:bg-red-950/40 dark:hover:bg-red-900/40 text-[10px] font-bold uppercase tracking-wider rounded-full transition-colors text-red-700 dark:text-red-300">
+                                            Admin
+                                        </div>
+                                    </Link>
+                                )}
                                 <Link
                                     to="/orders"
                                     className="no-underline rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                 >
-                                    <div className="px-3 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-[10px] font-bold uppercase tracking-wider rounded-full transition-all text-slate-700 dark:text-slate-300">
+                                    <div className="px-3 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-[10px] font-bold uppercase tracking-wider rounded-full transition-colors text-slate-700 dark:text-slate-300">
                                         {user.role === "admin" ? "Pedidos" : "Compras"}
                                     </div>
                                 </Link>
@@ -643,6 +653,16 @@ const Navbar = () => {
                             >
                                 Inicio
                             </NavLink>
+
+                            {user?.role === "admin" && (
+                                <NavLink
+                                    to="/admin"
+                                    active={location.pathname === "/admin"}
+                                    onClick={() => setIsMobileOpen(false)}
+                                >
+                                    Panel Admin
+                                </NavLink>
+                            )}
 
                             {/* Categories section */}
                             <div className="mt-2">

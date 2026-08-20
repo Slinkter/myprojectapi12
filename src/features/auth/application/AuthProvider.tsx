@@ -13,8 +13,8 @@ import {
 } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/shared/lib/firebase";
-import { AuthContext } from "./AuthContext";
-import type { IUserProfile, IAuthContextValue, UserRole } from "../domain/authTypes";
+import { AuthContext } from "@features/auth/application/AuthContext";
+import type { IUserProfile, IAuthContextValue, UserRole } from "@features/auth/domain/authTypes";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -32,11 +32,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
           if (userDoc.exists()) {
             const data = userDoc.data();
-            setUser({
-              uid: firebaseUser.uid,
-              email: firebaseUser.email || "",
-              role: data.role as UserRole,
-            });
+            if (data.isSuspended) {
+              alert("Tu cuenta ha sido suspendida por el administrador.");
+              await signOut(auth);
+              setUser(null);
+            } else {
+              setUser({
+                uid: firebaseUser.uid,
+                email: firebaseUser.email || "",
+                role: data.role as UserRole,
+              });
+            }
           } else {
             // Fallback por si el documento de Firestore no existe aún
             setUser({

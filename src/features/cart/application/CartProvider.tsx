@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useCartActions } from "@/features/cart/application/hooks/useCartActions";
-import { calculateTotal } from "@/features/cart/domain/cartUtils";
+import { calculateCartSummary } from "@/features/cart/domain/cartUtils";
 import { useCartDrawer } from "@/features/cart/application/hooks/useCartDrawer";
 import type {
     ICartItem,
@@ -16,7 +16,7 @@ import type {
     ICartProviderProps,
 } from "@/features/cart/domain/cartTypes";
 import { useLogLifecycle, useLocalStorage } from "@/shared/hooks";
-import { CartContext } from "./CartContext";
+import { CartContext } from "@features/cart/application/CartContext";
 
 const CART_STORAGE_KEY = "api12-cart-storage";
 
@@ -39,10 +39,9 @@ export const CartProvider = ({ children }: ICartProviderProps) => {
     const { addToCart, removeFromCart, updateQuantity, clearCart } =
         useCartActions(setCart, openCart);
 
-    const totalPrice = useMemo(() => calculateTotal(cart), [cart]);
-
-    const totalItems = useMemo(
-        () => cart.reduce((sum, item) => sum + item.quantity, 0),
+    // Cálculo combinado en una sola pasada O(n) para precio y cantidad
+    const { totalPrice, totalItems } = useMemo(
+        () => calculateCartSummary(cart),
         [cart],
     );
 

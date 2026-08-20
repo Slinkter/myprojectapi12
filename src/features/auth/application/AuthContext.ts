@@ -5,7 +5,7 @@
  */
 
 import { createContext, useContext } from "react";
-import type { IAuthContextValue } from "../domain/authTypes";
+import type { IAuthContextValue } from "@features/auth/domain/authTypes";
 
 export const AuthContext = createContext<IAuthContextValue | undefined>(undefined);
 
