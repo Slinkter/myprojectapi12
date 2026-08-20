@@ -1,7 +1,7 @@
-import { useState, useRef, type MouseEvent } from 'react'
+import { useState, useRef, useEffect, type MouseEvent } from 'react'
 import { HiOutlineMagnifyingGlassPlus, HiOutlineMagnifyingGlassMinus, HiOutlineArrowPath } from 'react-icons/hi2'
 import { cn } from '@/shared/lib/cn'
-import { useLogLifecycle } from "@/shared/hooks";
+import { useLogLifecycle } from "@/shared/hooks/useLogLifecycle";
 
 /**
  * @interface IImageZoomProps
@@ -29,10 +29,62 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
   const [zoom, setZoom] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
+  const isDraggingRef = useRef(false)
   const dragStart = useRef({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY < 0) {
+        setZoom((prev) => Math.min(prev + 0.25, 3))
+      } else if (e.deltaY > 0) {
+        setZoom((prev) => Math.max(prev - 0.25, 1))
+      }
+    }
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1 && zoom > 1) {
+        isDraggingRef.current = true
+        setIsDragging(true)
+        dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+      }
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDraggingRef.current || zoom <= 1 || e.touches.length !== 1) return
+      const dx = e.touches[0].clientX - dragStart.current.x
+      const dy = e.touches[0].clientY - dragStart.current.y
+      setPosition((prev) => ({
+        x: prev.x + dx,
+        y: prev.y + dy,
+      }))
+      dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+    }
+
+    const handleTouchEnd = () => {
+      isDraggingRef.current = false
+      setIsDragging(false)
+    }
+
+    container.addEventListener('wheel', handleWheel, { passive: true })
+    container.addEventListener('touchstart', handleTouchStart, { passive: true })
+    container.addEventListener('touchmove', handleTouchMove, { passive: true })
+    container.addEventListener('touchend', handleTouchEnd, { passive: true })
+    container.addEventListener('touchcancel', handleTouchEnd, { passive: true })
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel)
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchmove', handleTouchMove)
+      container.removeEventListener('touchend', handleTouchEnd)
+      container.removeEventListener('touchcancel', handleTouchEnd)
+    }
+  }, [zoom])
+
+  const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
     if (!containerRef.current || zoom <= 1) return
 
     if (isDragging) {
@@ -52,7 +104,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
     setPosition({ x, y })
   }
 
-  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+  const handleMouseDown = (e: MouseEvent<HTMLElement>) => {
     if (zoom <= 1) return
     setIsDragging(true)
     dragStart.current = { x: e.clientX, y: e.clientY }
@@ -75,12 +127,11 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
 
   return (
     <div className={cn('relative group', className)} ref={containerRef}>
-      <div
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         aria-label="Zoom de imagen. Presiona Enter o Espacio para ampliar, o arrastra con el ratón cuando esté ampliado."
         className={cn(
-          'overflow-hidden cursor-zoom-in rounded-xl focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:outline-none',
+          'block w-full p-0 border-none bg-transparent text-left overflow-hidden cursor-zoom-in rounded-xl focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:outline-none',
           zoom > 1 && 'cursor-grab',
           isDragging && 'cursor-grabbing'
         )}
@@ -109,7 +160,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
           }}
           draggable={false}
         />
-      </div>
+      </button>
 
       {zoom > 1 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full">

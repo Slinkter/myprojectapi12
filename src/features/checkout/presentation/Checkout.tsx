@@ -1,7 +1,6 @@
 /**
  * @file Checkout.tsx
- * @description Página principal del proceso de pago.
- * Diseño limpio y profesional.
+ * @description Página principal del proceso de pago con formulario interactivo y resumen en tiempo real.
  * @architecture Capa de Presentación - Feature de Checkout
  */
 import { useState } from "react";
@@ -21,7 +20,7 @@ import { OrderSummary } from "@/features/checkout/presentation/components/OrderS
  * Pasos del proceso de checkout para el componente CheckoutSteps.
  * @type {string[]}
  */
-const STEPS = ["Carrito", "Pago", "Confirmación"];
+const STEPS = ["Carrito", "Envío", "Pago"];
 
 /**
  * Componente principal de la página de checkout.
@@ -35,7 +34,7 @@ const STEPS = ["Carrito", "Pago", "Confirmación"];
  * 3. `PaymentMethodSelector` -> usuario elige visa/mastercard/bitcoin.
  * 4. `PaymentFormContainer` -> `CardForm` si es tarjeta, o mensaje si es bitcoin.
  * 5. `DiscountInput` -> `useDiscountValidation()` valida código async (500ms delay).
- * 6. `OrderSummary` muestra items + subtotal + descuento + total.
+ * 6. `OrderSummary` muestra items + subtotal + descuento + total con números tabulares.
  * 7. `PaymentSubmitButton` -> validación + `useCheckoutSubmit()` -> navigate.
  * 8. `CheckoutSuccess` recibe orderId vía `useLocation().state`.
  *
@@ -70,29 +69,29 @@ const Checkout = () => {
     };
 
     return (
-        <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950/20 py-4">
-            <div className="mx-auto max-w-5xl px-4">
-                <div className="flex flex-col gap-5">
-                    {/* Estados */}
-                    <CheckoutSteps steps={STEPS} currentStep={1} />
+        <main className="min-h-[85vh] bg-slate-50/50 dark:bg-slate-950/20 py-6">
+            <div className="mx-auto max-w-5xl px-4 sm:px-6">
+                <div className="flex flex-col gap-6">
+                    {/* Indicador visual de los pasos del proceso */}
+                    <CheckoutSteps steps={STEPS} currentStep={2} />
 
-                    {/* Header */}
+                    {/* Encabezado con retorno y distintivo de seguridad */}
                     <CheckoutHeader />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Formulario */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                        {/* Formulario de Pago (Columna izquierda) */}
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
                                 handlePaymentClick();
                             }}
-                            className="flex flex-col gap-4"
+                            className="lg:col-span-7 flex flex-col gap-5"
                             aria-label="Formulario de pago"
                         >
-                            {/* Método de pago */}
-                            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4">
-                                <h2 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
-                                    Método de pago
+                            {/* Selector de Método de pago */}
+                            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4 sm:p-5">
+                                <h2 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+                                    1. Método de pago
                                 </h2>
                                 <PaymentMethodSelector
                                     currentMethod={paymentMethod}
@@ -100,10 +99,10 @@ const Checkout = () => {
                                 />
                             </div>
 
-                            {/* Datos de tarjeta */}
-                            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4">
-                                <h2 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
-                                    Datos de la tarjeta
+                            {/* Datos de tarjeta o pasarela */}
+                            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4 sm:p-5">
+                                <h2 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
+                                    2. Información de pago
                                 </h2>
                                 <PaymentFormContainer
                                     paymentMethod={paymentMethod}
@@ -116,6 +115,7 @@ const Checkout = () => {
                                 />
                             </div>
 
+                            {/* Botón de confirmación y badges de seguridad */}
                             <PaymentSubmitButton
                                 isDisabled={cart.length === 0}
                                 isProcessing={isProcessing}
@@ -125,14 +125,14 @@ const Checkout = () => {
                             <SecurityBadge />
                         </form>
 
-                        {/* Resumen del pedido */}
-                        <div className="sticky top-20 h-fit">
+                        {/* Resumen del pedido (Columna derecha) */}
+                        <aside className="lg:col-span-5 lg:sticky lg:top-24">
                             <OrderSummary
                                 items={cart}
                                 totalPrice={totalPrice}
                                 onRemove={removeFromCart}
                             />
-                        </div>
+                        </aside>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@
  * @architecture Application Layer - Provider Component
  */
 
+import { useMemo } from "react";
 import { useProductModal } from "@/features/products/application/useProductModal";
 import { ProductModalContext } from "@/features/products/application/ProductModalContext";
 import { IProductModalProviderProps } from "@/features/products/application/types";
@@ -35,12 +36,15 @@ export const ProductModalProvider = ({
         closeProductModal,
     } = useProductModal();
 
-    const value = {
-        isModalOpen,
-        selectedProduct,
-        openProductModal,
-        closeProductModal,
-    };
+    const value = useMemo(
+        () => ({
+            isModalOpen,
+            selectedProduct,
+            openProductModal,
+            closeProductModal,
+        }),
+        [isModalOpen, selectedProduct, openProductModal, closeProductModal]
+    );
 
     return (
         <ProductModalContext.Provider value={value}>

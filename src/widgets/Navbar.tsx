@@ -5,7 +5,7 @@
  */
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCart } from "@/features/cart/application/CartContext";
 import { useTheme } from "@/features/theme/application/ThemeContext";
@@ -20,7 +20,11 @@ import {
     Menu,
     ChevronDown,
     Home,
+    LogOut,
+    User,
 } from "lucide-react";
+import { useAuth } from "@/features/auth/application/AuthContext";
+import { LoginModal } from "@/features/auth/presentation/LoginModal";
 
 /**
  * @component NavLogo
@@ -44,7 +48,7 @@ import {
 const NavLogo = () => (
     <Link
         to="/"
-        className="flex items-center gap-2.5 no-underline shrink-0 group"
+        className="flex items-center gap-2.5 no-underline shrink-0 group rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
         <div className="flex flex-col">
             <span className="text-lg font-extrabold tracking-tight leading-none text-slate-800 dark:text-slate-100">
@@ -79,12 +83,16 @@ const NavLink = ({
     children: React.ReactNode;
     onClick?: () => void;
 }) => (
-    <Link to={to} className="no-underline" onClick={onClick}>
+    <Link
+        to={to}
+        className="no-underline rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        onClick={onClick}
+    >
         <div
             className={`px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition-all cursor-pointer relative flex items-center min-h-[44px] ${
                 active
                     ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
-                    : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80"
             }`}
         >
             {children}
@@ -110,7 +118,7 @@ const NavLink = ({
  * @returns {JSX.Element} Botón animado con ícono.
  */
 const actionBtnClass =
-    "flex items-center justify-center w-10 h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:ring-offset-1";
+    "flex items-center justify-center w-10 h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const ActionBtn = ({
     onClick,
@@ -147,6 +155,8 @@ const Navbar = () => {
     useLogLifecycle("Navbar");
     const shouldReduceMotion = useReducedMotion();
 
+    const { user, logout } = useAuth();
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isCatOpen, setIsCatOpen] = useState(false);
@@ -162,6 +172,18 @@ const Navbar = () => {
     const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
     const isHome = location.pathname === "/" && !location.search;
     const isCatActive = location.pathname === "/" && !!location.search;
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                if (isCatOpen) setIsCatOpen(false);
+                if (isSearchOpen) closeSearch();
+                if (isMobileOpen) setIsMobileOpen(false);
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [isCatOpen, isSearchOpen, isMobileOpen]);
 
     const handleCategorySelect = (slug: string | null) => {
         setIsMobileOpen(false);
@@ -198,8 +220,7 @@ const Navbar = () => {
 
     return (
         <header
-            role="banner"
-            className="sticky top-0 z-50 glass-panel border-b border-slate-200 dark:border-slate-800 shadow-[0_2px_15px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_15px_rgba(0,0,0,0.3)]"
+            className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_2px_15px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_15px_rgba(0,0,0,0.3)] transition-colors duration-200"
         >
             <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
 
@@ -231,10 +252,10 @@ const Navbar = () => {
                                         type="button"
                                         onClick={() => setIsCatOpen(!isCatOpen)}
                                         whileTap={{ scale: 0.98 }}
-                                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold tracking-wide border-none cursor-pointer transition-all min-h-[44px] ${
+                                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold tracking-wide border-none cursor-pointer transition-all min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                                             isCatActive
                                                 ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
-                                                : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                                                : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80"
                                         }`}
                                         aria-haspopup="listbox"
                                         aria-expanded={isCatOpen}
@@ -282,7 +303,7 @@ const Navbar = () => {
                                                         duration: 0.18,
                                                         ease: [0.4, 0, 0.2, 1],
                                                     }}
-                                                    className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 rounded-2xl shadow-xl p-2 min-w-[220px] max-h-[360px] overflow-y-auto"
+                                                    className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl shadow-xl p-2 min-w-[220px] max-h-[360px] overflow-y-auto"
                                                     role="listbox"
                                                     aria-label="Categorías de productos"
                                                 >
@@ -293,12 +314,12 @@ const Navbar = () => {
                                                                 null,
                                                             )
                                                         }
-                                                        className="w-full text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 transition-colors flex items-center gap-2"
+                                                        className="w-full text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
                                                     >
                                                         <Home size={15} />
                                                         Todas las categorías
                                                     </button>
-                                                    <div className="h-px bg-slate-200 dark:bg-slate-700/60 my-1 mx-2" />
+                                                    <div className="h-px bg-slate-200/80 dark:bg-slate-700/60 my-1 mx-2" />
                                                     {isLoading ? (
                                                         <span className="block px-4 py-2.5 text-slate-500 dark:text-slate-400 text-xs">
                                                             Cargando…
@@ -316,7 +337,7 @@ const Navbar = () => {
                                                                             cat.slug,
                                                                         )
                                                                     }
-                                                                    className="w-full text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 capitalize transition-colors"
+                                                                    className="w-full text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
                                                                 >
                                                                     {cat.name}
                                                                 </button>
@@ -345,19 +366,17 @@ const Navbar = () => {
                                     shouldReduceMotion
                                         ? { opacity: 0 }
                                         : {
-                                              scaleX: 0.8,
+                                              scaleX: 0.2,
                                               opacity: 0,
-                                              originX: 1,
                                           }
                                 }
-                                animate={{ scaleX: 1, opacity: 1, originX: 1 }}
+                                animate={{ scaleX: 1, opacity: 1 }}
                                 exit={
                                     shouldReduceMotion
                                         ? { opacity: 0 }
                                         : {
-                                              scaleX: 0.8,
+                                              scaleX: 0.2,
                                               opacity: 0,
-                                              originX: 1,
                                           }
                                 }
                                 transition={
@@ -365,11 +384,12 @@ const Navbar = () => {
                                         ? { duration: 0.05 }
                                         : {
                                               duration: 0.25,
-                                              ease: [0.4, 0, 0.2, 1],
+                                              ease: [0.16, 1, 0.3, 1],
                                           }
                                 }
+                                style={{ transformOrigin: "right center" }}
                                 role="search"
-                                className="flex items-center gap-2 bg-slate-100/80 dark:bg-slate-800/80 rounded-full border border-primary px-3 overflow-hidden h-10 w-[240px] sm:w-[300px]"
+                                className="flex items-center gap-2 w-64 bg-slate-100/90 dark:bg-slate-800/90 rounded-full border border-emerald-500/50 dark:border-emerald-500/40 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/30 px-3 overflow-hidden h-10 transition-colors"
                             >
                                 <Search
                                     size="16"
@@ -381,15 +401,20 @@ const Navbar = () => {
                                     onChange={(e) =>
                                         setSearchVal(e.target.value)
                                     }
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Escape") {
+                                            closeSearch();
+                                        }
+                                    }}
                                     placeholder="Buscar productos…"
-                                    className="border-none bg-transparent outline-none text-sm text-slate-800 dark:text-slate-100 w-full"
+                                    className="border-none bg-transparent outline-none text-sm text-slate-800 dark:text-slate-100 w-full placeholder:text-slate-400"
                                     aria-label="Buscar productos"
                                 />
                                 <button
                                     type="button"
                                     onClick={closeSearch}
                                     aria-label="Cerrar búsqueda"
-                                    className="flex items-center justify-center w-6 h-6 rounded-full bg-none border-none cursor-pointer text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors shrink-0"
+                                    className="flex items-center justify-center w-6 h-6 rounded-full bg-transparent border-none cursor-pointer text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
                                 >
                                     <X size="14" />
                                 </button>
@@ -451,25 +476,57 @@ const Navbar = () => {
                         >
                             <ShoppingCart size="20" />
                         </ActionBtn>
-                        <AnimatePresence>
+                        <AnimatePresence mode="popLayout">
                             {totalItems > 0 && (
-                                <m.div
-                                    key="badge"
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: [1, 1.2, 1] }}
-                                    exit={{ scale: 0 }}
+                                <m.span
+                                    key={`cart-badge-${totalItems}`}
+                                    initial={{ scale: 0.2, opacity: 0 }}
+                                    animate={{ scale: [1, 1.25, 1], opacity: 1 }}
+                                    exit={{ scale: 0.2, opacity: 0 }}
                                     transition={{
                                         type: "spring",
-                                        stiffness: 400,
-                                        damping: 18,
+                                        stiffness: 500,
+                                        damping: 20,
+                                        mass: 0.5,
                                     }}
-                                    className="absolute top-0 right-0 min-w-[18px] h-[18px] px-1 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center border-2 border-white dark:border-slate-900 pointer-events-none"
+                                    className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center border-2 border-white dark:border-slate-900 pointer-events-none shadow-sm"
                                     aria-hidden="true"
                                 >
                                     {totalItems > 9 ? "9+" : totalItems}
-                                </m.div>
+                                </m.span>
                             )}
                         </AnimatePresence>
+                    </div>
+
+                    {/* Controles de Autenticación */}
+                    <div className="flex items-center gap-1">
+                        {user ? (
+                            <div className="flex items-center gap-1.5">
+                                <span className="hidden lg:inline text-xs font-semibold text-slate-500 max-w-[120px] truncate" title={user.email}>
+                                    {user.email}
+                                </span>
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                    user.role === "admin" 
+                                        ? "bg-red-50 text-red-600 border border-red-200 dark:bg-red-950/20 dark:text-red-400 dark:border-red-800" 
+                                        : "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-800"
+                                }`}>
+                                    {user.role === "admin" ? "Admin" : "Cliente"}
+                                </span>
+                                <ActionBtn
+                                    onClick={logout}
+                                    label="Cerrar sesión"
+                                >
+                                    <LogOut size="18" className="text-red-500" />
+                                </ActionBtn>
+                            </div>
+                        ) : (
+                            <ActionBtn
+                                onClick={() => setIsLoginOpen(true)}
+                                label="Iniciar sesión / Registrarse"
+                            >
+                                <User size="18" />
+                            </ActionBtn>
+                        )}
                     </div>
 
                     {/* Mobile Hamburger — only on mobile */}
@@ -527,14 +584,14 @@ const Navbar = () => {
                                 ? { duration: 0.05 }
                                 : { duration: 0.2, ease: [0.4, 0, 0.2, 1] }
                         }
-                        className="overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 md:hidden"
+                        className="overflow-hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800/80 md:hidden"
                     >
                         {/* Mobile search bar */}
                         <div className="px-4 pt-3 pb-1">
                             <form
                                 onSubmit={handleSearchSubmit}
                                 role="search"
-                                className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-xl px-3 h-10 border border-slate-200 dark:border-slate-700"
+                                className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-xl px-3 h-10 border border-slate-200/80 dark:border-slate-700/80"
                             >
                                 <Search size="15" className="text-slate-400 shrink-0" />
                                 <input
@@ -577,7 +634,7 @@ const Navbar = () => {
                                     <button
                                         type="button"
                                         onClick={() => handleCategorySelect(null)}
-                                        className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors flex items-center gap-2 min-h-[44px]"
+                                        className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors flex items-center gap-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
                                     >
                                         <Home size={14} />
                                         Todas las categorías
@@ -597,7 +654,7 @@ const Navbar = () => {
                                                 onClick={() =>
                                                     handleCategorySelect(cat.slug)
                                                 }
-                                                className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 capitalize transition-colors min-h-[44px]"
+                                                className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 capitalize transition-colors min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
                                             >
                                                 {cat.name}
                                             </button>
@@ -609,6 +666,7 @@ const Navbar = () => {
                     </m.nav>
                 )}
             </AnimatePresence>
+            <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
         </header>
     );
 };

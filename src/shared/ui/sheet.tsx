@@ -77,16 +77,19 @@ const SheetPortal = ({ children }: { children: React.ReactNode }) => {
 
 /** Fondo semitransparente detrás del sheet. Cierra el sheet al hacer clic. */
 const SheetOverlay = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ className, ...props }, ref) => {
   const { open, onOpenChange } = useSheet()
   if (!open) return null
   return (
-    <div
+    <button
       ref={ref}
+      type="button"
+      tabIndex={-1}
+      aria-hidden="true"
       className={cn(
-        "fixed inset-0 z-50 bg-black/60 backdrop-blur-xs transition-opacity duration-200",
+        "fixed inset-0 z-50 bg-black/60 backdrop-blur-xs transition-opacity duration-200 border-none p-0 w-full h-full cursor-default",
         className
       )}
       onClick={() => onOpenChange(false)}
@@ -146,6 +149,7 @@ const SheetContent = React.forwardRef<
   return createPortal(
     <>
       <div
+        aria-hidden="true"
         className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs transition-opacity duration-200"
         onClick={() => onOpenChange(false)}
       />

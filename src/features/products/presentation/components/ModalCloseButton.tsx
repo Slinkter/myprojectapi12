@@ -1,4 +1,10 @@
-import { HiOutlineXMark } from "react-icons/hi2";
+/**
+ * @file ModalCloseButton.tsx
+ * @description Botón accesible de cierre para modales de diálogo.
+ * @architecture Presentation Layer - Product Component
+ */
+
+import { X } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
 
 /**
@@ -11,33 +17,31 @@ export interface ModalCloseButtonProps {
 }
 
 /**
- * Botón de cierre para modales con icono "X".
+ * Botón de cierre para modales con icono "X" y accesibilidad optimizada.
  *
  * @remarks
- * Botón circular posicionado en la esquina superior derecha.
- * Incluye icono `HiOutlineXMark` de HeroIcons y efectos de hover.
- * Accesible mediante aria-label "Cerrar modal".
+ * Botón circular posicionado de forma absoluta en la esquina superior derecha.
+ * Incluye foco visible accesible, hover suave y etiqueta aria descriptiva.
  *
  * @component
- * @param props.onClose - Callback al presionar el botón.
- * @returns Elemento JSX con el botón de cierre.
+ * @param {ModalCloseButtonProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Elemento JSX con el botón de cierre.
  */
 const ModalCloseButton = ({ onClose }: ModalCloseButtonProps) => {
   return (
-    <div className="absolute top-6 right-6 z-20">
+    <div className="absolute top-4 right-4 z-20">
       <Button
-        variant="outline"
+        variant="ghost"
         size="icon"
         onClick={onClose}
-        className="rounded-full bg-card/80 backdrop-blur-md border-border shadow-soft group hover:border-primary/30"
-        aria-label="Cerrar modal"
+        className="rounded-full h-9 w-9 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 backdrop-blur-sm cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
+        aria-label="Cerrar modal de producto"
       >
-        <HiOutlineXMark
-          className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors"
-        />
+        <X className="w-5 h-5" />
       </Button>
     </div>
   );
 };
 
 export default ModalCloseButton;
+

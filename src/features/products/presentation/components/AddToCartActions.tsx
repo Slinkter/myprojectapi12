@@ -1,7 +1,13 @@
-import { HiOutlineShoppingBag } from "react-icons/hi2";
+/**
+ * @file AddToCartActions.tsx
+ * @description Acciones del modal para configurar cantidad y añadir al carrito.
+ * @architecture Presentation Layer - Product Component
+ */
+
+import { ShoppingBag } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
-import QuantityControl from "@/features/products/presentation/components/QuantityControl";
-import { StockStatus } from "@/entities/product";
+import QuantityControl from "./QuantityControl";
+import type { StockStatus } from "@/entities/product";
 
 /**
  * @interface AddToCartActionsProps
@@ -20,27 +26,20 @@ export interface AddToCartActionsProps {
   onDecrement: () => void;
   /** Callback para añadir el producto al carrito. */
   onAddToCart: () => void;
-  /** Callback para continuar comprando (cerrar). */
+  /** Callback para continuar comprando (cerrar modal). */
   onContinue: () => void;
 }
 
 /**
- * Acciones del pie del modal de producto: selector de cantidad y botones.
+ * Acciones del pie del modal de producto: selector de cantidad y botones de compra.
  *
  * @remarks
- * Incluye `QuantityControl` para ajustar la cantidad, un botón principal
- * "Añadir al Carrito" (deshabilitado si stockStatus es 'out') y un botón
- * secundario "Continuar Comprando".
+ * Incluye `QuantityControl` para ajustar la cantidad respetando el stock disponible,
+ * botón de alta conversión y alto contraste "Añadir al Carrito" y botón secundario "Continuar Comprando".
  *
  * @component
- * @param props.quantity - Cantidad seleccionada.
- * @param props.stock - Stock máximo del producto.
- * @param props.stockStatus - Estado del stock para deshabilitar la compra.
- * @param props.onIncrement - Aumentar cantidad.
- * @param props.onDecrement - Disminuir cantidad.
- * @param props.onAddToCart - Añadir al carrito.
- * @param props.onContinue - Continuar comprando.
- * @returns Elemento JSX con las acciones del carrito.
+ * @param {AddToCartActionsProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Elemento JSX con las acciones de compra.
  */
 const AddToCartActions = ({
   quantity,
@@ -49,26 +48,33 @@ const AddToCartActions = ({
   onIncrement,
   onDecrement,
   onAddToCart,
-  onContinue
+  onContinue,
 }: AddToCartActionsProps) => {
+  const isOutOfStock = stockStatus === "out";
+
   return (
-    <div className="mt-auto flex flex-col gap-6">
-      <div className="flex flex-col sm:flex-row gap-4">
-        <QuantityControl
-          quantity={quantity}
-          onIncrement={onIncrement}
-          onDecrement={onDecrement}
-          stock={stock}
-        />
+    <div className="flex flex-col gap-3.5 mt-auto pt-4 border-t border-slate-200/60 dark:border-slate-800/60">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+            Cantidad:
+          </span>
+          <QuantityControl
+            quantity={quantity}
+            stock={stock}
+            onIncrement={onIncrement}
+            onDecrement={onDecrement}
+          />
+        </div>
 
         <Button
           onClick={onAddToCart}
-          disabled={stockStatus === "out"}
+          disabled={isOutOfStock}
           size="lg"
-          className="flex-1 h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/25 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group"
+          className="flex-1 h-11 md:h-12 text-sm md:text-base font-bold shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-[box-shadow,colors,transform] cursor-pointer"
         >
-          <HiOutlineShoppingBag className="w-6 h-6 group-hover:-translate-y-0.5 transition-transform duration-300" />
-          Añadir al Carrito
+          <ShoppingBag className="mr-2" size={18} />
+          {isOutOfStock ? "Sin Stock" : "Añadir al Carrito"}
         </Button>
       </div>
 
@@ -76,7 +82,7 @@ const AddToCartActions = ({
         type="button"
         variant="ghost"
         onClick={onContinue}
-        className="w-full h-12 rounded-xl text-muted-foreground hover:text-foreground transition-colors"
+        className="w-full h-10 text-xs sm:text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100"
       >
         Continuar Comprando
       </Button>
@@ -85,3 +91,4 @@ const AddToCartActions = ({
 };
 
 export default AddToCartActions;
+
