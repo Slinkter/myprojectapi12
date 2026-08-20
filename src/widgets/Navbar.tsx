@@ -20,7 +20,11 @@ import {
     Menu,
     ChevronDown,
     Home,
+    LogOut,
+    User,
 } from "lucide-react";
+import { useAuth } from "@/features/auth/application/AuthContext";
+import { LoginModal } from "@/features/auth/presentation/LoginModal";
 
 /**
  * @component NavLogo
@@ -151,6 +155,8 @@ const Navbar = () => {
     useLogLifecycle("Navbar");
     const shouldReduceMotion = useReducedMotion();
 
+    const { user, logout } = useAuth();
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isCatOpen, setIsCatOpen] = useState(false);
@@ -492,6 +498,37 @@ const Navbar = () => {
                         </AnimatePresence>
                     </div>
 
+                    {/* Controles de Autenticación */}
+                    <div className="flex items-center gap-1">
+                        {user ? (
+                            <div className="flex items-center gap-1.5">
+                                <span className="hidden lg:inline text-xs font-semibold text-slate-500 max-w-[120px] truncate" title={user.email}>
+                                    {user.email}
+                                </span>
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                    user.role === "admin" 
+                                        ? "bg-red-50 text-red-600 border border-red-200 dark:bg-red-950/20 dark:text-red-400 dark:border-red-800" 
+                                        : "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-800"
+                                }`}>
+                                    {user.role === "admin" ? "Admin" : "Cliente"}
+                                </span>
+                                <ActionBtn
+                                    onClick={logout}
+                                    label="Cerrar sesión"
+                                >
+                                    <LogOut size="18" className="text-red-500" />
+                                </ActionBtn>
+                            </div>
+                        ) : (
+                            <ActionBtn
+                                onClick={() => setIsLoginOpen(true)}
+                                label="Iniciar sesión / Registrarse"
+                            >
+                                <User size="18" />
+                            </ActionBtn>
+                        )}
+                    </div>
+
                     {/* Mobile Hamburger — only on mobile */}
                     <div className="block md:hidden">
                         <ActionBtn
@@ -629,6 +666,7 @@ const Navbar = () => {
                     </m.nav>
                 )}
             </AnimatePresence>
+            <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
         </header>
     );
 };

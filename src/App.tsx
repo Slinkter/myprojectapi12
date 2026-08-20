@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { LazyMotion, domAnimation } from "framer-motion";
 
 import { ThemeProvider } from "@/features/theme/application/ThemeContext";
+import { AuthProvider } from "@/features/auth/application/AuthProvider";
 import { CartProvider } from "@/features/cart/application/CartProvider";
 import { queryClient } from "@/app/config/queryClient";
 import Layout from "@/shared/ui/Layout";
@@ -28,17 +29,19 @@ const App: React.FC = () => {
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider>
-                <CartProvider>
-                    <BrowserRouter basename={import.meta.env.BASE_URL}>
-                        <LazyMotion features={domAnimation}>
-                            <ErrorBoundary>
-                                <Layout>
-                                    <AppRouter />
-                                </Layout>
-                            </ErrorBoundary>
-                        </LazyMotion>
-                    </BrowserRouter>
-                </CartProvider>
+                <AuthProvider>
+                    <CartProvider>
+                        <BrowserRouter basename={import.meta.env.BASE_URL}>
+                            <LazyMotion features={domAnimation}>
+                                <ErrorBoundary>
+                                    <Layout>
+                                        <AppRouter />
+                                    </Layout>
+                                </ErrorBoundary>
+                            </LazyMotion>
+                        </BrowserRouter>
+                    </CartProvider>
+                </AuthProvider>
             </ThemeProvider>
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
