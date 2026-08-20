@@ -1,7 +1,3 @@
-Resume with -c (or command below):
-agy --conversation=9c9a5107-0ed4-45d9-9b9d-72d1220b8ffc
-PS C:\Users\luisj\Desktop\Github\myprojectapi12>
-
 # 🛍️ MyProjectAPI12
 
 Una tienda online moderna hecha con React, TypeScript y Tailwind CSS, integrada con Firebase Firestore y Auth en tiempo real. Soporta roles diferenciados (Admin/Comprador), catálogo en la nube con auto-seeding y fallback automático, checkout seguro con control de inventario atómico, historial de envío en vivo con notas de administración y un Centro de Ayuda interactivo (FAQ).
