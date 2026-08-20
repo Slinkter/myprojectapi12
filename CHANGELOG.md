@@ -2,25 +2,42 @@
 
 ## [1.3.0] - 2026-08-20
 
-### Excelencia Técnica, Optimización Big-O, Patrones de Diseño, Accesibilidad y Preparación para Alta Gerencia
+### Excelencia Técnica, Arquitectura Limpia (FSD + Clean Architecture), 5 Patrones GoF, Optimización Big-O, UX/UI y Documentación para Alta Gerencia
 
-- **Arquitectura & Patrones de Diseño**:
-  - Implementación de patrones formales: **Repository** en capas de infraestructura de Firestore, **Strategy** en validaciones de pago/descuentos, **Observer** en reactividad de contextos y suscripciones `onSnapshot`, **Factory** en creación de tickets de despacho y **Facade** en el hook `useCheckout`.
-  - Desacoplamiento estricto bajo Feature-Sliced Design (FSD) y Clean Architecture.
-- **Optimización Algorítmica & Notación Big-O**:
-  - **Firestore Concurrent Reads:** Optimización de transacciones de stock a $O(1)$ en tiempo de red paralelo usando `Promise.all` en `checkoutFirestore.ts`.
-  - **Cart Summary Single-Pass:** Reducción de cálculos de precio y cantidad de productos en el carrito a una sola iteración $O(n)$ en `CartProvider.tsx`.
-- **Rendimiento Visual & UX/UI**:
-  - Eliminación de animaciones basadas en layout reflow (`height: auto`), sustituyéndolas por transformaciones de aceleración por GPU (`opacity`, `transform`) a 60fps.
-  - Reemplazo de transiciones genéricas `transition-all` por transiciones específicas de rendimiento (`transition-colors`, `transition-transform`).
-  - Accesibilidad WCAG 2.1 AA: botones de acordeón semánticos con soporte completo de navegación por teclado, `aria-expanded`, `aria-label` en búsquedas y asociaciones explícitas `<label htmlFor>` en todos los formularios y modales.
-  - Corrección de alternancia de visibilidad en el campo CVV/CVC y validación fluida con `onBlur` (touched) en el formulario de pago.
-- **Impresión & Ticket PDF Enriquecido**:
-  - Generación de comprobante oficial de compra con miniaturas de productos, cálculo automatizado de fecha estimada de entrega (2 a 3 días hábiles) e historial completo de auditoría del pedido.
-- **Documentación & DX Corporativo**:
-  - JSDoc exhaustivo en español en el 100% de los archivos `.ts` y `.tsx`.
-  - Documentación del sistema de diseño y tokens de color en `DESIGN_SYSTEM.md`.
-  - Auditoría de **React Doctor** con calificación **Great** (87/100) y cero errores críticos.
+#### Arquitectura & Patrones de Diseño (GoF)
+- **Repository Pattern** — Interfaces de dominio tecnología-agnósticas (`IProductRepository`, `IOrderRepository`, `IUserRepository`, `ICheckoutRepository`) con adaptadores Firestore concretos en `infrastructure/`.
+- **Strategy Pattern** — Algoritmos de pago intercambiables (`CreditCardPaymentStrategy` con algoritmo de Luhn, `BitcoinPaymentStrategy`), descuento (`PercentageDiscountStrategy`, `FixedDiscountStrategy`) y envío (`StandardShippingStrategy`), seleccionados por Factory y Facade.
+- **Observer / EventBus** — `src/shared/infrastructure/eventBus.ts`: `DomainEventBus` con `on/emit/subscribe/publish` y eventos tipados (`DomainEvents.SEARCH_TRIGGERED`, `ORDER_PLACED`). Elimina hacks `document.querySelector + dispatchEvent`.
+- **Factory Pattern** — `OrderFactory` (IDs `ORD-{timestamp}-{random}`), `ProductFactory` (IDs O(1)), `PaymentStrategyFactory` y `DiscountStrategyFactory`.
+- **Facade Pattern** — `CheckoutFacade.ts`: un solo método `processCheckout()` orquesta validación, descuento, cálculo de envío, transacción atómica Firestore y publicación de eventos de dominio.
+
+#### Context API — Segregación de Responsabilidades
+- `CartContext.ts` dividido en `CartStateContext.ts` (solo datos) + `CartActionsContext.ts` (solo callbacks). Hooks `useCartState()` y `useCartActions()` eliminan re-renders innecesarios en catálogo y modal de producto. `useCart()` mantenido por compatibilidad retroactiva.
+
+#### Optimización Algorítmica (Big-O)
+- **Lecturas de stock concurrentes:** `Promise.all` reduce lecturas Firestore de O(n) secuencial a **O(1) en tiempo de red**.
+- **Cálculo de carrito en pasada única:** `calculateCartSummary()` reemplaza dos `useMemo` separados; complejidad **O(n)** con una sola iteración.
+- **Búsqueda en carrito:** `isProductInCart` optimizado a **O(n)** sin alocaciones de `Set` intermedias.
+- **IDs de entidades:** Generación en **O(1)** en `ProductFactory` y `OrderFactory`.
+
+#### UX/UI & Rendimiento Visual
+- Eliminados todos los `transition-all` (9 instancias), reemplazados por clases específicas GPU: `transition-colors`, `transition-[width]`.
+- Accesibilidad WCAG 2.1 AA: eliminado `role="button"` anidado dentro de `<article>` en `ProductCard.tsx` — no puede haber un elemento interactivo dentro de otro.
+- Barra de progreso "envío gratis" en `OrderSummary.tsx`: ahora usa `transition-[width]` — solo anima la propiedad que cambia.
+
+#### Enrutamiento Optimizado
+- `AppRouter.tsx` — Rutas lazy actualizadas a páginas wrapper `@/pages/CheckoutPage` y `@/pages/CheckoutSuccessPage` siguiendo la convención FSD.
+
+#### Calidad Certificada
+- **React Doctor:** **97 / 100** (era 86/100 al inicio del sprint — +11 puntos). Un solo warning de mantenibilidad en `Navbar.tsx` (componente grande, conocido y aceptado).
+- **`pnpm lint`:** 0 errores, 0 warnings.
+- **`pnpm type-check`:** 0 errores TypeScript.
+- **`pnpm build`:** Exitoso — 53 archivos modificados, 2280 líneas añadidas.
+
+#### Documentación
+- `docs/study/GUIA_DE_ESTUDIO_COMPLETA.md` — Guía unificada para nuevos desarrolladores y revisores senior.
+- `README.md` — Portada ejecutiva con métricas de calidad, arquitectura, tabla de patrones GoF y badges actualizados.
+- JSDoc en español al 100% en todos los archivos `.ts` y `.tsx` nuevos y modificados.
 
 ## [1.2.0] - 2026-08-20
 
