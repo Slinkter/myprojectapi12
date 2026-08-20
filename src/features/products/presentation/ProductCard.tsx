@@ -12,7 +12,8 @@ import { useCart } from '@/features/cart/application/CartContext'
 import { getStockStatus } from '@/entities/product'
 import type { IProduct } from '@/features/products/application/types'
 import { LazyImage } from '@/shared/ui/LazyImage';
-import { Eye, ShoppingBag } from 'lucide-react'
+import { Eye, ShoppingBag, Pencil, Trash2 } from 'lucide-react'
+import { useAuth } from '@/features/auth/application/AuthContext'
 
 /**
  * Props para el componente ProductCard.
@@ -69,7 +70,9 @@ const StarRating = ({ rating }: { rating: number }) => {
 };
 
 export interface IProductCardProps {
-  product: IProduct
+  product: IProduct;
+  onEdit?: (product: IProduct) => void;
+  onDelete?: (id: number) => void;
 }
 
 /**
@@ -83,9 +86,11 @@ export interface IProductCardProps {
  * @param {IProductCardProps} props - Props del componente.
  * @returns {JSX.Element | null} Elemento JSX renderizado o null si el producto es inválido.
  */
-const ProductCard = React.memo(({ product }: IProductCardProps) => {
+const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps) => {
   useLogLifecycle("ProductCard");
   const shouldReduceMotion = useReducedMotion();
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
   const { openProductModal } = useProductModalContext()
   const { addToCart } = useCart()
   const [isHovered, setIsHovered] = useState(false)
@@ -135,6 +140,34 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
         isOutOfStock ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'
       }`}
     >
+      {/* Botones de Admin */}
+      {isAdmin && (
+        <div className="absolute top-2.5 right-2.5 z-20 flex gap-1.5">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onEdit) onEdit(product);
+            }}
+            aria-label={`Editar ${product.title}`}
+            className="p-1.5 rounded-full bg-white/95 hover:bg-white dark:bg-slate-900/95 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-primary transition-all shadow-md active:scale-95 flex items-center justify-center cursor-pointer"
+          >
+            <Pencil size={12} />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onDelete) onDelete(product.id);
+            }}
+            aria-label={`Eliminar ${product.title}`}
+            className="p-1.5 rounded-full bg-white/95 hover:bg-white dark:bg-slate-900/95 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-red-600 transition-all shadow-md active:scale-95 flex items-center justify-center cursor-pointer"
+          >
+            <Trash2 size={12} />
+          </button>
+        </div>
+      )}
+
       {/* Zona de imagen */}
       <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800 relative shrink-0">
         <m.div

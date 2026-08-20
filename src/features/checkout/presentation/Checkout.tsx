@@ -4,7 +4,7 @@
  * @architecture Capa de Presentación - Feature de Checkout
  */
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCheckout } from "@/features/checkout/application/useCheckout";
 import { useCart } from "@/features/cart/application/useCart";
@@ -15,6 +15,10 @@ import PaymentFormContainer from "@/features/checkout/presentation/PaymentFormCo
 import PaymentSubmitButton from "@/features/checkout/presentation/PaymentSubmitButton";
 import SecurityBadge from "@/features/checkout/presentation/SecurityBadge";
 import { OrderSummary } from "@/features/checkout/presentation/components/OrderSummary";
+import { useAuth } from "@/features/auth/application/AuthContext";
+import { LoginModal } from "@/features/auth/presentation/LoginModal";
+import Loader from "@/shared/ui/Loader";
+import { ShieldCheck } from "lucide-react";
 
 /**
  * Pasos del proceso de checkout para el componente CheckoutSteps.
@@ -26,24 +30,14 @@ const STEPS = ["Carrito", "Envío", "Pago"];
  * Componente principal de la página de checkout.
  * Muestra el formulario de pago y el resumen del pedido.
  * Redirige al inicio si el carrito está vacío.
- *
- * @remarks
- * **Secuencia de carga:**
- * 1. `useCheckout()` orquesta reducer + validación + submit.
- * 2. `CheckoutHeader` muestra pasos visuales (`CheckoutSteps`).
- * 3. `PaymentMethodSelector` -> usuario elige visa/mastercard/bitcoin.
- * 4. `PaymentFormContainer` -> `CardForm` si es tarjeta, o mensaje si es bitcoin.
- * 5. `DiscountInput` -> `useDiscountValidation()` valida código async (500ms delay).
- * 6. `OrderSummary` muestra items + subtotal + descuento + total con números tabulares.
- * 7. `PaymentSubmitButton` -> validación + `useCheckoutSubmit()` -> navigate.
- * 8. `CheckoutSuccess` recibe orderId vía `useLocation().state`.
- *
- * @returns {JSX.Element} Página completa de checkout.
  */
 const Checkout = () => {
     useLogLifecycle("Checkout");
     const { cart, totalPrice, removeFromCart, clearCart } = useCart();
     const [isProcessing, setIsProcessing] = useState(false);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+    const { user, loading } = useAuth();
 
     const {
         paymentMethod,
@@ -54,6 +48,41 @@ const Checkout = () => {
         handlePaymentFieldChange,
         selectPaymentMethod,
     } = useCheckout(cart, totalPrice, clearCart);
+
+    if (loading) {
+        return <Loader />;
+    }
+
+    if (!user) {
+        return (
+            <div className="min-h-[70vh] py-16 px-4 max-w-lg mx-auto flex flex-col items-center justify-center text-center">
+                <div className="w-16 h-16 rounded-3xl bg-primary/10 text-primary flex items-center justify-center mb-6">
+                    <ShieldCheck size={32} />
+                </div>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+                    Inicia sesión para continuar
+                </h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+                    Para registrar tu pedido de forma segura y asociar la compra a tu cuenta, por favor inicia sesión o crea una cuenta gratuita.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 w-full">
+                    <button
+                        onClick={() => setIsAuthModalOpen(true)}
+                        className="flex-1 h-11 px-6 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary-hover shadow-lg shadow-primary/25 cursor-pointer transition-all flex items-center justify-center"
+                    >
+                        Iniciar Sesión / Registro
+                    </button>
+                    <Link
+                        to="/"
+                        className="flex-1 h-11 px-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 font-bold text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer transition-all no-underline"
+                    >
+                        Volver a la tienda
+                    </Link>
+                </div>
+                <LoginModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+            </div>
+        );
+    }
 
     if (cart.length === 0) {
         return <Navigate to="/" replace />;

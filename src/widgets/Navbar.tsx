@@ -185,6 +185,14 @@ const Navbar = () => {
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [isCatOpen, isSearchOpen, isMobileOpen]);
 
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        if (params.get("login") === "true") {
+            setIsLoginOpen(true);
+            navigate("/", { replace: true });
+        }
+    }, [location.search, navigate]);
+
     const handleCategorySelect = (slug: string | null) => {
         setIsMobileOpen(false);
         setIsCatOpen(false);
@@ -349,6 +357,10 @@ const Navbar = () => {
                                         )}
                                     </AnimatePresence>
                                 </div>
+
+                                <NavLink to="/faq" active={location.pathname === "/faq"}>
+                                    Ayuda & FAQ
+                                </NavLink>
                             </m.div>
                         )}
                     </AnimatePresence>
@@ -512,6 +524,14 @@ const Navbar = () => {
                                 }`}>
                                     {user.role === "admin" ? "Admin" : "Cliente"}
                                 </span>
+                                <Link
+                                    to="/orders"
+                                    className="no-underline rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                >
+                                    <div className="px-3 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-[10px] font-bold uppercase tracking-wider rounded-full transition-all text-slate-700 dark:text-slate-300">
+                                        {user.role === "admin" ? "Pedidos" : "Compras"}
+                                    </div>
+                                </Link>
                                 <ActionBtn
                                     onClick={logout}
                                     label="Cerrar sesión"

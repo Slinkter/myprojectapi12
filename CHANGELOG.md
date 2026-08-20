@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.2.0] - 2026-08-20
+
+### Autenticación, Catálogo Firestore, Transacciones de Stock, Historial Real-time y FAQ
+
+- **Autenticación & Roles**:
+  - Integración completa con Firebase Auth y colección `users` en Firestore.
+  - Roles diferenciados de `buyer` (comprador) y `admin` (administrador) con flujos UI adaptativos.
+  - Centrado responsivo del modal de login/registro y alternador de visibilidad de contraseña (Eye/EyeOff).
+- **Catálogo Firestore & CRUD (Admin)**:
+  - Migración del catálogo de productos a Firebase Firestore con mecanismo de auto-seeding y fallback automático a la API de DummyJSON para evitar pantallas en blanco.
+  - Interfaz de creación, edición y eliminación de productos (`ProductFormModal.tsx`) exclusiva para administradores.
+  - Selector de ordenamiento de productos (Precio, Valoración, Nombre) integrado en la vista principal.
+- **Checkout Seguro & Transacciones**:
+  - Implementación de transacciones atómicas (`runTransaction`) en `checkoutFirestore.ts` para deducción de stock e inserción del pedido, garantizando que no haya sobreventa.
+  - Puerta de autenticación integrada en `/checkout` que invita al inicio de sesión mediante un banner en lugar de redireccionar bruscamente al Home.
+- **Historial en Tiempo Real & Gestión de Pedidos (`/orders`)**:
+  - Suscripción reactiva en vivo (`onSnapshot`) a los pedidos (por usuario o globales para el admin).
+  - Flujo de 8 estados de entrega con timeline visual, historial de auditoría y notas personalizadas de administración.
+  - Botón de confirmación de recepción para el comprador e impresión de ticket/comprobante oficial en PDF.
+  - Reintegro automático de stock en inventario al anular o rechazar un pedido.
+- **Centro de Ayuda (`/faq`)**:
+  - Página dedicada con acordeones de preguntas sobre envíos, pagos y garantías, enlaces rápidos de soporte y chat de WhatsApp.
+- **Mantenimiento & Seguridad**:
+  - CSP actualizada en `index.html` para permitir scripts de Google Auth y Analytics.
+  - Optimización estricta de `.gitignore` para bloquear fugas de secretos y archivos de agentes.
+  - Linter y TypeScript con 100% de cumplimiento (0 warnings, 0 errores).
+
 ## [1.1.0] - 2026-07-27
 
 ### Plan de Mejora, Optimización y Capa Entities FSD

@@ -6,8 +6,9 @@ Este archivo actúa como el estado de transferencia e hilo conductor para los ag
 
 ## 🛠️ Estado General
 
-* **Rama Activa:** `feat/crud-products` (Fase 2)
-* **Punto de Retorno:** Fase 1 (Autenticación y Roles) completada con éxito. Compilación y lints al 100% correctos. Creada e iniciada la rama `feat/crud-products` para desarrollar el CRUD de productos para Administradores y la base de datos de catálogo en Firestore.
+* **Rama Activa:** `main` (Despliegue y Mantenimiento)
+* **Punto de Retorno:** Todas las fases del plan de trabajo completadas con éxito. Se corrigieron los problemas de carga y composite indexes de Firestore para pedidos individuales de clientes. Compilación, lints y builds al 100% correctos.
+* **Reporte de Transferencia Detallado:** Disponible en [.system_generated/handover_report.md](file:///C:/Users/luisj/.gemini/antigravity-cli/brain/9a030aff-7181-48e6-9176-62027e2ad8c7/handover_report.md).
 
 ---
 
@@ -26,35 +27,45 @@ Este archivo actúa como el estado de transferencia e hilo conductor para los ag
 
 ---
 
-### 📦 Fase 2: Catálogo & CRUD de Productos (Admin) [PENDIENTE]
+### 📦 Fase 2: Catálogo & CRUD de Productos (Admin) [COMPLETADA]
 * **Rama:** `feat/crud-products`
-* **Objetivos:**
-  * Crear interfaz de formulario para crear/editar productos (con url de imagen/placeholder).
-  * Crear colección `products` en Firestore.
-  * Implementar el script de seeding automático (Opción A) para copiar los productos actuales de DummyJSON a Firestore en la primera carga.
-  * Cambiar `ProductList.tsx` y `useProducts.ts` para leer del Firestore en lugar de la API externa.
+* **Archivos creados/modificados:**
+  * [NEW] `src/features/products/infrastructure/productsFirestore.ts` (Servicio de seeding y CRUD con Firestore)
+  * [NEW] `src/features/products/presentation/ProductFormModal.tsx` (Formulario para crear y editar productos)
+  * [MODIFY] `src/features/products/application/useProducts.ts` (Hook de react-query migrado a Firestore)
+  * [MODIFY] `src/features/products/application/useCategories.ts` (Hook de categorías migrado a Firestore)
+  * [MODIFY] `src/features/products/presentation/ProductCard.tsx` (Botones de editar y eliminar para administradores)
+  * [MODIFY] `src/features/products/presentation/ProductGrid.tsx` & `type.ts` (Propagación de callbacks de CRUD)
+  * [MODIFY] `src/pages/HomeContent.tsx` (Botón "Nuevo" de admin, estado de edición y render de modales)
 
 ---
 
-### 💳 Fase 3: Checkout y Colección Compras [PENDIENTE]
+### 💳 Fase 3: Checkout y Colección Compras [COMPLETADA]
 * **Rama:** `feat/purchases`
-* **Objetivos:**
-  * Exigir login para acceder al checkout.
-  * Al pagar, registrar la transacción en la colección `compras` y actualizar el stock en la colección `products`.
-  * Vaciar el carrito.
+* **Archivos creados/modificados:**
+  * [NEW] `src/features/checkout/infrastructure/checkoutFirestore.ts` (Servicio de transacción atómica para compras y stock)
+  * [MODIFY] `src/features/checkout/application/useCheckout.ts` & `types.ts` (Llamada al servicio y firmas de tipos asíncronos)
+  * [MODIFY] `src/features/checkout/presentation/Checkout.tsx` (Protección de ruta exigiendo login y redirección inteligente)
+  * [MODIFY] `src/widgets/Navbar.tsx` (Trigger para abrir el LoginModal automáticamente si la URL contiene `?login=true`)
 
 ---
 
-### 🎫 Fase 4: Historial, Tickets y Estados de Envío [PENDIENTE]
+### 🎫 Fase 4: Historial, Tickets y Estados de Envío [COMPLETADA]
 * **Rama:** `feat/tickets-status`
-* **Objetivos:**
-  * Vista de compras para el Cliente con línea de tiempo y estados de envío detallados.
-  * Vista administrativa para gestionar los estados del pedido.
+* **Archivos creados/modificados:**
+  * [NEW] `src/features/orders/infrastructure/ordersFirestore.ts` (Servicio de lectura de pedidos y actualización de estado)
+  * [NEW] `src/pages/Orders.tsx` (Vista responsiva con historial, línea de tiempo de envíos y panel de actualización de admin)
+  * [MODIFY] `src/app/routing/AppRouter.tsx` (Agregado de ruta de carga diferida `/orders`)
+  * [MODIFY] `src/widgets/Navbar.tsx` (Botón "Pedidos/Compras" dinámico de acceso rápido)
 
 ---
 
-### 🏁 Fase 5: QA final y Despliegue [PENDIENTE]
+### 🏁 Fase 5: QA final y Despliegue [COMPLETADA]
 * **Rama:** `feat/qa-integration`
-* **Objetivos:**
-  * Verificación global con React Doctor.
-  * Despliegue final a Firebase Hosting.
+* **Archivos creados/modificados:**
+  * [MODIFY] `.firebaserc` (Actualizado para apuntar al nuevo proyecto `myprojectapi12-39aa6`)
+  * **Verificación de Calidad**:
+    - Ejecución exitosa de `pnpm lint` con cero warnings y errores.
+    - Ejecución exitosa de `pnpm type-check` (compilación de TypeScript libre de errores).
+    - Compilación de producción con Vite (`pnpm build`) exitosa.
+    - Configuración de Firebase Hosting lista para despliegue.

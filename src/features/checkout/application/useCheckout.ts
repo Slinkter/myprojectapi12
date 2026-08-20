@@ -30,6 +30,8 @@ import {
     IUseCheckoutReturn,
 } from "@/features/checkout/application/types";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
+import { useAuth } from "@/features/auth/application/AuthContext";
+import { recordPurchaseAndUpdateStock } from "@/features/checkout/infrastructure/checkoutFirestore";
 
 /**
  * @function detectCardType
@@ -78,6 +80,7 @@ export const useCheckout = (
     const [state, dispatch] = useReducer(checkoutReducer, initialState);
     const { paymentMethod, cardInfo, errors, cardType } = state;
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     const [touched, setTouched] = useState<Record<string, boolean>>({});
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -101,20 +104,33 @@ export const useCheckout = (
         handleCardTypeDetection();
     }, [paymentMethod, cardInfo, cardType, handleCardTypeDetection]);
 
-    const goToSuccess = useCallback(() => {
-        const orderId = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
-        clearCart();
-        navigate("/checkout-success", {
-            state: {
-                orderId,
-                items: cart,
-                total: totalPrice,
-                paymentMethod,
-            },
-        });
-    }, [cart, totalPrice, paymentMethod, clearCart, navigate]);
+    const goToSuccess = useCallback(async () => {
+        if (!user) return;
+        try {
+            const orderId = await recordPurchaseAndUpdateStock(
+                user.uid,
+                user.email,
+                cart,
+                totalPrice,
+                paymentMethod
+            );
+            clearCart();
+            navigate("/checkout-success", {
+                state: {
+                    orderId,
+                    items: cart,
+                    total: totalPrice,
+                    paymentMethod,
+                },
+            });
+        } catch (error) {
+            console.error(error);
+            alert((error as Error).message || "Error al registrar la compra.");
+            throw error; // Re-throw so handlePayment knows it failed
+        }
+    }, [cart, totalPrice, paymentMethod, clearCart, navigate, user]);
 
-    const handlePayment = useCallback(() => {
+    const handlePayment = useCallback(async () => {
         setIsSubmitted(true);
         setTouched({
             number: true,
@@ -124,7 +140,7 @@ export const useCheckout = (
         });
 
         if (paymentMethod === "bitcoin") {
-            goToSuccess();
+            await goToSuccess();
             return;
         }
 
@@ -132,7 +148,7 @@ export const useCheckout = (
         dispatch({ type: "SET_ERRORS", payload: validationErrors });
 
         if (Object.keys(validationErrors).length === 0) {
-            goToSuccess();
+            await goToSuccess();
         }
     }, [paymentMethod, cardInfo, goToSuccess]);
 

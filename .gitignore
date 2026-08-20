@@ -1,4 +1,4 @@
-# Logs
+# Logs & Debug
 logs
 *.log
 npm-debug.log*
@@ -6,8 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
 
-# Dependencies and Builds
+# Dependencies and Build Artifacts
 node_modules
 dist
 dist-ssr
@@ -16,15 +19,24 @@ dist-ssr
 .pnpm-store
 *.tsbuildinfo
 
-# Environmental variables (Security)
+# Environmental variables & Secrets (High Security)
 .env
+.env.*
 .env*.local
+!.env.example
+*.pem
+*.key
+*.crt
+serviceAccountKey*.json
+google-services.json
+GoogleService-Info.plist
 
-# Testing
+# Testing & Coverage
 coverage/
 *.lcov
+.playwright-mcp/
 
-# Editor directories and files
+# Editor & OS Files
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -34,11 +46,11 @@ coverage/
 *.njsproj
 *.sln
 *.sw?
-
-# System Files
 Thumbs.db
 Desktop.ini
 
-# Agent/CLI artifacts
+# Agent, AI & Assistant Tooling
 .agents
-.playwright-mcp/
+.agents/
+.claude/
+.system_generated/

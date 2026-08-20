@@ -16,4 +16,6 @@ export interface IProductListProps {
   error: string | null;
   hasMore: boolean;
   loadMoreProducts: () => void;
+  onEdit?: (product: IProduct) => void;
+  onDelete?: (id: number) => void;
 }

@@ -79,7 +79,7 @@ export interface IUseCheckoutReturn {
     cardInfo: ICardInfo;
     errors: IValidationErrors;
     cardType: string;
-    handlePayment: () => void;
+    handlePayment: () => void | Promise<void>;
     handlePaymentFieldChange: (e: ChangeEvent<HTMLInputElement>) => void;
     selectPaymentMethod: (method: PaymentMethod) => void;
     isPaymentDisabled: boolean;

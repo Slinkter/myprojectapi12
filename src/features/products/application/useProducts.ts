@@ -6,7 +6,7 @@
 
 import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getProducts } from "@/features/products/infrastructure/productsApi";
+import { getProducts } from "@/features/products/infrastructure/productsFirestore";
 import type { IProduct, IUseProductsResult } from "@/features/products/application/types";
 
 /** Cantidad de productos por página para la paginación infinita. */

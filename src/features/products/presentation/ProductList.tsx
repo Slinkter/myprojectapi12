@@ -26,7 +26,7 @@ import { useLogLifecycle } from "@/shared/hooks";
  */
 const ProductList = memo((props: IProductListProps) => {
   useLogLifecycle("ProductList");
-  const { products, isLoading, error, hasMore, loadMoreProducts } = props;
+  const { products, isLoading, error, hasMore, loadMoreProducts, onEdit, onDelete } = props;
 
   // Aplica useDeferredValue a los productos para evitar bloqueos durante el renderizado (rerender-use-deferred-value)
   const deferredProducts = useDeferredValue(products);
@@ -65,7 +65,7 @@ const ProductList = memo((props: IProductListProps) => {
       style={{ opacity: isStale ? 0.7 : 1 }}
       className="transition-opacity duration-200"
     >
-      <ProductGrid products={deferredProducts} />
+      <ProductGrid products={deferredProducts} onEdit={onEdit} onDelete={onDelete} />
       <LoadMoreSection
         products={deferredProducts}
         hasMore={hasMore}

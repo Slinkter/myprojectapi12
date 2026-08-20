@@ -9,6 +9,7 @@ import { useState, useCallback, useMemo, useDeferredValue } from "react";
 import { useSearchParams } from "react-router-dom";
 import { m } from "framer-motion";
 import { useProducts } from "@/features/products/application/useProducts";
+import type { IProduct } from "@/features/products/domain/productTypes";
 import { useProductModalContext } from "@/features/products/application/useProductModalContext";
 import { SearchInput } from "@/features/products/presentation/components/SearchInput";
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
@@ -17,7 +18,13 @@ import ProductDetailModal from "@/features/products/presentation/ProductDetailMo
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCategories } from "@/features/products/application/useCategories";
 import { slideUp } from "@/shared/lib/animations";
-import { X, Sparkles, Package } from "lucide-react";
+import { X, Sparkles, Package, Plus } from "lucide-react";
+import { useAuth } from "@/features/auth/application/AuthContext";
+import { ProductFormModal } from "@/features/products/presentation/ProductFormModal";
+import { deleteProduct } from "@/features/products/infrastructure/productsFirestore";
+import { useQueryClient } from "@tanstack/react-query";
+
+type SortOption = "default" | "price-asc" | "price-desc" | "rating-desc" | "name-asc";
 
 /** Expresión regular para separar términos de búsqueda por espacios en blanco, izada a nivel de módulo (js-hoist-regexp). */
 const WHITESPACE_SPLIT_REGEX = /\s+/;
@@ -58,6 +65,30 @@ export const HomeContent = () => {
 
     const { data: categories } = useCategories();
     const [searchQuery, setSearchQuery] = useState("");
+    const [sortBy, setSortBy] = useState<SortOption>("default");
+
+    const { user } = useAuth();
+    const isAdmin = user?.role === "admin";
+    const [isFormOpen, setIsFormOpen] = useState(false);
+    const [productToEdit, setProductToEdit] = useState<IProduct | null>(null);
+    const queryClient = useQueryClient();
+
+    const handleEditProduct = useCallback((product: IProduct) => {
+        setProductToEdit(product);
+        setIsFormOpen(true);
+    }, []);
+
+    const handleDeleteProduct = useCallback(async (id: number) => {
+        if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+            try {
+                await deleteProduct(id);
+                await queryClient.invalidateQueries({ queryKey: ["products"] });
+            } catch (error) {
+                console.error(error);
+                alert("Error al eliminar el producto.");
+            }
+        }
+    }, [queryClient]);
 
     // Valor diferido para evitar bloqueos durante la búsqueda en tiempo real (rerender-use-deferred-value)
     const deferredSearchQuery = useDeferredValue(searchQuery);
@@ -109,6 +140,18 @@ export const HomeContent = () => {
         return results;
     }, [deferredSearchQuery, products]);
 
+    // Ordenamiento dinámico de productos
+    const sortedProducts = useMemo(() => {
+        if (sortBy === "default") return filteredProducts;
+        return [...filteredProducts].sort((a, b) => {
+            if (sortBy === "price-asc") return a.price - b.price;
+            if (sortBy === "price-desc") return b.price - a.price;
+            if (sortBy === "rating-desc") return (b.rating ?? 0) - (a.rating ?? 0);
+            if (sortBy === "name-asc") return a.title.localeCompare(b.title);
+            return 0;
+        });
+    }, [filteredProducts, sortBy]);
+
     const handleSearchChange = useCallback((query: string) => {
         setSearchQuery(query);
     }, []);
@@ -155,14 +198,44 @@ export const HomeContent = () => {
                 </p>
             </m.div>
 
-            <div className="flex flex-col gap-4 mb-10 items-center max-w-xl mx-auto">
-                <SearchInput
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    isPending={isStale}
-                    placeholder="Buscar productos por nombre, descripción o categoría..."
-                    className="w-full"
-                />
+            <div className="flex flex-col gap-4 mb-10 items-center max-w-xl mx-auto w-full">
+                <div className="flex flex-wrap sm:flex-nowrap gap-2.5 w-full items-center">
+                    <SearchInput
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        isPending={isStale}
+                        placeholder="Buscar productos por nombre, descripción o categoría..."
+                        className="w-full flex-1"
+                    />
+                    <div className="flex items-center gap-2 shrink-0">
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value as SortOption)}
+                            className="h-10 px-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20 shrink-0 cursor-pointer shadow-sm"
+                            aria-label="Ordenar productos"
+                        >
+                            <option value="default">Destacados</option>
+                            <option value="price-asc">Precio: menor a mayor</option>
+                            <option value="price-desc">Precio: mayor a menor</option>
+                            <option value="rating-desc">Mejor valorados</option>
+                            <option value="name-asc">Nombre: A - Z</option>
+                        </select>
+
+                        {isAdmin && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setProductToEdit(null);
+                                    setIsFormOpen(true);
+                                }}
+                                className="h-10 px-4 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover active:scale-95 transition-all shadow-md shadow-primary/20 flex items-center gap-1.5 shrink-0 cursor-pointer"
+                            >
+                                <Plus size={14} />
+                                Nuevo
+                            </button>
+                        )}
+                    </div>
+                </div>
 
                 {categoryQuery && (
                     <div className="flex items-center gap-2">
@@ -186,8 +259,8 @@ export const HomeContent = () => {
 
                 {searchQuery && (
                     <p className="text-sm text-slate-500 dark:text-slate-400 text-center mt-1">
-                        {filteredProducts.length} resultado
-                        {filteredProducts.length !== 1 ? "s" : ""} para &quot;
+                        {sortedProducts.length} resultado
+                        {sortedProducts.length !== 1 ? "s" : ""} para &quot;
                         {searchQuery}&quot;
                     </p>
                 )}
@@ -196,11 +269,13 @@ export const HomeContent = () => {
             {initialLoading && <SkeletonGrid />}
             {!initialLoading && (
                 <ProductList
-                    products={filteredProducts}
+                    products={sortedProducts}
                     isLoading={isLoading}
                     error={error}
                     hasMore={hasMore && !searchQuery}
                     loadMoreProducts={loadMoreProducts}
+                    onEdit={handleEditProduct}
+                    onDelete={handleDeleteProduct}
                 />
             )}
             {selectedProduct && (
@@ -210,6 +285,14 @@ export const HomeContent = () => {
                     onClose={closeProductModal}
                 />
             )}
+            <ProductFormModal
+                isOpen={isFormOpen}
+                onClose={() => {
+                    setIsFormOpen(false);
+                    setProductToEdit(null);
+                }}
+                productToEdit={productToEdit}
+            />
         </div>
     );
 };

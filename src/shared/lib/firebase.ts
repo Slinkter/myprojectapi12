@@ -11,13 +11,13 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBn37QK_KuiHPWma02UOD7-IwE25QiXYSA",
-  authDomain: "slinkter-ea443.firebaseapp.com",
-  projectId: "slinkter-ea443",
-  storageBucket: "slinkter-ea443.firebasestorage.app",
-  messagingSenderId: "401688208094",
-  appId: "1:401688208094:web:33225652db68c34eb4584f",
-  measurementId: "G-FXPW7VRE3W"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Inicializa Firebase

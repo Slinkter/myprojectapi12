@@ -5,7 +5,8 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import { getCategories, ICategory } from "@/features/products/infrastructure/productsApi";
+import { getCategories } from "@/features/products/infrastructure/productsFirestore";
+import type { ICategory } from "@/features/products/infrastructure/productsApi";
 
 /**
  * Hook para obtener y gestionar la lista de categorías con caché prolongada.

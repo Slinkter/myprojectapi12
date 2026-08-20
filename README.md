@@ -4,11 +4,12 @@ PS C:\Users\luisj\Desktop\Github\myprojectapi12>
 
 # 🛍️ MyProjectAPI12
 
-Una tiendita online hecha con React. Muestra productos, los busca, los agrega al carrito y simula un pago.
+Una tienda online moderna hecha con React, TypeScript y Tailwind CSS, integrada con Firebase Firestore y Auth en tiempo real. Soporta roles diferenciados (Admin/Comprador), catálogo en la nube con auto-seeding y fallback automático, checkout seguro con control de inventario atómico, historial de envío en vivo con notas de administración y un Centro de Ayuda interactivo (FAQ).
 
 ![Build](https://img.shields.io/badge/build-pasa-brightgreen)
 ![React](https://img.shields.io/badge/React-18.3-61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
+![Firebase](https://img.shields.io/badge/Firebase-v10-FFCA28)
 ![License](https://img.shields.io/badge/licencia-MIT-green)
 
 ---

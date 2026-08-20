@@ -18,6 +18,8 @@ import { staggerContainer } from "@/shared/lib/animations";
 export interface IProductGridProps {
   /** Colección de productos a renderizar en la cuadrícula. */
   products: IProduct[];
+  onEdit?: (product: IProduct) => void;
+  onDelete?: (id: number) => void;
 }
 
 /**
@@ -31,7 +33,7 @@ export interface IProductGridProps {
  * @param {IProductGridProps} props - Propiedades del componente.
  * @returns {JSX.Element} Cuadrícula de productos renderizada.
  */
-const ProductGrid = memo(({ products }: IProductGridProps) => {
+const ProductGrid = memo(({ products, onEdit, onDelete }: IProductGridProps) => {
   useLogLifecycle("ProductGrid");
   const shouldReduceMotion = useReducedMotion();
 
@@ -52,7 +54,7 @@ const ProductGrid = memo(({ products }: IProductGridProps) => {
           transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
           className="h-full [content-visibility:auto] [contain-intrinsic-size:auto_420px]"
         >
-          <ProductCard product={product} />
+          <ProductCard product={product} onEdit={onEdit} onDelete={onDelete} />
         </m.div>
       ))}
     </m.div>
