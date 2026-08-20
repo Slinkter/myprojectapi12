@@ -6,7 +6,7 @@
 import { ProductModalProvider } from "@/features/products/application/ProductModalProvider";
 import FeatureErrorBoundary from "@/shared/ui/FeatureErrorBoundary";
 import { HomeContent } from "@/pages/HomeContent";
-import { useLogLifecycle } from "@/shared/hooks";
+import { useLogLifecycle } from "@/shared/hooks/useLogLifecycle";
 
 /**
  * Componente de la página principal.

@@ -1,6 +1,6 @@
 /**
  * @file PriceRow.tsx
- * @description Fila de precio reutilizable para el resumen del pedido.
+ * @description Fila de precio reutilizable para el resumen del pedido con números tabulares.
  * @architecture Capa de Presentación - Componente de Checkout
  */
 
@@ -22,8 +22,7 @@ export interface PriceRowProps {
 }
 
 /**
- * Componente que renderiza una fila de precio con estilos según la variante.
- * Útil para subtotales, descuentos, envío y total general.
+ * Componente que renderiza una fila de precio con estilos según la variante y cifras tabulares alineadas.
  *
  * @param {PriceRowProps} props - Propiedades del componente.
  * @returns {JSX.Element} Fila de precio formateada.
@@ -37,19 +36,20 @@ export function PriceRow({ label, value, variant = 'default' }: PriceRowProps) {
   return (
     <div
       className={cn(
-        "flex justify-between items-center text-sm transition-colors",
-        isHighlight && "text-lg font-bold border-t border-slate-200 dark:border-slate-800 pt-3 mt-2 text-slate-900 dark:text-slate-100",
+        "flex justify-between items-center text-sm transition-colors py-0.5",
+        isHighlight && "text-base sm:text-lg font-bold border-t border-slate-200 dark:border-slate-800 pt-3 mt-2 text-slate-900 dark:text-slate-100",
         isSuccess && "text-emerald-600 dark:text-emerald-400 font-semibold"
       )}
     >
       <span className={cn(
-        isSuccess ? "text-emerald-600 dark:text-emerald-400" : "text-slate-500 dark:text-slate-400"
+        "text-xs sm:text-sm",
+        isHighlight ? "font-bold text-slate-900 dark:text-slate-100" : isSuccess ? "text-emerald-600 dark:text-emerald-400 font-medium" : "text-slate-500 dark:text-slate-400"
       )}>
         {label}
       </span>
       <span className={cn(
-        "font-semibold",
-        isHighlight ? "text-lg" : "text-sm",
+        "font-semibold tabular-nums",
+        isHighlight ? "text-lg sm:text-xl text-emerald-600 dark:text-emerald-400 font-extrabold" : "text-sm",
         isSuccess ? "text-emerald-600 dark:text-emerald-400" : "text-slate-900 dark:text-slate-100"
       )}>
         {value}

@@ -1,6 +1,6 @@
 /**
  * @file CardForm.tsx
- * @description Formulario completo de datos de tarjeta de crédito.
+ * @description Formulario completo de datos de tarjeta de crédito con formateo inteligente y validación.
  * @architecture Capa de Presentación - Componente de Checkout
  */
 
@@ -29,31 +29,34 @@ export interface ICardFormProps {
 
 /**
  * Componente que renderiza el formulario completo de datos de tarjeta:
- * número, titular, vencimiento y CVC con sus respectivos iconos y validaciones.
+ * número con formateo automático (4-4-4-4) y detección de marca, titular, vencimiento (MM/AA) y CVC con alternancia de visibilidad.
  *
  * @param {ICardFormProps} props - Propiedades del componente.
- * @returns {JSX.Element} Formulario de tarjeta.
+ * @returns {JSX.Element} Formulario de tarjeta de crédito.
  */
 const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
   useLogLifecycle("CardForm");
+
   return (
     <div className="flex flex-col gap-4">
-      {/* Card Number */}
+      {/* Número de tarjeta con auto-spacing y detección inmediata de marca */}
       <CardInputField
         label="Número de tarjeta"
         name="number"
         value={cardInfo.number}
         error={errors.number}
-        icon={<HiOutlineCreditCard />}
+        icon={<HiOutlineCreditCard className="h-5 w-5" />}
         rightSlot={<CardTypeIndicator cardType={cardType} />}
         inputProps={{
           placeholder: "1234 5678 9012 3456",
           maxLength: 19,
+          inputMode: "numeric",
+          autoComplete: "cc-number",
           onChange,
         }}
       />
 
-      {/* Cardholder Name */}
+      {/* Nombre del titular de la tarjeta */}
       <CardInputField
         label="Nombre del titular"
         name="name"
@@ -62,35 +65,42 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
         icon={<User className="h-4 w-4" />}
         inputProps={{
           placeholder: "Juan Pérez",
+          autoComplete: "cc-name",
           onChange,
         }}
       />
 
-      {/* Expiry and CVC */}
-      <div className="grid grid-cols-2 gap-3">
+      {/* Vencimiento y Código de seguridad (CVC/CVV) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <CardInputField
           label="Vencimiento"
           name="expiry"
           value={cardInfo.expiry}
           error={errors.expiry}
+          helperText="MM/AA"
           icon={<Calendar className="h-4 w-4" />}
           inputProps={{
-            placeholder: "MM/YY",
+            placeholder: "MM/AA",
             maxLength: 5,
+            inputMode: "numeric",
+            autoComplete: "cc-exp",
             onChange,
           }}
         />
 
         <CardInputField
-          label="CVC"
+          label="Código CVV / CVC"
           name="cvc"
           value={cardInfo.cvc}
           error={errors.cvc}
+          helperText="3 dígitos al reverso"
           icon={<Lock className="h-4 w-4" />}
           inputProps={{
-            placeholder: "123",
+            placeholder: "•••",
             type: "password",
             maxLength: 4,
+            inputMode: "numeric",
+            autoComplete: "cc-csc",
             onChange,
           }}
         />
@@ -99,4 +109,4 @@ const CardForm = ({ cardInfo, errors, cardType, onChange }: ICardFormProps) => {
   );
 };
 
-export default CardForm;
+export default CardForm;

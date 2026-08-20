@@ -1,17 +1,17 @@
 /**
  * @file OrderSummary.tsx
- * @description Componente de resumen del pedido con lista de items, descuentos y totales.
+ * @description Componente de resumen del pedido con lista de items, descuentos y totales con cifras tabulares.
  * @architecture Capa de Presentación - Componente de Checkout
  */
 
-import { ShoppingBag } from 'lucide-react'
+import { ShoppingBag, Sparkles, Truck } from 'lucide-react';
 import { useLogLifecycle } from "@/shared/hooks";
 import type { ICartItem } from '@/features/cart/domain/cartTypes';
-import { OrderItemRow } from './OrderItemRow'
-import { DiscountInput } from './DiscountInput'
-import { AppliedDiscountBadge } from './AppliedDiscountBadge'
-import { PriceRow } from './PriceRow'
-import { useDiscountValidation, calculateDiscountAmount } from '@/features/checkout/application/useDiscountValidation'
+import { OrderItemRow } from './OrderItemRow';
+import { DiscountInput } from './DiscountInput';
+import { AppliedDiscountBadge } from './AppliedDiscountBadge';
+import { PriceRow } from './PriceRow';
+import { useDiscountValidation, calculateDiscountAmount } from '@/features/checkout/application/useDiscountValidation';
 
 /**
  * @interface IOrderSummaryProps
@@ -19,19 +19,19 @@ import { useDiscountValidation, calculateDiscountAmount } from '@/features/check
  */
 export interface IOrderSummaryProps {
   /** Items del carrito a mostrar en el resumen */
-  items: ICartItem[]
+  items: ICartItem[];
   /** Precio total del carrito */
-  totalPrice: number
+  totalPrice: number;
   /** Callback opcional para eliminar un item */
-  onRemove?: (id: number) => void
+  onRemove?: (id: number) => void;
   /** Estilos en línea opcionales */
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
 }
 
 /**
  * Componente que muestra el resumen completo del pedido incluyendo:
- * lista de productos, input de código de descuento, badge de descuento aplicado,
- * subtotal, descuento, envío y total final.
+ * lista de productos con scroll suave, input de código de descuento con sugerencias rápidas,
+ * badge de cupón aplicado, barra de progreso para envío gratis y totales con cifras tabulares.
  *
  * @param {IOrderSummaryProps} props - Propiedades del componente.
  * @returns {JSX.Element} Resumen del pedido.
@@ -46,23 +46,32 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
     isApplying,
     applyDiscount,
     removeDiscount,
-  } = useDiscountValidation()
+  } = useDiscountValidation();
 
-  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
-  const hasItems = totalItems > 0
-  const shipping = hasItems && totalPrice >= 50 ? 0 : hasItems ? 9.99 : 0
-  const discountAmount = calculateDiscountAmount(appliedDiscount, totalPrice)
-  const discountedSubtotal = totalPrice - discountAmount
-  const finalTotal = discountedSubtotal + shipping
+  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
+  const hasItems = totalItems > 0;
+  const isFreeShipping = hasItems && totalPrice >= 50;
+  const shipping = isFreeShipping ? 0 : hasItems ? 9.99 : 0;
+  const discountAmount = calculateDiscountAmount(appliedDiscount, totalPrice);
+  const discountedSubtotal = Math.max(0, totalPrice - discountAmount);
+  const finalTotal = discountedSubtotal + shipping;
+
+  const progressToFreeShipping = Math.min(100, Math.round((totalPrice / 50) * 100));
 
   return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4" style={style}>
-      <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-        <ShoppingBag className="h-4 w-4" />
-        Resumen del Pedido
-      </h3>
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4 sm:p-5" style={style}>
+      <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 dark:border-slate-800/80">
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
+          <ShoppingBag className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+          Resumen del Pedido
+        </h3>
+        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+          {totalItems} {totalItems === 1 ? 'artículo' : 'artículos'}
+        </span>
+      </div>
 
-      <div className="flex flex-col gap-2 mb-4">
+      {/* Lista de productos */}
+      <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1 mb-4 scrollbar-thin">
         {items.map((item) => (
           <OrderItemRow 
             key={item.id} 
@@ -72,7 +81,8 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
         ))}
       </div>
 
-      {!appliedDiscount && (
+      {/* Cupón de descuento */}
+      {!appliedDiscount ? (
         <DiscountInput
           code={code}
           isApplying={isApplying}
@@ -80,53 +90,72 @@ export function OrderSummary({ items, totalPrice, onRemove, style }: IOrderSumma
           onApply={applyDiscount}
           onChange={setCode}
         />
-      )}
-
-      {appliedDiscount && (
+      ) : (
         <AppliedDiscountBadge
           discount={appliedDiscount}
           onRemove={removeDiscount}
         />
       )}
 
-      <div className="flex flex-col gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
+      {/* Indicador de envío gratis */}
+      {hasItems && (
+        <div className="mb-4 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800 text-xs">
+          <div className="flex items-center justify-between mb-1.5 font-medium">
+            <span className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
+              <Truck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              {isFreeShipping ? '¡Envío gratuito conseguido!' : `Faltan $${(50 - totalPrice).toFixed(2)} para envío gratis`}
+            </span>
+            <span className="font-bold tabular-nums text-slate-500 dark:text-slate-400">{progressToFreeShipping}%</span>
+          </div>
+          <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+            <div
+              className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+              style={{ width: `${progressToFreeShipping}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Desglose de precios */}
+      <div className="flex flex-col gap-1.5 pt-3 border-t border-slate-200 dark:border-slate-800">
         <PriceRow
-          label={`Subtotal (${totalItems})`}
+          label={`Subtotal`}
           value={`$${totalPrice.toFixed(2)}`}
         />
 
         {discountAmount > 0 && (
           <PriceRow
-            label="Descuento"
+            label={
+              <span className="flex items-center gap-1">
+                <Sparkles className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                Descuento
+              </span>
+            }
             value={`-$${discountAmount.toFixed(2)}`}
             variant="success"
           />
         )}
 
         <PriceRow
-          label="Envío"
+          label="Envío estándar"
           value={
-            shipping === 0 ? (
-              <span className="text-green-600 font-medium">GRATIS</span>
+            isFreeShipping ? (
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold tracking-wide">
+                GRATIS
+              </span>
             ) : (
               `$${shipping.toFixed(2)}`
             )
           }
-          variant={shipping === 0 ? 'success' : 'default'}
+          variant={isFreeShipping ? 'success' : 'default'}
         />
 
-        {hasItems && shipping > 0 && totalPrice < 50 && (
-          <span className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/50 p-2 rounded-lg block font-medium">
-            ¡Agrega ${(50 - totalPrice).toFixed(2)} más para envío gratis!
-          </span>
-        )}
-
         <PriceRow
-          label="Total"
+          label="Total a pagar"
           value={`$${finalTotal.toFixed(2)}`}
           variant="highlight"
         />
       </div>
     </div>
-  )
+  );
 }

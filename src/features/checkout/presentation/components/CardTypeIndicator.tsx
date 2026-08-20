@@ -4,7 +4,7 @@
  * @architecture Capa de Presentación - Componente de Checkout
  */
 
-import { cn } from "@/shared/lib/cn";
+import { CreditCard } from "lucide-react";
 
 /**
  * @interface CardTypeIndicatorProps
@@ -16,33 +16,42 @@ interface CardTypeIndicatorProps {
 }
 
 /**
- * Componente que muestra un indicador visual del tipo de tarjeta.
- * Para Visa muestra el texto "VISA", para Mastercard muestra el ícono de círculos rojo y ámbar.
+ * Componente que muestra un distintivo visual inmediato de la marca de la tarjeta de crédito detectada.
  *
  * @param {CardTypeIndicatorProps} props - Propiedades del componente.
- * @returns {JSX.Element} Indicador de tipo de tarjeta.
+ * @returns {JSX.Element} Indicador visual de tipo de tarjeta.
  */
 const CardTypeIndicator = ({ cardType }: CardTypeIndicatorProps) => {
+  const normalized = cardType.toLowerCase();
+
   return (
     <div
       role="img"
-      aria-label={cardType ? `Tipo de tarjeta: ${cardType}` : undefined}
-      aria-hidden={!cardType}
-      className={cn(
-        "absolute right-4 top-1/2 -translate-y-1/2 transition-opacity duration-300",
-        cardType ? "opacity-100" : "opacity-0",
-      )}
+      aria-label={normalized ? `Tipo de tarjeta detectado: ${normalized}` : "Marca de tarjeta"}
+      className="flex items-center justify-center transition-opacity duration-300 min-w-[36px]"
     >
-      {cardType === "visa" && (
-        <span aria-hidden="true" className="font-serif italic font-black text-blue-700 dark:text-blue-400 text-xl tracking-tighter">
+      {normalized === "visa" && (
+        <span
+          className="px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-serif italic font-black text-sm tracking-tighter shadow-sm animate-in fade-in zoom-in-95 duration-200"
+          aria-hidden="true"
+        >
           VISA
         </span>
       )}
-      {cardType === "mastercard" && (
-        <div aria-hidden="true" className="flex -space-x-2">
-          <div className="w-6 h-6 rounded-full bg-red-500/90 shadow-sm border border-white/10"></div>
-          <div className="w-6 h-6 rounded-full bg-amber-500/90 shadow-sm border border-white/10"></div>
+      {normalized === "mastercard" && (
+        <div
+          aria-hidden="true"
+          className="flex -space-x-2 items-center px-1.5 py-0.5 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm animate-in fade-in zoom-in-95 duration-200"
+        >
+          <div className="w-4 h-4 rounded-full bg-red-500/90 shadow-sm" />
+          <div className="w-4 h-4 rounded-full bg-amber-500/90 shadow-sm opacity-90" />
         </div>
+      )}
+      {!normalized && (
+        <CreditCard
+          className="h-4 w-4 text-slate-300 dark:text-slate-600 transition-opacity"
+          aria-hidden="true"
+        />
       )}
     </div>
   );

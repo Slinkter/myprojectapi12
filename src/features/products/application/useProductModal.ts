@@ -1,22 +1,28 @@
+/**
+ * @file useProductModal.ts
+ * @description Hook para gestionar el estado del modal de detalle de producto sin estados redundantes.
+ * @architecture Application Layer - Custom Hook
+ */
+
 import { useState, useCallback } from "react";
-import { IProduct } from "@/features/products/application/types";
-import { IUseProductModalResult } from "@/features/products/application/types";
+import type { IProduct, IUseProductModalResult } from "@/features/products/application/types";
 
 /**
  * Hook para gestionar el estado del modal de detalle de producto.
  *
  * @remarks
- * Administra el estado local de apertura/cierre del modal y el producto seleccionado.
+ * Administra el producto seleccionado y deriva el estado de visibilidad del modal directamente
+ * sin necesidad de estados redundantes o efectos de sincronización (rerender-derived-state-no-effect).
  * Las funciones `openProductModal` y `closeProductModal` están memoizadas con `useCallback`.
  *
- * @returns Estado y controladores del modal de producto.
+ * @returns {IUseProductModalResult} Estado y controladores del modal de producto.
  * @see IUseProductModalResult - Estructura del valor retornado.
  */
 export const useProductModal = (): IUseProductModalResult => {
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(
-        null,
-    );
+    const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
+
+    // Derivar isModalOpen directamente a partir de la presencia de selectedProduct (rerender-derived-state-no-effect)
+    const isModalOpen = selectedProduct !== null;
 
     /**
      * Abre el modal con el producto especificado.
@@ -24,7 +30,6 @@ export const useProductModal = (): IUseProductModalResult => {
      */
     const openProductModal = useCallback((product: IProduct) => {
         setSelectedProduct(product);
-        setIsModalOpen(true);
     }, []);
 
     /**
@@ -32,7 +37,6 @@ export const useProductModal = (): IUseProductModalResult => {
      */
     const closeProductModal = useCallback(() => {
         setSelectedProduct(null);
-        setIsModalOpen(false);
     }, []);
 
     return {

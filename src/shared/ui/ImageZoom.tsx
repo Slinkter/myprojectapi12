@@ -1,7 +1,7 @@
-import { useState, useRef, type MouseEvent } from 'react'
+import { useState, useRef, useEffect, type MouseEvent } from 'react'
 import { HiOutlineMagnifyingGlassPlus, HiOutlineMagnifyingGlassMinus, HiOutlineArrowPath } from 'react-icons/hi2'
 import { cn } from '@/shared/lib/cn'
-import { useLogLifecycle } from "@/shared/hooks";
+import { useLogLifecycle } from "@/shared/hooks/useLogLifecycle";
 
 /**
  * @interface IImageZoomProps
@@ -29,8 +29,60 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
   const [zoom, setZoom] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
+  const isDraggingRef = useRef(false)
   const dragStart = useRef({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY < 0) {
+        setZoom((prev) => Math.min(prev + 0.25, 3))
+      } else if (e.deltaY > 0) {
+        setZoom((prev) => Math.max(prev - 0.25, 1))
+      }
+    }
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1 && zoom > 1) {
+        isDraggingRef.current = true
+        setIsDragging(true)
+        dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+      }
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDraggingRef.current || zoom <= 1 || e.touches.length !== 1) return
+      const dx = e.touches[0].clientX - dragStart.current.x
+      const dy = e.touches[0].clientY - dragStart.current.y
+      setPosition((prev) => ({
+        x: prev.x + dx,
+        y: prev.y + dy,
+      }))
+      dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+    }
+
+    const handleTouchEnd = () => {
+      isDraggingRef.current = false
+      setIsDragging(false)
+    }
+
+    container.addEventListener('wheel', handleWheel, { passive: true })
+    container.addEventListener('touchstart', handleTouchStart, { passive: true })
+    container.addEventListener('touchmove', handleTouchMove, { passive: true })
+    container.addEventListener('touchend', handleTouchEnd, { passive: true })
+    container.addEventListener('touchcancel', handleTouchEnd, { passive: true })
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel)
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchmove', handleTouchMove)
+      container.removeEventListener('touchend', handleTouchEnd)
+      container.removeEventListener('touchcancel', handleTouchEnd)
+    }
+  }, [zoom])
 
   const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
     if (!containerRef.current || zoom <= 1) return

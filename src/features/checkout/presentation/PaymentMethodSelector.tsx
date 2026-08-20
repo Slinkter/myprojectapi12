@@ -35,8 +35,13 @@ const PaymentMethodSelector = ({
   onMethodChange,
 }: PaymentMethodSelectorProps) => {
   useLogLifecycle("PaymentMethodSelector");
+
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <fieldset
+      aria-label="Selecciona un método de pago"
+      className="grid grid-cols-1 sm:grid-cols-3 gap-3 border-none p-0 m-0"
+    >
+      <legend className="sr-only">Métodos de pago disponibles</legend>
       <PaymentMethodRadio
         id="visa"
         label="Visa"
@@ -57,7 +62,7 @@ const PaymentMethodSelector = ({
         checked={currentMethod === "bitcoin"}
         onChange={() => onMethodChange("bitcoin")}
       />
-    </div>
+    </fieldset>
   );
 };
 

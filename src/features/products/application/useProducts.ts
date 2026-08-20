@@ -4,30 +4,17 @@
  * @architecture Application Layer - Custom Hook
  */
 
+import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProducts } from "@/features/products/infrastructure/productsApi";
-import type { IProduct } from "@/features/products/application/types";
-import type { IUseProductsResult } from "@/features/products/application/types";
+import type { IProduct, IUseProductsResult } from "@/features/products/application/types";
 
 /** Cantidad de productos por página para la paginación infinita. */
 const PRODUCTS_PER_PAGE = 20;
 
 /**
- * Hook para obtener y gestionar la lista de productos con paginación infinita.
- *
- * @remarks
- * Utiliza `useInfiniteQuery` de TanStack Query con queryKey `["products", category]`.
- * - `staleTime` por defecto de React Query (0ms).
- * - Cada página solicita `PRODUCTS_PER_PAGE` (20) elementos.
- * - `getNextPageParam` calcula si hay más páginas basándose en el total devuelto por la API.
- *
- * @param category - Categoría opcional para filtrar los productos. Cambiar este valor reinicia la consulta.
- * @returns Objeto con la lista plana de productos, estados de carga y control de paginación.
- * @see IUseProductsResult - Estructura completa del valor retornado.
- * @see getProducts - Función de infraestructura que realiza la petición HTTP.
- */
-/**
  * Hook interno para ejecutar la consulta de paginación infinita con React Query.
+ * @param category - Categoría opcional para filtrar los productos en la API.
  */
 function useProductsQuery(category?: string) {
     return useInfiniteQuery({
@@ -47,37 +34,47 @@ function useProductsQuery(category?: string) {
 }
 
 /**
- * Hook interno para aplanar las páginas devueltas por React Query.
- */
-function useFlattenedProducts(data: ReturnType<typeof useProductsQuery>["data"]): IProduct[] {
-    return data?.pages.flatMap((page) => page.products) ?? [];
-}
-
-/**
  * Hook para obtener y gestionar la lista de productos con paginación infinita.
  *
  * @remarks
  * Utiliza `useInfiniteQuery` de TanStack Query con queryKey `["products", category]`.
- * - `staleTime` por defecto de React Query (0ms).
- * - Cada página solicita `PRODUCTS_PER_PAGE` (20) elementos.
- * - `getNextPageParam` calcula si hay más páginas basándose en el total devuelto por la API.
+ * Calcula los estados derivados durante el renderizado (rerender-derived-state-no-effect) y
+ * combina las páginas en una única estructura plana memoizada (js-combine-iterations).
  *
  * @param category - Categoría opcional para filtrar los productos. Cambiar este valor reinicia la consulta.
- * @returns Objeto con la lista plana de productos, estados de carga y control de paginación.
+ * @returns {IUseProductsResult} Objeto con la lista plana de productos, estados de carga y control de paginación.
  * @see IUseProductsResult - Estructura completa del valor retornado.
  * @see getProducts - Función de infraestructura que realiza la petición HTTP.
  */
 export const useProducts = (category?: string): IUseProductsResult => {
     const query = useProductsQuery(category);
-    const products = useFlattenedProducts(query.data);
+
+    // Aplanar las páginas de productos mediante un bucle eficiente en useMemo (js-combine-iterations)
+    const products = useMemo<IProduct[]>(() => {
+        if (!query.data?.pages) return [];
+        const flattened: IProduct[] = [];
+        for (const page of query.data.pages) {
+            for (const item of page.products) {
+                flattened.push(item);
+            }
+        }
+        return flattened;
+    }, [query.data?.pages]);
+
+    // Estados derivados calculados en línea durante el render sin efectos redundantes (rerender-derived-state-no-effect)
+    const error = query.error?.message || null;
+    const isLoading = query.isLoading || query.isFetchingNextPage;
+    const initialLoading = query.isLoading;
+    const hasMore = query.hasNextPage ?? false;
+    const isLoadingMore = query.isFetchingNextPage;
 
     return {
         products,
-        error: query.error?.message || null,
-        isLoading: query.isLoading || query.isFetchingNextPage,
-        initialLoading: query.isLoading,
-        hasMore: query.hasNextPage ?? false,
+        error,
+        isLoading,
+        initialLoading,
+        hasMore,
         loadMoreProducts: query.fetchNextPage,
-        isLoadingMore: query.isFetchingNextPage,
+        isLoadingMore,
     };
 };

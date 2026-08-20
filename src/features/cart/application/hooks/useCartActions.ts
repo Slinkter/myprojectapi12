@@ -1,6 +1,8 @@
 /**
  * @file useCartActions.ts
- * @description Hook para gestionar acciones del carrito.
+ * @description Hook para gestionar acciones del carrito de compras.
+ * Proporciona métodos optimizados con functional setState y llamadas de una sola pasada.
+ * @architecture Application Layer - Custom Hook
  */
 
 import { useCallback } from "react";
@@ -8,6 +10,7 @@ import toast from "react-hot-toast";
 import {
   addItemToCart,
   removeItemFromCart,
+  updateCartItemQuantity,
   validateCartItem,
 } from "@/features/cart/domain/cartUtils";
 import type { ICartItem, IProduct } from "@/features/cart/domain/cartTypes";
@@ -36,18 +39,18 @@ interface IUseCartActionsReturn {
  * @param {React.Dispatch<React.SetStateAction<ICartItem[]>>} setCart - Actualizador del estado del carrito
  * @param {() => void} openCart - Función para abrir el drawer del carrito
  *
- * @returns {IUseCartActionsReturn} Objeto con funciones addToCart, removeFromCart y clearCart
+ * @returns {IUseCartActionsReturn} Objeto con funciones addToCart, removeFromCart, updateQuantity y clearCart
  */
 export const useCartActions = (
   setCart: React.Dispatch<React.SetStateAction<ICartItem[]>>,
   openCart: () => void,
 ): IUseCartActionsReturn => {
   /**
-   * Adds a product to the cart with validation.
-   * Opens the cart drawer after successfully adding the product.
-   * @param product - The product object to add to the cart
-   * @param quantity - The quantity of the product to add
-   * @returns void
+   * Agrega un producto al carrito con validación previa.
+   * Abre el drawer del carrito tras agregarlo exitosamente.
+   *
+   * @param {IProduct} product - Producto a agregar
+   * @param {number} quantity - Cantidad a agregar
    */
   const addToCart = useCallback(
     (product: IProduct, quantity: number) => {
@@ -66,9 +69,9 @@ export const useCartActions = (
   );
 
   /**
-   * Removes a product from the cart by its product ID.
-   * @param productId - The unique identifier of the product to remove
-   * @returns void
+   * Elimina un producto del carrito por su ID.
+   *
+   * @param {number} productId - ID único del producto a eliminar
    */
   const removeFromCart = useCallback(
     (productId: number) => {
@@ -79,35 +82,26 @@ export const useCartActions = (
   );
 
   /**
-   * Updates the quantity of a product in the cart.
-   * Removes the item if quantity is 0 or less.
-   * @param productId - The unique identifier of the product
-   * @param quantity - The new quantity to set
-   * @returns void
+   * Actualiza la cantidad de un producto en el carrito en una sola pasada.
+   *
+   * @param {number} productId - ID único del producto
+   * @param {number} quantity - Nueva cantidad
    */
   const updateQuantity = useCallback(
     (productId: number, quantity: number) => {
-      if (quantity <= 0) {
-        setCart((prev) => removeItemFromCart(prev, productId));
-        return;
-      }
-      setCart((prev) =>
-        prev.map((item) =>
-          item.id === productId ? { ...item, quantity } : item,
-        ),
-      );
+      setCart((prev) => updateCartItemQuantity(prev, productId, quantity));
     },
     [setCart],
   );
 
   /**
-   * Clears all items from the cart, emptying it completely.
-   * @returns void
+   * Vacía todos los artículos del carrito.
    */
   const clearCart = useCallback(() => {
-    setCart([]);
+    setCart(() => []);
     toast.success("El carrito ha sido vaciado.");
   }, [setCart]);
 
   return { addToCart, removeFromCart, updateQuantity, clearCart };
 };
+

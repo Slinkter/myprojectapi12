@@ -6,7 +6,7 @@
  */
 
 import { useState, useCallback } from 'react'
-import { useLogLifecycle } from "@/shared/hooks";
+import { useLogLifecycle } from "@/shared/hooks/useLogLifecycle";
 import { cn } from '@/shared/lib/cn'
 
 /**

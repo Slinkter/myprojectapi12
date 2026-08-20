@@ -1,4 +1,11 @@
-import { useState, useCallback, useMemo } from "react";
+/**
+ * @file HomeContent.tsx
+ * @description Componente principal de la página de inicio que orquesta la búsqueda,
+ * filtrado por categorías, visualización de catálogo y modal de detalle.
+ * @architecture Pages Layer - Vista Principal
+ */
+
+import { useState, useCallback, useMemo, useDeferredValue } from "react";
 import { useSearchParams } from "react-router-dom";
 import { m } from "framer-motion";
 import { useProducts } from "@/features/products/application/useProducts";
@@ -7,26 +14,28 @@ import { SearchInput } from "@/features/products/presentation/components/SearchI
 import SkeletonGrid from "@/features/products/presentation/SkeletonGrid";
 import ProductList from "@/features/products/presentation/ProductList";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
-import { useDebounce, useLogLifecycle } from "@/shared/hooks";
+import { useLogLifecycle } from "@/shared/hooks";
 import { useCategories } from "@/features/products/application/useCategories";
 import { slideUp } from "@/shared/lib/animations";
 import { X, Sparkles, Package } from "lucide-react";
+
+/** Expresión regular para separar términos de búsqueda por espacios en blanco, izada a nivel de módulo (js-hoist-regexp). */
+const WHITESPACE_SPLIT_REGEX = /\s+/;
 
 /**
  * @component HomeContent
  * Renderiza el contenido principal de la página de inicio.
  *
  * @remarks
- * **Secuencia de carga:**
- * 1. `ProductModalProvider` envuelve todo (context para modal de detalle).
- * 2. `FeatureErrorBoundary` atrapa errores de la feature Products.
- * 3. `HomeContent` lee `category` de URL vía `useSearchParams`.
- * 4. `SearchInput` -> debounce de 350ms vía `useDebounce`.
- * 5. Hero section -> `m.div` con `slideUp` animation.
- * 6. `ProductList` -> `useProducts(category)` -> `useInfiniteQuery`.
- * 7. `ProductGrid` -> `m.div` con `whileInView` para lazy render.
- * 8. `ProductCard` por cada producto (lazy render vía viewport).
- * 9. Click en card -> `ProductDetailModal` (portal + AnimatePresence).
+ * **Secuencia de carga y optimizaciones:**
+ * 1. `ProductModalProvider` envuelve el árbol (contexto para modal de detalle).
+ * 2. `HomeContent` lee `category` de URL vía `useSearchParams`.
+ * 3. Búsqueda concurrente no bloqueante mediante `useDeferredValue` (rerender-use-deferred-value).
+ * 4. Filtrado en paso único combinando criterios de título, descripción, categoría y marca (js-combine-iterations).
+ * 5. Mapeo O(1) de categorías usando `Map` (js-set-map-lookups).
+ * 6. Hero section animado con `slideUp`.
+ * 7. `ProductList` memoizado con transición de opacidad diferida.
+ * 8. `ProductDetailModal` renderizado bajo demanda.
  *
  * @returns {JSX.Element} Vista principal de la tienda.
  */
@@ -49,32 +58,72 @@ export const HomeContent = () => {
 
     const { data: categories } = useCategories();
     const [searchQuery, setSearchQuery] = useState("");
-    const debouncedSearch = useDebounce(searchQuery, 350);
 
+    // Valor diferido para evitar bloqueos durante la búsqueda en tiempo real (rerender-use-deferred-value)
+    const deferredSearchQuery = useDeferredValue(searchQuery);
+    const isStale = searchQuery !== deferredSearchQuery;
+
+    // Mapa O(1) para resolución instantánea de nombres de categoría por slug (js-set-map-lookups / js-index-maps)
+    const categoryMap = useMemo(() => {
+        const map = new Map<string, string>();
+        if (categories) {
+            for (const category of categories) {
+                map.set(category.slug, category.name);
+            }
+        }
+        return map;
+    }, [categories]);
+
+    // Filtrado de productos en una única pasada combinada (js-combine-iterations)
     const filteredProducts = useMemo(() => {
-        if (!debouncedSearch) return products;
-        const lowerQuery = debouncedSearch.toLowerCase();
-        return products.filter(
-            (p) =>
-                p.title.toLowerCase().includes(lowerQuery) ||
-                p.description.toLowerCase().includes(lowerQuery) ||
-                p.category?.toLowerCase().includes(lowerQuery) ||
-                p.brand?.toLowerCase().includes(lowerQuery),
-        );
-    }, [debouncedSearch, products]);
+        const query = deferredSearchQuery.trim().toLowerCase();
+        if (!query) return products;
+
+        const searchTokens = query.split(WHITESPACE_SPLIT_REGEX);
+        const results = [];
+
+        for (const p of products) {
+            const title = p.title.toLowerCase();
+            const desc = p.description.toLowerCase();
+            const category = p.category ? p.category.toLowerCase() : "";
+            const brand = p.brand ? p.brand.toLowerCase() : "";
+
+            let allTokensMatch = true;
+            for (const token of searchTokens) {
+                if (
+                    !title.includes(token) &&
+                    !desc.includes(token) &&
+                    !category.includes(token) &&
+                    !brand.includes(token)
+                ) {
+                    allTokensMatch = false;
+                    break;
+                }
+            }
+
+            if (allTokensMatch) {
+                results.push(p);
+            }
+        }
+
+        return results;
+    }, [deferredSearchQuery, products]);
 
     const handleSearchChange = useCallback((query: string) => {
         setSearchQuery(query);
     }, []);
 
-    const clearCategoryFilter = () => {
-        searchParams.delete("category");
-        setSearchParams(searchParams);
-    };
+    const clearCategoryFilter = useCallback(() => {
+        setSearchParams((prevParams) => {
+            const nextParams = new URLSearchParams(prevParams);
+            nextParams.delete("category");
+            return nextParams;
+        });
+    }, [setSearchParams]);
 
-    const activeCategoryName =
-        categories?.find((c) => c.slug === categoryQuery)?.name ||
-        categoryQuery;
+    const activeCategoryName = categoryQuery
+        ? (categoryMap.get(categoryQuery) ?? categoryQuery)
+        : undefined;
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -110,6 +159,7 @@ export const HomeContent = () => {
                 <SearchInput
                     value={searchQuery}
                     onChange={handleSearchChange}
+                    isPending={isStale}
                     placeholder="Buscar productos por nombre, descripción o categoría..."
                     className="w-full"
                 />

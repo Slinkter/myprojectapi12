@@ -1,4 +1,10 @@
-import { useCallback } from "react";
+/**
+ * @file SearchInput.tsx
+ * @description Componente de campo de búsqueda con icono, botón de limpieza y soporte para transiciones concurrentes.
+ * @architecture Presentation Layer - Componente de Feature
+ */
+
+import { useCallback, useTransition } from "react";
 import { useLogLifecycle } from "@/shared/hooks";
 import { Search, X } from "lucide-react";
 
@@ -17,23 +23,21 @@ export interface ISearchInputProps {
     style?: React.CSSProperties;
     /** Clases CSS adicionales. */
     className?: string;
+    /** Indicador opcional de transición o carga pendiente. */
+    isPending?: boolean;
 }
 
 /**
- * Input de búsqueda con icono y botón de limpieza.
+ * Input de búsqueda con icono y botón de limpieza optimizado para React concurrente.
  *
  * @remarks
  * Muestra un campo de texto con icono de búsqueda (lupa) a la izquierda
  * y un botón "X" a la derecha cuando hay texto ingresado.
- * El botón de limpieza es aria-accessible.
+ * Integra `useTransition` para asegurar que las actualizaciones de búsqueda no bloqueen la interfaz.
  *
  * @component
- * @param props.value - Valor controlado del input.
- * @param props.onChange - Callback al escribir (recibe el nuevo string).
- * @param props.placeholder - Placeholder opcional (default: "Buscar productos...").
- * @param props.style - Estilos CSS opcionales.
- * @param props.className - Clases CSS opcionales.
- * @returns Elemento JSX del input de búsqueda.
+ * @param {ISearchInputProps} props - Propiedades del componente.
+ * @returns {JSX.Element} Elemento JSX del input de búsqueda.
  */
 export function SearchInput({
     value,
@@ -41,20 +45,33 @@ export function SearchInput({
     placeholder = "Buscar productos...",
     style,
     className,
+    isPending: externalIsPending,
 }: ISearchInputProps) {
     useLogLifecycle("SearchInput");
+    const [isPendingInternal, startTransition] = useTransition();
+    const isPending = externalIsPending ?? isPendingInternal;
 
     const handleClear = useCallback(() => {
-        onChange("");
+        startTransition(() => {
+            onChange("");
+        });
     }, [onChange]);
 
     return (
-        <div className={`relative ${className ?? ''}`} style={style}>
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+        <div className={`relative ${className ?? ""}`} style={style}>
+            <Search
+                size={16}
+                className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors ${
+                    isPending ? "text-primary animate-pulse" : "text-slate-400"
+                }`}
+            />
             <input
                 type="text"
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => {
+                    const nextValue = e.target.value;
+                    onChange(nextValue);
+                }}
                 placeholder={placeholder}
                 aria-label="Buscar productos"
                 className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm pl-9 pr-9 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-ring disabled:cursor-not-allowed disabled:opacity-50 transition-colors"

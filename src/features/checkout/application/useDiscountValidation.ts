@@ -4,40 +4,60 @@
  * @architecture Capa de Aplicación - Lógica de Descuentos
  */
 
-import { useState, useCallback } from 'react'
-import { DISCOUNT_CODES, IDiscount } from '@/features/checkout/domain/discounts'
+import { useState, useCallback } from "react";
+import { DISCOUNT_CODES, IDiscount } from "@/features/checkout/domain/discounts";
+
+/**
+ * Expresión regular constante para eliminar espacios en blanco de códigos de cupón.
+ * Elevada a nivel de módulo para evitar instanciaciones repetitivas (js-hoist-regexp).
+ */
+export const WHITESPACE_REGEX = /\s+/g;
+
+/**
+ * Expresión regular constante para validar formato general de código de cupón alfanumérico.
+ */
+export const COUPON_CODE_REGEX = /^[A-Z0-9_-]+$/;
 
 /**
  * @interface IDiscountCode
  * @description Representa un código de descuento válido con su tipo y valor.
  */
 export interface IDiscountCode {
-  code: string
-  discount: number
-  type: 'percentage' | 'fixed'
+  code: string;
+  discount: number;
+  type: "percentage" | "fixed";
 }
 
 /**
  * Lista de códigos de descuento válidos construida dinámicamente desde el dominio.
  */
-const VALID_CODES: IDiscountCode[] = Object.entries(DISCOUNT_CODES).map(([code, item]: [string, IDiscount]) => ({
-  code,
-  discount: item.value,
-  type: item.type === 'percent' ? 'percentage' : 'fixed',
-}));
+const VALID_CODES: IDiscountCode[] = Object.entries(DISCOUNT_CODES).map(
+  ([code, item]: [string, IDiscount]) => ({
+    code,
+    discount: item.value,
+    type: item.type === "percent" ? "percentage" : "fixed",
+  }),
+);
+
+/**
+ * Mapa indexado por código en mayúsculas para búsqueda de cupones en O(1) (js-set-map-lookups).
+ */
+const VALID_CODES_MAP = new Map<string, IDiscountCode>(
+  VALID_CODES.map((item) => [item.code.toUpperCase(), item]),
+);
 
 /**
  * @interface UseDiscountValidationReturn
  * @description Retorno del hook useDiscountValidation.
  */
 interface UseDiscountValidationReturn {
-  code: string
-  setCode: (code: string) => void
-  appliedDiscount: IDiscountCode | null
-  error: string
-  isApplying: boolean
-  applyDiscount: () => void
-  removeDiscount: () => void
+  code: string;
+  setCode: (code: string) => void;
+  appliedDiscount: IDiscountCode | null;
+  error: string;
+  isApplying: boolean;
+  applyDiscount: () => void;
+  removeDiscount: () => void;
 }
 
 /**
@@ -47,36 +67,35 @@ interface UseDiscountValidationReturn {
  * @returns {UseDiscountValidationReturn} Estado y funciones para gestionar descuentos.
  */
 export function useDiscountValidation(): UseDiscountValidationReturn {
-  const [code, setCode] = useState('')
-  const [appliedDiscount, setAppliedDiscount] = useState<IDiscountCode | null>(null)
-  const [error, setError] = useState('')
-  const [isApplying, setIsApplying] = useState(false)
+  const [code, setCode] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState<IDiscountCode | null>(null);
+  const [error, setError] = useState("");
+  const [isApplying, setIsApplying] = useState(false);
 
   const applyDiscount = useCallback(() => {
-    if (!code.trim()) return
+    const cleanCode = code.replace(WHITESPACE_REGEX, "").toUpperCase();
+    if (!cleanCode) return;
 
-    setIsApplying(true)
-    setError('')
+    setIsApplying(true);
+    setError("");
 
     setTimeout(() => {
-      const found = VALID_CODES.find(
-        (c) => c.code.toUpperCase() === code.toUpperCase()
-      )
+      const found = VALID_CODES_MAP.get(cleanCode);
 
       if (found) {
-        setAppliedDiscount(found)
-        setCode('')
+        setAppliedDiscount(found);
+        setCode("");
       } else {
-        setError('Código de descuento inválido')
+        setError("Código de descuento inválido");
       }
-      setIsApplying(false)
-    }, 500)
-  }, [code])
+      setIsApplying(false);
+    }, 500);
+  }, [code]);
 
   const removeDiscount = useCallback(() => {
-    setAppliedDiscount(null)
-    setError('')
-  }, [])
+    setAppliedDiscount(null);
+    setError("");
+  }, []);
 
   return {
     code,
@@ -86,7 +105,7 @@ export function useDiscountValidation(): UseDiscountValidationReturn {
     isApplying,
     applyDiscount,
     removeDiscount,
-  }
+  };
 }
 
 /**
@@ -99,11 +118,12 @@ export function useDiscountValidation(): UseDiscountValidationReturn {
  */
 export function calculateDiscountAmount(
   appliedDiscount: IDiscountCode | null,
-  totalPrice: number
+  totalPrice: number,
 ): number {
-  if (!appliedDiscount) return 0
+  if (!appliedDiscount || totalPrice <= 0) return 0;
 
-  return appliedDiscount.type === 'percentage'
+  return appliedDiscount.type === "percentage"
     ? (totalPrice * appliedDiscount.discount) / 100
-    : appliedDiscount.discount
+    : Math.min(appliedDiscount.discount, totalPrice);
 }
+
