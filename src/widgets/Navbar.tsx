@@ -198,7 +198,6 @@ const Navbar = () => {
 
     return (
         <header
-            role="banner"
             className="sticky top-0 z-50 glass-panel border-b border-slate-200 dark:border-slate-800 shadow-[0_2px_15px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_15px_rgba(0,0,0,0.3)]"
         >
             <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
@@ -455,9 +454,9 @@ const Navbar = () => {
                             {totalItems > 0 && (
                                 <m.div
                                     key="badge"
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: [1, 1.2, 1] }}
-                                    exit={{ scale: 0 }}
+                                    initial={{ scale: 0.01, opacity: 0 }}
+                                    animate={{ scale: [1, 1.2, 1], opacity: 1 }}
+                                    exit={{ scale: 0.01, opacity: 0 }}
                                     transition={{
                                         type: "spring",
                                         stiffness: 400,

@@ -43,8 +43,9 @@ export interface ProductCardProps {
  * @see {@link ProductCardProps}
  */
 
-const formatPrice = (price: number): string =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+const priceFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+const formatPrice = (price: number): string => priceFormatter.format(price);
 
 const originalPrice = (price: number, discount: number): string =>
   formatPrice(price / (1 - discount / 100));
@@ -139,14 +140,14 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
         borderColor: 'rgba(5, 150, 105, 0.4)',
       }}
       transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-      className={`will-change-transform flex flex-col h-full rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm overflow-hidden relative ${
+      className={`flex flex-col h-full rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm overflow-hidden relative ${
         isOutOfStock ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'
       }`}
     >
       {/* Image zone */}
       <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800 relative shrink-0">
         <m.div
-          className="w-full h-full will-change-transform"
+          className="w-full h-full"
           animate={{ scale: isHovered && !isOutOfStock && !shouldReduceMotion ? 1.06 : 1 }}
           transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
         >
@@ -177,7 +178,7 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
                 transition={{ duration: 0.25, delay: 0.02, ease: [0.4, 0, 0.2, 1] }}
                 onClick={handleAddToCart}
                 aria-label={`Añadir ${product.title} al carrito`}
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border-none bg-primary text-white text-xs font-bold cursor-pointer hover:bg-primary-hover active:scale-95 transition-all shadow-lg shadow-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
+                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border-none bg-primary text-white text-xs font-bold cursor-pointer hover:bg-primary-hover active:scale-95 transition-colors shadow-lg shadow-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
               >
                 <ShoppingBag size={13} />
                 Añadir
@@ -191,7 +192,7 @@ const ProductCard = React.memo(({ product }: IProductCardProps) => {
                 transition={{ duration: 0.25, delay: 0.06, ease: [0.4, 0, 0.2, 1] }}
                 onClick={(e) => { e.stopPropagation(); openProductModal(product) }}
                 aria-label={`Vista rápida de ${product.title}`}
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border border-slate-600/50 bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-bold cursor-pointer backdrop-blur active:scale-95 transition-all shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border border-slate-600/50 bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-bold cursor-pointer backdrop-blur active:scale-95 transition-colors shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
               >
                 <Eye size={13} />
                 Ver

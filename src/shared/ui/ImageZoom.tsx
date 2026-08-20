@@ -32,7 +32,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
   const dragStart = useRef({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
     if (!containerRef.current || zoom <= 1) return
 
     if (isDragging) {
@@ -52,7 +52,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
     setPosition({ x, y })
   }
 
-  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+  const handleMouseDown = (e: MouseEvent<HTMLElement>) => {
     if (zoom <= 1) return
     setIsDragging(true)
     dragStart.current = { x: e.clientX, y: e.clientY }
@@ -75,12 +75,11 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
 
   return (
     <div className={cn('relative group', className)} ref={containerRef}>
-      <div
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         aria-label="Zoom de imagen. Presiona Enter o Espacio para ampliar, o arrastra con el ratón cuando esté ampliado."
         className={cn(
-          'overflow-hidden cursor-zoom-in rounded-xl focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:outline-none',
+          'block w-full p-0 border-none bg-transparent text-left overflow-hidden cursor-zoom-in rounded-xl focus-visible:ring-2 focus-visible:ring-emerald-500/30 focus-visible:outline-none',
           zoom > 1 && 'cursor-grab',
           isDragging && 'cursor-grabbing'
         )}
@@ -109,7 +108,7 @@ export function ImageZoom({ src, alt, className }: IImageZoomProps) {
           }}
           draggable={false}
         />
-      </div>
+      </button>
 
       {zoom > 1 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full">

@@ -297,18 +297,17 @@ const DropdownMenuSub = ({ children }: { children: React.ReactNode }) => {
 
 /** Trigger que abre/cierra un submenú anidado. */
 const DropdownMenuSubTrigger = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { inset?: boolean }
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { inset?: boolean }
 >(({ className, inset, children, ...props }, ref) => {
   const { setOpen, open } = useDropdownSub()
   return (
-    <div
+    <button
       ref={ref}
-      role="button"
-      tabIndex={0}
+      type="button"
       onClick={() => setOpen(!open)}
       className={cn(
-        "flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-slate-100 dark:focus:bg-slate-800 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+        "flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-slate-100 dark:focus:bg-slate-800 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border-none bg-transparent text-left",
         inset && "pl-8",
         className
       )}
@@ -316,7 +315,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
     >
       {children}
       <ChevronRight className="ml-auto" />
-    </div>
+    </button>
   )
 })
 DropdownMenuSubTrigger.displayName = "DropdownMenuSubTrigger"

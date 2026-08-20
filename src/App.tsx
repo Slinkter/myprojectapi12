@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { LazyMotion, domAnimation } from "framer-motion";
 
 import { ThemeProvider } from "@/features/theme/application/ThemeContext";
-import { CartProvider } from "@/features/cart/application/CartContext";
+import { CartProvider } from "@/features/cart/application/CartProvider";
 import { queryClient } from "@/app/config/queryClient";
 import Layout from "@/shared/ui/Layout";
 import AppRouter from "@/app/routing/AppRouter";

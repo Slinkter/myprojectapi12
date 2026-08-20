@@ -53,12 +53,12 @@ const ProductImageGallery = ({ images, thumbnail, selectedImage, onSelect, title
         <div className="flex gap-3 overflow-x-auto pb-2 max-w-full">
           {displayImages.map((img, index) => (
             <button
-              key={index}
+              key={img}
               type="button"
               onClick={() => onSelect(img)}
               aria-label={`Ver imagen ${index + 1} de ${title}`}
               className={cn(
-                'flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 bg-background/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30',
+                'flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-[transform,opacity,border-color,box-shadow] duration-300 bg-background/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30',
                 selectedImage === img ? "border-primary shadow-lg shadow-primary/20 scale-110" : "border-transparent opacity-60 hover:opacity-100"
               )}
             >

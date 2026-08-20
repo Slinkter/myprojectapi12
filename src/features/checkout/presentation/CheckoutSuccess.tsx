@@ -5,11 +5,12 @@ import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
 
-const formatPrice = (price: number): string =>
-    new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-    }).format(price);
+const priceFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+});
+
+const formatPrice = (price: number): string => priceFormatter.format(price);
 
 interface OrderState {
     orderId: string;

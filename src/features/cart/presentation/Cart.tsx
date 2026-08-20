@@ -15,8 +15,9 @@ import { Button } from "@/shared/ui/Button";
  * @param {number} price - Valor numérico a formatear
  * @returns {string} Precio formateado como moneda USD (ej. "$1,234.56")
  */
-const formatPrice = (price: number): string =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price);
+const priceFormatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+
+const formatPrice = (price: number): string => priceFormatter.format(price);
 
 /**
  * @component Cart
@@ -212,7 +213,7 @@ const Cart = () => {
               <button
                 type="button"
                 onClick={clearCart}
-                className="w-full h-9 flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all cursor-pointer border-none bg-transparent"
+                className="w-full h-9 flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors cursor-pointer border-none bg-transparent"
               >
                 <Trash2 size={13} />
                 Vaciar carrito

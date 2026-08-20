@@ -28,7 +28,7 @@ export const CartHeader = ({ onClose }: CartHeaderProps) => {
         variant="ghost"
         size="icon"
         onClick={onClose}
-        className="rounded-full hover:rotate-90 h-10 w-10 transition-all duration-200 focus-ring"
+        className="rounded-full hover:rotate-90 h-10 w-10 transition-[transform,colors] duration-200 focus-ring"
         aria-label="Cerrar carrito"
       >
         <HiOutlineXMark size={20} />
