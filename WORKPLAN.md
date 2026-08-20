@@ -6,14 +6,14 @@ Este archivo actúa como el estado de transferencia e hilo conductor para los ag
 
 ## 🛠️ Estado General
 
-* **Rama Activa:** `feat/auth` (Fase 1)
-* **Punto de Retorno:** Terminada la inicialización de Firebase Auth/Firestore y creado el flujo de Autenticación (`AuthProvider.tsx` + `LoginModal.tsx` + `Navbar.tsx`). Falta validar la compilación final de la Fase 1 y pasar a la Fase 2 (`feat/crud-products`).
+* **Rama Activa:** `feat/crud-products` (Fase 2)
+* **Punto de Retorno:** Fase 1 (Autenticación y Roles) completada con éxito. Compilación y lints al 100% correctos. Creada e iniciada la rama `feat/crud-products` para desarrollar el CRUD de productos para Administradores y la base de datos de catálogo en Firestore.
 
 ---
 
 ## 📅 Fases y Progreso
 
-### 🔑 Fase 1: Autenticación & Roles [EN PROGRESO]
+### 🔑 Fase 1: Autenticación & Roles [COMPLETADA]
 * **Rama:** `feat/auth`
 * **Archivos creados/modificados:**
   * [MODIFY] `src/shared/lib/firebase.ts` (Inicializado Auth y Firestore `db` / `auth`)
@@ -23,9 +23,6 @@ Este archivo actúa como el estado de transferencia e hilo conductor para los ag
   * [NEW] `src/features/auth/presentation/LoginModal.tsx` (Componente UI de Login/Registro con selector de rol e input de confirmación)
   * [MODIFY] `src/App.tsx` (Integrado `AuthProvider` en el orden de wrappers)
   * [MODIFY] `src/widgets/Navbar.tsx` (Botón de Login/Logout, badge de rol de usuario en header, e integración del Modal)
-* **Siguiente paso en esta fase:**
-  1. Validar que la compilación pase 100% (`pnpm lint` y `pnpm type-check`).
-  2. Hacer commit de la Fase 1 en `feat/auth`.
 
 ---
 
