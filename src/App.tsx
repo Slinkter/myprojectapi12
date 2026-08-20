@@ -29,7 +29,7 @@ const App: React.FC = () => {
         <QueryClientProvider client={queryClient}>
             <ThemeProvider>
                 <CartProvider>
-                    <BrowserRouter basename="/myprojectapi12/">
+                    <BrowserRouter basename={import.meta.env.BASE_URL}>
                         <LazyMotion features={domAnimation}>
                             <ErrorBoundary>
                                 <Layout>
