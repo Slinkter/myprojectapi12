@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.3.1] - 2026-08-27
+
+### Tooling: Vite 8 y decisión documentada sobre TypeScript 7
+
+- **Vite actualizado a 8.2** (`vite ^8.2.2`) y **`@vitejs/plugin-react` a 6.1** (`^6.1.0`, major obligatoria porque la línea 4.x solo peera Vite `≤7`). Rama `chore/upgrade-vite8` mergeada en `feature/refactor-navbar`.
+  - Ajuste de configuración derivado: `vite.config.js` migra `__dirname` → `import.meta.dirname` (el config loader nativo de Vite 8 marca `__dirname` como obsoleto). Sin cambios de lógica.
+  - Verificación: `pnpm install` OK · `pnpm type-check` 0 errores · `pnpm lint` 0 errores · `pnpm build` exitoso.
+
+- **TypeScript 7: experimento realizado y descartado** (rama `experiment/typescript7`, eliminada al finalizar).
+  - Hallazgo empírico con `typescript@7.0.2`:
+    - `pnpm type-check`: ✅ funciona tras eliminar `baseUrl` de `tsconfig.json` — TS7 eliminó esa opción (deprecada en TS 5.x; error `TS5102`).
+    - `pnpm build`: ✅ sin impacto (Vite no usa la API JS de TypeScript).
+    - `pnpm lint`: ❌ **bloqueado** — `@typescript-eslint` 8.x falla al cargar (`Cannot read properties of undefined (reading 'Cjs')`) porque `typescript@7` eliminó `lib/typescript.js` (API JS clásica). El último estable (8.68.0) exige peer `typescript <6.1.0`.
+    - Vía alfa probada (`@typescript-eslint` `7.0.0-alpha.0`): ❌ también falla (`ts-api-utils` no puede leer la API de TS7 — `reading 'Intrinsic'`).
+  - **Decisión:** se mantiene **`typescript ^5.9.3`**. La migración a TS7 requiere que el ecosistema de lint publique una herramienta estable compatible con la nueva API nativa. Cuando ocurra, retomar en una rama dedicada.
+
 ## [1.3.0] - 2026-08-20
 
 ### Excelencia Técnica, Arquitectura Limpia (FSD + Clean Architecture), 5 Patrones GoF, Optimización Big-O, UX/UI y Documentación para Alta Gerencia
