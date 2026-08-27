@@ -3,7 +3,6 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, m } from "framer-motion";
 import Loader from "@/shared/ui/Loader";
 import Cart from "@/features/cart/presentation/Cart";
-import { useLogLifecycle } from "@/shared/hooks";
 import { pageFadeIn } from "@/shared/lib/animations";
 
 const Home = lazy(() => import("@/pages/Home"));
@@ -20,9 +19,7 @@ const AnimatedPage = ({ children }: { children: React.ReactNode }) => (
 );
 
 const AppRouter: React.FC = () => {
-    // useLogLifecycle("AppRouter");
     const location = useLocation();
-    /*  */
     return (
         <Suspense fallback={<Loader />}>
             <AnimatePresence mode="wait">

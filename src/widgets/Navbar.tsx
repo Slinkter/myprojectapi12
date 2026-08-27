@@ -1,48 +1,32 @@
 /**
  * @file Navbar.tsx
- * @description Barra de navegación principal de la aplicación.
+ * @description Barra de navegación principal de la aplicación. Orquesta los
+ * widgets de búsqueda, carrito, tema, autenticación, categorías y menú móvil.
  * @architecture Widget Layer - Navigation Bar
  */
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
-import { m, AnimatePresence, useReducedMotion } from "framer-motion";
-import { useCart } from "@/features/cart/application/CartContext";
-import { useTheme } from "@/features/theme/application/ThemeContext";
+import { useState, useEffect } from "react";
+import { m, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { IconButton } from "@/shared/ui/IconButton";
+import { NavLink } from "@/widgets/NavLink";
+import SearchComponent from "@/widgets/SearchComponent";
+import CartButton from "@/widgets/CartButton";
+import ThemeToggle from "@/widgets/ThemeToggle";
+import AuthActions from "@/widgets/AuthActions";
+import CategoriesDropdown from "@/widgets/CategoriesDropdown";
+import MobileMenu from "@/widgets/MobileMenu";
+import { useSearchTrigger } from "@/widgets/hooks/useSearchTrigger";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCategories } from "@/features/products/application/useCategories";
-import {
-    Search,
-    X,
-    Sun,
-    Moon,
-    ShoppingCart,
-    Menu,
-    ChevronDown,
-    Home,
-    LogOut,
-    User,
-} from "lucide-react";
 import { useAuth } from "@/features/auth/application/AuthContext";
 import { LoginModal } from "@/features/auth/presentation/LoginModal";
-import { eventBus, DomainEvents } from "@/shared/infrastructure/eventBus";
 
 /**
  * @component NavLogo
  * @description Logo animado de la aplicación con enlace a la página de inicio.
- * Muestra el nombre "MyProjectAPI12" con un icono de bolsa de compras.
- *
- * @remarks
- * **Secuencia de carga:**
- * 1. `useCart()` -> lee items para badge de cantidad.
- * 2. `useTheme()` -> lee estado para toggle sun/moon.
- * 3. `useCategories()` -> carga categorías de la API.
- * 4. `Link` (react-router) -> navegación interna.
- * 5. Búsqueda: input expand-on-click -> dispatch de evento `input` en HomeContent.
- * 6. Categorías: dropdown animado con `AnimatePresence` + `layoutId`.
- * 7. Tema: `ThemeSwitcher` -> `toggleDarkMode()`.
- * 8. Carrito: badge con `m.span animate={{ scale }}` -> click abre drawer.
- * 9. Mobile: hamburger menu con `AnimatePresence` -> `motion.nav` slide-down.
+ * Muestra el nombre "MyProjectAPI12".
  *
  * @returns {JSX.Element} Elemento Link con el logo y nombre de la marca.
  */
@@ -63,114 +47,45 @@ const NavLogo = () => (
 );
 
 /**
- * @component NavLink
- * @description Enlace de navegación con indicador animado de ruta activa.
- * Renderiza un `Link` de React Router con estilos condicionales.
- * @param {Object} props - Propiedades del componente.
- * @param {string} props.to - Ruta de destino.
- * @param {boolean} props.active - Indica si la ruta actual coincide.
- * @param {React.ReactNode} props.children - Contenido del enlace.
- * @param {() => void} [props.onClick] - Callback al hacer clic.
- * @returns {JSX.Element} Elemento Link estilizado.
- */
-const NavLink = ({
-    to,
-    active,
-    children,
-    onClick,
-}: {
-    to: string;
-    active: boolean;
-    children: React.ReactNode;
-    onClick?: () => void;
-}) => (
-    <Link
-        to={to}
-        className="no-underline rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        onClick={onClick}
-    >
-        <div
-            className={`px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition-all cursor-pointer relative flex items-center min-h-[48px] md:min-h-[44px] ${
-                active
-                    ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
-                    : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80"
-            }`}
-        >
-            {children}
-            {active && (
-                <m.div
-                    layoutId="nav-indicator"
-                    className="absolute bottom-0 left-[20%] right-[20%] h-0.5 rounded-t-full bg-primary"
-                />
-            )}
-        </div>
-    </Link>
-);
-
-/**
- * @component ActionBtn
- * @description Botón de acción iconográfico con animaciones de hover y tap.
- * Utilizado para búsqueda, cambio de tema, carrito y menú móvil.
- * @param {Object} props - Propiedades del componente.
- * @param {() => void} [props.onClick] - Callback al hacer clic.
- * @param {string} props.label - Etiqueta ARIA para accesibilidad.
- * @param {React.ReactNode} props.children - Contenido (icono).
- * @param {string} [props.className] - Clases CSS adicionales.
- * @returns {JSX.Element} Botón animado con ícono.
- */
-const actionBtnClass =
-    "flex items-center justify-center w-12 h-12 sm:w-10 sm:h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
-
-const ActionBtn = ({
-    onClick,
-    label,
-    children,
-    className,
-}: {
-    onClick?: () => void;
-    label: string;
-    children: React.ReactNode;
-    className?: string;
-}) => (
-    <m.button
-        type="button"
-        onClick={onClick}
-        aria-label={label}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className={`${actionBtnClass} ${className ?? ""}`}
-    >
-        {children}
-    </m.button>
-);
-
-/**
  * @component Navbar
- * @description Barra de navegación principal de la aplicación.
- * Incluye logo, enlaces de navegación, búsqueda expandible,
- * selector de categorías, cambio de tema oscuro/claro, carrito
- * y menú responsive para dispositivos móviles.
+ * @description Barra de navegación principal de la aplicación. Incluye logo,
+ * enlaces de navegación, búsqueda expandible, selector de categorías, cambio
+ * de tema, carrito, controles de sesión y menú responsive para móviles.
+ *
+ * @remarks
+ * **Secuencia de carga:**
+ * 1. `useSearchTrigger` -> estado global de búsqueda (input expand-on-click).
+ * 2. `useCategories()` -> carga categorías para dropdown desktop y menú móvil.
+ * 3. `useAuth()` -> roles y controles de sesión vía `AuthActions`.
+ * 4. Menu desktop: `NavLink` + `CategoriesDropdown` envuelto en animación.
+ * 5. `SearchComponent` -> formulario expandible (desktop) con foco automático.
+ * 6. `ThemeToggle` y `CartButton` (con `CartBadge`) -> acciones a la derecha.
+ * 7. `MobileMenu` -> panel deslizante con búsqueda y categorías (solo móvil).
+ * 8. `LoginModal` -> se abre con `?login=true` o desde el botón de sesión.
+ *
  * @returns {JSX.Element} Header con navegación completa.
  */
 const Navbar = () => {
     useLogLifecycle("Navbar");
-    const shouldReduceMotion = useReducedMotion();
 
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isCatOpen, setIsCatOpen] = useState(false);
-    const [searchVal, setSearchVal] = useState("");
-    const searchRef = useRef<HTMLInputElement>(null);
 
     const location = useLocation();
     const navigate = useNavigate();
-    const { cart, openCart } = useCart();
-    const { theme, toggleDarkMode } = useTheme();
     const { data: categories, isLoading } = useCategories();
 
-    const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+    const {
+        searchVal,
+        setSearchVal,
+        isOpen: isSearchOpen,
+        triggerSearch,
+        openSearch,
+        closeSearch,
+    } = useSearchTrigger();
+
     const isHome = location.pathname === "/" && !location.search;
     const isCatActive = location.pathname === "/" && !!location.search;
 
@@ -184,7 +99,7 @@ const Navbar = () => {
         };
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [isCatOpen, isSearchOpen, isMobileOpen]);
+    }, [isCatOpen, isSearchOpen, isMobileOpen, closeSearch]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -200,33 +115,14 @@ const Navbar = () => {
         navigate(slug ? `/?category=${slug}` : "/");
     };
 
-    const openSearch = () => {
-        setIsSearchOpen(true);
-        setTimeout(() => searchRef.current?.focus(), 80);
-    };
-
-    const closeSearch = () => {
-        setIsSearchOpen(false);
-        setSearchVal("");
-    };
-
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const trimmed = searchVal.trim();
-        if (!trimmed) return;
-        navigate("/");
-        // Publicar evento de búsqueda desacoplado mediante Domain EventBus (Observer Pattern)
-        eventBus.emit(DomainEvents.SEARCH_TRIGGERED, { query: trimmed });
-        closeSearch();
+        triggerSearch(searchVal);
     };
 
     return (
-        <header
-            className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_2px_15px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_15px_rgba(0,0,0,0.3)] transition-colors duration-200"
-        >
+        <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_2px_15px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_15px_rgba(0,0,0,0.3)] transition-colors duration-200">
             <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
-
-                {/* ── Logo ── */}
                 <NavLogo />
 
                 {/* ── Desktop Nav (center) ── */}
@@ -248,111 +144,18 @@ const Navbar = () => {
                                     Inicio
                                 </NavLink>
 
-                                {/* Categories Dropdown */}
-                                <div className="relative">
-                                    <m.button
-                                        type="button"
-                                        onClick={() => setIsCatOpen(!isCatOpen)}
-                                        whileTap={{ scale: 0.98 }}
-                                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold tracking-wide border-none cursor-pointer transition-all min-h-[48px] md:min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                                            isCatActive
-                                                ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
-                                                : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80"
-                                        }`}
-                                        aria-haspopup="listbox"
-                                        aria-expanded={isCatOpen}
-                                        aria-label="Menú de categorías"
-                                    >
-                                        Categorías
-                                        <m.span
-                                            animate={{
-                                                rotate: isCatOpen ? 180 : 0,
-                                            }}
-                                            transition={{ duration: 0.2 }}
-                                        >
-                                            <ChevronDown size="14" />
-                                        </m.span>
-                                    </m.button>
+                                <CategoriesDropdown
+                                    active={isCatActive}
+                                    open={isCatOpen}
+                                    onToggle={() => setIsCatOpen(!isCatOpen)}
+                                    onClose={() => setIsCatOpen(false)}
+                                    onSelect={handleCategorySelect}
+                                />
 
-                                    {/* Dropdown Panel */}
-                                    <AnimatePresence>
-                                        {isCatOpen && (
-                                            <>
-                                                <div
-                                                    className="fixed inset-0 z-40"
-                                                    onClick={() =>
-                                                        setIsCatOpen(false)
-                                                    }
-                                                    aria-hidden="true"
-                                                />
-                                                <m.div
-                                                    initial={{
-                                                        opacity: 0,
-                                                        y: -8,
-                                                        scale: 0.96,
-                                                    }}
-                                                    animate={{
-                                                        opacity: 1,
-                                                        y: 0,
-                                                        scale: 1,
-                                                    }}
-                                                    exit={{
-                                                        opacity: 0,
-                                                        y: -8,
-                                                        scale: 0.96,
-                                                    }}
-                                                    transition={{
-                                                        duration: 0.18,
-                                                        ease: [0.4, 0, 0.2, 1],
-                                                    }}
-                                                    className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl shadow-xl p-2 min-w-[220px] max-h-[360px] overflow-y-auto"
-                                                    role="listbox"
-                                                    aria-label="Categorías de productos"
-                                                >
-                                                    <button
-                                                        type="button"
-                                                        onClick={() =>
-                                                            handleCategorySelect(
-                                                                null,
-                                                            )
-                                                        }
-                                                        className="w-full text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
-                                                    >
-                                                        <Home size={15} />
-                                                        Todas las categorías
-                                                    </button>
-                                                    <div className="h-px bg-slate-200/80 dark:bg-slate-700/60 my-1 mx-2" />
-                                                    {isLoading ? (
-                                                        <span className="block px-4 py-2.5 text-slate-500 dark:text-slate-400 text-xs">
-                                                            Cargando…
-                                                        </span>
-                                                    ) : (
-                                                        categories?.map(
-                                                            (cat) => (
-                                                                <button
-                                                                    key={
-                                                                        cat.slug
-                                                                    }
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                        handleCategorySelect(
-                                                                            cat.slug,
-                                                                        )
-                                                                    }
-                                                                    className="w-full text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
-                                                                >
-                                                                    {cat.name}
-                                                                </button>
-                                                            ),
-                                                        )
-                                                    )}
-                                                </m.div>
-                                            </>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
-
-                                <NavLink to="/faq" active={location.pathname === "/faq"}>
+                                <NavLink
+                                    to="/faq"
+                                    active={location.pathname === "/faq"}
+                                >
                                     Ayuda & FAQ
                                 </NavLink>
                             </m.div>
@@ -362,200 +165,25 @@ const Navbar = () => {
 
                 {/* ── Actions (right) ── */}
                 <div className="flex items-center gap-1">
-                    {/* Search — expandible (desktop only) */}
-                    <AnimatePresence mode="wait">
-                        {isSearchOpen ? (
-                            <m.form
-                                key="search-open"
-                                onSubmit={handleSearchSubmit}
-                                initial={
-                                    shouldReduceMotion
-                                        ? { opacity: 0 }
-                                        : {
-                                              scaleX: 0.2,
-                                              opacity: 0,
-                                          }
-                                }
-                                animate={{ scaleX: 1, opacity: 1 }}
-                                exit={
-                                    shouldReduceMotion
-                                        ? { opacity: 0 }
-                                        : {
-                                              scaleX: 0.2,
-                                              opacity: 0,
-                                          }
-                                }
-                                transition={
-                                    shouldReduceMotion
-                                        ? { duration: 0.05 }
-                                        : {
-                                              duration: 0.25,
-                                              ease: [0.16, 1, 0.3, 1],
-                                          }
-                                }
-                                style={{ transformOrigin: "right center" }}
-                                role="search"
-                                className="flex items-center gap-2 w-64 bg-slate-100/90 dark:bg-slate-800/90 rounded-full border border-emerald-500/50 dark:border-emerald-500/40 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/30 px-3 overflow-hidden h-10 transition-colors"
-                            >
-                                <Search
-                                    size="16"
-                                    className="text-primary shrink-0"
-                                />
-                                <input
-                                    ref={searchRef}
-                                    value={searchVal}
-                                    onChange={(e) =>
-                                        setSearchVal(e.target.value)
-                                    }
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Escape") {
-                                            closeSearch();
-                                        }
-                                    }}
-                                    placeholder="Buscar productos…"
-                                    className="border-none bg-transparent outline-none text-sm text-slate-800 dark:text-slate-100 w-full placeholder:text-slate-400"
-                                    aria-label="Buscar productos"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={closeSearch}
-                                    aria-label="Cerrar búsqueda"
-                                    className="flex items-center justify-center w-6 h-6 rounded-full bg-transparent border-none cursor-pointer text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
-                                >
-                                    <X size="14" />
-                                </button>
-                            </m.form>
-                        ) : (
-                            <m.div
-                                key="search-closed"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                            >
-                                <ActionBtn
-                                    onClick={openSearch}
-                                    label="Buscar productos"
-                                >
-                                    <Search size="20" />
-                                </ActionBtn>
-                            </m.div>
-                        )}
-                    </AnimatePresence>
+                    <SearchComponent
+                        open={isSearchOpen}
+                        searchVal={searchVal}
+                        onSearchChange={setSearchVal}
+                        onOpen={openSearch}
+                        onClose={closeSearch}
+                        onSubmit={handleSearchSubmit}
+                    />
 
-                    {/* Theme Toggle */}
-                    <ActionBtn
-                        onClick={toggleDarkMode}
-                        label={
-                            theme === "dark" ? "Activar modo claro" : "Activar modo oscuro"
-                        }
-                    >
-                        <AnimatePresence mode="wait">
-                            {theme === "dark" ? (
-                                <m.span
-                                    key="sun"
-                                    initial={{ rotate: -90, opacity: 0 }}
-                                    animate={{ rotate: 0, opacity: 1 }}
-                                    exit={{ rotate: 90, opacity: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    <Sun size="20" className="text-amber-500" />
-                                </m.span>
-                            ) : (
-                                <m.span
-                                    key="moon"
-                                    initial={{ rotate: 90, opacity: 0 }}
-                                    animate={{ rotate: 0, opacity: 1 }}
-                                    exit={{ rotate: -90, opacity: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    <Moon size="20" />
-                                </m.span>
-                            )}
-                        </AnimatePresence>
-                    </ActionBtn>
+                    <ThemeToggle />
+                    <CartButton />
 
-                    {/* Cart Button */}
-                    <div className="relative">
-                        <ActionBtn
-                            onClick={openCart}
-                            label={`Abrir carrito${totalItems > 0 ? ` — ${totalItems} ${totalItems === 1 ? "artículo" : "artículos"}` : ""}`}
-                        >
-                            <ShoppingCart size="20" />
-                        </ActionBtn>
-                        <AnimatePresence mode="popLayout">
-                            {totalItems > 0 && (
-                                <m.span
-                                    key={`cart-badge-${totalItems}`}
-                                    initial={{ scale: 0.2, opacity: 0 }}
-                                    animate={{ scale: [1, 1.25, 1], opacity: 1 }}
-                                    exit={{ scale: 0.2, opacity: 0 }}
-                                    transition={{
-                                        type: "spring",
-                                        stiffness: 500,
-                                        damping: 20,
-                                        mass: 0.5,
-                                    }}
-                                    className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center border-2 border-white dark:border-slate-900 pointer-events-none shadow-sm"
-                                    aria-hidden="true"
-                                >
-                                    {totalItems > 9 ? "9+" : totalItems}
-                                </m.span>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
-                    {/* Controles de Autenticación */}
                     <div className="flex items-center gap-1">
-                        {user ? (
-                            <div className="flex items-center gap-1.5">
-                                <span className="hidden lg:inline text-xs font-semibold text-slate-500 max-w-[120px] truncate" title={user.email}>
-                                    {user.email}
-                                </span>
-                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                                    user.role === "admin" 
-                                        ? "bg-red-50 text-red-600 border border-red-200 dark:bg-red-950/20 dark:text-red-400 dark:border-red-800" 
-                                        : "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-800"
-                                }`}>
-                                    {user.role === "admin" ? "Admin" : "Cliente"}
-                                </span>
-                                {user.role === "admin" && (
-                                    <Link
-                                        to="/admin"
-                                        className="no-underline rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                                    >
-                                        <div className="px-3 py-1 bg-red-100 hover:bg-red-200 dark:bg-red-950/40 dark:hover:bg-red-900/40 text-[10px] font-bold uppercase tracking-wider rounded-full transition-colors text-red-700 dark:text-red-300">
-                                            Admin
-                                        </div>
-                                    </Link>
-                                )}
-                                <Link
-                                    to="/orders"
-                                    className="no-underline rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                                >
-                                    <div className="px-3 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-[10px] font-bold uppercase tracking-wider rounded-full transition-colors text-slate-700 dark:text-slate-300">
-                                        {user.role === "admin" ? "Pedidos" : "Compras"}
-                                    </div>
-                                </Link>
-                                <ActionBtn
-                                    onClick={logout}
-                                    label="Cerrar sesión"
-                                >
-                                    <LogOut size="18" className="text-red-500" />
-                                </ActionBtn>
-                            </div>
-                        ) : (
-                            <ActionBtn
-                                onClick={() => setIsLoginOpen(true)}
-                                label="Iniciar sesión / Registrarse"
-                            >
-                                <User size="18" />
-                            </ActionBtn>
-                        )}
+                        <AuthActions onLogin={() => setIsLoginOpen(true)} />
                     </div>
 
                     {/* Mobile Hamburger — only on mobile */}
                     <div className="block md:hidden">
-                        <ActionBtn
+                        <IconButton
                             onClick={() => setIsMobileOpen(!isMobileOpen)}
                             label={isMobileOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
                         >
@@ -582,125 +210,29 @@ const Navbar = () => {
                                     </m.span>
                                 )}
                             </AnimatePresence>
-                        </ActionBtn>
+                        </IconButton>
                     </div>
                 </div>
             </div>
 
-            {/* ── Mobile Menu ── */}
-            <AnimatePresence>
-                {isMobileOpen && (
-                    <m.nav
-                        aria-label="Navegación móvil"
-                        initial={
-                            shouldReduceMotion
-                                ? { opacity: 0 }
-                                : { y: -12, opacity: 0 }
-                        }
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={
-                            shouldReduceMotion
-                                ? { opacity: 0 }
-                                : { y: -12, opacity: 0 }
-                        }
-                        transition={
-                            shouldReduceMotion
-                                ? { duration: 0.05 }
-                                : { duration: 0.2, ease: [0.4, 0, 0.2, 1] }
-                        }
-                        className="overflow-hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800/80 md:hidden"
-                    >
-                        {/* Mobile search bar */}
-                        <div className="px-4 pt-3 pb-1">
-                            <form
-                                onSubmit={handleSearchSubmit}
-                                role="search"
-                                className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-xl px-3 h-10 border border-slate-200/80 dark:border-slate-700/80"
-                            >
-                                <Search size="15" className="text-slate-400 shrink-0" />
-                                <input
-                                    value={searchVal}
-                                    onChange={(e) => setSearchVal(e.target.value)}
-                                    placeholder="Buscar productos…"
-                                    className="border-none bg-transparent outline-none text-sm text-slate-800 dark:text-slate-100 w-full placeholder:text-slate-400"
-                                    aria-label="Buscar productos"
-                                />
-                                {searchVal && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setSearchVal("")}
-                                        aria-label="Limpiar búsqueda"
-                                        className="flex items-center justify-center w-5 h-5 rounded-full border-none bg-slate-200 dark:bg-slate-700 cursor-pointer shrink-0"
-                                    >
-                                        <X size="11" className="text-slate-500 dark:text-slate-400" />
-                                    </button>
-                                )}
-                            </form>
-                        </div>
+            <MobileMenu
+                open={isMobileOpen}
+                isHome={isHome}
+                pathname={location.pathname}
+                isAdmin={user?.role === "admin"}
+                searchVal={searchVal}
+                onSearchChange={setSearchVal}
+                onSearchSubmit={handleSearchSubmit}
+                onCategorySelect={handleCategorySelect}
+                onClose={() => setIsMobileOpen(false)}
+                categories={categories}
+                isLoading={isLoading}
+            />
 
-                        <div className="flex flex-col p-3 gap-0.5">
-                            {/* Inicio link */}
-                            <NavLink
-                                to="/"
-                                active={isHome}
-                                onClick={() => setIsMobileOpen(false)}
-                            >
-                                Inicio
-                            </NavLink>
-
-                            {user?.role === "admin" && (
-                                <NavLink
-                                    to="/admin"
-                                    active={location.pathname === "/admin"}
-                                    onClick={() => setIsMobileOpen(false)}
-                                >
-                                    Panel Admin
-                                </NavLink>
-                            )}
-
-                            {/* Categories section */}
-                            <div className="mt-2">
-                                <span className="block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-4 py-2">
-                                    Categorías
-                                </span>
-
-                                <div className="flex flex-col gap-0.5 max-h-[240px] overflow-y-auto">
-                                    <button
-                                        type="button"
-                                        onClick={() => handleCategorySelect(null)}
-                                        className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-bold text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors flex items-center gap-2 min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
-                                    >
-                                        <Home size={14} />
-                                        Todas las categorías
-                                    </button>
-
-                                    <div className="h-px bg-slate-100 dark:bg-slate-800 mx-3 mb-1" />
-
-                                    {isLoading ? (
-                                        <span className="block px-4 py-2 text-slate-400 dark:text-slate-500 text-xs">
-                                            Cargando categorías…
-                                        </span>
-                                    ) : (
-                                        categories?.map((cat) => (
-                                            <button
-                                                key={cat.slug}
-                                                type="button"
-                                                onClick={() =>
-                                                    handleCategorySelect(cat.slug)
-                                                }
-                                                className="text-left px-4 py-2.5 rounded-xl border-none bg-transparent cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 capitalize transition-colors min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
-                                            >
-                                                {cat.name}
-                                            </button>
-                                        ))
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </m.nav>
-                )}
-            </AnimatePresence>
-            <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+            <LoginModal
+                isOpen={isLoginOpen}
+                onClose={() => setIsLoginOpen(false)}
+            />
         </header>
     );
 };

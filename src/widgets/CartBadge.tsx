@@ -15,10 +15,8 @@ import { useCart } from "@/features/cart/application/CartContext";
  */
 const CartBadge = () => {
     const { cart } = useCart();
-    // Usa useMemo para calcular totalItems solo cuando el estado del carrito cambia.
-    // Esto asegura que el cálculo de 'totalItems' esté aislado del render del Navbar.
     const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
-    
+
     return (
         <>
             <AnimatePresence mode="popLayout">
@@ -39,12 +37,10 @@ const CartBadge = () => {
                     >
                         {totalItems > 9 ? "9+" : totalItems}
                     </m.span>
-                )
+                )}
             </AnimatePresence>
         </>
     );
 };
-
-export default CartBadge;
 
 export default CartBadge;
