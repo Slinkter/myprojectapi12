@@ -8,12 +8,12 @@ export default defineConfig({
   base: process.env.VITE_BASE_PATH || (process.env.DEPLOY_TARGET === "gh-pages" ? "/myprojectapi12/" : "/"),
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@shared": path.resolve(__dirname, "./src/shared"),
-      "@features": path.resolve(__dirname, "./src/features"),
-      "@entities": path.resolve(__dirname, "./src/entities"),
-      "@widgets": path.resolve(__dirname, "./src/widgets"),
-      "@pages": path.resolve(__dirname, "./src/pages"),
+      "@": path.resolve(import.meta.dirname, "./src"),
+      "@shared": path.resolve(import.meta.dirname, "./src/shared"),
+      "@features": path.resolve(import.meta.dirname, "./src/features"),
+      "@entities": path.resolve(import.meta.dirname, "./src/entities"),
+      "@widgets": path.resolve(import.meta.dirname, "./src/widgets"),
+      "@pages": path.resolve(import.meta.dirname, "./src/pages"),
     },
   },
 });
