@@ -7,15 +7,8 @@ import { useLogLifecycle } from "@/shared/hooks";
 import { pageFadeIn } from "@/shared/lib/animations";
 
 const Home = lazy(() => import("@/pages/Home"));
-
-const Checkout = lazy(
-    () => import("@/pages/CheckoutPage"),
-);
-
-const CheckoutSuccess = lazy(
-    () => import("@/pages/CheckoutSuccessPage"),
-);
-
+const Checkout = lazy(() => import("@/pages/CheckoutPage"));
+const CheckoutSuccess = lazy(() => import("@/pages/CheckoutSuccessPage"));
 const Orders = lazy(() => import("@/pages/Orders"));
 const FAQ = lazy(() => import("@/pages/FAQ"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
@@ -27,8 +20,9 @@ const AnimatedPage = ({ children }: { children: React.ReactNode }) => (
 );
 
 const AppRouter: React.FC = () => {
-    useLogLifecycle("AppRouter");
+    // useLogLifecycle("AppRouter");
     const location = useLocation();
+    /*  */
     return (
         <Suspense fallback={<Loader />}>
             <AnimatePresence mode="wait">

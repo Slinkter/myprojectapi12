@@ -4,9 +4,9 @@
  * y el boundary de errores para la feature de productos.
  */
 import { ProductModalProvider } from "@/features/products/application/ProductModalProvider";
-import FeatureErrorBoundary from "@/shared/ui/FeatureErrorBoundary";
 import { HomeContent } from "@/pages/HomeContent";
 import { useLogLifecycle } from "@/shared/hooks/useLogLifecycle";
+import FeatureErrorBoundary from "@/shared/ui/FeatureErrorBoundary";
 
 /**
  * Componente de la página principal.
@@ -16,7 +16,7 @@ import { useLogLifecycle } from "@/shared/hooks/useLogLifecycle";
  * @returns Elemento JSX de la página principal.
  */
 const Home = () => {
-    useLogLifecycle("Home");
+    useLogLifecycle("HomePage :");
     return (
         <ProductModalProvider>
             <FeatureErrorBoundary featureName="Products">
