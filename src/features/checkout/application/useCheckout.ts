@@ -1,78 +1,36 @@
 /**
  * @file useCheckout.ts
  * @description Hook personalizado para manejar la lógica de negocio del proceso de pago (checkout).
- * Orquesta la validación, formateo y navegación delegando la ejecución en CheckoutFacade.
- * @architecture Capa de Aplicación - Lógica de Negocio de Checkout (Facade & Strategy Integration)
+ * Orquesta tres hooks internos: el reducer de estado, la validación y el envío,
+ * delegando la ejecución del pago en CheckoutFacade.
+ * @architecture Capa de Aplicación - Lógica de Negocio de Checkout (Orquestador)
  */
+
+import { useCallback } from "react";
+import type { ChangeEvent } from "react";
+import { useCheckoutReducer } from "@/features/checkout/application/hooks/useCheckoutReducer";
+import { useCheckoutValidation } from "@/features/checkout/application/hooks/useCheckoutValidation";
+import { useCheckoutSubmit } from "@/features/checkout/application/hooks/useCheckoutSubmit";
 import {
-    useReducer,
-    useEffect,
-    ChangeEvent,
-    useMemo,
-    useCallback,
-    useState,
-} from "react";
-import { useNavigate } from "react-router-dom";
-import {
-    getCardType,
     formatCardNumber,
     formatExpiryDate,
 } from "@/features/checkout/domain/formatters";
-import {
-    checkoutReducer,
-    initialState,
-} from "@/features/checkout/application/checkoutReducer";
-import {
+import type {
     PaymentMethod,
     ICardInfo,
-    IValidationErrors,
     IUseCheckoutReturn,
 } from "@/features/checkout/application/types";
-import type { ICartItem } from "@/features/cart/domain/cartTypes";
+import type { ICartItem } from "@/entities/cart-item";
 import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
-import { useAuth } from "@/features/auth/application/AuthContext";
-import { checkoutFacade } from "@/features/checkout/application/CheckoutFacade";
-import { PaymentStrategyFactory } from "@/features/checkout/domain/factories/PaymentStrategyFactory";
 
 /**
- * @function detectCardType
- * @description Detecta el tipo de tarjeta basándose en el número.
- * @param {string} cardNumber - Número de tarjeta.
- * @returns {string} Tipo de tarjeta detectado.
- */
-const detectCardType = (cardNumber: string): string => {
-    return getCardType(cardNumber);
-};
-
-/**
- * @function hasValidationErrors
- * @description Verifica si existen errores de validación.
- * @param {IValidationErrors} errors - Objeto de errores de validación.
- * @returns {boolean} True si hay errores.
- */
-const hasValidationErrors = (errors: IValidationErrors): boolean => {
-    return Object.values(errors).some((e) => !!e);
-};
-
-/**
- * @function hasEmptyRequiredFields
- * @description Verifica si hay campos requeridos vacíos.
- * @param {ICardInfo} cardInfo - Información de la tarjeta.
- * @returns {boolean} True si hay campos vacíos.
- */
-const hasEmptyRequiredFields = (cardInfo: ICardInfo): boolean => {
-    return (
-        !cardInfo.number || !cardInfo.name || !cardInfo.expiry || !cardInfo.cvc
-    );
-};
-
-/**
- * @function useCheckout
- * @description Hook principal para el checkout.
- * Centraliza la lógica de estado, validación y formateo, coordinando con CheckoutFacade.
+ * @hook useCheckout
+ * @description Hook principal para el checkout. Combina el reducer de estado,
+ * el hook de validación y el hook de envío, y expone los handlers de entrada
+ * del formulario con formato automático de tarjeta.
  *
  * @param {ICartItem[]} cart - Array de items en el carrito.
- * @param {number} _totalPrice - Precio total base del carrito.
+ * @param {number} _totalPrice - Precio total base del carrito (actualmente sin uso).
  * @param {() => void} clearCart - Función para limpiar el carrito.
  * @param {IDiscountCode | null} [appliedDiscount] - Código de descuento aplicado opcional.
  * @returns {IUseCheckoutReturn} Objeto con estado y handlers.
@@ -83,84 +41,24 @@ export const useCheckout = (
     clearCart: () => void,
     appliedDiscount?: IDiscountCode | null,
 ): IUseCheckoutReturn => {
-    const [state, dispatch] = useReducer(checkoutReducer, initialState);
-    const { paymentMethod, cardInfo, errors, cardType } = state;
-    const navigate = useNavigate();
-    const { user } = useAuth();
+    const { state, dispatch } = useCheckoutReducer();
+    const {
+        setTouched,
+        setIsSubmitted,
+        handleBlur,
+        visibleErrors,
+        isPaymentDisabled,
+    } = useCheckoutValidation(state, dispatch);
+    const { handlePayment } = useCheckoutSubmit({
+        state,
+        dispatch,
+        setTouched,
+        setIsSubmitted,
+        cart,
+        appliedDiscount,
+        clearCart,
+    });
 
-    const [touched, setTouched] = useState<Record<string, boolean>>({});
-    const [isSubmitted, setIsSubmitted] = useState(false);
-
-    const handleCardTypeDetection = useCallback(() => {
-        const newCardType = detectCardType(cardInfo.number);
-        if (newCardType !== cardType) {
-            dispatch({ type: "SET_CARD_TYPE", payload: newCardType });
-        }
-    }, [cardInfo.number, cardType]);
-
-    useEffect(() => {
-        const strategy = PaymentStrategyFactory.getStrategy(paymentMethod);
-        if (!strategy.requiresCardDetails) {
-            dispatch({ type: "SET_ERRORS", payload: {} });
-        } else {
-            const validationErrors: IValidationErrors = strategy.validate(cardInfo);
-            dispatch({ type: "SET_ERRORS", payload: validationErrors });
-        }
-
-        handleCardTypeDetection();
-    }, [paymentMethod, cardInfo, cardType, handleCardTypeDetection]);
-
-    const handlePayment = useCallback(async () => {
-        setIsSubmitted(true);
-        setTouched({
-            number: true,
-            name: true,
-            expiry: true,
-            cvc: true,
-        });
-
-        if (!user) {
-            alert("Por favor inicia sesión para continuar con el pago.");
-            return;
-        }
-
-        const result = await checkoutFacade.executeCheckout({
-            userId: user.uid,
-            email: user.email || "cliente@tienda.com",
-            cart,
-            paymentMethod,
-            cardInfo,
-            appliedDiscount,
-        });
-
-        if (!result.success) {
-            if (result.validationErrors) {
-                dispatch({ type: "SET_ERRORS", payload: result.validationErrors });
-            }
-            alert(result.error || "Error al procesar el pago.");
-            throw new Error(result.error || "Error al procesar el pago.");
-        }
-
-        clearCart();
-        navigate("/checkout-success", {
-            state: {
-                orderId: result.orderId,
-                items: cart,
-                subtotal: result.subtotal,
-                discountAmount: result.discountAmount,
-                shippingCost: result.shippingCost,
-                total: result.finalTotal,
-                paymentMethod,
-            },
-        });
-    }, [user, cart, paymentMethod, cardInfo, appliedDiscount, clearCart, navigate]);
-
-    /**
-     * Handles changes to payment form input fields with automatic formatting.
-     * Formats card numbers (adds spaces) and expiry dates (adds slash) as user types.
-     * @param e - The change event from the input element
-     * @returns void
-     */
     const handlePaymentFieldChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const { name } = e.target;
@@ -179,61 +77,25 @@ export const useCheckout = (
                 payload: { name: name as keyof ICardInfo, value },
             });
         },
-        [],
+        [dispatch, setTouched],
     );
 
-    const handleBlur = useCallback(
-        (e: React.FocusEvent<HTMLInputElement>) => {
-            const { name } = e.target;
-            setTouched((prev) => ({ ...prev, [name]: true }));
+    /**
+     * @function selectPaymentMethod
+     * @description Cambia el método de pago seleccionado y limpia el estado
+     * de validación visual (campos revisados y flag de envío).
+     * @param {PaymentMethod} method - Método de pago a seleccionar.
+     */
+    const selectPaymentMethod = useCallback(
+        (method: PaymentMethod) => {
+            dispatch({ type: "SET_PAYMENT_METHOD", payload: method });
+            setTouched({});
+            setIsSubmitted(false);
         },
-        [],
+        [dispatch, setTouched, setIsSubmitted],
     );
 
-    /**
-     * Updates the selected payment method (e.g., credit card, bitcoin).
-     * Clears any existing card info errors when switching methods.
-     * @param method - The payment method to select (e.g., "credit_card", "bitcoin")
-     * @returns void
-     */
-    const selectPaymentMethod = useCallback((method: PaymentMethod) => {
-        dispatch({ type: "SET_PAYMENT_METHOD", payload: method });
-        setTouched({});
-        setIsSubmitted(false);
-    }, []);
-
-    /**
-     * Determines whether the payment submit button should be disabled.
-     * For credit card: disabled if there are validation errors or empty required fields.
-     * For bitcoin: always enabled (no card details needed).
-     * @returns true if payment button should be disabled, false otherwise
-     */
-    const isPaymentDisabled = useMemo(() => {
-        const strategy = PaymentStrategyFactory.getStrategy(paymentMethod);
-        if (!strategy.requiresCardDetails) return false;
-
-        const hasErrors = hasValidationErrors(errors);
-        const hasEmptyFields = hasEmptyRequiredFields(cardInfo);
-
-        return hasErrors || hasEmptyFields;
-    }, [paymentMethod, errors, cardInfo]);
-
-    /**
-     * Filtra los errores para mostrarlos solo si el campo ha sido modificado
-     * o si se intentó enviar el formulario.
-     * @type {IValidationErrors}
-     */
-    const visibleErrors = useMemo(() => {
-        const result: IValidationErrors = {};
-        (Object.keys(errors) as Array<keyof IValidationErrors>).forEach(
-            (key) => {
-                if (isSubmitted || touched[key]) {
-                    result[key] = errors[key];
-                }
-            },
-        );
-        return result;
-    }, [errors, touched, isSubmitted]);
+    const { paymentMethod, cardInfo, cardType } = state;
 
     return {
         paymentMethod,

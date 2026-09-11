@@ -2,7 +2,7 @@
 
 ## Stack y comandos
 - Node ≥ 18, **pnpm ≥ 11** (CI usa `pnpm/action-setup@v4`). El repo está pensado para pnpm: hay `pnpm-lock.yaml`, `pnpm-workspace.yaml` y `.gitignore` excluye `.pnpm-store`.
-- **No uses npm.** El repo funcionaba con npm por accidente; la suite de tests fue removida (commit `2de1bbc`) y `deploy`/`py` invocan `pnpm` directamente. Si vienes de npm: borra `node_modules` y `package-lock.json` antes de hacer `pnpm install --no-frozen-lockfile`.
+- **No uses npm.** El repo funcionaba con npm por accidente; la suite de tests fue removida y `deploy`/`py` invocan `pnpm` directamente. Si vienes de npm: borra `node_modules` y `package-lock.json` antes de hacer `pnpm install --no-frozen-lockfile`.
 - En Windows, `pnpm-workspace.yaml` ya preconfigura `allowBuilds` para esbuild, `@firebase/util` y `protobufjs`. Si persiste algún problema de postinstall, puedes ejecutar `pnpm approve-builds`.
 - Scripts (`package.json`):
   - `pnpm dev` — servidor Vite (puerto 5173). Corre localmente en el root `/`.
@@ -14,14 +14,17 @@
   - `pnpm deploy:firebase` — compila y despliega en Firebase Hosting (proyecto `myprojectapi12-39aa6`).
   - `pnpm py` — compila, valida tipos y sirve `dist/` en :5001 vía Python (requiere `python` en PATH).
 - **No existe `pnpm test`.** Ignora los badges y secciones de testing del `README.md`.
-- Pre-commit (`.husky/pre-commit`) corre `pnpm lint && pnpm type-check`. CI (`.github/workflows/deploy.yml`) corre `lint` + `build`. Mantén ese orden localmente.
+- Pre-commit (`.husky/pre-commit`) corre `pnpm lint && pnpm type-check`. CI (`.github/workflows/deploy.yml`) corre `lint` + `build` en Node 22 / ubuntu-latest — **no ejecuta `type-check`**. Mantén el orden `lint → type-check → build` localmente.
+- Cadena de verificación rápida antes de cualquier cambio: `pnpm lint && pnpm type-check && pnpm build`.
 
 ## Arquitectura
 - Entrada: `index.html` → `src/main.tsx` → `src/App.tsx`.
 - Orden de providers en `src/App.tsx` (no reordenar sin razón): `QueryClientProvider → ThemeProvider → AuthProvider → CartProvider → BrowserRouter → LazyMotion → ErrorBoundary → Layout → AppRouter` (+ `ReactQueryDevtools` al final).
 - Enrutamiento: `src/app/routing/AppRouter.tsx`. Rutas con `lazy()`: `Home`, `Checkout` (CheckoutPage), `CheckoutSuccess` (CheckoutSuccessPage), `Orders`, `FAQ`, `AdminDashboard`. La ruta comodín `*` también renderiza `Home`.
+- **`Cart`** se renderiza vía `createPortal` al nivel de `AppRouter` (fuera de `<Routes>`, línea 86), no dentro de las rutas.
 - Estructura por feature (FSD-like): `src/features/<feature>/{domain,application,infrastructure,presentation}` — ver `docs/architecture/OVERVIEW.md`.
   - Características implementadas: `auth`, `cart`, `checkout`, `orders`, `products`, `theme`, `users`.
+  - **`CartContext`** está segregado en `CartStateContext` (datos) + `CartActionsContext` (callbacks) para evitar re-renders innecesarios.
 - Capa de dominio puro (`src/entities/`): **SÍ existe** y contiene los tipos y utilidades de `product`, `cart-item` y `order`.
 - Aliases (coinciden en `vite.config.js` y `tsconfig.json`): `@/`, `@shared/`, `@features/`, `@pages/`, `@entities/`, `@widgets/`.
 - **Navbar** está en `src/widgets/Navbar.tsx` porque necesita imports de features. `Layout.tsx` (en `src/shared/ui/Layout.tsx`) lo importa desde `@widgets/Navbar`.
@@ -33,6 +36,7 @@
 - **Sin `tailwind.config.js` ni `postcss.config.js`:** Tailwind v4 se configura vía `@tailwindcss/vite` y directivas en `src/index.css`. **No crees esos archivos** — están en `.eslintignore` precisamente para que no aparezcan.
 - **`react-refresh/only-export-components` (`warn`)** con `allowConstantExport: true`: en archivos `.tsx` exporta solo componentes (o constantes sueltas). No exportes hooks/utils desde un `.tsx` de componente.
 - **ESLint** falla con `--max-warnings 2`: limpia warnings antes de commitear o el pre-commit te bloquea.
+- **`transition-all` está PROHIBIDO.** Usa `transition-colors`, `transition-[width]`, u otras variantes específicas. Se eliminó de 9 archivos en el sprint v1.3.0.
 - **`.gitignore`** excluye `.env*`, `.playwright-mcp/`, `dist`, `coverage/`, `.agents/`, `.claude/` — no commitees nada de eso.
 
 ## Documentación

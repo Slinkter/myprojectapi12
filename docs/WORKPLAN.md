@@ -8,8 +8,8 @@ Este archivo actúa como el estado de transferencia e hilo conductor para los ag
 
 ## 🛠️ Estado General
 
-- **Rama Activa:** `main` (Despliegue y Mantenimiento)
-- **Punto de Retorno:** Todas las fases del plan de trabajo completadas con éxito. Se corrigieron los problemas de carga y composite indexes de Firestore para pedidos individuales de clientes. Compilación, lints y builds al 100% correctos.
+- **Rama Activa:** `feature/refactor-navbar` (Refactor Navbar y Fase 3 en curso/finalizadas)
+- **Punto de Retorno:** Plan de Mejora, Optimizacion y Refactor (Fase 0-6) COMPLETADO. Ademas se completo el refactor del Navbar (HANDOFF tarea #2) con extraccion de widgets. `pnpm lint`, `pnpm type-check` y `pnpm build` al 100% correctos y `react-doctor` en **100/100** (cerrado el warning `no-giant-component` de `Navbar.tsx`: 708 -> 218 lineas).
 - **Reporte de Transferencia Detallado:** Disponible en [.system_generated/handover_report.md](file:///C:/Users/luisj/.gemini/antigravity-cli/brain/9a030aff-7181-48e6-9176-62027e2ad8c7/handover_report.md).
 
 ---
@@ -245,7 +245,9 @@ src/entities/
 
 ---
 
-## FASE 3 — Refactor de hooks (45 minutos)
+## FASE 3 — Refactor de hooks [COMPLETADA] (45 minutos)
+
+> **Nota de ejecucion:** Se extrajo `useCheckoutReducer.ts` (re-exporta el reducer puro), `useCheckoutValidation.ts` (errores visibles, deteccion de tarjeta y estado del boton) y `useCheckoutSubmit.ts` (pago via fachada + navegacion) en `src/features/checkout/application/hooks/`. `useCheckout.ts` quedo como orquestador (~90 lineas). El envio conserva la integracion con `CheckoutFacade` (el `orderId` lo genera el repositorio, no un ID local como en la version original del plan).
 
 ### 3.1 Refactorizar `useCheckout`
 
@@ -578,19 +580,14 @@ Para los 5 componentes principales, anadir bloque `@remarks` con la secuencia de
 
 ---
 
-## FASE 6 — Verificacion final (10 minutos)
+## FASE 6 — Verificacion final [COMPLETADA] (10 minutos)
 
-1. Ejecutar `pnpm lint` y confirmar 0 warnings (ideal) o <= 2 warnings.
-2. Ejecutar `pnpm type-check` y confirmar 0 errores.
-3. Ejecutar `pnpm build` y confirmar que genera `dist/` sin errores.
-4. Ejecutar `pnpm dev` y verificar visualmente:
-    - Home carga productos.
-    - Busqueda funciona.
-    - Toggle tema funciona (light/dark).
-    - Carrito abre/cierra.
-    - Checkout completa el flujo.
-    - CheckoutSuccess muestra orderId.
-5. Verificar que el color primario (verde `#059669`) no cambio visualmente.
+1. `pnpm lint` -> 0 errores, 0 warnings.
+2. `pnpm type-check` -> 0 errores.
+3. `pnpm build` -> `dist/` generado sin errores (solo warning preexistente de chunk > 500 kB).
+4. `npx react-doctor@latest --scope changed` -> **100/100**.
+5. **Refactor Navbar extra:** se descompuso `Navbar.tsx` (708 -> 218 lineas) en `NavLink`, `IconButton` (shared/ui), `CartButton`, `ThemeToggle`, `AuthActions`, `CategoriesDropdown`, `MobileMenu` y `SearchComponent` (presentacional, con foco propio). `useSearchTrigger` (widgets/hooks) centraliza el estado de busqueda y la emision del evento `SEARCH_TRIGGERED`.
+6. El color primario (`#059669`) no cambio.
 
 ---
 

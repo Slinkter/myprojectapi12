@@ -43,7 +43,7 @@ export const ProductModalProvider = ({
             openProductModal,
             closeProductModal,
         }),
-        [isModalOpen, selectedProduct, openProductModal, closeProductModal]
+        [isModalOpen, selectedProduct, openProductModal, closeProductModal],
     );
 
     return (
