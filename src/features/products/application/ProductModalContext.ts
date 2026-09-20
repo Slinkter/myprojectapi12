@@ -1,24 +1,31 @@
 /**
  * @file ProductModalContext.ts
- * @description Contexto para la gestión del estado del modal de producto.
- * @architecture Application Layer - Context
+ * @description Contexto y hook para la gestión del estado del modal de producto.
+ * @architecture Application Layer - Product Modal Context & Consumer Hook
  */
 
-import { createContext } from "react";
-import { IUseProductModalResult } from "@/features/products/application/types";
+import { createContext, useContext } from "react";
+import type { IUseProductModalResult } from "@/features/products/application/types";
 
 /**
  * Contexto de React para compartir el estado del modal de producto.
- *
- * @remarks
- * Se crea con un valor por defecto `undefined`.
- * El tipado `IUseProductModalResult | undefined` fuerza al consumidor
- * a verificar que el contexto esté disponible (ver useProductModalContext).
- *
- * @see IUseProductModalResult - Tipo del valor del contexto.
- * @see ProductModalProvider - Proveedor que inicializa el contexto.
- * @see useProductModalContext - Hook consumidor con validación.
  */
 export const ProductModalContext = createContext<
     IUseProductModalResult | undefined
 >(undefined);
+
+/**
+ * Hook para acceder al contexto del modal de producto.
+ *
+ * @throws {Error} Si se usa fuera de un ProductModalProvider.
+ * @returns {IUseProductModalResult} Estado y controladores del modal de producto.
+ */
+export const useProductModalContext = (): IUseProductModalResult => {
+    const context = useContext(ProductModalContext);
+    if (context === undefined) {
+        throw new Error(
+            "useProductModalContext debe usarse dentro de un ProductModalProvider",
+        );
+    }
+    return context;
+};
