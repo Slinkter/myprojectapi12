@@ -6,11 +6,17 @@ Este archivo actúa como el estado de transferencia e hilo conductor para los ag
 
 ---
 
-## 🛠️ Estado General
+## Estado General
 
-- **Rama Activa:** `feature/refactor-navbar` (Refactor Navbar y Fase 3 en curso/finalizadas)
-- **Punto de Retorno:** Plan de Mejora, Optimizacion y Refactor (Fase 0-6) COMPLETADO. Ademas se completo el refactor del Navbar (HANDOFF tarea #2) con extraccion de widgets. `pnpm lint`, `pnpm type-check` y `pnpm build` al 100% correctos y `react-doctor` en **100/100** (cerrado el warning `no-giant-component` de `Navbar.tsx`: 708 -> 218 lineas).
-- **Reporte de Transferencia Detallado:** Disponible en [.system_generated/handover_report.md](file:///C:/Users/luisj/.gemini/antigravity-cli/brain/9a030aff-7181-48e6-9176-62027e2ad8c7/handover_report.md).
+- **Rama Activa:** `refactor/code-purge-optimization`
+- **Punto de Retorno:** Sprint de Purga, Desacoplamiento y Optimización (Fases 1 a 5) COMPLETADO.
+  - Purga de más de 2,000 líneas de código muerto (6 primitivos huérfanos de UI, 4 repositorios zombies, duplicados de theme, checkout form obsoleto y utilidades matemáticas sin uso).
+  - Eliminación del 100% de ocurrencias de `transition-all` prohibido y corrección de base URL dinámica.
+  - Desacoplamiento de Clean Architecture en `features/checkout` (tipos de negocio en `domain/types`, validación en `domain/validation` y tarifas de envío en `domain/shipping`).
+  - Utilidad unificada `formatPrice` en `@shared/lib` consumida a través de toda la app.
+  - Consolidación de wrappers: `CartBadge` absorbido en `CartButton`, `useCheckoutReducer` en `checkoutReducer`, `LoadMoreButton` en `LoadMoreSection`.
+  - Configuración de `manualChunks` en `vite.config.js`: bundle principal reducido de 958 kB a 277 kB, eliminando todas las advertencias de tamaño de chunk en Vite.
+  - `pnpm lint && pnpm type-check && pnpm build` 100% exitoso con 0 errores y 0 warnings.
 
 ---
 
