@@ -8,7 +8,7 @@
 
 import { useCallback } from "react";
 import type { ChangeEvent } from "react";
-import { useCheckoutReducer } from "@/features/checkout/application/hooks/useCheckoutReducer";
+import { useCheckoutReducer } from "@/features/checkout/application/checkoutReducer";
 import { useCheckoutValidation } from "@/features/checkout/application/hooks/useCheckoutValidation";
 import { useCheckoutSubmit } from "@/features/checkout/application/hooks/useCheckoutSubmit";
 import {

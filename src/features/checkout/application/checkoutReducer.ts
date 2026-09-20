@@ -1,10 +1,12 @@
 /**
  * @file checkoutReducer.ts
- * @description Reducer para manejar el estado complejo del formulario de checkout.
- * Implementa una máquina de estados simple para la gestión de campos y errores.
- * @architecture Application Layer - Checkout State
+ * @description Reducer y hook para manejar el estado del formulario de checkout.
+ * Implementa una máquina de estados pura para la gestión de campos y errores.
+ * @architecture Application Layer - Checkout State & Reducer Hook
  */
-import {
+
+import { useReducer, type Dispatch } from "react";
+import type {
   ICheckoutState,
   CheckoutAction,
 } from "@/features/checkout/application/types";
@@ -57,4 +59,24 @@ export function checkoutReducer(
     default:
       return state;
   }
+}
+
+/**
+ * Resultado del hook useCheckoutReducer.
+ */
+export interface ICheckoutReducerResult {
+  /** Estado actual del formulario de checkout. */
+  state: ICheckoutState;
+  /** Función para despachar acciones al reducer. */
+  dispatch: Dispatch<CheckoutAction>;
+}
+
+/**
+ * Hook que encapsula useReducer con checkoutReducer e initialState.
+ *
+ * @returns {ICheckoutReducerResult} Objeto con state y dispatch.
+ */
+export function useCheckoutReducer(): ICheckoutReducerResult {
+  const [state, dispatch] = useReducer(checkoutReducer, initialState);
+  return { state, dispatch };
 }
