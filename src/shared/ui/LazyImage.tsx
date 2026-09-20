@@ -69,7 +69,7 @@ export function LazyImage({ src, alt, className, aspectRatio = 'aspect-[4/5]', s
         onError={handleError}
         style={imgStyle}
         className={cn(
-          'w-full h-full transition-all duration-500',
+          'w-full h-full transition-opacity duration-500',
           // Si el caller no proporciona objectFit via imgStyle, usar object-cover como default
           !imgStyle?.objectFit && 'object-cover',
           isLoaded 

@@ -83,7 +83,7 @@ export function DiscountInput({
               error
                 ? "border-red-500/80 focus:ring-red-500/20 focus:border-red-500 bg-red-50/20 dark:bg-red-950/10"
                 : "border-slate-200 dark:border-slate-800 bg-background focus:ring-emerald-500/20 focus:border-emerald-500"
-            } pl-10 pr-3 py-2 text-sm font-mono tracking-wider focus:outline-none focus:ring-2 transition-all shadow-xs`}
+            } pl-10 pr-3 py-2 text-sm font-mono tracking-wider focus:outline-none focus:ring-2 transition-colors shadow-xs`}
           />
         </div>
 

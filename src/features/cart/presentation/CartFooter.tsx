@@ -71,7 +71,7 @@ export const CartFooter = ({
 
           <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
             <div
-              className={`h-full transition-all duration-500 rounded-full ${
+              className={`h-full transition-[width] duration-500 rounded-full ${
                 isFreeShipping
                   ? "bg-emerald-500"
                   : "bg-gradient-to-r from-amber-400 to-emerald-500"

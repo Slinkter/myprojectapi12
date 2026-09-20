@@ -80,7 +80,7 @@ export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsP
                 >
                   <div
                     className={cn(
-                      "relative flex items-center justify-center w-9 h-9 rounded-full font-bold text-sm transition-all duration-300 shadow-sm",
+                      "relative flex items-center justify-center w-9 h-9 rounded-full font-bold text-sm transition-colors duration-300 shadow-sm",
                       isCompleted && "bg-emerald-600 text-white shadow-emerald-500/20",
                       isCurrent && "bg-emerald-600 text-white ring-4 ring-emerald-500/25 shadow-emerald-500/30 scale-105",
                       isUpcoming && "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700"
@@ -128,7 +128,7 @@ export function CheckoutSteps({ steps, currentStep, className }: ICheckoutStepsP
                 >
                   <div
                     className={cn(
-                      "h-full transition-all duration-500",
+                      "h-full transition-[width] duration-500",
                       isCompleted ? "bg-emerald-600 dark:bg-emerald-500 w-full" : "w-0"
                     )}
                   />

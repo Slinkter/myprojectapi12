@@ -47,7 +47,7 @@ export const NavLink = ({
         onClick={onClick}
     >
         <div
-            className={`px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition-all cursor-pointer relative flex items-center min-h-[48px] md:min-h-[44px] ${
+            className={`px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition-colors cursor-pointer relative flex items-center min-h-[48px] md:min-h-[44px] ${
                 active
                     ? "bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/15 dark:hover:bg-primary/25"
                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/80"

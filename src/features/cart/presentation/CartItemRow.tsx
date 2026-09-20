@@ -64,7 +64,7 @@ export const CartItemRow = ({ item, onRemove }: CartItemRowProps) => {
             type="button"
             onClick={() => !isMinQuantity && updateQuantity(item.id, item.quantity - 1)}
             disabled={isMinQuantity}
-            className={`inline-flex items-center justify-center w-6 h-6 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all ${
+            className={`inline-flex items-center justify-center w-6 h-6 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors ${
               isMinQuantity
                 ? "opacity-30 cursor-not-allowed"
                 : "hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-90 cursor-pointer"

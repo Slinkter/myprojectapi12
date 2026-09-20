@@ -236,7 +236,7 @@ export const ProductFormModal: React.FC<IProductFormModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-4 h-10 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-hover active:scale-95 transition-all shadow-md shadow-primary/20 flex items-center gap-1.5"
+                className="px-4 h-10 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-hover active:scale-95 transition-colors shadow-md shadow-primary/20 flex items-center gap-1.5"
               >
                 <Save size={16} />
                 {isSubmitting ? "Guardando..." : "Guardar Producto"}

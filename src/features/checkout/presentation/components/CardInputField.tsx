@@ -89,7 +89,7 @@ const CardInputField = ({
           {...inputProps}
           type={resolvedType}
           className={cn(
-            "flex h-11 w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-background px-3 py-2 text-sm pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all shadow-xs",
+            "flex h-11 w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-background px-3 py-2 text-sm pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors shadow-xs",
             isNumericField && "font-mono tracking-wider tabular-nums",
             error && "border-red-500/80 dark:border-red-500/80 focus:ring-red-500/20 focus:border-red-500 bg-red-50/20 dark:bg-red-950/10",
             (rightSlot || isPasswordType) && "pr-12",

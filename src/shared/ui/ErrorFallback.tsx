@@ -141,7 +141,7 @@ const ErrorFallback = ({ error, errorInfo, onReset }: IErrorFallbackProps) => {
                     <button
                         type="button"
                         onClick={() =>
-                            (window.location.href = "/myprojectapi12/")
+                            (window.location.href = import.meta.env.BASE_URL)
                         }
                         className={clsx("error-fallback-home-button px-6 py-3 min-h-[44px] rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30")}
                     >

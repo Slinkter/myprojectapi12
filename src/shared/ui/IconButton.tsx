@@ -10,7 +10,7 @@ import type { ReactNode } from "react";
 
 /** Clases base del botón de icono (usadas también para estilos derivados). */
 export const iconButtonClass =
-    "flex items-center justify-center w-12 h-12 sm:w-10 sm:h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-all duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+    "flex items-center justify-center w-12 h-12 sm:w-10 sm:h-10 rounded-full border-none bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors duration-150 cursor-pointer text-slate-600 dark:text-slate-300 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 /**
  * Props para el componente IconButton.

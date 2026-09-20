@@ -316,7 +316,7 @@ export const Orders: React.FC = () => {
         <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-xl w-full sm:w-auto overflow-x-auto">
           <button
             onClick={() => setFilterTab("all")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shrink-0 cursor-pointer ${
               filterTab === "all"
                 ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm"
                 : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
@@ -326,7 +326,7 @@ export const Orders: React.FC = () => {
           </button>
           <button
             onClick={() => setFilterTab("active")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shrink-0 cursor-pointer ${
               filterTab === "active"
                 ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm"
                 : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
@@ -336,7 +336,7 @@ export const Orders: React.FC = () => {
           </button>
           <button
             onClick={() => setFilterTab("completed")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shrink-0 cursor-pointer ${
               filterTab === "completed"
                 ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm"
                 : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
@@ -346,7 +346,7 @@ export const Orders: React.FC = () => {
           </button>
           <button
             onClick={() => setFilterTab("cancelled")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shrink-0 cursor-pointer ${
               filterTab === "cancelled"
                 ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm"
                 : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
@@ -404,7 +404,7 @@ export const Orders: React.FC = () => {
             return (
               <div 
                 key={order.orderId}
-                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all"
+                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors"
               >
                 {/* Cabecera del pedido accesible por teclado */}
                 <button
@@ -486,7 +486,7 @@ export const Orders: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleConfirmReceived(order.orderId)}
-                            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold cursor-pointer shadow-md shadow-emerald-600/20 transition-all shrink-0"
+                            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold cursor-pointer shadow-md shadow-emerald-600/20 transition-colors shrink-0"
                           >
                             Confirmar que recibí mi producto
                           </button>
@@ -507,7 +507,7 @@ export const Orders: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleOpenStatusModal(order)}
-                            className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-bold transition-all shadow-md shadow-primary/20 cursor-pointer shrink-0"
+                            className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-bold transition-colors shadow-md shadow-primary/20 cursor-pointer shrink-0"
                           >
                             Gestionar / Cambiar Estado
                           </button>
@@ -535,7 +535,7 @@ export const Orders: React.FC = () => {
 
                             return (
                               <div key={step.key} className="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-white/60 dark:bg-slate-900/60 border border-slate-150 dark:border-slate-800">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all ${
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-colors ${
                                   isPassed || isCurrent
                                     ? "bg-primary border-primary text-white"
                                     : "bg-transparent border-slate-200 dark:border-slate-800 text-slate-400"
@@ -629,7 +629,7 @@ export const Orders: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handlePrintTicket(order)}
-                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all shadow-sm cursor-pointer"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors shadow-sm cursor-pointer"
                         >
                           <Printer size={14} />
                           Imprimir Comprobante

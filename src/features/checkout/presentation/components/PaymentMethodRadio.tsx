@@ -43,7 +43,7 @@ const PaymentMethodRadio = ({
         <div
             onClick={onChange}
             className={cn(
-                "cursor-pointer relative h-24 flex flex-col items-center justify-center transition-all duration-200 rounded-xl border-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30",
+                "cursor-pointer relative h-24 flex flex-col items-center justify-center transition-colors duration-200 rounded-xl border-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/30",
                 checked
                     ? "border-emerald-600 dark:border-emerald-500 bg-emerald-50/10 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400"
                     : "border-slate-200 dark:border-slate-800 bg-card text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900"

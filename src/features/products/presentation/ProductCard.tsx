@@ -294,7 +294,7 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
               scale: isHovered ? 1.02 : 1,
             }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
-            className={`inline-flex items-center justify-center px-3.5 h-8 sm:h-9 rounded-full text-xs font-bold border-none transition-all shrink-0 ${
+            className={`inline-flex items-center justify-center px-3.5 h-8 sm:h-9 rounded-full text-xs font-bold border-none transition-colors shrink-0 ${
               isOutOfStock
                 ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-600 cursor-not-allowed'
                 : 'bg-primary/10 text-primary hover:bg-primary hover:text-white dark:bg-primary/20 dark:text-emerald-400 dark:hover:bg-primary dark:hover:text-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40'

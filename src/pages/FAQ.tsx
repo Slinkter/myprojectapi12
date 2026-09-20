@@ -112,7 +112,7 @@ export const FAQ: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <Link
           to="/orders"
-          className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-primary/50 dark:hover:border-primary/50 transition-all shadow-sm hover:shadow-md group no-underline"
+          className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-primary/50 dark:hover:border-primary/50 transition-colors shadow-sm hover:shadow-md group no-underline"
         >
           <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
             <Package size={20} />
@@ -127,7 +127,7 @@ export const FAQ: React.FC = () => {
 
         <Link
           to="/"
-          className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-primary/50 dark:hover:border-primary/50 transition-all shadow-sm hover:shadow-md group no-underline"
+          className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-primary/50 dark:hover:border-primary/50 transition-colors shadow-sm hover:shadow-md group no-underline"
         >
           <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
             <ShoppingBag size={20} />
@@ -142,7 +142,7 @@ export const FAQ: React.FC = () => {
 
         <a
           href="mailto:soporte@myprojectapi12.com?subject=Consulta%20sobre%20pedido"
-          className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all shadow-sm hover:shadow-md group no-underline"
+          className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-colors shadow-sm hover:shadow-md group no-underline"
         >
           <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
             <Mail size={20} />
@@ -170,7 +170,7 @@ export const FAQ: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveCategory(tab.id)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer border ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer border ${
                 activeCategory === tab.id
                   ? "bg-primary text-white border-primary shadow-sm"
                   : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
@@ -190,7 +190,7 @@ export const FAQ: React.FC = () => {
           return (
             <div
               key={faq.id}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-all"
+              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors"
             >
               <button
                 type="button"
@@ -238,7 +238,7 @@ export const FAQ: React.FC = () => {
             href="https://wa.me/51999999999?text=Hola%2C%20necesito%20ayuda%20con%20mi%20pedido%20en%20MyProjectAPI12"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-all flex items-center gap-2 no-underline"
+            className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-colors flex items-center gap-2 no-underline"
           >
             <MessageCircle size={15} />
             Chat por WhatsApp
