@@ -28,7 +28,6 @@ export * from "./application/CheckoutFacade";
 
 // Infrastructure
 export * from "./infrastructure/FirestoreCheckoutRepository";
-export * from "./infrastructure/checkoutFirestore";
 
 // Presentation
 export { default as Checkout } from "./presentation/Checkout";

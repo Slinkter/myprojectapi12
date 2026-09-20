@@ -5,7 +5,5 @@
  */
 
 export * from "./domain/orderTypes";
-export * from "./domain/repositories/IOrderRepository";
 export * from "./domain/factories/OrderFactory";
 export * from "./infrastructure/ordersFirestore";
-export * from "./infrastructure/FirestoreOrderRepository";

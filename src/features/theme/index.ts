@@ -6,4 +6,3 @@
 
 export * from "./application/ThemeContext";
 export * from "./infrastructure/themeStorage";
-export * from "./presentation/ThemeSwitcher";

@@ -6,7 +6,6 @@
 
 // Domain
 export * from "./domain/productTypes";
-export * from "./domain/repositories/IProductRepository";
 export * from "./domain/factories/ProductFactory";
 
 // Application
@@ -15,13 +14,11 @@ export * from "./application/useProducts";
 export * from "./application/useCategories";
 export * from "./application/useProductModal";
 export * from "./application/useProductModalContext";
-export * from "./application/useProductSearch";
 export * from "./application/ProductModalContext";
 export * from "./application/ProductModalProvider";
 
 // Infrastructure
 export * from "./infrastructure/productsFirestore";
-export * from "./infrastructure/FirestoreProductRepository";
 export * as productsApi from "./infrastructure/productsApi";
 
 // Presentation
