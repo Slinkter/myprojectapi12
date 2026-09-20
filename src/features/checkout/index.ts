@@ -5,6 +5,9 @@
  */
 
 // Domain
+export * from "./domain/types";
+export * from "./domain/validation";
+export * from "./domain/shipping";
 export * from "./domain/discounts";
 export * from "./domain/formatters";
 export * from "./domain/repositories/ICheckoutRepository";

@@ -4,7 +4,7 @@
  * @architecture Domain Layer - Payment Strategy Factory (Factory Pattern)
  */
 
-import type { PaymentMethod } from "@/features/checkout/application/types";
+import type { PaymentMethod } from "@/features/checkout/domain/types";
 import type { IPaymentStrategy } from "@/features/checkout/domain/strategies/IPaymentStrategy";
 import { CreditCardPaymentStrategy } from "@/features/checkout/domain/strategies/CreditCardPaymentStrategy";
 import { BitcoinPaymentStrategy } from "@/features/checkout/domain/strategies/BitcoinPaymentStrategy";

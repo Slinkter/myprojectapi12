@@ -6,7 +6,7 @@
 
 import { Button } from "@/shared/ui/Button";
 import { Loader2, Lock } from "lucide-react";
-import type { PaymentMethod } from "@features/checkout/presentation/PaymentMethodSelector";
+import type { PaymentMethod } from "@/features/checkout/domain/types";
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**

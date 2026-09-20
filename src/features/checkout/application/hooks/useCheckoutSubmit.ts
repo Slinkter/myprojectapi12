@@ -8,12 +8,13 @@
 import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import type {
     ICheckoutState,
     CheckoutAction,
 } from "@/features/checkout/application/types";
 import type { ICartItem } from "@/entities/cart-item";
-import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
+import type { IDiscountCode } from "@/features/checkout/domain/types";
 import { useAuth } from "@/features/auth/application/AuthContext";
 import { checkoutFacade } from "@/features/checkout/application/CheckoutFacade";
 
@@ -84,7 +85,7 @@ export function useCheckoutSubmit({
         setTouched({ number: true, name: true, expiry: true, cvc: true });
 
         if (!user) {
-            alert("Por favor inicia sesión para continuar con el pago.");
+            toast.error("Por favor inicia sesión para continuar con el pago.");
             return;
         }
 
@@ -101,8 +102,8 @@ export function useCheckoutSubmit({
             if (result.validationErrors) {
                 dispatch({ type: "SET_ERRORS", payload: result.validationErrors });
             }
-            alert(result.error || "Error al procesar el pago.");
-            throw new Error(result.error || "Error al procesar el pago.");
+            toast.error(result.error || "Error al procesar el pago.");
+            return;
         }
 
         clearCart();

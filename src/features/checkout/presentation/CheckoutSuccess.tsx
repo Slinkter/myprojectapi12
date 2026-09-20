@@ -18,6 +18,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
+import { formatPrice } from "@/shared/lib";
 import { useLogLifecycle } from "@/shared/hooks";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
 
@@ -45,13 +46,6 @@ interface OrderState {
   /** Método de pago utilizado ("visa", "mastercard", "bitcoin", etc.) */
   paymentMethod: string;
 }
-
-const priceFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
-
-const formatPrice = (price: number): string => priceFormatter.format(price);
 
 /**
  * Componente que muestra la pantalla de confirmación exitosa del pago.

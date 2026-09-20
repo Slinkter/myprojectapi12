@@ -2,13 +2,11 @@ import { ArrowRight, Trash2, Truck } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
 import { useLogLifecycle } from "@/shared/hooks";
 
-const priceFormatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
-const formatPrice = (price: number): string => priceFormatter.format(price);
+import { formatPrice } from "@/shared/lib";
+import { SHIPPING_CONFIG } from "@/features/checkout/domain/shipping";
 
-/** Umbral en dólares para obtener envío gratuito */
-const FREE_SHIPPING_THRESHOLD = 50;
-/** Costo estándar de envío */
-const SHIPPING_COST = 9.99;
+const FREE_SHIPPING_THRESHOLD = SHIPPING_CONFIG.FREE_SHIPPING_THRESHOLD;
+const SHIPPING_COST = SHIPPING_CONFIG.STANDARD_FEE;
 
 /**
  * @interface CartFooterProps

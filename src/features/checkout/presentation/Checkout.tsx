@@ -50,6 +50,7 @@ const Checkout = () => {
         handlePaymentFieldChange,
         handleBlur,
         selectPaymentMethod,
+        isPaymentDisabled,
     } = useCheckout(cart, totalPrice, clearCart, discountState.appliedDiscount);
 
     if (loading) {
@@ -150,7 +151,7 @@ const Checkout = () => {
 
                             {/* Botón de confirmación y badges de seguridad */}
                             <PaymentSubmitButton
-                                isDisabled={cart.length === 0}
+                                isDisabled={cart.length === 0 || isPaymentDisabled}
                                 isProcessing={isProcessing}
                                 method={paymentMethod}
                             />

@@ -4,8 +4,8 @@
  * @architecture Domain Layer - Concrete Payment Strategy (Strategy Pattern)
  */
 
-import type { PaymentMethod, ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
-import { validateCardInfo } from "@/features/checkout/application/validation";
+import type { PaymentMethod, ICardInfo, IValidationErrors } from "@/features/checkout/domain/types";
+import { validateCardInfo } from "@/features/checkout/domain/validation";
 import type { IPaymentStrategy, IPaymentResult } from "@/features/checkout/domain/strategies/IPaymentStrategy";
 
 /**

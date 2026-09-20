@@ -5,14 +5,15 @@
  */
 
 import type { IShippingStrategy } from "@/features/checkout/domain/strategies/IShippingStrategy";
+import { SHIPPING_CONFIG } from "@/features/checkout/domain/shipping";
 
 /**
  * @class StandardShippingStrategy
  * @description Aplica tarifa plana de $9.99 USD para pedidos menores a $50 USD, y $0 para pedidos superiores o carritos vacíos.
  */
 export class StandardShippingStrategy implements IShippingStrategy {
-  private readonly FREE_SHIPPING_THRESHOLD = 50;
-  private readonly STANDARD_FEE = 9.99;
+  private readonly FREE_SHIPPING_THRESHOLD = SHIPPING_CONFIG.FREE_SHIPPING_THRESHOLD;
+  private readonly STANDARD_FEE = SHIPPING_CONFIG.STANDARD_FEE;
 
   /**
    * Calcula la tarifa de envío estándar.

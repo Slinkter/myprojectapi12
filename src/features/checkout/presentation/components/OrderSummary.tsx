@@ -16,6 +16,7 @@ import {
   calculateDiscountAmount,
   type IUseDiscountValidationReturn,
 } from '@/features/checkout/application/useDiscountValidation';
+import { SHIPPING_CONFIG } from '@/features/checkout/domain/shipping';
 
 /**
  * @interface IOrderSummaryProps
@@ -59,13 +60,16 @@ export function OrderSummary({ items, totalPrice, onRemove, discountState, style
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
   const hasItems = totalItems > 0;
-  const isFreeShipping = hasItems && totalPrice >= 50;
-  const shipping = isFreeShipping ? 0 : hasItems ? 9.99 : 0;
+  const isFreeShipping = hasItems && totalPrice >= SHIPPING_CONFIG.FREE_SHIPPING_THRESHOLD;
+  const shipping = isFreeShipping ? 0 : hasItems ? SHIPPING_CONFIG.STANDARD_FEE : 0;
   const discountAmount = calculateDiscountAmount(appliedDiscount, totalPrice);
   const discountedSubtotal = Math.max(0, totalPrice - discountAmount);
   const finalTotal = discountedSubtotal + shipping;
 
-  const progressToFreeShipping = Math.min(100, Math.round((totalPrice / 50) * 100));
+  const progressToFreeShipping = Math.min(
+    100,
+    Math.round((totalPrice / SHIPPING_CONFIG.FREE_SHIPPING_THRESHOLD) * 100),
+  );
 
   return (
     <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4 sm:p-5" style={style}>

@@ -4,7 +4,7 @@
  * @architecture Domain Layer - Discount Strategy Factory (Factory Pattern)
  */
 
-import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
+import type { IDiscountCode } from "@/features/checkout/domain/types";
 import type { IDiscountStrategy } from "@/features/checkout/domain/strategies/IDiscountStrategy";
 import { PercentageDiscountStrategy } from "@/features/checkout/domain/strategies/PercentageDiscountStrategy";
 import { FixedDiscountStrategy } from "@/features/checkout/domain/strategies/FixedDiscountStrategy";

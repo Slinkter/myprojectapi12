@@ -8,7 +8,7 @@ import type { ChangeEvent } from "react";
 import { FaBitcoin } from "react-icons/fa";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import CardForm from "@/features/checkout/presentation/components/CardForm";
-import type { PaymentMethod } from "@features/checkout/presentation/PaymentMethodSelector";
+import type { PaymentMethod } from "@/features/checkout/domain/types";
 import type { ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
 import { useLogLifecycle } from "@/shared/hooks";
 

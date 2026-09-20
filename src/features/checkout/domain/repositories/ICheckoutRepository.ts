@@ -4,8 +4,7 @@
  * @architecture Domain Layer - Checkout Repository Interface
  */
 
-import type { ICartItem } from "@/features/cart/domain/cartTypes";
-import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
+import type { ICartItem, IDiscountCode } from "@/features/checkout/domain/types";
 
 /**
  * Parámetros para registrar una orden de compra transaccional.

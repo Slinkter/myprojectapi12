@@ -1,87 +1,58 @@
 /**
  * @file types.ts
- * @description Definiciones de tipos para el dominio de Checkout.
+ * @description Definiciones de tipos para la capa de aplicación de Checkout.
+ * Re-exporta los tipos de dominio y define interfaces de estado de React.
  * @architecture Application Layer - Checkout Types
  */
 
 import { ChangeEvent } from "react";
-import type { ICartItem } from "@/entities/cart-item";
+import type {
+  PaymentMethod,
+  ICardInfo,
+  IValidationErrors,
+  IDiscountCode,
+  ICartItem,
+} from "@/features/checkout/domain/types";
 
-export type { ICartItem };
-
-/**
- * @type PaymentMethod
- * @description Métodos de pago soportados por la aplicación.
- */
-export type PaymentMethod = "visa" | "mastercard" | "bitcoin";
-
-/**
- * @interface CardInfo
- * @description Información de tarjeta de crédito/débito ingresada por el usuario.
- */
-export interface ICardInfo {
-    /** Número de la tarjeta (sin espacios) */
-    number: string;
-    /** Nombre del titular como aparece en la tarjeta */
-    name: string;
-    /** Fecha de expiración en formato MM/YY */
-    expiry: string;
-    /** Código de seguridad (CVC/CVV) */
-    cvc: string;
-}
+export type { PaymentMethod, ICardInfo, IValidationErrors, IDiscountCode, ICartItem };
 
 /**
- * @interface ValidationErrors
- * @description Objeto que mapea campos de CardInfo a mensajes de error.
- * Si una propiedad no existe, el campo es válido.
- */
-export interface IValidationErrors {
-    number?: string;
-    name?: string;
-    expiry?: string;
-    cvc?: string;
-}
-
-/**
- * @interface CheckoutState
- * @description Estado completo del flujo de checkout.
+ * Estado completo del flujo de checkout en reducer.
  */
 export interface ICheckoutState {
-    /** Método de pago seleccionado actualmente */
-    paymentMethod: PaymentMethod;
-    /** Información del formulario de tarjeta */
-    cardInfo: ICardInfo;
-    /** Errores de validación actuales */
-    errors: IValidationErrors;
-    /** Tipo de tarjeta detectado (visa/mastercard) */
-    cardType: string;
+  /** Método de pago seleccionado actualmente */
+  paymentMethod: PaymentMethod;
+  /** Información del formulario de tarjeta */
+  cardInfo: ICardInfo;
+  /** Errores de validación actuales */
+  errors: IValidationErrors;
+  /** Tipo de tarjeta detectado (visa/mastercard) */
+  cardType: string;
 }
 
 /**
- * @type CheckoutAction
- * @description Acciones disponibles para el reducer de checkout.
+ * Acciones disponibles para el reducer de checkout.
  */
 export type CheckoutAction =
-    | {
-          type: "SET_FIELD_VALUE";
-          payload: { name: keyof ICardInfo; value: string };
-      }
-    | { type: "SET_PAYMENT_METHOD"; payload: PaymentMethod }
-    | { type: "SET_ERRORS"; payload: IValidationErrors }
-    | { type: "SET_CARD_TYPE"; payload: string };
+  | {
+      type: "SET_FIELD_VALUE";
+      payload: { name: keyof ICardInfo; value: string };
+    }
+  | { type: "SET_PAYMENT_METHOD"; payload: PaymentMethod }
+  | { type: "SET_ERRORS"; payload: IValidationErrors }
+  | { type: "SET_CARD_TYPE"; payload: string };
 
 /**
- * @interface UseCheckoutReturn
- * @description Retorno del hook useCheckout.
+ * Retorno del hook useCheckout.
  */
 export interface IUseCheckoutReturn {
-    paymentMethod: PaymentMethod;
-    cardInfo: ICardInfo;
-    errors: IValidationErrors;
-    cardType: string;
-    handlePayment: () => void | Promise<void>;
-    handlePaymentFieldChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
-    selectPaymentMethod: (method: PaymentMethod) => void;
-    isPaymentDisabled: boolean;
+  paymentMethod: PaymentMethod;
+  cardInfo: ICardInfo;
+  errors: IValidationErrors;
+  cardType: string;
+  handlePayment: () => void | Promise<void>;
+  handlePaymentFieldChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  selectPaymentMethod: (method: PaymentMethod) => void;
+  isPaymentDisabled: boolean;
 }

@@ -4,8 +4,7 @@ import type { ICartItem } from "@/features/cart/domain/cartTypes";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/CartContext";
 
-const priceFormatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
-const formatPrice = (price: number): string => priceFormatter.format(price);
+import { formatPrice } from "@/shared/lib";
 
 /**
  * @interface CartItemRowProps

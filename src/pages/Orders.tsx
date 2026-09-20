@@ -17,6 +17,7 @@ import {
 } from "@/features/orders/infrastructure/ordersFirestore";
 import { ORDER_STATUS_LABELS } from "@/features/orders/domain/orderTypes";
 import Loader from "@/shared/ui/Loader";
+import { formatPrice } from "@/shared/lib";
 import { m, AnimatePresence } from "framer-motion";
 import { 
   ChevronDown, 
@@ -34,12 +35,6 @@ import {
   RotateCcw,
   Printer
 } from "lucide-react";
-
-const priceFormatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
-
-const formatPrice = (price: number) => {
-  return priceFormatter.format(price);
-};
 
 const handlePrintTicket = (order: IOrderDocument) => {
   const printWindow = window.open("", "_blank");

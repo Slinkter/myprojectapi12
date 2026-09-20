@@ -6,27 +6,16 @@
 
 import { useState, useCallback } from "react";
 import { DISCOUNT_CODES, IDiscount } from "@/features/checkout/domain/discounts";
+import type { IDiscountCode } from "@/features/checkout/domain/types";
+import { DiscountStrategyFactory } from "@/features/checkout/domain/factories/DiscountStrategyFactory";
+
+export type { IDiscountCode };
 
 /**
  * Expresión regular constante para eliminar espacios en blanco de códigos de cupón.
  * Elevada a nivel de módulo para evitar instanciaciones repetitivas (js-hoist-regexp).
  */
 export const WHITESPACE_REGEX = /\s+/g;
-
-/**
- * Expresión regular constante para validar formato general de código de cupón alfanumérico.
- */
-export const COUPON_CODE_REGEX = /^[A-Z0-9_-]+$/;
-
-/**
- * @interface IDiscountCode
- * @description Representa un código de descuento válido con su tipo y valor.
- */
-export interface IDiscountCode {
-  code: string;
-  discount: number;
-  type: "percentage" | "fixed";
-}
 
 /**
  * Lista de códigos de descuento válidos construida dinámicamente desde el dominio.
@@ -45,8 +34,6 @@ const VALID_CODES: IDiscountCode[] = Object.entries(DISCOUNT_CODES).map(
 const VALID_CODES_MAP = new Map<string, IDiscountCode>(
   VALID_CODES.map((item) => [item.code.toUpperCase(), item]),
 );
-
-import { DiscountStrategyFactory } from "@/features/checkout/domain/factories/DiscountStrategyFactory";
 
 /**
  * @interface IUseDiscountValidationReturn
@@ -125,5 +112,3 @@ export function calculateDiscountAmount(
   const strategy = DiscountStrategyFactory.createFromDiscount(appliedDiscount);
   return strategy.calculateDiscount(totalPrice);
 }
-
-

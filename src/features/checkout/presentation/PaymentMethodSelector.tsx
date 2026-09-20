@@ -5,13 +5,8 @@
  */
 
 import PaymentMethodRadio from "@/features/checkout/presentation/components/PaymentMethodRadio";
+import type { PaymentMethod } from "@/features/checkout/domain/types";
 import { useLogLifecycle } from "@/shared/hooks";
-
-/**
- * @type {PaymentMethod}
- * @description Métodos de pago disponibles en el selector.
- */
-export type PaymentMethod = "visa" | "mastercard" | "bitcoin";
 
 /**
  * @interface PaymentMethodSelectorProps

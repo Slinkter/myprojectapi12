@@ -4,7 +4,7 @@
  * @architecture Domain Layer - Payment Strategy Interface (GoF Strategy Pattern)
  */
 
-import type { PaymentMethod, ICardInfo, IValidationErrors } from "@/features/checkout/application/types";
+import type { PaymentMethod, ICardInfo, IValidationErrors } from "@/features/checkout/domain/types";
 
 /**
  * Resultado devuelto tras la ejecución de un intento de pago.

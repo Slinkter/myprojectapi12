@@ -15,6 +15,8 @@ export interface ProductPriceSectionProps {
   discountPercentage?: number;
 }
 
+import { formatPrice } from "@/shared/lib";
+
 /**
  * Muestra el precio del producto con indicador de descuento y precio original tachado.
  *
@@ -39,11 +41,11 @@ const ProductPriceSection = ({ price, discountPercentage }: ProductPriceSectionP
       </span>
       <div className="flex items-baseline gap-2.5 tabular-nums">
         <span className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-          ${price.toFixed(2)}
+          {formatPrice(price)}
         </span>
         {hasDiscount && originalPrice && (
           <span className="text-sm sm:text-base text-muted-foreground line-through font-medium">
-            ${originalPrice.toFixed(2)}
+            {formatPrice(originalPrice)}
           </span>
         )}
         {hasDiscount && (

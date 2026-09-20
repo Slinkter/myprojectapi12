@@ -15,6 +15,8 @@ import { LazyImage } from '@/shared/ui/LazyImage';
 import { Eye, ShoppingBag, Pencil, Trash2 } from 'lucide-react'
 import { useAuth } from '@/features/auth/application/AuthContext'
 
+import { formatPrice } from '@/shared/lib'
+
 /**
  * Props para el componente ProductCard.
  * @interface ProductCardProps
@@ -23,10 +25,6 @@ export interface ProductCardProps {
   /** Objeto de producto con datos dominiales. */
   product: IProduct;
 }
-
-const priceFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
-
-const formatPrice = (price: number): string => priceFormatter.format(price);
 
 const originalPrice = (price: number, discount: number): string =>
   formatPrice(price / (1 - discount / 100));
