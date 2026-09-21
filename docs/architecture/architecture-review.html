@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Architecture review for myprojectapi12</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+    </script>
+    <style>
+      .seam { stroke-dasharray: 4 4; }
+      .leak { stroke: #dc2626; }
+      .deep-card { background: linear-gradient(135deg, #0f172a, #1e293b); }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans antialiased">
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+      <!-- Header & Compact Legend -->
+      <header class="border-b border-slate-200 pb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-widest font-mono text-slate-500">Architecture Review</span>
+          <h1 class="text-3xl font-serif font-bold text-slate-900">myprojectapi12</h1>
+          <p class="text-sm font-mono text-slate-500 mt-1">2026-09-20 &bull; branch: refactor/code-purge-optimization</p>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-mono bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-1.5">
+            <span class="w-3.5 h-3.5 rounded border border-slate-400 bg-slate-100"></span>
+            <span>Module</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-4 border-t-2 border-dashed border-slate-500"></span>
+            <span>Seam</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-4 border-t-2 border-red-600"></span>
+            <span class="text-red-700">Leakage</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-3.5 h-3.5 rounded bg-slate-900 border border-slate-950"></span>
+            <span class="font-semibold text-slate-900">Deep Module</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Candidates Section -->
+      <section id="candidates" class="space-y-12">
+
+        <!-- Candidate 1: Checkout Intake Module -->
+        <article id="candidate-1" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Candidate 1</span>
+              <h2 class="text-2xl font-serif font-bold text-slate-900">Collapse the Checkout intake pipeline</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">Strong</span>
+              <span class="px-2.5 py-1 text-xs font-mono rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">in-process</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold block mb-1">Involved files</span>
+            <div class="font-mono text-xs text-slate-600 bg-slate-50 p-3 rounded border border-slate-200 overflow-x-auto space-y-0.5">
+              <div>src/features/checkout/application/useCheckout.ts</div>
+              <div>src/features/checkout/application/hooks/useCheckoutValidation.ts</div>
+              <div>src/features/checkout/application/hooks/useCheckoutSubmit.ts</div>
+              <div>src/features/checkout/application/useDiscountValidation.ts</div>
+              <div>src/features/checkout/application/CheckoutFacade.ts</div>
+              <div>src/features/checkout/domain/strategies/DiscountStrategyFactory.ts</div>
+              <div>src/features/checkout/domain/strategies/{Percentage,Fixed}DiscountStrategy.ts</div>
+              <div>src/features/checkout/domain/strategies/StandardShippingStrategy.ts</div>
+              <div>src/features/checkout/presentation/components/OrderSummary.tsx</div>
+            </div>
+          </div>
+
+          <!-- Side-by-side Diagrams -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before -->
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 flex flex-col h-[340px]">
+              <span class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">Before: 7 shallow modules &amp; financial leak</span>
+              <div class="flex-1 overflow-hidden flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    V[Checkout.tsx] --> H1[useCheckout]
+                    V --> H2[useDiscountValidation]
+                    H1 --> R[checkoutReducer]
+                    H1 --> V1[useCheckoutValidation]
+                    H1 --> S1[useCheckoutSubmit]
+                    S1 --> F[CheckoutFacade]
+                    F --> DS[DiscountFactory]
+                    F --> SS[ShippingStrategy]
+                    O[OrderSummary.tsx] -.leak duplicated math.-> V
+                    classDef leak stroke:#dc2626,stroke-width:2px,color:#dc2626;
+                    classDef shallow fill:#ffffff,stroke:#94a3b8;
+                    class O leak;
+                    class H1,H2,V1,S1,F,DS,SS shallow;
+                </pre>
+              </div>
+            </div>
+
+            <!-- After -->
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 flex flex-col h-[340px]">
+              <span class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">After: 1 deep intake module</span>
+              <div class="flex-1 flex flex-col justify-center items-center px-4">
+                <div class="w-full bg-white border border-slate-300 rounded p-2.5 text-center text-xs font-mono font-semibold shadow-sm mb-3">
+                  presentation / Checkout.tsx &amp; OrderSummary.tsx
+                </div>
+                <div class="w-0.5 h-4 bg-slate-400"></div>
+                <div class="w-full deep-card rounded-lg p-4 text-white shadow-md border border-slate-800">
+                  <div class="flex items-center justify-between border-b border-slate-700 pb-2 mb-2">
+                    <span class="text-xs uppercase tracking-wider font-bold text-emerald-400">Deep Module</span>
+                    <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">useCheckoutOrder</span>
+                  </div>
+                  <div class="text-xs font-mono text-slate-200 mb-2">
+                    Interface: { financials, coupon, payment }
+                  </div>
+                  <div class="bg-slate-800/80 rounded p-2 border border-slate-700/60 text-[11px] text-slate-400 space-y-1">
+                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>Internal: form reducer &amp; card formatting</div>
+                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>Internal: pure financial math (discounts + shipping)</div>
+                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>Internal: payment execution &amp; order persistence</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-slate-700">
+            <p><span class="font-semibold text-slate-900">Problem:</span> The presentation layer stitches seven shallow modules while financial arithmetic leaks into OrderSummary.</p>
+            <p><span class="font-semibold text-slate-900">Solution:</span> Collapse validation, discount calculation, shipping logic, and submission behind a single deep Checkout intake interface.</p>
+          </div>
+
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold block mb-1.5">Architectural wins</span>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-slate-700">
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> locality: financial rules live together</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> leverage: one interface serves views</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> delete 6 shallow wrapper modules</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> interface shrinks; implementation absorbs complexity</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Candidate 2: Dissolve CartItem Entity -->
+        <article id="candidate-2" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Candidate 2</span>
+              <h2 class="text-2xl font-serif font-bold text-slate-900">Dissolve the shallow CartItem entity module</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">Strong</span>
+              <span class="px-2.5 py-1 text-xs font-mono rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">in-process</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold block mb-1">Involved files</span>
+            <div class="font-mono text-xs text-slate-600 bg-slate-50 p-3 rounded border border-slate-200 overflow-x-auto space-y-0.5">
+              <div>src/entities/cart-item/model/types.ts</div>
+              <div>src/entities/cart-item/index.ts</div>
+              <div>src/features/cart/domain/cartTypes.ts</div>
+              <div>src/features/checkout/domain/types.ts</div>
+            </div>
+          </div>
+
+          <!-- Side-by-side Diagrams (Cross-section) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before -->
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 flex flex-col h-[340px]">
+              <span class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">Before: 4 thin pass-through slices</span>
+              <div class="flex-1 flex flex-col justify-around py-2">
+                <div class="border-l-4 border-slate-400 bg-white p-2 text-xs font-mono rounded-r shadow-xs">
+                  <div class="font-bold text-slate-800">entities/cart-item/model/types.ts</div>
+                  <div class="text-slate-500 text-[11px]">export interface ICartItem (3 lines of code)</div>
+                </div>
+                <div class="text-center text-slate-400 font-mono text-xs">&darr; re-exports</div>
+                <div class="border-l-4 border-slate-400 bg-white p-2 text-xs font-mono rounded-r shadow-xs">
+                  <div class="font-bold text-slate-800">features/cart/domain/cartTypes.ts</div>
+                  <div class="text-slate-500 text-[11px]">export type { ICartItem }</div>
+                </div>
+                <div class="text-center text-slate-400 font-mono text-xs">&darr; re-exports</div>
+                <div class="border-l-4 border-slate-400 bg-white p-2 text-xs font-mono rounded-r shadow-xs">
+                  <div class="font-bold text-slate-800">features/checkout/domain/types.ts</div>
+                  <div class="text-slate-500 text-[11px]">export type { ICartItem }</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- After -->
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 flex flex-col h-[340px]">
+              <span class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">After: 1 consolidated Cart domain module</span>
+              <div class="flex-1 flex flex-col justify-center items-center px-4">
+                <div class="w-full deep-card rounded-lg p-5 text-white shadow-md border border-slate-800">
+                  <div class="flex items-center justify-between border-b border-slate-700 pb-2 mb-3">
+                    <span class="text-xs uppercase tracking-wider font-bold text-emerald-400">Deep Domain Module</span>
+                    <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded text-slate-300">features/cart</span>
+                  </div>
+                  <div class="space-y-2 text-xs font-mono">
+                    <div class="bg-slate-800/90 p-2 rounded border border-slate-700">
+                      <span class="text-emerald-300 font-semibold">cartTypes.ts:</span> ICartItem, ICartState, ICartActions
+                    </div>
+                    <div class="bg-slate-800/90 p-2 rounded border border-slate-700">
+                      <span class="text-emerald-300 font-semibold">cartUtils.ts:</span> pure calculation invariants
+                    </div>
+                    <div class="bg-slate-800/90 p-2 rounded border border-slate-700">
+                      <span class="text-emerald-300 font-semibold">CartContext.tsx:</span> segregated consumer interfaces
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-3 text-center text-xs font-mono text-emerald-700 font-semibold">
+                  Deleted empty entities/cart-item module
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-slate-700">
+            <p><span class="font-semibold text-slate-900">Problem:</span> The CartItem entity module is an empty 3-line type that introduces 4 levels of pass-through re-exports without encapsulating logic.</p>
+            <p><span class="font-semibold text-slate-900">Solution:</span> Place the CartItem model directly into the Cart domain module and delete the shallow entity folder.</p>
+          </div>
+
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold block mb-1.5">Architectural wins</span>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-slate-700">
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> locality: cart types stay with cart operations</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> delete 4 hollow pass-through re-exports</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> deletion test: complexity concentrates cleanly</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> import paths stop bouncing between layers</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Candidate 3: Catalog Repository Module -->
+        <article id="candidate-3" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Candidate 3</span>
+              <h2 class="text-2xl font-serif font-bold text-slate-900">Deepen the Catalog repository module</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 border border-amber-300">Worth exploring</span>
+              <span class="px-2.5 py-1 text-xs font-mono rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">local-substitutable</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold block mb-1">Involved files</span>
+            <div class="font-mono text-xs text-slate-600 bg-slate-50 p-3 rounded border border-slate-200 overflow-x-auto space-y-0.5">
+              <div>src/features/products/infrastructure/productsFirestore.ts</div>
+              <div>src/features/products/infrastructure/productsApi.ts</div>
+              <div>src/features/products/domain/factories/ProductFactory.ts</div>
+              <div>src/entities/product/model/types.ts</div>
+              <div>src/features/products/application/useProducts.ts</div>
+            </div>
+          </div>
+
+          <!-- Side-by-side Diagrams -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before -->
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 flex flex-col h-[340px]">
+              <span class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">Before: Procedural coupling &amp; disconnected factory</span>
+              <div class="flex-1 overflow-hidden flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    H[useProducts] --> PF[productsFirestore.ts]
+                    PF -->|seeding| API[productsApi.ts]
+                    PF -->|fallback on error| API
+                    PF -->|slice in-memory| DB[(Firestore)]
+                    FAC[ProductFactory.ts] -.single use zombie.-o PF
+                    classDef shallow fill:#ffffff,stroke:#94a3b8;
+                    classDef warn stroke:#d97706,stroke-width:2px;
+                    class FAC warn;
+                    class H,PF,API shallow;
+                </pre>
+              </div>
+            </div>
+
+            <!-- After -->
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 flex flex-col h-[340px]">
+              <span class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">After: Deep Catalog adapter behind genuine seam</span>
+              <div class="flex-1 overflow-hidden flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    H[useProducts] -->|narrow interface| SEAM[[ICatalogRepository]]
+                    SEAM -.- ADAPT[CatalogRepository Adapter]
+                    subgraph ADAPT[Deep Adapter Implementation]
+                      FS[(Firestore)]
+                      FALLBACK[DummyJSON Fallback]
+                      CACHE[Memory Cache & Normalizer]
+                    end
+                    classDef deep fill:#0f172a,stroke:#020617,color:#ffffff;
+                    classDef seamStyle stroke-dasharray: 4 4,stroke:#6366f1,stroke-width:2px;
+                    class ADAPT deep;
+                    class SEAM seamStyle;
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-slate-700">
+            <p><span class="font-semibold text-slate-900">Problem:</span> A single-use ProductFactory sits beside a procedural module mixing Firestore queries, seeding, in-memory slicing, and DummyJSON fallback.</p>
+            <p><span class="font-semibold text-slate-900">Solution:</span> Establish a deep Catalog repository module behind a seam that hides seeding, caching, pagination, and multi-source fallback.</p>
+          </div>
+
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold block mb-1.5">Architectural wins</span>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-slate-700">
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> leverage: one interface hides multi-backend fallback</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> seam: real adapter for tests vs prod</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> delete single-use ProductFactory wrapper</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> transport DTO stops polluting domain entity</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Candidate 4: Order & Inventory Module -->
+        <article id="candidate-4" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Candidate 4</span>
+              <h2 class="text-2xl font-serif font-bold text-slate-900">Consolidate Order intake and Inventory transacting</h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 border border-amber-300">Worth exploring</span>
+              <span class="px-2.5 py-1 text-xs font-mono rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">ports &amp; adapters</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold block mb-1">Involved files</span>
+            <div class="font-mono text-xs text-slate-600 bg-slate-50 p-3 rounded border border-slate-200 overflow-x-auto space-y-0.5">
+              <div>src/features/checkout/infrastructure/FirestoreCheckoutRepository.ts</div>
+              <div>src/features/orders/infrastructure/ordersFirestore.ts</div>
+              <div>src/features/orders/domain/orderTypes.ts</div>
+              <div>src/pages/Orders.tsx</div>
+            </div>
+          </div>
+
+          <!-- Side-by-side Diagrams -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before -->
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 flex flex-col h-[340px]">
+              <span class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">Before: Fractured stock invariants &amp; leaking SDK</span>
+              <div class="flex-1 overflow-hidden flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    C[checkout feature] -->|decrements stock| DB[(Firestore)]
+                    P[Orders.tsx] -->|calls low-level SDK directly| OF[ordersFirestore]
+                    OF -->|restores stock on cancel| DB
+                    DB -.leaks Timestamp.-> DOM[orderTypes.ts Domain]
+                    classDef leak stroke:#dc2626,stroke-width:2px,color:#dc2626;
+                    classDef shallow fill:#ffffff,stroke:#94a3b8;
+                    class DOM leak;
+                    class C,P,OF shallow;
+                </pre>
+              </div>
+            </div>
+
+            <!-- After -->
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 flex flex-col h-[340px]">
+              <span class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">After: Unified transactional Order-Inventory seam</span>
+              <div class="flex-1 overflow-hidden flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    UI[Orders.tsx / Checkout] -->|hook interface| SEAM[[IOrderInventoryRepository]]
+                    SEAM -.- ADAPT[OrderInventory Adapter]
+                    subgraph ADAPT[Deep Module]
+                      TRANS[Atomic Purchase & Restitution]
+                      CLEAN[Pure JS Dates / ISO String]
+                      SUB[Realtime Listener Manager]
+                    end
+                    classDef deep fill:#0f172a,stroke:#020617,color:#ffffff;
+                    classDef seamStyle stroke-dasharray: 4 4,stroke:#6366f1,stroke-width:2px;
+                    class ADAPT deep;
+                    class SEAM seamStyle;
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-slate-700">
+            <p><span class="font-semibold text-slate-900">Problem:</span> Inventory reduction and cancellation restitution are split across disconnected modules while Firestore Timestamp leaks into domain types.</p>
+            <p><span class="font-semibold text-slate-900">Solution:</span> Unify order lifecycle transitions and atomic stock adjustments inside a deep Order-Inventory module behind a pure JavaScript interface.</p>
+          </div>
+
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold block mb-1.5">Architectural wins</span>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-slate-700">
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> locality: stock invariants live in one module</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> domain purity: remove Firebase Timestamp from domain</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> leverage: UI consumes one subscription hook</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">&check;</span> seam: testable with in-memory storage adapter</li>
+            </ul>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Top Recommendation Section -->
+      <section id="top-recommendation" class="pt-6">
+        <div class="rounded-xl deep-card text-white p-8 shadow-lg border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono uppercase tracking-widest text-emerald-400 font-semibold">Top Recommendation</span>
+            <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800">Highest Leverage</span>
+          </div>
+          <h3 class="text-2xl font-serif font-bold text-white">Collapse the Checkout intake pipeline</h3>
+          <p class="text-sm text-slate-300 max-w-3xl leading-relaxed">
+            Eliminating the seven shallow wrappers in checkout directly cleans up the highest friction hot spot in the codebase, removes duplicate arithmetic from OrderSummary, and concentrates order intake behind one easily testable interface.
+          </p>
+          <div class="pt-2">
+            <a href="#candidate-1" class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-emerald-400 hover:text-emerald-300 font-bold transition-colors">
+              &uarr; Review Candidate 1 Details
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
