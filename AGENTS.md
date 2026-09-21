@@ -25,7 +25,7 @@
 - Estructura por feature (FSD-like): `src/features/<feature>/{domain,application,infrastructure,presentation}` — ver `docs/architecture/OVERVIEW.md`.
   - Características implementadas: `auth`, `cart`, `checkout`, `orders`, `products`, `theme`, `users`.
   - **`CartContext`** está segregado en `CartStateContext` (datos) + `CartActionsContext` (callbacks) para evitar re-renders innecesarios.
-- Capa de dominio puro (`src/entities/`): **SÍ existe** y contiene los tipos y utilidades de `product`, `cart-item` y `order`.
+- Capa de dominio puro (`src/entities/`): Contiene los tipos y utilidades transversales de `product`. Los modelos de `cart` y `orders` residen en sus respectivos `features/` para mantener interfaces profundas y evitar capas superficiales de traspaso.
 - Aliases (coinciden en `vite.config.js` y `tsconfig.json`): `@/`, `@shared/`, `@features/`, `@pages/`, `@entities/`, `@widgets/`.
 - **Navbar** está en `src/widgets/Navbar.tsx` porque necesita imports de features. `Layout.tsx` (en `src/shared/ui/Layout.tsx`) lo importa desde `@widgets/Navbar`.
 
@@ -39,8 +39,28 @@
 - **`transition-all` está PROHIBIDO.** Usa `transition-colors`, `transition-[width]`, u otras variantes específicas. Se eliminó de 9 archivos en el sprint v1.3.0.
 - **`.gitignore`** excluye `.env*`, `.playwright-mcp/`, `dist`, `coverage/`, `.agents/`, `.claude/` — no commitees nada de eso.
 
+## Auditoría para Agentes Revisores (Guía de Verificación Sprint v1.4.0)
+Si estás realizando una auditoría o code review como agente independiente:
+1. **Rango de cambios auditados:** Rama `refactor/code-purge-optimization` frente a `main`.
+2. **Puntos clave de verificación arquitectónica:**
+   - **Purga de código muerto:** Se eliminaron 19 archivos huérfanos (componentes sin importación en `shared/ui`, utilidades duplicadas).
+   - **Disolución de capas superficiales (`shallow modules`):** `src/entities/cart-item` fue disuelta y `ICartItem` consolidado en `src/features/cart/domain/cartTypes.ts`.
+   - **Cálculo financiero centralizado:** `src/features/checkout/domain/financials.ts` (`calculateOrderFinancials`) elimina la duplicación de subtotal, descuento, umbral de envío y total entre `OrderSummary` y `CheckoutFacade`.
+   - **Hook profundo de checkout:** `src/features/checkout/application/useCheckoutOrder.ts` encapsula la orquestación del flujo de órdenes en `processOrder`.
+   - **Splitting de Chunks en Vite 8:** Configuración de `manualChunks` en `vite.config.js` para aislar Firebase, React, Framer Motion y TanStack Query.
+   - **Glosario dominial:** Definido y documentado en `CONTEXT.md`.
+3. **Comandos obligatorios de validación:**
+   ```bash
+   pnpm lint
+   pnpm type-check
+   pnpm build
+   ```
+   Deben pasar con **cero errores y cero advertencias**.
+
 ## Documentación
 - Índice general: `docs/README.md` (arquitectura, features, componentes, patrones, operaciones).
+- Glosario de dominio y principios de modularidad: `CONTEXT.md`.
+- Reporte interactivo de arquitectura: `docs/architecture/architecture-review.html`.
 - Onboarding paso a paso: `docs/study/01-INICIO-RAPIDO.md` y siguientes.
 - Despliegue: `docs/operations/DEPLOYMENT.md`.
 - Troubleshooting: `docs/operations/TROUBLESHOOTING.md`.

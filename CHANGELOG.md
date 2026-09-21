@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.4.0] - 2026-09-20
+
+### Purga de Código Muerto, Profundización Arquitectónica FSD, React Doctor y Optimización de Chunks
+
+#### Purga de Código y Desacoplamiento (Fases 1 a 4)
+- **Eliminación de 19 archivos obsoletos y huérfanos:** Purga de componentes no utilizados (`dialog.tsx`, `dropdown-menu.tsx`, `input.tsx`, `label.tsx`, `scroll-area.tsx`, `sheet.tsx`, `LoadMoreButton.tsx`, `EmptyState.tsx`, `ErrorMessage.tsx`, `useCheckoutForm.ts`, etc.).
+- **Disolución de la micro-capa `src/entities/cart-item`:** Eliminado el wrapper superficial y unificado `ICartItem` directamente en `src/features/cart/domain/cartTypes.ts`.
+- **Purga de `src/entities/order`:** Centralizada la lógica de órdenes en `src/features/orders`, reduciendo `src/entities/` únicamente a modelos globales puros de catálogo (`product`).
+- **Consolidación de `CartBadge`:** Reutilización de un único componente para Navbar y Drawer.
+- **Unificación de formato monetario:** Reemplazo de utilidades duplicadas por `formatPrice` canónico en `src/shared/lib/formatters.ts`.
+
+#### Profundización Arquitectónica & Anti-Leaking
+- **Cálculo financiero unificado (`calculateOrderFinancials`):** Creado en `src/features/checkout/domain/financials.ts` para encapsular subtotal, descuento, umbral de envío gratis, costo de envío y total en un solo punto matemático libre de acoplamientos, consumido idénticamente por `OrderSummary` y `CheckoutFacade`.
+- **Hook profundo `useCheckoutOrder`:** Creado en `src/features/checkout/application/useCheckoutOrder.ts` para esconder la orquestación entre `CheckoutFacade`, `useCartActions`, autenticación y navegación tras una interfaz de un solo llamado (`processOrder`).
+- **Glosario de Dominio `CONTEXT.md`:** Documentación viva de términos ubícuos del negocio y principios de diseño modular (depth, seams, leverage, locality).
+
+#### Optimización de Bundle y Rendimiento (Fase 5)
+- **Vendor Splitting en Vite 8 (`manualChunks`):** Desacoplamiento de librerías de terceros pesadas en chunks independientes (`vendor-react`, `vendor-firebase`, `vendor-motion`, `vendor-query`). Reducción del chunk principal de entrada de **958 kB a 277 kB**.
+- **Animaciones GPU y Prohibición de `transition-all`:** Erradicación completa de transiciones generales en favor de propiedades compuestas (`transition-colors`, `transition-[width]`).
+
+#### Calidad y React Doctor (Score 72/100)
+- **0 Errores críticos, 0 fallos de accesibilidad:**
+  - Animación de layout corregida en `src/pages/FAQ.tsx` (reemplazo de `height` por `opacity` e `y` sin provocar reflow de pintura de 60fps).
+  - Formularios accesibles en `src/pages/AdminDashboard.tsx` y `src/features/products/presentation/ProductFormModal.tsx` con emparejamiento semántico de etiquetas `label` / `id`.
+  - Conversión estricta con `valueAsNumber` para evitar mutaciones inseguras de tipos numéricos.
+  - Reset reactivo de formularios mediante `key={productToEdit?.id ?? 'create'}` eliminando efectos secundarios imperativos.
+  - Verificación estricta de variables de entorno y autorización documentada en `AuthProvider.tsx`.
+
+---
+
 ## [1.3.1] - 2026-08-27
 
 ### Tooling: Vite 8 y decisión documentada sobre TypeScript 7

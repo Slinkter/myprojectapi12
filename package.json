@@ -42,7 +42,7 @@
     "deploy:firebase": "pnpm run build && npx firebase-tools deploy --only hosting",
     "dev": "vite",
     "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 2",
-    "py": "pnpm run build && pnpm exec tsc --noEmit 2>&1 && python -m http.server 5001 --directory dist",
+    "py": "pnpm run build && pnpm exec tsc --noEmit 2>&1 && python3 -m http.server 5001 --directory dist",
     "predeploy": "pnpm run build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
