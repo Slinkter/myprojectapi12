@@ -54,3 +54,6 @@ Desktop.ini
 .agents/
 .claude/
 .system_generated/
+
+# Local Architecture Review Artifacts in root
+/architecture-review*.html
