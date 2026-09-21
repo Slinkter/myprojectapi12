@@ -74,10 +74,31 @@ const AdminDashboard: React.FC = () => {
   };
 
   useEffect(() => {
+    let isMounted = true;
     if (user?.role === "admin") {
-      loadProducts();
-      loadUsersList();
+      setLoadingProducts(true);
+      getAllProductsForAdmin()
+        .then((data) => {
+          if (isMounted) setProducts(data);
+        })
+        .catch(console.error)
+        .finally(() => {
+          if (isMounted) setLoadingProducts(false);
+        });
+
+      setLoadingUsers(true);
+      getAllUsers()
+        .then((data) => {
+          if (isMounted) setUsers(data);
+        })
+        .catch(console.error)
+        .finally(() => {
+          if (isMounted) setLoadingUsers(false);
+        });
     }
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   if (!user || user.role !== "admin") {
@@ -355,8 +376,9 @@ const AdminDashboard: React.FC = () => {
             </h3>
             <form onSubmit={handleSaveProduct} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase">Nombre</label>
+                <label htmlFor="admin-product-title" className="block text-xs font-bold text-gray-700 uppercase">Nombre</label>
                 <input
+                  id="admin-product-title"
                   type="text"
                   required
                   value={title}
@@ -365,8 +387,9 @@ const AdminDashboard: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase">Descripción</label>
+                <label htmlFor="admin-product-description" className="block text-xs font-bold text-gray-700 uppercase">Descripción</label>
                 <textarea
+                  id="admin-product-description"
                   required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -375,31 +398,40 @@ const AdminDashboard: React.FC = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase">Precio ($)</label>
+                  <label htmlFor="admin-product-price" className="block text-xs font-bold text-gray-700 uppercase">Precio ($)</label>
                   <input
+                    id="admin-product-price"
                     type="number"
                     required
                     min="1"
                     value={price}
-                    onChange={(e) => setPrice(Number(e.target.value))}
+                    onChange={(e) => {
+                      const val = e.target.valueAsNumber;
+                      setPrice(Number.isNaN(val) ? 0 : val);
+                    }}
                     className="mt-1 block w-full rounded border-gray-300 p-2 border"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase">Stock (Unidades)</label>
+                  <label htmlFor="admin-product-stock" className="block text-xs font-bold text-gray-700 uppercase">Stock (Unidades)</label>
                   <input
+                    id="admin-product-stock"
                     type="number"
                     required
                     min="0"
                     value={stock}
-                    onChange={(e) => setStock(Number(e.target.value))}
+                    onChange={(e) => {
+                      const val = e.target.valueAsNumber;
+                      setStock(Number.isNaN(val) ? 0 : val);
+                    }}
                     className="mt-1 block w-full rounded border-gray-300 p-2 border"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase">Categoría</label>
+                <label htmlFor="admin-product-category" className="block text-xs font-bold text-gray-700 uppercase">Categoría</label>
                 <input
+                  id="admin-product-category"
                   type="text"
                   required
                   value={category}
@@ -409,8 +441,9 @@ const AdminDashboard: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase">URL de Imagen</label>
+                <label htmlFor="admin-product-thumbnail" className="block text-xs font-bold text-gray-700 uppercase">URL de Imagen</label>
                 <input
+                  id="admin-product-thumbnail"
                   type="url"
                   required
                   value={thumbnail}

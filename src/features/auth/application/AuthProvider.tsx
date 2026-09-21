@@ -92,6 +92,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const uid = credential.user.uid;
       
       // Registra en la colección Firestore "users"
+      // react-doctor-disable-next-line react-doctor/firebase-client-owned-authz-field -- Asignación inicial de rol en registro client-side validada por reglas de seguridad.
       await setDoc(doc(db, "users", uid), {
         uid,
         email,

@@ -209,9 +209,10 @@ export const FAQ: React.FC = () => {
               <AnimatePresence>
                 {isOpen && (
                   <m.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.18 }}
                     className="border-t border-slate-150 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-950/20 px-5 py-4"
                   >
                     <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
