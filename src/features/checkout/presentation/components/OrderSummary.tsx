@@ -13,10 +13,9 @@ import { AppliedDiscountBadge } from '@features/checkout/presentation/components
 import { PriceRow } from '@features/checkout/presentation/components/PriceRow';
 import {
   useDiscountValidation,
-  calculateDiscountAmount,
   type IUseDiscountValidationReturn,
 } from '@/features/checkout/application/useDiscountValidation';
-import { SHIPPING_CONFIG } from '@/features/checkout/domain/shipping';
+import { calculateOrderFinancials } from '@/features/checkout/domain/financials';
 
 /**
  * @interface IOrderSummaryProps
@@ -25,8 +24,8 @@ import { SHIPPING_CONFIG } from '@/features/checkout/domain/shipping';
 export interface IOrderSummaryProps {
   /** Items del carrito a mostrar en el resumen */
   items: ICartItem[];
-  /** Precio total del carrito */
-  totalPrice: number;
+  /** Precio total del carrito (opcional, calculado deterministamente por calculateOrderFinancials) */
+  totalPrice?: number;
   /** Callback opcional para eliminar un item */
   onRemove?: (id: number) => void;
   /** Estado de validación de descuentos sincronizado desde el padre */
@@ -43,7 +42,7 @@ export interface IOrderSummaryProps {
  * @param {IOrderSummaryProps} props - Propiedades del componente.
  * @returns {JSX.Element} Resumen del pedido.
  */
-export function OrderSummary({ items, totalPrice, onRemove, discountState, style }: IOrderSummaryProps) {
+export function OrderSummary({ items, totalPrice: _totalPrice, onRemove, discountState, style }: IOrderSummaryProps) {
   useLogLifecycle("OrderSummary");
   const internalDiscount = useDiscountValidation();
   const activeDiscount = discountState ?? internalDiscount;
@@ -58,18 +57,16 @@ export function OrderSummary({ items, totalPrice, onRemove, discountState, style
     removeDiscount,
   } = activeDiscount;
 
-  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
+  const {
+    subtotal,
+    totalItems,
+    discountAmount,
+    shippingCost,
+    finalTotal,
+    isFreeShipping,
+    progressToFreeShipping,
+  } = calculateOrderFinancials(items, appliedDiscount);
   const hasItems = totalItems > 0;
-  const isFreeShipping = hasItems && totalPrice >= SHIPPING_CONFIG.FREE_SHIPPING_THRESHOLD;
-  const shipping = isFreeShipping ? 0 : hasItems ? SHIPPING_CONFIG.STANDARD_FEE : 0;
-  const discountAmount = calculateDiscountAmount(appliedDiscount, totalPrice);
-  const discountedSubtotal = Math.max(0, totalPrice - discountAmount);
-  const finalTotal = discountedSubtotal + shipping;
-
-  const progressToFreeShipping = Math.min(
-    100,
-    Math.round((totalPrice / SHIPPING_CONFIG.FREE_SHIPPING_THRESHOLD) * 100),
-  );
 
   return (
     <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm p-4 sm:p-5" style={style}>
@@ -116,7 +113,7 @@ export function OrderSummary({ items, totalPrice, onRemove, discountState, style
           <div className="flex items-center justify-between mb-1.5 font-medium">
             <span className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
               <Truck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-              {isFreeShipping ? '¡Envío gratuito conseguido!' : `Faltan $${(50 - totalPrice).toFixed(2)} para envío gratis`}
+              {isFreeShipping ? '¡Envío gratuito conseguido!' : `Faltan $${Math.max(0, 50 - subtotal).toFixed(2)} para envío gratis`}
             </span>
             <span className="font-bold tabular-nums text-slate-500 dark:text-slate-400">{progressToFreeShipping}%</span>
           </div>
@@ -133,7 +130,7 @@ export function OrderSummary({ items, totalPrice, onRemove, discountState, style
       <div className="flex flex-col gap-1.5 pt-3 border-t border-slate-200 dark:border-slate-800">
         <PriceRow
           label={`Subtotal`}
-          value={`$${totalPrice.toFixed(2)}`}
+          value={`$${subtotal.toFixed(2)}`}
         />
 
         {discountAmount > 0 && (
@@ -157,7 +154,7 @@ export function OrderSummary({ items, totalPrice, onRemove, discountState, style
                 GRATIS
               </span>
             ) : (
-              `$${shipping.toFixed(2)}`
+              `$${shippingCost.toFixed(2)}`
             )
           }
           variant={isFreeShipping ? 'success' : 'default'}

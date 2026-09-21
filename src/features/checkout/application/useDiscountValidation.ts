@@ -7,9 +7,10 @@
 import { useState, useCallback } from "react";
 import { DISCOUNT_CODES, IDiscount } from "@/features/checkout/domain/discounts";
 import type { IDiscountCode } from "@/features/checkout/domain/types";
-import { DiscountStrategyFactory } from "@/features/checkout/domain/factories/DiscountStrategyFactory";
+import { calculateDiscountAmount } from "@/features/checkout/domain/financials";
 
 export type { IDiscountCode };
+export { calculateDiscountAmount };
 
 /**
  * Expresión regular constante para eliminar espacios en blanco de códigos de cupón.
@@ -95,20 +96,4 @@ export function useDiscountValidation(): IUseDiscountValidationReturn {
     applyDiscount,
     removeDiscount,
   };
-}
-
-/**
- * Calcula el monto del descuento aplicado sobre el precio total utilizando el patrón Strategy.
- *
- * @param {IDiscountCode | null} appliedDiscount - Código de descuento aplicado o null.
- * @param {number} totalPrice - Precio total antes del descuento.
- * @returns {number} Monto del descuento calculado.
- */
-export function calculateDiscountAmount(
-  appliedDiscount: IDiscountCode | null,
-  totalPrice: number,
-): number {
-  if (!appliedDiscount || totalPrice <= 0) return 0;
-  const strategy = DiscountStrategyFactory.createFromDiscount(appliedDiscount);
-  return strategy.calculateDiscount(totalPrice);
 }

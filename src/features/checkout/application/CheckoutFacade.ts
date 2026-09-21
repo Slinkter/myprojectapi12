@@ -10,9 +10,7 @@ import type { IDiscountCode } from "@/features/checkout/application/useDiscountV
 import type { ICheckoutRepository } from "@/features/checkout/domain/repositories/ICheckoutRepository";
 import { firestoreCheckoutRepository } from "@/features/checkout/infrastructure/FirestoreCheckoutRepository";
 import { PaymentStrategyFactory } from "@/features/checkout/domain/factories/PaymentStrategyFactory";
-import { DiscountStrategyFactory } from "@/features/checkout/domain/factories/DiscountStrategyFactory";
-import { StandardShippingStrategy } from "@/features/checkout/domain/strategies/StandardShippingStrategy";
-import type { IShippingStrategy } from "@/features/checkout/domain/strategies/IShippingStrategy";
+import { calculateOrderFinancials, type IOrderFinancials } from "@/features/checkout/domain/financials";
 import { eventBus, DomainEvents } from "@/shared/infrastructure/eventBus";
 
 /**
@@ -49,18 +47,14 @@ export interface ICheckoutExecutionResult {
  */
 export class CheckoutFacade {
   private checkoutRepo: ICheckoutRepository;
-  private shippingStrategy: IShippingStrategy;
 
   /**
    * @param {ICheckoutRepository} [checkoutRepo] Repositorio inyectable para persistencia.
-   * @param {IShippingStrategy} [shippingStrategy] Estrategia inyectable de envíos.
    */
   constructor(
-    checkoutRepo: ICheckoutRepository = firestoreCheckoutRepository,
-    shippingStrategy: IShippingStrategy = new StandardShippingStrategy()
+    checkoutRepo: ICheckoutRepository = firestoreCheckoutRepository
   ) {
     this.checkoutRepo = checkoutRepo;
-    this.shippingStrategy = shippingStrategy;
   }
 
   /**
@@ -73,39 +67,8 @@ export class CheckoutFacade {
   public calculateFinancials(
     cart: ICartItem[],
     appliedDiscount?: IDiscountCode | null
-  ): {
-    subtotal: number;
-    totalItems: number;
-    discountAmount: number;
-    shippingCost: number;
-    finalTotal: number;
-  } {
-    let subtotal = 0;
-    let totalItems = 0;
-
-    for (let i = 0; i < cart.length; i++) {
-      const item = cart[i];
-      subtotal += item.price * item.quantity;
-      totalItems += item.quantity;
-    }
-
-    let discountAmount = 0;
-    if (appliedDiscount) {
-      const discountStrategy = DiscountStrategyFactory.createFromDiscount(appliedDiscount);
-      discountAmount = discountStrategy.calculateDiscount(subtotal);
-    }
-
-    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
-    const shippingCost = this.shippingStrategy.calculateShipping(subtotal, totalItems);
-    const finalTotal = Math.round((discountedSubtotal + shippingCost) * 100) / 100;
-
-    return {
-      subtotal,
-      totalItems,
-      discountAmount,
-      shippingCost,
-      finalTotal,
-    };
+  ): IOrderFinancials {
+    return calculateOrderFinancials(cart, appliedDiscount);
   }
 
   /**
