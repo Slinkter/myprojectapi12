@@ -14,9 +14,9 @@ import React from "react";
  */
 const SkeletonCard: React.FC = () => {
   return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm h-full flex flex-col">
+    <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-slate-900 text-card-foreground shadow-sm h-full flex flex-col overflow-hidden">
       {/* Image Skeleton */}
-      <div className="skeleton-line rounded-none rounded-t-xl h-56 w-full" />
+      <div className="skeleton-line rounded-none aspect-[4/3] w-full" />
 
       <div className="flex flex-col gap-2 p-4 grow">
         {/* Category Skeleton */}
@@ -32,9 +32,9 @@ const SkeletonCard: React.FC = () => {
         </div>
 
         {/* Footer Skeleton */}
-        <div className="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex justify-between items-center pt-3 border-t border-slate-100 dark:border-slate-800/80">
           <div className="skeleton-line h-6 w-24" />
-          <div className="skeleton-line rounded-xl h-9 w-24" />
+          <div className="skeleton-line rounded-lg h-8 w-20" />
         </div>
       </div>
     </div>

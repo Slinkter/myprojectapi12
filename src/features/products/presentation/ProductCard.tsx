@@ -5,7 +5,7 @@
  */
 
 import React, { useCallback, useState, useRef } from 'react'
-import { m, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { useLogLifecycle } from "@/shared/hooks";
 import { useProductModalContext } from '@/features/products/application/useProductModalContext'
 import { useCartActions } from '@/features/cart/application/CartActionsContext'
@@ -128,18 +128,18 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       whileHover={(isOutOfStock || shouldReduceMotion) ? {} : {
-        y: -6,
-        boxShadow: '0 20px 30px -10px rgba(5, 150, 105, 0.16), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        borderColor: 'rgba(5, 150, 105, 0.45)',
+        y: -4,
+        boxShadow: '0 12px 28px -6px rgba(0, 0, 0, 0.08), 0 8px 12px -4px rgba(0, 0, 0, 0.04)',
+        borderColor: 'rgba(5, 150, 105, 0.4)',
       }}
-      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-      className={`flex flex-col h-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-card text-card-foreground shadow-sm overflow-hidden relative transition-colors ${
+      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: [0.2, 0, 0.2, 1] }}
+      className={`group flex flex-col h-full rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-slate-900 text-card-foreground shadow-sm relative transition-colors ${
         isOutOfStock ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'
       }`}
     >
-      {/* Botones de Admin — z-20 para estar sobre el área de clic del artículo */}
+      {/* Botones de Admin */}
       {isAdmin && (
-        <div className="absolute top-2.5 right-2.5 z-20 flex gap-1.5">
+        <div className="absolute top-3 right-3 z-20 flex gap-1.5">
           <button
             type="button"
             onClick={(e) => {
@@ -147,7 +147,7 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
               if (onEdit) onEdit(product);
             }}
             aria-label={`Editar ${product.title}`}
-            className="p-1.5 rounded-full bg-white/95 hover:bg-white dark:bg-slate-900/95 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-primary transition-colors shadow-md active:scale-95 flex items-center justify-center cursor-pointer"
+            className="p-1.5 rounded-full bg-white/90 hover:bg-white dark:bg-slate-800/90 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-primary transition-colors shadow-sm active:scale-95 flex items-center justify-center cursor-pointer backdrop-blur-sm"
           >
             <Pencil size={12} />
           </button>
@@ -158,121 +158,107 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
               if (onDelete) onDelete(product.id);
             }}
             aria-label={`Eliminar ${product.title}`}
-            className="p-1.5 rounded-full bg-white/95 hover:bg-white dark:bg-slate-900/95 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-red-600 transition-colors shadow-md active:scale-95 flex items-center justify-center cursor-pointer"
+            className="p-1.5 rounded-full bg-white/90 hover:bg-white dark:bg-slate-800/90 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-red-600 transition-colors shadow-sm active:scale-95 flex items-center justify-center cursor-pointer backdrop-blur-sm"
           >
             <Trash2 size={12} />
           </button>
         </div>
       )}
 
-      {/* Zona de imagen */}
-      <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 border-b border-slate-200 dark:border-slate-800 relative shrink-0">
+      {/* Zona de imagen con fondo neutro limpio y sin corte */}
+      <div className="aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-100 dark:border-slate-800/80 relative shrink-0 p-4 flex items-center justify-center">
         <m.div
-          className="w-full h-full"
-          animate={{ scale: isHovered && !isOutOfStock && !shouldReduceMotion ? 1.05 : 1 }}
-          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+          className="w-full h-full flex items-center justify-center"
+          animate={{ scale: isHovered && !isOutOfStock && !shouldReduceMotion ? 1.04 : 1 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: [0.2, 0, 0.2, 1] }}
         >
           <LazyImage
             src={product.thumbnail}
             alt={product.title}
             aspectRatio="aspect-auto"
-            className="w-full h-full"
-            imgStyle={{ objectFit: 'contain', padding: '12px' }}
+            className="w-full h-full flex items-center justify-center bg-transparent"
+            imgStyle={{ objectFit: 'contain', maxHeight: '100%', maxWidth: '100%' }}
           />
         </m.div>
 
-        {/* Overlay hover con CTAs de alto contraste */}
-        <AnimatePresence>
-          {isHovered && !isOutOfStock && (
-            <m.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/35 to-slate-950/10 flex items-center justify-center gap-2.5 backdrop-blur-[2px]"
+        {/* Acciones de acceso rápido flotantes — discretas, sin overlay negro invasivo */}
+        {!isOutOfStock && (
+          <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              aria-label={`Añadir ${product.title} al carrito`}
+              title="Añadir al carrito"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary hover:bg-primary-hover text-white transition-colors shadow-md active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
-              <m.button
-                type="button"
-                initial={{ y: 14, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 14, opacity: 0 }}
-                transition={{ duration: 0.22, delay: 0.02, ease: [0.4, 0, 0.2, 1] }}
-                onClick={handleAddToCart}
-                aria-label={`Añadir ${product.title} al carrito`}
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border-none bg-primary text-white text-xs font-bold cursor-pointer hover:bg-primary-hover active:scale-95 transition-colors shadow-lg shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
-              >
-                <ShoppingBag size={13} />
-                Añadir
-              </m.button>
+              <ShoppingBag size={14} />
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                openProductModal(product);
+              }}
+              aria-label={`Vista rápida de ${product.title}`}
+              title="Vista rápida"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/95 dark:bg-slate-800/95 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-md active:scale-95 cursor-pointer backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <Eye size={14} />
+            </button>
+          </div>
+        )}
 
-              <m.button
-                type="button"
-                initial={{ y: 14, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 14, opacity: 0 }}
-                transition={{ duration: 0.22, delay: 0.05, ease: [0.4, 0, 0.2, 1] }}
-                onClick={(e) => { e.stopPropagation(); openProductModal(product) }}
-                aria-label={`Vista rápida de ${product.title}`}
-                className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full border border-slate-700/60 bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold cursor-pointer backdrop-blur-md active:scale-95 transition-colors shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-              >
-                <Eye size={13} />
-                Ver
-              </m.button>
-            </m.div>
-          )}
-        </AnimatePresence>
-
-        {/* Badge de descuento */}
+        {/* Badge de descuento minimalista */}
         {product.discountPercentage && product.discountPercentage > 0 && (
-          <div className="absolute top-2.5 left-2.5 z-10 bg-gradient-to-r from-red-500 to-rose-600 text-white px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider shadow-md shadow-red-500/20 tabular-nums">
+          <div className="absolute top-3 left-3 z-10 bg-rose-500/90 text-white font-medium px-2 py-0.5 rounded-md text-[10px] tracking-wide shadow-sm tabular-nums backdrop-blur-xs">
             -{Math.round(product.discountPercentage)}%
           </div>
         )}
 
         {/* Overlay cuando no hay stock */}
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-slate-50/75 dark:bg-slate-950/75 flex items-center justify-center">
-            <span className="text-xs font-extrabold text-red-600 bg-red-100 dark:bg-red-950/80 px-3.5 py-1.5 rounded-full tracking-wider border border-red-200 dark:border-red-900/50">
-              Sin stock
+          <div className="absolute inset-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-[1px] flex items-center justify-center rounded-t-2xl">
+            <span className="text-xs font-semibold text-rose-600 bg-rose-50 dark:bg-rose-950/60 px-3 py-1 rounded-full border border-rose-200 dark:border-rose-900/40">
+              Agotado
             </span>
           </div>
         )}
       </div>
 
       {/* Zona de contenido */}
-      <div className="flex flex-col gap-2.5 p-4 grow">
+      <div className="flex flex-col gap-2 p-4 grow">
         <div className="flex items-center justify-between gap-1">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 text-primary dark:bg-primary/20 text-[9px] font-bold tracking-wider uppercase max-w-[55%] truncate">
+          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium tracking-wide uppercase text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 max-w-[55%] truncate">
             {product.category}
           </span>
           {product.rating && <StarRating rating={product.rating} />}
         </div>
 
-        <p
+        <h3
           title={product.title}
-          className="text-sm font-semibold leading-snug text-slate-800 dark:text-slate-200 line-clamp-2 min-h-[2.6rem] hover:text-primary transition-colors"
+          className="text-sm font-medium leading-snug text-slate-900 dark:text-slate-100 line-clamp-2 min-h-[2.6rem] group-hover:text-primary transition-colors"
         >
           {product.title}
-        </p>
+        </h3>
 
-        <div className="flex items-center justify-between gap-2 mt-auto pt-3 border-t border-slate-200 dark:border-slate-800">
+        <div className="flex items-center justify-between gap-2 mt-auto pt-3 border-t border-slate-100 dark:border-slate-800/80">
           <div>
             <div className="flex items-baseline gap-1.5 tabular-nums">
-              <span className="text-base font-extrabold text-primary tracking-tight">
+              <span className="text-base font-bold text-slate-900 dark:text-slate-50 tracking-tight">
                 {formatPrice(product.price)}
               </span>
               {product.discountPercentage && product.discountPercentage > 0 && (
-                <span className="text-[10px] text-slate-400 dark:text-slate-500 line-through font-medium">
+                <span className="text-[11px] text-slate-400 dark:text-slate-500 line-through">
                   {originalPrice(product.price, product.discountPercentage)}
                 </span>
               )}
             </div>
-            <span className={`text-[9px] font-bold mt-0.5 block ${
+            <span className={`text-[10px] font-medium mt-0.5 block ${
               isOutOfStock
-                ? 'text-red-500'
+                ? 'text-rose-500'
                 : stockStatus === 'ok'
-                  ? 'text-emerald-600 dark:text-emerald-500'
-                  : 'text-amber-600 dark:text-amber-500'
+                  ? 'text-emerald-600 dark:text-emerald-400'
+                  : 'text-amber-600 dark:text-amber-400'
             }`} aria-live="polite">
               {isOutOfStock
                 ? 'Sin stock'
@@ -282,24 +268,19 @@ const ProductCard = React.memo(({ product, onEdit, onDelete }: IProductCardProps
             </span>
           </div>
 
-          <m.button
+          <button
             type="button"
             onClick={(e) => { e.stopPropagation(); if (!isOutOfStock) openProductModal(product) }}
             disabled={isOutOfStock}
             aria-label={`Ver detalle de ${product.title}`}
-            animate={shouldReduceMotion ? { opacity: 1 } : {
-              opacity: isHovered ? 1 : 0.9,
-              scale: isHovered ? 1.02 : 1,
-            }}
-            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
-            className={`inline-flex items-center justify-center px-3.5 h-8 sm:h-9 rounded-full text-xs font-bold border-none transition-colors shrink-0 ${
+            className={`inline-flex items-center justify-center px-3.5 h-8 rounded-lg text-xs font-medium transition-colors shrink-0 ${
               isOutOfStock
-                ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-600 cursor-not-allowed'
-                : 'bg-primary/10 text-primary hover:bg-primary hover:text-white dark:bg-primary/20 dark:text-emerald-400 dark:hover:bg-primary dark:hover:text-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40'
+                ? 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-600 cursor-not-allowed'
+                : 'bg-slate-100 hover:bg-primary hover:text-white text-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-primary dark:hover:text-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40'
             }`}
           >
             {isOutOfStock ? 'Agotado' : 'Detalles'}
-          </m.button>
+          </button>
         </div>
       </div>
     </m.article>

@@ -52,7 +52,7 @@ const ProductGrid = memo(({ products, onEdit, onDelete }: IProductGridProps) => 
           whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-30px" }}
           transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
-          className="h-full [content-visibility:auto] [contain-intrinsic-size:auto_420px]"
+          className="h-full flex flex-col"
         >
           <ProductCard product={product} onEdit={onEdit} onDelete={onDelete} />
         </m.div>
