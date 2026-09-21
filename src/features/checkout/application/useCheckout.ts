@@ -20,7 +20,7 @@ import type {
     ICardInfo,
     IUseCheckoutReturn,
 } from "@/features/checkout/application/types";
-import type { ICartItem } from "@/entities/cart-item";
+import type { ICartItem } from "@/features/cart/domain/cartTypes";
 import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
 
 /**

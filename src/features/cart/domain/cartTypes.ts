@@ -6,9 +6,16 @@
 
 import { ReactNode } from "react";
 import type { IProduct } from "@/entities/product";
-import type { ICartItem } from "@/entities/cart-item";
 
-export type { IProduct, ICartItem };
+/**
+ * @interface ICartItem
+ * @description Representa un producto dentro del carrito de compras con su cantidad seleccionada.
+ */
+export interface ICartItem extends IProduct {
+    quantity: number;
+}
+
+export type { IProduct };
 
 /**
  * Resultado de una comprobación de validación de un artículo del carrito.

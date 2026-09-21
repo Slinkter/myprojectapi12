@@ -4,7 +4,7 @@
  * @architecture Domain Layer - Checkout Domain Types
  */
 
-import type { ICartItem } from "@/entities/cart-item";
+import type { ICartItem } from "@/features/cart/domain/cartTypes";
 
 export type { ICartItem };
 

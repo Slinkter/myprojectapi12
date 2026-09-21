@@ -13,7 +13,7 @@ import type {
     ICheckoutState,
     CheckoutAction,
 } from "@/features/checkout/application/types";
-import type { ICartItem } from "@/entities/cart-item";
+import type { ICartItem } from "@/features/cart/domain/cartTypes";
 import type { IDiscountCode } from "@/features/checkout/domain/types";
 import { useAuth } from "@/features/auth/application/AuthContext";
 import { checkoutFacade } from "@/features/checkout/application/CheckoutFacade";
