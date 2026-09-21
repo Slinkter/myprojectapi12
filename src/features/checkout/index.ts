@@ -6,6 +6,7 @@
 
 // Domain
 export * from "./domain/types";
+export * from "./domain/financials";
 export * from "./domain/validation";
 export * from "./domain/shipping";
 export * from "./domain/discounts";
@@ -26,6 +27,7 @@ export * from "./domain/factories/DiscountStrategyFactory";
 export * from "./application/types";
 export * from "./application/validation";
 export * from "./application/useCheckout";
+export * from "./application/useCheckoutOrder";
 export * from "./application/useDiscountValidation";
 export * from "./application/CheckoutFacade";
 

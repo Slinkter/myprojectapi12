@@ -22,26 +22,28 @@ import type {
 } from "@/features/checkout/application/types";
 import type { ICartItem } from "@/features/cart/domain/cartTypes";
 import type { IDiscountCode } from "@/features/checkout/application/useDiscountValidation";
+import { calculateOrderFinancials } from "@/features/checkout/domain/financials";
 
 /**
  * @hook useCheckout
  * @description Hook principal para el checkout. Combina el reducer de estado,
- * el hook de validación y el hook de envío, y expone los handlers de entrada
- * del formulario con formato automático de tarjeta.
+ * el hook de validación, el hook de envío y el cálculo financiero unificado,
+ * exponiendo los handlers del formulario y los montos finales.
  *
  * @param {ICartItem[]} cart - Array de items en el carrito.
- * @param {number} _totalPrice - Precio total base del carrito (actualmente sin uso).
- * @param {() => void} clearCart - Función para limpiar el carrito.
+ * @param {number} [_totalPrice] - Precio total base del carrito (opcional para retrocompatibilidad).
+ * @param {() => void} [clearCart] - Función para limpiar el carrito tras comprar.
  * @param {IDiscountCode | null} [appliedDiscount] - Código de descuento aplicado opcional.
- * @returns {IUseCheckoutReturn} Objeto con estado y handlers.
+ * @returns {IUseCheckoutReturn} Objeto con estado, handlers y desglose financiero.
  */
 export const useCheckout = (
     cart: ICartItem[],
-    _totalPrice: number,
-    clearCart: () => void,
+    _totalPrice?: number,
+    clearCart: () => void = () => {},
     appliedDiscount?: IDiscountCode | null,
 ): IUseCheckoutReturn => {
     const { state, dispatch } = useCheckoutReducer();
+    const financials = calculateOrderFinancials(cart, appliedDiscount);
     const {
         setTouched,
         setIsSubmitted,
@@ -107,5 +109,6 @@ export const useCheckout = (
         handleBlur,
         selectPaymentMethod,
         isPaymentDisabled,
+        financials,
     };
 };

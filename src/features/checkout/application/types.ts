@@ -14,7 +14,9 @@ import type {
   ICartItem,
 } from "@/features/checkout/domain/types";
 
-export type { PaymentMethod, ICardInfo, IValidationErrors, IDiscountCode, ICartItem };
+import type { IOrderFinancials } from "@/features/checkout/domain/financials";
+
+export type { PaymentMethod, ICardInfo, IValidationErrors, IDiscountCode, ICartItem, IOrderFinancials };
 
 /**
  * Estado completo del flujo de checkout en reducer.
@@ -55,4 +57,5 @@ export interface IUseCheckoutReturn {
   handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   selectPaymentMethod: (method: PaymentMethod) => void;
   isPaymentDisabled: boolean;
+  financials?: IOrderFinancials;
 }

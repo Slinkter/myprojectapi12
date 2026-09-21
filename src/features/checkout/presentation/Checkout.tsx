@@ -6,7 +6,7 @@
 import { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { useLogLifecycle } from "@/shared/hooks";
-import { useCheckout } from "@/features/checkout/application/useCheckout";
+import { useCheckoutOrder } from "@/features/checkout/application/useCheckoutOrder";
 import { useCart } from "@/features/cart/application/useCart";
 import { CheckoutSteps } from "@/features/checkout/presentation/components/CheckoutSteps";
 import CheckoutHeader from "@/features/checkout/presentation/CheckoutHeader";
@@ -15,7 +15,6 @@ import PaymentFormContainer from "@/features/checkout/presentation/PaymentFormCo
 import PaymentSubmitButton from "@/features/checkout/presentation/PaymentSubmitButton";
 import SecurityBadge from "@/features/checkout/presentation/SecurityBadge";
 import { OrderSummary } from "@/features/checkout/presentation/components/OrderSummary";
-import { useDiscountValidation } from "@/features/checkout/application/useDiscountValidation";
 import { useAuth } from "@/features/auth/application/AuthContext";
 import { LoginModal } from "@/features/auth/presentation/LoginModal";
 import Loader from "@/shared/ui/Loader";
@@ -34,12 +33,11 @@ const STEPS = ["Carrito", "Envío", "Pago"];
  */
 const Checkout = () => {
     useLogLifecycle("Checkout");
-    const { cart, totalPrice, removeFromCart, clearCart } = useCart();
+    const { cart, removeFromCart, clearCart } = useCart();
     const [isProcessing, setIsProcessing] = useState(false);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     const { user, loading } = useAuth();
-    const discountState = useDiscountValidation();
 
     const {
         paymentMethod,
@@ -51,7 +49,8 @@ const Checkout = () => {
         handleBlur,
         selectPaymentMethod,
         isPaymentDisabled,
-    } = useCheckout(cart, totalPrice, clearCart, discountState.appliedDiscount);
+        discountState,
+    } = useCheckoutOrder({ cart, clearCart });
 
     if (loading) {
         return <Loader />;
@@ -163,7 +162,6 @@ const Checkout = () => {
                         <aside className="lg:col-span-5 lg:sticky lg:top-24">
                             <OrderSummary
                                 items={cart}
-                                totalPrice={totalPrice}
                                 onRemove={removeFromCart}
                                 discountState={discountState}
                             />
