@@ -56,3 +56,11 @@
 |-----------|-------------|
 | [Despliegue](operations/DEPLOYMENT.md) | GitHub Actions, pnpm build, GitHub Pages |
 | [Solución de Problemas](operations/TROUBLESHOOTING.md) | Errores comunes de lint, tipos, compilación, CORS, CSP, alias |
+
+## 🎓 Aprendizaje y Taller Escolar
+
+| Documento | Descripción |
+|-----------|-------------|
+| [**Manual Escolar desde Cero**](study/MANUAL_DESDE_CERO.md) | **Tutorial amigable paso a paso: crea la tienda desde cero con analogías de la vida real** |
+| [Guía de Estudio Completa](study/GUIA_DE_ESTUDIO_COMPLETA.md) | Guía técnica integral con 14 secciones y arquitectura |
+| [Índice de Módulos Didácticos](study/README.md) | Ruta de 13 módulos progresivos para nuevos desarrolladores |

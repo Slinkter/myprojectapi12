@@ -262,7 +262,8 @@ El proyecto utiliza **Feature-Sliced Design (FSD)**, una metodología arquitect�
 ## 📚 Documentación adicional
 
 El proyecto cuenta con una rica suite de documentación técnica en la carpeta `docs/`:
-- **Arquitectura y Diseño:** `docs/architecture/OVERVIEW.md`
+- 🌟 [**Manual Escolar Paso a Paso desde Cero**](docs/study/MANUAL_DESDE_CERO.md): **Taller interactivo y fácil de entender para estudiantes y principiantes.**
+- **Arquitectura y Diseño:** `docs/architecture/OVERVIEW.md` y reporte interactivo `docs/architecture/architecture-review.html`
 - **Guías Operacionales:** `docs/operations/DEPLOYMENT.md` y `docs/operations/TROUBLESHOOTING.md`
 - **Módulos de Estudio Paso a Paso:** Carpeta `docs/study/` con un recorrido interactivo de 13 módulos.
 

@@ -34,6 +34,7 @@ DESPLIEGUE ───────→ EJERCICIOS
 
 | # | Módulo | Descripción | Duración |
 |---|--------|-------------|----------|
+| 🌟 | [**Manual Escolar desde Cero**](MANUAL_DESDE_CERO.md) | **Taller guiado paso a paso para estudiantes (explicación con analogías simples)** | 45 min |
 | 00 | **Prerrequisitos** | Node.js, pnpm, Git, VS Code + extensiones | 15 min |
 | 01 | **Inicio Rápido** | Clonar, instalar, ejecutar dev server, build | 10 min |
 | 02 | **Estructura (FSD)** | Capas, regla de dependencia, barrel files | 30 min |
