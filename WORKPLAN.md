@@ -7,7 +7,7 @@ Este archivo actúa como el estado de transferencia e hilo conductor para los ag
 ## 🛠️ Estado General
 
 * **Rama Activa:** `feat/crud-products` (Fase 2)
-* **Punto de Retorno:** Fase 1 (Autenticación y Roles) completada con éxito. Compilación y lints al 100% correctos. Creada e iniciada la rama `feat/crud-products` para desarrollar el CRUD de productos para Administradores y la base de datos de catálogo en Firestore.
+* **Punto de Retorno:** Fase 2 (Catálogo & CRUD de Productos en Firestore) completada con éxito. Compilación, lints y tests estáticos al 100%. Catálogo alimentado desde Firestore con seeding automático y CRUD administrativo operativo.
 
 ---
 
@@ -26,13 +26,16 @@ Este archivo actúa como el estado de transferencia e hilo conductor para los ag
 
 ---
 
-### 📦 Fase 2: Catálogo & CRUD de Productos (Admin) [PENDIENTE]
+### 📦 Fase 2: Catálogo & CRUD de Productos (Admin) [COMPLETADA]
 * **Rama:** `feat/crud-products`
-* **Objetivos:**
-  * Crear interfaz de formulario para crear/editar productos (con url de imagen/placeholder).
-  * Crear colección `products` en Firestore.
-  * Implementar el script de seeding automático (Opción A) para copiar los productos actuales de DummyJSON a Firestore en la primera carga.
-  * Cambiar `ProductList.tsx` y `useProducts.ts` para leer del Firestore en lugar de la API externa.
+* **Archivos creados/modificados:**
+  * [MODIFY] `index.html` (Actualizada CSP para autorizar endpoints de Firestore y Firebase Auth)
+  * [NEW] `src/features/products/infrastructure/productsFirestore.ts` (Servicio de datos Firestore con batch seeding de DummyJSON a Firestore, lectura paginada, categorías y CRUD)
+  * [MODIFY] `src/features/products/infrastructure/productsApi.ts` (Canalizado hacia Firestore con re-exportación de funciones CRUD)
+  * [NEW] `src/features/products/presentation/ProductFormModal.tsx` (Modal de creación y edición de productos con validaciones y campos accesibles)
+  * [MODIFY] `src/features/products/application/types.ts` (Actualizado `IProductDetailModalProps` con callbacks opcionales `onEdit` y `onDelete`)
+  * [MODIFY] `src/features/products/presentation/ProductDetailModal.tsx` (Integradas acciones de editar y eliminar visibles solo para rol `admin`)
+  * [MODIFY] `src/pages/HomeContent.tsx` (Botón de "Nuevo Producto (Admin)", integración de `ProductFormModal`, invalidación de caché TanStack Query)
 
 ---
 

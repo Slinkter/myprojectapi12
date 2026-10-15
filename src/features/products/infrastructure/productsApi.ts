@@ -1,18 +1,25 @@
 /**
  * @file productsApi.ts
- * @description Servicio de infraestructura para interactuar con la API de productos.
- * @architecture Infrastructure Layer - Fetching de productos
+ * @description Servicio de infraestructura para interactuar con el catálogo de productos respaldado en Firestore.
+ * @architecture Infrastructure Layer - Fetching y operaciones de productos
  */
 
-import apiClient from "@/app/api/apiClient";
 import type { IProductsApiResponse } from "@/features/products/domain/productTypes";
+import {
+  getProductsFromFirestore,
+  getCategoriesFromFirestore,
+  getProductByIdFromFirestore,
+  createProductInFirestore,
+  updateProductInFirestore,
+  deleteProductFromFirestore,
+} from "./productsFirestore";
 
 /**
- * Representa una categoría de producto devuelta por la API.
+ * Representa una categoría de producto.
  * @interface ICategory
  * @property {string} slug - Identificador único en formato slug para la categoría.
  * @property {string} name - Nombre legible de la categoría.
- * @property {string} url - URL del endpoint de la API para esta categoría.
+ * @property {string} url - URL de la ruta para esta categoría.
  */
 export interface ICategory {
   slug: string;
@@ -21,15 +28,15 @@ export interface ICategory {
 }
 
 /**
- * Obtiene la lista de categorías disponibles desde la API.
+ * Obtiene la lista de categorías disponibles desde Firestore.
  * @returns {Promise<ICategory[]>}
  */
 export const getCategories = async (): Promise<ICategory[]> => {
-  return apiClient<ICategory[]>('/products/categories');
+  return getCategoriesFromFirestore();
 };
 
 /**
- * Obtiene una lista paginada de productos de la API, opcionalmente filtrada por categoría.
+ * Obtiene una lista paginada de productos de Firestore, opcionalmente filtrada por categoría.
  * 
  * @param {number} skip - Cantidad de elementos a saltar (offset).
  * @param {number} limit - Cantidad máxima de elementos a retornar.
@@ -41,8 +48,12 @@ export const getProducts = async (
   limit: number,
   category?: string,
 ): Promise<IProductsApiResponse> => {
-  const baseUrl = category ? `/products/category/${category}` : '/products';
-  const endpoint = `${baseUrl}?limit=${limit}&skip=${skip}`;
-  return apiClient<IProductsApiResponse>(endpoint);
+  return getProductsFromFirestore(skip, limit, category);
 };
 
+export {
+  getProductByIdFromFirestore,
+  createProductInFirestore,
+  updateProductInFirestore,
+  deleteProductFromFirestore,
+};

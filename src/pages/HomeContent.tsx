@@ -16,8 +16,17 @@ import ProductList from "@/features/products/presentation/ProductList";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCategories } from "@/features/products/application/useCategories";
+import { useAuth } from "@/features/auth/application/AuthContext";
+import { queryClient } from "@/app/config/queryClient";
+import {
+  createProductInFirestore,
+  updateProductInFirestore,
+  deleteProductFromFirestore,
+} from "@/features/products/infrastructure/productsFirestore";
+import { ProductFormModal } from "@/features/products/presentation/ProductFormModal";
+import type { IProduct } from "@/entities/product";
 import { slideUp } from "@/shared/lib/animations";
-import { X, Sparkles, Package } from "lucide-react";
+import { X, Sparkles, Package, Plus } from "lucide-react";
 
 /** Expresión regular para separar términos de búsqueda por espacios en blanco, izada a nivel de módulo (js-hoist-regexp). */
 const WHITESPACE_SPLIT_REGEX = /\s+/;
@@ -56,8 +65,40 @@ export const HomeContent = () => {
     const { selectedProduct, isModalOpen, closeProductModal } =
         useProductModalContext();
 
+    const { user } = useAuth();
+    const isAdmin = user?.role === "admin";
+
+    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+    const [productEditing, setProductEditing] = useState<IProduct | null>(null);
+
     const { data: categories } = useCategories();
     const [searchQuery, setSearchQuery] = useState("");
+
+    const handleOpenCreate = useCallback(() => {
+        setProductEditing(null);
+        setIsFormModalOpen(true);
+    }, []);
+
+    const handleOpenEdit = useCallback((prod: IProduct) => {
+        setProductEditing(prod);
+        setIsFormModalOpen(true);
+    }, []);
+
+    const handleFormSubmit = useCallback(async (data: Partial<IProduct>) => {
+        if (productEditing) {
+            await updateProductInFirestore(productEditing.id, data);
+        } else {
+            await createProductInFirestore(data as Omit<IProduct, "id">);
+        }
+        await queryClient.invalidateQueries({ queryKey: ["products"] });
+        await queryClient.invalidateQueries({ queryKey: ["categories"] });
+    }, [productEditing]);
+
+    const handleDeleteProduct = useCallback(async (id: number) => {
+        await deleteProductFromFirestore(id);
+        await queryClient.invalidateQueries({ queryKey: ["products"] });
+        await queryClient.invalidateQueries({ queryKey: ["categories"] });
+    }, []);
 
     // Valor diferido para evitar bloqueos durante la búsqueda en tiempo real (rerender-use-deferred-value)
     const deferredSearchQuery = useDeferredValue(searchQuery);
@@ -191,6 +232,19 @@ export const HomeContent = () => {
                         {searchQuery}&quot;
                     </p>
                 )}
+
+                {isAdmin && (
+                    <div className="pt-2">
+                        <button
+                            type="button"
+                            onClick={handleOpenCreate}
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/25 border-none cursor-pointer transition-all hover:scale-105"
+                        >
+                            <Plus size={16} />
+                            Agregar Nuevo Producto (Admin)
+                        </button>
+                    </div>
+                )}
             </div>
 
             {initialLoading && <SkeletonGrid />}
@@ -208,6 +262,18 @@ export const HomeContent = () => {
                     product={selectedProduct}
                     isOpen={isModalOpen}
                     onClose={closeProductModal}
+                    onEdit={isAdmin ? handleOpenEdit : undefined}
+                    onDelete={isAdmin ? handleDeleteProduct : undefined}
+                />
+            )}
+
+            {isAdmin && (
+                <ProductFormModal
+                    isOpen={isFormModalOpen}
+                    onClose={() => setIsFormModalOpen(false)}
+                    onSubmit={handleFormSubmit}
+                    productToEdit={productEditing}
+                    categories={categories}
                 />
             )}
         </div>

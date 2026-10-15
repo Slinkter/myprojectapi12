@@ -9,9 +9,11 @@ import { createPortal } from "react-dom";
 import { m, AnimatePresence } from "framer-motion";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCart } from "@/features/cart/application/useCart";
+import { useAuth } from "@/features/auth/application/AuthContext";
 import type { IProductDetailModalProps } from "@/features/products/application/types";
 import { getStockStatus } from "@/entities/product";
 import { modalSlideUp, backdropFade } from "@/shared/lib/animations";
+import { Edit3, Trash2 } from "lucide-react";
 
 import ProductImageGallery from "./components/ProductImageGallery";
 import ProductHeader from "./components/ProductHeader";
@@ -35,8 +37,10 @@ import ModalCloseButton from "./components/ModalCloseButton";
  */
 const ProductDetailModal = (props: IProductDetailModalProps) => {
   useLogLifecycle("ProductDetailModal");
-  const { product, isOpen, onClose } = props;
+  const { product, isOpen, onClose, onEdit, onDelete } = props;
   const { addToCart } = useCart();
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
   const [prevProductId, setPrevProductId] = useState<number | undefined>(product?.id);
   const [prevIsOpen, setPrevIsOpen] = useState<boolean>(isOpen);
   const [quantity, setQuantity] = useState<number>(1);
@@ -170,6 +174,39 @@ const ProductDetailModal = (props: IProductDetailModalProps) => {
                   onAddToCart={handleAddToCart}
                   onContinue={onClose}
                 />
+
+                {isAdmin && (
+                  <div className="flex gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+                    {onEdit && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onEdit(product);
+                          onClose();
+                        }}
+                        className="flex-1 flex items-center justify-center gap-2 h-10 px-4 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 border-none cursor-pointer transition-colors"
+                      >
+                        <Edit3 size={15} />
+                        Editar Producto
+                      </button>
+                    )}
+                    {onDelete && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (window.confirm(`¿Estás seguro de eliminar "${product.title}"?`)) {
+                            onDelete(product.id);
+                            onClose();
+                          }
+                        }}
+                        className="flex items-center justify-center gap-1.5 h-10 px-4 rounded-xl text-xs font-bold bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-950/50 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900 cursor-pointer transition-colors"
+                      >
+                        <Trash2 size={15} />
+                        Eliminar
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </m.div>

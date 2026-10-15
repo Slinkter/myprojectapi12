@@ -70,4 +70,6 @@ export interface IProductDetailModalProps {
     product: IProduct | null;
     isOpen: boolean;
     onClose: () => void;
+    onEdit?: (product: IProduct) => void;
+    onDelete?: (id: number) => void;
 }
