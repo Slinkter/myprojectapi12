@@ -5,9 +5,10 @@
  */
 
 import { useState } from "react";
-import { useAuth } from "@features/auth/application/AuthContext";
-import { Mail, Lock, User, ShieldCheck, X, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "@/features/auth/application/AuthContext";
+import { Mail, Lock, User, ShieldCheck, X, Eye, EyeOff, AlertTriangle } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
+import { isFirebaseConfigured } from "@/shared/lib/firebase";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -103,6 +104,15 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             {isRegister ? "Regístrate para comprar o administrar productos" : "Accede a tus datos de e-commerce"}
           </p>
         </div>
+
+        {!isFirebaseConfigured && (
+          <div className="p-3 mb-4 rounded-xl text-xs bg-amber-50 dark:bg-amber-950/30 text-amber-900 dark:text-amber-200 border border-amber-200 dark:border-amber-800/60 flex items-start gap-2.5">
+            <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <p className="leading-relaxed">
+              <strong>Modo desarrollo:</strong> Firebase no esta configurado. Define las variables <code className="font-mono text-[11px] bg-amber-100 dark:bg-amber-900/60 px-1 py-0.5 rounded">VITE_FIREBASE_*</code> en tu archivo <code className="font-mono text-[11px] bg-amber-100 dark:bg-amber-900/60 px-1 py-0.5 rounded">.env</code> para habilitar la autenticacion.
+            </p>
+          </div>
+        )}
 
         {error && (
           <div className="p-3 mb-4 rounded-xl text-xs font-semibold bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800">

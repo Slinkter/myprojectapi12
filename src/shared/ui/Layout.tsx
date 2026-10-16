@@ -6,6 +6,7 @@
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/widgets/Navbar";
+import { DevCredentialsAlert } from "@/shared/ui/DevCredentialsAlert";
 import { useLogLifecycle } from "@/shared/hooks";
 
 /**
@@ -46,6 +47,7 @@ const Layout = ({ children }: ILayoutProps) => {
                 />
             </div>
             <Navbar />
+            <DevCredentialsAlert />
             <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 transition-colors duration-200">
                 {children}
             </main>
@@ -54,3 +56,4 @@ const Layout = ({ children }: ILayoutProps) => {
 };
 
 export default Layout;
+

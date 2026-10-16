@@ -37,7 +37,7 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
   const [stock, setStock] = useState(productToEdit?.stock ?? 0);
   const [category, setCategory] = useState(productToEdit?.category ?? categories[0]?.slug ?? "");
   const [thumbnail, setThumbnail] = useState(
-    productToEdit?.thumbnail ?? "https://dummyjson.com/image/i/products/1/thumbnail.jpg"
+    productToEdit?.thumbnail ?? "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80"
   );
   const [errorMsg, setErrorMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,13 +59,14 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
 
     try {
       const productPayload = {
-        title,
-        description,
+        title: title.trim(),
+        description: description.trim(),
         price,
         stock,
-        category,
-        thumbnail: thumbnail.trim() || "https://dummyjson.com/image/i/products/1/thumbnail.jpg",
-        images: [thumbnail.trim() || "https://dummyjson.com/image/i/products/1/thumbnail.jpg"],
+        category: category.trim(),
+        brand: productToEdit?.brand || "Genérico",
+        thumbnail: thumbnail.trim() || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80",
+        images: [thumbnail.trim() || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80"],
       };
 
       if (productToEdit) {
@@ -75,10 +76,13 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
       }
 
       await queryClient.invalidateQueries({ queryKey: ["products"] });
+      await queryClient.invalidateQueries({ queryKey: ["categories"] });
       onClose();
     } catch (err) {
       console.error(err);
-      setErrorMsg("Error al guardar el producto. Inténtalo de nuevo.");
+      setErrorMsg(
+        err instanceof Error ? err.message : "Error al guardar el producto. Inténtalo de nuevo."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -95,7 +99,7 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
           type="button"
           onClick={onClose}
           aria-label="Cerrar modal"
-          className="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+          className="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer border-none bg-transparent"
         >
           <X size={20} />
         </button>
@@ -141,7 +145,7 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
             onChange={(e) => setDescription(e.target.value)}
             required
             rows={3}
-            className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-slate-800 dark:text-slate-200"
+            className="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-slate-800 dark:text-slate-200 resize-none"
             placeholder="Detalla las características del producto..."
           />
         </div>
@@ -158,6 +162,7 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
               id="modal-product-price"
               type="number"
               step="0.01"
+              min="0"
               value={price || ""}
               onChange={(e) => {
                 const val = e.target.valueAsNumber;
@@ -179,6 +184,7 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
             <input
               id="modal-product-stock"
               type="number"
+              min="0"
               value={stock === 0 ? "0" : stock || ""}
               onChange={(e) => {
                 const val = e.target.valueAsNumber;
@@ -229,7 +235,7 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
             value={thumbnail}
             onChange={(e) => setThumbnail(e.target.value)}
             className="w-full h-10 px-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-slate-800 dark:text-slate-200"
-            placeholder="https://ejemplo.com/imagen.jpg"
+            placeholder="https://images.unsplash.com/..."
           />
         </div>
 
@@ -238,14 +244,14 @@ const ProductFormContent: React.FC<IProductFormContentProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-10 px-4 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            className="h-10 px-4 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer bg-transparent"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="h-10 px-5 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-bold shadow-md shadow-primary/20 flex items-center gap-2 transition-colors disabled:opacity-50 cursor-pointer"
+            className="h-10 px-5 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-bold shadow-md shadow-primary/20 flex items-center gap-2 transition-colors disabled:opacity-50 cursor-pointer border-none"
           >
             <Save size={16} />
             <span>{isSubmitting ? "Guardando..." : "Guardar"}</span>

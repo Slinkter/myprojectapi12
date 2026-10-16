@@ -17,12 +17,12 @@ import ProductList from "@/features/products/presentation/ProductList";
 import ProductDetailModal from "@/features/products/presentation/ProductDetailModal";
 import { useLogLifecycle } from "@/shared/hooks";
 import { useCategories } from "@/features/products/application/useCategories";
-import { slideUp } from "@/shared/lib/animations";
-import { X, Sparkles, Package, Plus, ArrowUp } from "lucide-react";
 import { useAuth } from "@/features/auth/application/AuthContext";
 import { ProductFormModal } from "@/features/products/presentation/ProductFormModal";
 import { deleteProduct } from "@/features/products/infrastructure/productsFirestore";
 import { useQueryClient } from "@tanstack/react-query";
+import { slideUp } from "@/shared/lib/animations";
+import { X, Sparkles, Package, Plus, ArrowUp } from "lucide-react";
 import { eventBus, DomainEvents, type ISearchTriggeredPayload } from "@/shared/infrastructure/eventBus";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "rating-desc" | "name-asc";
@@ -64,12 +64,13 @@ export const HomeContent = () => {
     const { selectedProduct, isModalOpen, closeProductModal } =
         useProductModalContext();
 
+    const { user } = useAuth();
+    const isAdmin = user?.role === "admin";
+
     const { data: categories } = useCategories();
     const [searchQuery, setSearchQuery] = useState("");
     const [sortBy, setSortBy] = useState<SortOption>("default");
 
-    const { user } = useAuth();
-    const isAdmin = user?.role === "admin";
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [productToEdit, setProductToEdit] = useState<IProduct | null>(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
@@ -93,8 +94,9 @@ export const HomeContent = () => {
             try {
                 await deleteProduct(id);
                 await queryClient.invalidateQueries({ queryKey: ["products"] });
-            } catch (error) {
-                console.error(error);
+                await queryClient.invalidateQueries({ queryKey: ["categories"] });
+            } catch (err) {
+                console.error(err);
                 alert("Error al eliminar el producto.");
             }
         }
@@ -249,7 +251,7 @@ export const HomeContent = () => {
                                     setProductToEdit(null);
                                     setIsFormOpen(true);
                                 }}
-                                className="hidden sm:flex h-10 px-4 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover active:scale-95 transition-colors shadow-md shadow-primary/20 flex items-center gap-1.5 shrink-0 cursor-pointer"
+                                className="hidden sm:flex h-10 px-4 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary-hover active:scale-95 transition-colors shadow-md shadow-primary/20 flex items-center gap-1.5 shrink-0 cursor-pointer border-none"
                             >
                                 <Plus size={14} />
                                 Nuevo
@@ -295,8 +297,8 @@ export const HomeContent = () => {
                     error={error}
                     hasMore={hasMore && !searchQuery}
                     loadMoreProducts={loadMoreProducts}
-                    onEdit={handleEditProduct}
-                    onDelete={handleDeleteProduct}
+                    onEdit={isAdmin ? handleEditProduct : undefined}
+                    onDelete={isAdmin ? handleDeleteProduct : undefined}
                 />
             )}
             {selectedProduct && (
@@ -304,8 +306,11 @@ export const HomeContent = () => {
                     product={selectedProduct}
                     isOpen={isModalOpen}
                     onClose={closeProductModal}
+                    onEdit={isAdmin ? handleEditProduct : undefined}
+                    onDelete={isAdmin ? handleDeleteProduct : undefined}
                 />
             )}
+
             <ProductFormModal
                 isOpen={isFormOpen}
                 onClose={() => {
@@ -315,7 +320,7 @@ export const HomeContent = () => {
                 productToEdit={productToEdit}
             />
 
-            {/* ── FABs Material Design 3 — solo móvil ── */}
+            {/* FABs Material Design 3 — solo móvil */}
             <div className="sm:hidden">
                 <AnimatePresence>
                     {showScrollTop && (

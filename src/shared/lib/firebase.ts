@@ -8,9 +8,10 @@
  */
 
 import { initializeApp, type FirebaseApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, isSupported, type Analytics } from "firebase/analytics";
 import { getFirestore, type Firestore } from "firebase/firestore";
 import { getAuth, type Auth } from "firebase/auth";
+import { reportServiceRuntimeError } from "./credentialsValidator";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -22,10 +23,13 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-/** Indica si todas las credenciales de Firebase están presentes en este build. */
-const hasConfig = Object.values(firebaseConfig).every(
-  (value) => typeof value === "string" && value.length > 0
-);
+/** Indica si todas las credenciales requeridas de Firebase están presentes y no son la clave por defecto revocada. */
+const hasConfig = 
+  Boolean(firebaseConfig.apiKey) &&
+  firebaseConfig.apiKey !== "AIzaSyBn37QK_KuiHPWma02UOD7-IwE25QiXYSA" &&
+  Object.values(firebaseConfig).every(
+    (value) => typeof value === "string" && value.length > 0
+  );
 
 /**
  * Indica si Firebase está configurado y disponible en este entorno.
@@ -33,6 +37,7 @@ const hasConfig = Object.values(firebaseConfig).every(
  * sin arriesgar un crash al arrancar en builds de CI sin variables de entorno.
  */
 export const firebaseReady: boolean = hasConfig;
+export const isFirebaseConfigured: boolean = hasConfig;
 
 /**
  * Crea un "stub" que lanza un error descriptivo si algún módulo intenta usar
@@ -66,9 +71,22 @@ export const app: FirebaseApp = hasConfig
   ? initializeApp(firebaseConfig)
   : createUnavailable<FirebaseApp>("app");
 
-// Analytics se inicializa de manera condicional (solo cliente/navegador)
-export const analytics =
-  typeof window !== "undefined" && hasConfig ? getAnalytics(app) : null;
+// Analytics se inicializa de manera condicional y segura (solo cliente/navegador y si el entorno lo soporta)
+export let analytics: Analytics | null = null;
+
+if (typeof window !== "undefined" && hasConfig) {
+  isSupported()
+    .then((supported) => {
+      if (supported && firebaseConfig.measurementId) {
+        analytics = getAnalytics(app);
+      }
+    })
+    .catch((err) => {
+      if (err instanceof Error) {
+        reportServiceRuntimeError("firebase", err.message);
+      }
+    });
+}
 
 // Firestore y Auth degradan a un stub descriptivo cuando no hay configuración
 export const db: Firestore = hasConfig
