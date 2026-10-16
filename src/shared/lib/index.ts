@@ -1,5 +1,7 @@
 export * from './cn'
 export * from './animations'
+export * from './credentialsValidator'
+export * from './firebase'
 export { getStockStatus } from '@/entities/product'
 export type { StockStatus } from '@/entities/product'
 
