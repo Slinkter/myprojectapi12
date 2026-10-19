@@ -1,4 +1,4 @@
-# Logs & Debug
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -6,54 +6,44 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-firebase-debug.log*
-firestore-debug.log*
-ui-debug.log*
 
-# Dependencies and Build Artifacts
+# Diagnostic & coverage
 node_modules
 dist
 dist-ssr
 *.local
-.vite
-.pnpm-store
-*.tsbuildinfo
+coverage
+.nyc_output
 
-# Environmental variables & Secrets (High Security)
+# Environment files
 .env
-.env.*
-.env*.local
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 !.env.example
-*.pem
-*.key
-*.crt
-serviceAccountKey*.json
-google-services.json
-GoogleService-Info.plist
 
-# Testing & Coverage
-coverage/
-*.lcov
-.playwright-mcp/
-
-# Editor & OS Files
+# Editor & OS files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
 Thumbs.db
-Desktop.ini
 
-# Agent, AI & Assistant Tooling
-.agents
+# AI Agents & Prompt artifacts
+.agent
+.agent/
 .agents/
+.gemini/
 .claude/
-.system_generated/
-
-# Local Architecture Review Artifacts in root
-/architecture-review*.html
+*GEMINI*.md
+*AGENTS*.md
+*QWEN*.md
+*prompt*.md
+*PROMPT*.md
